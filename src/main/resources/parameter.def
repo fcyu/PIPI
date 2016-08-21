@@ -1,0 +1,64 @@
+batch_size = 5000
+thread_num = 0
+percolator_path = C:\Program Files\percolator-v2-10\bin\percolator.exe # Please input absolute path of Percolator binary file
+
+# Database
+db = 02A.pin.selected_2psm.fasta
+missed_cleavage = 0 # maximum number of missed cleavage
+min_precursor_mass = 600
+max_precursor_mass = 5000 # for benchmarking comet
+
+# Spectrum
+min_ms1_charge  =1
+max_ms1_charge = 7
+max_ms2_charge = 3 # min ms2 charge is set to 1
+min_peak_num = 10
+
+# Tolerance
+ms1_tolerance_unit = 1 # 0: Da; 1: ppm
+ms1_tolerance = 10
+ms2_tolerance = 0.02 # unit: Th
+mz_bin_offset = 0
+
+# Modification related
+PTM_db = PTM_db.txt
+min_ptm_mass = -250
+max_ptm_mass = 250
+
+# Fix modification
+G = 0
+A = 0
+S = 0
+P = 0
+V = 0
+T = 0
+C = 57.02146
+I = 0
+L = 0
+N = 0
+D = 0
+Q = 0
+K = 0
+E = 0
+M = 0
+H = 0
+F = 0
+R = 0
+Y = 0
+W = 0
+O = 0 # Pyrrolysine
+U = 0 # Selenocysteine
+n = 0 # nterm mod
+
+# Enzyme digestion specificities
+# enzyme name  	 is cut from C-term 	 cleavage site 	 protection site
+Trypsin        	 1                  	 KR            	 P
+# TrypsinR     	 1                  	 R             	 P
+# LysC         	 1                  	 K             	 -
+# Chymotrypsin 	 1                  	 FYW           	 P
+# GluC         	 1                  	 DE            	 -
+# LysN         	 0                  	 K             	 -
+# AspN         	 0                  	 DE            	 -
+
+# Do not change the following
+output_percolator_input = 1

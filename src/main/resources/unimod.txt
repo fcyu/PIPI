@@ -1,0 +1,2332 @@
+site	name	mono_mass	position
+N-term	ISD (z+2)-series	-15.010899	PEPTIDE_N
+N-term	Methylation	14.01565	PROTEIN_N
+N-term	Methylation	14.01565	PEPTIDE_N
+N-term	Acetaldehyde +26	26.01565	PEPTIDE_N
+N-term	Acetaldehyde +26	26.01565	PROTEIN_N
+N-term	Formylation	27.994915	PROTEIN_N
+N-term	Formylation	27.994915	PEPTIDE_N
+N-term	Ethylation	28.0313	PEPTIDE_N
+N-term	Ethylation	28.0313	PROTEIN_N
+N-term	di-Methylation	28.0313	PEPTIDE_N
+N-term	Acetaldehyde +28	28.0313	PEPTIDE_N
+N-term	di-Methylation	28.0313	PROTEIN_N
+N-term	DiMethyl-CHD2	32.056408	PROTEIN_N
+N-term	DiMethyl-CHD2	32.056408	PEPTIDE_N
+N-term	DiMethyl-C13HD2	34.063118	PEPTIDE_N
+N-term	DiMethyl-C13HD2	34.063118	PROTEIN_N
+N-term	Dimethyl-Medium	34.068962	PEPTIDE_N
+N-term	dimethylation	36.07567	PROTEIN_N
+N-term	dimethylation	36.07567	PEPTIDE_N
+N-term	Propionaldehyde +40	40.0313	PROTEIN_N
+N-term	amidination of lysines or N-terminal amines with methyl acetimidate	41.02655	PEPTIDE_N
+N-term	Acetylation	42.010567	PEPTIDE_N
+N-term	Acetylation	42.010567	PROTEIN_N
+N-term	Guanidination	42.021797	PEPTIDE_N
+N-term	Propyl	42.04695	PEPTIDE_N
+N-term	Carbamylation	43.005814	PROTEIN_N
+N-term	Carbamylation	43.005814	PEPTIDE_N
+N-term	heavy acetylation	44.017273	PROTEIN_N
+N-term	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	PROTEIN_N
+N-term	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	PEPTIDE_N
+N-term	Beta-methylthiolation	45.98772	PEPTIDE_N
+N-term	Propyl:2H(6)	48.08461	PEPTIDE_N
+N-term	Propionate labeling reagent light form (N-term & K)	56.026215	PROTEIN_N
+N-term	Propionate labeling reagent light form (N-term & K)	56.026215	PEPTIDE_N
+N-term	"Diethylation, analogous to Dimethylation"	56.0626	PEPTIDE_N
+N-term	Iodoacetamide derivative	57.021465	PEPTIDE_N
+N-term	Iodoacetic acid derivative	58.005478	PEPTIDE_N
+N-term	Reduced acrolein addition +58	58.041866	PROTEIN_N
+N-term	"Propionate labeling reagent heavy form (+3amu), N-term & K"	59.036278	PEPTIDE_N
+N-term	Piperidination	68.0626	PEPTIDE_N
+N-term	Acrylamide adduct	71.03712	PEPTIDE_N
+N-term	"dimethyl 3,3\'-dithiobispropionimidate"	87.01427	PROTEIN_N
+N-term	glycidamide adduct	87.03203	PEPTIDE_N
+N-term	3-sulfanylpropanoyl	87.99828	ANYWHERE
+N-term	Reduced acrolein addition +96	96.05752	PROTEIN_N
+N-term	EGS crosslinker to Lys or N-terminus following hydroxylamine cleavage	99.03203	PROTEIN_N
+N-term	Succinic anhydride labeling reagent light form (N-term & K)	100.016045	PEPTIDE_N
+N-term	Succinic anhydride labeling reagent light form (N-term & K)	100.016045	PROTEIN_N
+N-term	labeling reagent light form (N-term & K)	104.026215	PEPTIDE_N
+N-term	"Succinic anhydride labeling reagent, heavy form (+4amu, 4C13), N-term & K"	104.029465	PEPTIDE_N
+N-term	"Succinic anhydride labeling reagent, heavy form (+4amu, 4H2), N-term & K"	104.04115	PEPTIDE_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, light form"	105.02146	PROTEIN_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, light form"	105.02146	PEPTIDE_N
+N-term	Nicotinic Acid	105.02146	PEPTIDE_N
+N-term	O-Ethylphosphorylation	107.99763	PEPTIDE_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, medium form"	109.04657	PROTEIN_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, medium form"	109.04657	PEPTIDE_N
+N-term	deuterated Nicotinic Acid	109.04812	PEPTIDE_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, heavy form"	111.041595	PEPTIDE_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, heavy form"	111.041595	PROTEIN_N
+N-term	Double Carbamidomethylation	114.04293	PEPTIDE_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, +10 Da form"	115.0667	PEPTIDE_N
+N-term	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, +10 Da form"	115.0667	PROTEIN_N
+N-term	pyridylacetyl	119.03712	PEPTIDE_N
+N-term	phenyl isocyanate	119.03712	PEPTIDE_N
+N-term	Both ends of crosslink attached to same peptide	122.0844	PROTEIN_N
+N-term	d5-phenyl isocyanate	124.0685	PEPTIDE_N
+N-term	N-Succinimidyl-2-morpholine acetate	127.06333	PEPTIDE_N
+N-term	Quaternary amine labeling reagent light form (N-term & K)	127.09972	PEPTIDE_N
+N-term	Addition of lysine due to transpeptidation	128.09496	PEPTIDE_N
+N-term	4-trimethyllammoniumbutyryl-	128.10754	PEPTIDE_N
+N-term	"Quaternary amine labeling reagent heavy (+3amu) form, N-term & K"	130.11855	PEPTIDE_N
+N-term	Monolink of DST crosslinker to Lys or N-terminus	132.00587	PROTEIN_N
+N-term	iodoacetanilide derivative	133.05276	PEPTIDE_N
+N-term	"Quaternary amine labeling reagent heavy form (+6amu), N-term & K"	133.13737	PEPTIDE_N
+N-term	3-methyl-2-pyridyl isocyanate	134.04802	PEPTIDE_N
+N-term	sulfonation of N-terminus	135.98303	PEPTIDE_N
+N-term	O-Diethylphosphorylation	136.02893	PEPTIDE_N
+N-term	"Quaternary amine labeling reagent heavy form (+9amu), N-term & K"	136.1562	PEPTIDE_N
+N-term	d9-4-trimethyllammoniumbutyryl-	137.16403	PEPTIDE_N
+N-term	13C labelled iodoacetanilide derivative	139.07289	PEPTIDE_N
+N-term	mTRAQ light	140.09496	PEPTIDE_N
+N-term	Monolink of DMP crosslinker to Lys or N-terminus	140.09496	PROTEIN_N
+N-term	CLIP_TRAQ_2	141.09831	PEPTIDE_N
+N-term	Accurate mass for 115	144.0996	PEPTIDE_N
+N-term	Representative mass and accurate mass for 116 & 117	144.10207	PROTEIN_N
+N-term	mTRAQ medium	144.10207	PEPTIDE_N
+N-term	Representative mass and accurate mass for 116 & 117	144.10207	PEPTIDE_N
+N-term	Accurate mass for 114	144.10591	PEPTIDE_N
+N-term	3-(carbamidomethylthio)propanoyl	145.01974	PROTEIN_N
+N-term	Accurate mass for DiLeu 115 isobaric tag	145.12	PEPTIDE_N
+N-term	Accurate mass for DiLeu 117 isobaric tag	145.12831	PEPTIDE_N
+N-term	Accurate mass for DiLeu 116 isobaric tag	145.13216	PEPTIDE_N
+N-term	Accurate mass for DiLeu 118 isobaric tag	145.14047	PEPTIDE_N
+N-term	mTRAQ heavy	148.10916	PEPTIDE_N
+N-term	Benzyl isothiocyanate	149.02992	PEPTIDE_N
+N-term	"One end of crosslink attached, one end free"	154.11061	PROTEIN_N
+N-term	Monolink of DSS/BS3 crosslinker to Lys or N-terminus	156.07864	PROTEIN_N
+N-term	Addition of arginine due to transpeptidation	156.1011	PEPTIDE_N
+N-term	Addition of N-formyl met	159.0354	PROTEIN_N
+N-term	Hexose	162.05283	PEPTIDE_N
+N-term	A fixed +1 charge tag attached to the N-terminus of peptides	162.07932	PEPTIDE_N
+N-term	Phenethyl isothiocyanate	163.04556	PEPTIDE_N
+N-term	O-Diisopropylphosphorylation	164.06023	PEPTIDE_N
+N-term	6-aminoquinolyl-N-hydroxysuccinimidyl carbamate	170.04802	PEPTIDE_N
+N-term	"naphthalene-2,3-dicarboxaldehyde"	175.0422	PEPTIDE_N
+N-term	hexuronic acid	176.03209	PROTEIN_N
+N-term	Gluconoylation	178.04774	PEPTIDE_N
+N-term	Aminoethylbenzenesulfonylation	183.0354	PROTEIN_N
+N-term	derivatization by N-term modification using 3-Sulfobenzoic succinimidyl ester	183.98303	PEPTIDE_N
+N-term	Monolink of DSP/DTSSP crosslinker to Lys or N-terminus	191.99149	PROTEIN_N
+N-term	tri nitro benzene	210.98654	PEPTIDE_N
+N-term	4-sulfophenyl isothiocyanate	214.97108	PEPTIDE_N
+N-term	Accurate mass for DiART6plex 115	217.15662	PEPTIDE_N
+N-term	Accurate mass for DiART6plex 115	217.15662	PROTEIN_N
+N-term	Accurate mass for DiART6plex 117	217.16246	PROTEIN_N
+N-term	Accurate mass for DiART6plex 117	217.16246	PEPTIDE_N
+N-term	Representative mass and accurate mass for 114	217.16293	PROTEIN_N
+N-term	Representative mass and accurate mass for 114	217.16293	PEPTIDE_N
+N-term	Accurate mass for DiART6plex 116 and 119	217.16878	PEPTIDE_N
+N-term	Accurate mass for DiART6plex 116 and 119	217.16878	PROTEIN_N
+N-term	Accurate mass for DiART6plex 118	217.1751	PEPTIDE_N
+N-term	Accurate mass for DiART6plex 118	217.1751	PROTEIN_N
+N-term	4-sulfophenyl isothiocyanate (Heavy C13)	220.99121	PEPTIDE_N
+N-term	Native Tandem Mass Tag??	224.15248	PEPTIDE_N
+N-term	Native Tandem Mass Tag??	224.15248	PROTEIN_N
+N-term	Iminobiotinylation	225.09358	PEPTIDE_N
+N-term	Duplex Tandem Mass Tag??	225.15584	PEPTIDE_N
+N-term	Duplex Tandem Mass Tag??	225.15584	PROTEIN_N
+N-term	Biotinylation	226.07759	PEPTIDE_N
+N-term	"[3-(2,5)-Dioxopyrrolidin-1-yloxycarbonyl)-propyl]dimethyloctylammonium"	227.22491	PEPTIDE_N
+N-term	Sixplex Tandem Mass Tag??	229.16293	PEPTIDE_N
+N-term	Sixplex Tandem Mass Tag??	229.16293	PROTEIN_N
+N-term	5-dimethylaminonaphthalene-1-sulfonyl	233.05106	PEPTIDE_N
+N-term	Palmitoylation	238.22966	PROTEIN_N
+N-term	Monolink of EGS crosslinker to Lys or N-terminus	244.0583	PROTEIN_N
+N-term	CLIP_TRAQ_4	244.10146	PEPTIDE_N
+N-term	Mass Defect Tag on lysine e-amino	253.01022	PROTEIN_N
+N-term	Phosphogluconoylation	258.01407	PEPTIDE_N
+N-term	CLIP_TRAQ_3	271.14874	PEPTIDE_N
+N-term	biotin hydrazide labeled acrolein addition +298	298.14633	PROTEIN_N
+N-term	Levuglandinyl-lysine anhyropyrrole adduct	298.19327	PEPTIDE_N
+N-term	"Accurate mass for 115, 118, 119 & 121"	304.19904	PEPTIDE_N
+N-term	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	PEPTIDE_N
+N-term	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	PROTEIN_N
+N-term	Levuglandinyl-lysine anhydrolactam adduct	314.1882	PEPTIDE_N
+N-term	Levuglandinyl-lysine pyrrole adduct	316.20386	PEPTIDE_N
+N-term	Levuglandinyl - lysine lactam adduct	332.19876	PROTEIN_N
+N-term	ESP-Tag light d0	338.17764	PEPTIDE_N
+N-term	NHS-LC-Biotin	339.16165	PEPTIDE_N
+N-term	Levuglandinyl - lysine hydroxylactam adduct	348.19366	PROTEIN_N
+N-term	ESP-Tag heavy d10	348.24042	PEPTIDE_N
+N-term	nucleophilic addtion to cytopiloyne	362.13657	PEPTIDE_N
+N-term	nucleophilic addition to cytopiloyne+H2O	380.14713	PEPTIDE_N
+N-term	Biot_LC_LC	452.24573	PEPTIDE_N
+N-term	Biotin_PEG4	473.21957	PEPTIDE_N
+N-term	Sulfo-SBED Label Photoreactive Biotin Crosslinker minus Hydrogen	546.2083	ANYWHERE
+N-term	Sulfo-SBED Label Photoreactive Biotin Crosslinker	548.22394	ANYWHERE
+N-term	"tris(2,4,6-trimethoxyphenyl)phosphonium acetic acid N-hydroxysuccinimide ester derivative"	572.18115	PEPTIDE_N
+N-term	NHS ester linked Green Fluorescent Bodipy Dye	758.38086	PEPTIDE_N
+A	Ala->Gly substitution	-14.01565	ANYWHERE
+A	15N(1)	0.997035	ANYWHERE
+A	13C3 label for SILAC	3.010064	ANYWHERE
+A	13C3 15N1 label for SILAC	4.007099	ANYWHERE
+A	Ala->Ser substitution	15.994915	ANYWHERE
+A	fluorination	17.990578	ANYWHERE
+A	Ala->Pro substitution	26.01565	ANYWHERE
+A	Ala->Val substitution	28.0313	ANYWHERE
+A	Ala->Thr substitution	30.010565	ANYWHERE
+A	Ala->Cys substitution	31.97207	ANYWHERE
+A	tri-Methylation	42.04695	PROTEIN_N
+A	Ala->Leu/Ile substitution	42.04695	ANYWHERE
+A	Ala->Asn substitution	43.005814	ANYWHERE
+A	Ala->Asp substitution	43.98983	ANYWHERE
+A	Ala->Gln substitution	57.021465	ANYWHERE
+A	Ala->Lys substitution	57.05785	ANYWHERE
+A	Ala->Glu substitution	58.005478	ANYWHERE
+A	Ala->Met substitution	60.003372	ANYWHERE
+A	Ala->His substitution	66.0218	ANYWHERE
+A	Ala->Phe substitution	76.0313	ANYWHERE
+A	Ala->Arg substitution	85.063995	ANYWHERE
+A	Ala->Tyr substitution	92.026215	ANYWHERE
+A	Ala->Trp substitution	115.0422	ANYWHERE
+A	4-hydroxynonenal (HNE)	156.11504	ANYWHERE
+A	N-Acetylmuramic acid	275.1005	ANYWHERE
+A	Diaminopimelic acid-DSP monolinked	328.05515	ANYWHERE
+C	Cys->Gly substitution	-45.98772	ANYWHERE
+C	Dehydroalanine (from Cysteine)	-33.98772	ANYWHERE
+C	pyruvic acid from N-term cys	-33.003704	PROTEIN_N
+C	Cys->Ala substitution	-31.97207	ANYWHERE
+C	Formation of five membered aromatic heterocycle	-20.026215	ANYWHERE
+C	Loss of ammonia (15N)	-18.023584	PEPTIDE_N
+C	Dehydration	-18.010565	PEPTIDE_N
+C	oxoalanine	-17.992805	ANYWHERE
+C	Loss of ammonia	-17.026548	PEPTIDE_N
+C	Cys->Ser substitution	-15.977156	ANYWHERE
+C	Cys->Pro substitution	-5.956421	ANYWHERE
+C	Cys->Val substitution	-3.940771	ANYWHERE
+C	carbamidomethylated Cys that undergoes beta-elimination and Michael addition of methylamine	-2.945522	ANYWHERE
+C	Cys->Thr substitution	-1.961506	ANYWHERE
+C	Half of a disulfide bridge	-1.007825	ANYWHERE
+C	15N(1)	0.997035	ANYWHERE
+C	Cys->Leu/Ile substitution	10.07488	ANYWHERE
+C	Cys->Asn substitution	11.033743	ANYWHERE
+C	Carbamidomethylated Cys that undergoes beta-elimination and Michael addition of ethylamine	11.070128	ANYWHERE
+C	Addition of Carbon to cysteine	12	PEPTIDE_N
+C	Cys->Asp substitution	12.017759	ANYWHERE
+C	Methylation	14.01565	ANYWHERE
+C	Oxidation or Hydroxylation	15.994915	ANYWHERE
+C	cyano	24.995249	ANYWHERE
+C	Cys->Gln substitution	25.049393	ANYWHERE
+C	Cys->Lys substitution	25.08578	ANYWHERE
+C	Cys->Glu substitution	26.03341	ANYWHERE
+C	Cys->Met substitution	28.0313	ANYWHERE
+C	S-nitrosylation	28.990164	ANYWHERE
+C	persulfide	31.97207	ANYWHERE
+C	dihydroxy	31.989828	ANYWHERE
+C	Cys->His substitution	34.04973	ANYWHERE
+C	S-carbamoylmethylcysteine cyclization (N-terminus)	39.994915	PEPTIDE_N
+C	Acetylation	42.010567	ANYWHERE
+C	amidino	42.021797	ANYWHERE
+C	Carbamylation	43.005814	ANYWHERE
+C	Carboxyl modification with ethanolamine	43.0422	ANYWHERE
+C	Ethanolation	44.026215	ANYWHERE
+C	Cys->Phe substitution	44.05923	ANYWHERE
+C	Beta-methylthiolation	45.98772	ANYWHERE
+C	Selenium replaces sulfur	47.94445	ANYWHERE
+C	cysteine oxidation to cysteic acid	47.984745	ANYWHERE
+C	Cys->Arg substitution	53.091927	ANYWHERE
+C	Acrolein addition +56	56.026215	ANYWHERE
+C	Iodoacetamide derivative	57.021465	ANYWHERE
+C	Iodoacetic acid derivative	58.005478	ANYWHERE
+C	Reduced acrolein addition +58	58.041866	ANYWHERE
+C	Iodoacetic acid derivative w/ 13C label	60.012188	ANYWHERE
+C	Cys->Tyr substitution	60.054146	ANYWHERE
+C	SulfurDioxide	63.9619	ANYWHERE
+C	Dichlorination	67.92206	ANYWHERE
+C	N-pyruvic acid 2-iminyl	70.00548	PROTEIN_N
+C	Crotonaldehyde	70.04186	ANYWHERE
+C	Acrylamide adduct	71.03712	ANYWHERE
+C	Acrylamide d3	74.05595	ANYWHERE
+C	Cysteine mercaptoethanol	75.99828	ANYWHERE
+C	selenyl	79.91652	ANYWHERE
+C	O-Sulfonation	79.95682	ANYWHERE
+C	Phosphorylation	79.96633	ANYWHERE
+C	Cys->Trp substitution	83.07013	ANYWHERE
+C	N-ethyl iodoacetamide-d0	85.052765	ANYWHERE
+C	Malonylation of C and S residues	86.0004	ANYWHERE
+C	Michael addition of hydroxymethylvinyl ketone to cysteine	86.03678	ANYWHERE
+C	N-ethyl iodoacetamide-d5	90.084145	ANYWHERE
+C	maleimide	97.01638	ANYWHERE
+C	N-isopropylcarboxamidomethyl	99.06841	ANYWHERE
+C	Ub Bromide probe addition	100.06366	ANYWHERE
+C	Modification by hydroxylated mechloroethamine (HN-2)	101.08406	ANYWHERE
+C	Reaction with dimethylarsinous (AsIII) acid	103.96072	ANYWHERE
+C	Sec Iodoacetamide derivative	104.96591	ANYWHERE
+C	S-pyridylethylation	105.057846	ANYWHERE
+C	reaction with methyl vinyl sulfone	106.00885	ANYWHERE
+C	Nmethylmaleimide	111.03203	ANYWHERE
+C	DMPO spin-trap nitrone adduct	111.06841	ANYWHERE
+C	Double Carbamidomethylation	114.04293	ANYWHERE
+C	ubiquitinylation residue	114.04293	ANYWHERE
+C	S-(2-succinyl) cysteine	116.010956	ANYWHERE
+C	Dehydropyrrolizidine alkaloid (dehydroretronecine) on cysteines	118.065674	ANYWHERE
+C	Cysteinylation	119.0041	ANYWHERE
+C	reaction with phenyl salicylate (PS)	120.021126	ANYWHERE
+C	reaction with ethyl vinyl sulfone	120.0245	ANYWHERE
+C	Dithiothreitol (DTT) on Cys	120.0245	ANYWHERE
+C	N-ethylmaleimide on cysteines	125.047676	ANYWHERE
+C	Isotopically labeled Dithiothreitol (DTT) modification of cysteines	126.062164	ANYWHERE
+C	octanoyl	126.10446	ANYWHERE
+C	Nmethylmaleimidehydrolysis	129.04259	ANYWHERE
+C	S-(2-monomethylsuccinyl) cysteine	130.02661	ANYWHERE
+C	D5 N-ethylmaleimide on cysteines	130.07906	ANYWHERE
+C	Modification by hydroxylated tris-(2-chloroethyl)amine (HN-3)	131.09464	ANYWHERE
+C	Propiophenone	132.05751	ANYWHERE
+C	S-homocysteinylation	133.01974	ANYWHERE
+C	iodoacetanilide derivative	133.05276	ANYWHERE
+C	O-Diethylphosphorylation	136.02893	ANYWHERE
+C	Dehydrated 4-Oxononenal Michael adduct	136.08882	ANYWHERE
+C	Isotope-Coded Dimedone light form	138.06808	ANYWHERE
+C	Dehydrated 4-hydroxynonenal	138.10446	ANYWHERE
+C	13C labelled iodoacetanilide derivative	139.07289	ANYWHERE
+C	N-ethylmaleimide on cysteine sulfenic acid	141.04259	ANYWHERE
+C	Nethylmaleimidehydrolysis	143.05824	ANYWHERE
+C	S-(2-dimethylsuccinyl) cysteine	144.04225	ANYWHERE
+C	Isotope-Coded Dimedone heavy form	144.10574	ANYWHERE
+C	hydroxycinnamyl	146.03677	ANYWHERE
+C	D5 N-ethylmaleimide+water on cysteines	148.08963	ANYWHERE
+C	Benzyl isothiocyanate	149.02992	ANYWHERE
+C	S-guanylation-2	150.04158	ANYWHERE
+C	4-Oxononenal (ONE)	154.09938	ANYWHERE
+C	4-hydroxynonenal (HNE)	156.11504	ANYWHERE
+C	N-ethylmaleimideSulfur	157.01974	ANYWHERE
+C	reduced 4-Hydroxynonenal	158.13068	ANYWHERE
+C	Hexose	162.05283	ANYWHERE
+C	Phenethyl isothiocyanate	163.04556	ANYWHERE
+C	"Chemical reaction with 2,4-dinitro-1-chloro benzene (DNCB)"	166.00145	ANYWHERE
+C	reaction with phenyl vinyl sulfone	168.0245	ANYWHERE
+C	Menadione quinone derivative	170.03677	ANYWHERE
+C	APTA-d0	171.14973	ANYWHERE
+C	Menadione hydroquinone derivative	172.05243	ANYWHERE
+C	N-ethylmaleimide on selenocysteines	172.99213	ANYWHERE
+C	Ubiquitin vinylmethylester	173.09262	ANYWHERE
+C	Thiadiazolydation of Cys	174.02516	ANYWHERE
+C	APTA d3	174.16856	ANYWHERE
+C	N-ethylmaleimideSulfurWater	175.03032	ANYWHERE
+C	D5 N-ethylmaleimide on selenocysteines	178.02351	ANYWHERE
+C	"Cys modification by (1-oxyl-2,2,5,5-tetramethyl-3-pyrroline-3-methyl)methanesulfonate (MTSL)"	184.0796	ANYWHERE
+C	EAPTA d0	184.15756	ANYWHERE
+C	EAPTA d5	189.18895	ANYWHERE
+C	Monobromobimane derivative	190.07423	ANYWHERE
+C	Ub amide probe addition	196.1086	ANYWHERE
+C	"2,4-Dinitrobenzenesulfenyl"	198.98135	ANYWHERE
+C	Mercury Mercaptan	201.97061	ANYWHERE
+C	Farnesylation	204.1878	ANYWHERE
+C	Carbamidomethylated DTT modification of cysteine	209.01804	ANYWHERE
+C	Carboxymethylated DTT modification of cysteine	210.00204	ANYWHERE
+C	Myristoylation	210.19836	ANYWHERE
+C	Isotope Distribution Encoded Tag	214.99046	ANYWHERE
+C	Michael addition of BHT quinone methide to Cysteine and Lysine	218.16707	ANYWHERE
+C	Addition of BMOE crosslinker	220.0484	ANYWHERE
+C	hydroxyfarnesyl	220.18271	ANYWHERE
+C	Cys modified with dipy ligand	225.09021	ANYWHERE
+C	Applied Biosystems cleavable ICAT(TM) light	227.12698	ANYWHERE
+C	"propyl-1,2-dideoxy-2\'-methyl-alpha-D-glucopyranoso-[2,1-d]-Delta2\'-thiazoline"	232.06436	ANYWHERE
+C	"Michael addition of t-butyl hydroxylated BHT (BHTOH) to C, H or K"	234.16199	ANYWHERE
+C	Applied Biosystems cleavable ICAT(TM) heavy	236.15718	ANYWHERE
+C	palmitoleyl	236.21402	ANYWHERE
+C	Monolink of sulfoSMCC/SMCC crosslinker to Cys	237.10011	ANYWHERE
+C	Palmitoylation	238.22966	ANYWHERE
+C	lapachenole photochemically added to cysteine	240.11504	ANYWHERE
+C	Nitroso Sulfamethoxazole Sulphenamide thiol adduct	252.04428	ANYWHERE
+C	1-methyl-3-benzoyl-4-hydroxy-4-phenylpiperidine	263.131	ANYWHERE
+C	"3-methyl-5-(methylamino)-1,3-diphenylpentan-1-one"	265.14667	ANYWHERE
+C	"2-ethyl-3-hydroxy-1,3-diphenylpentan-1-one"	266.13068	ANYWHERE
+C	Nitroso Sulfamethoxazole Sulfinamide thiol adduct	267.03137	ANYWHERE
+C	Modified GMBS X linker for proteins	267.1583	ANYWHERE
+C	Nitroso Sulfamethoxazole semimercaptal thiol adduct	268.0392	ANYWHERE
+C	Geranyl-geranyl	272.2504	ANYWHERE
+C	(-)-dehydroepigallocatechin	287.05557	ANYWHERE
+C	Light IDBEST tag for quantitation	296.01605	ANYWHERE
+C	Heavy IDBEST tag for quantitation	298.02274	ANYWHERE
+C	biotin hydrazide labeled acrolein addition +298	298.14633	ANYWHERE
+C	Native cysteine-reactive Tandem Mass Tag??	299.16675	ANYWHERE
+C	cysteine-reactive Sixplex Tandem Mass Tag??	304.17722	ANYWHERE
+C	glutathione disulfide	305.06815	ANYWHERE
+C	Thio Ether Formation - BTP Adduct	316.1381	ANYWHERE
+C	Modified SMCC maleimide with 3-(dimethylamino)-1-propylamine	321.20523	ANYWHERE
+C	Native iodoacetyl Tandem Mass Tag??	324.21616	ANYWHERE
+C	Nitroalkylation by Nitro Linoleic Acid	325.2253	ANYWHERE
+C	biotinoyl-iodoacetyl-ethylenediamine	326.14127	ANYWHERE
+C	Nitroalkylation by Nitro Oleic Acid	327.24097	ANYWHERE
+C	Sixplex iodoacetyl Tandem Mass Tag??	329.2266	ANYWHERE
+C	Bisphenol A diglycidyl ether derivative	340.16745	ANYWHERE
+C	hydrogenase diiron subcluster	342.78693	ANYWHERE
+C	S-guanylation	343.0318	ANYWHERE
+C	"N-iodoacetyl, p-chlorobenzyl-12C6-glucamine"	345.0979	ANYWHERE
+C	"N-iodoacetyl, p-chlorobenzyl-13C6-glucamine"	351.11804	ANYWHERE
+C	nucleophilic addtion to cytopiloyne	362.13657	ANYWHERE
+C	"2,3,4,6-tetra-O-Acetyl-1-allyl-alpha-D-galactopyranoside modification of cysteine"	372.14203	ANYWHERE
+C	nucleophilic addition to cytopiloyne+H2O	380.14713	ANYWHERE
+C	covalent linkage of maleimidyl coumarin probe (Molecular Probes D-10253)	383.14813	ANYWHERE
+C	"5-Iodoacetamidofluorescein (Molecular Probe, Eugene, OR)"	388.08212	ANYWHERE
+C	Bodipy modifications onto cysteine	414.16748	ANYWHERE
+C	"Biotinyl-iodoacetamidyl-3,6-dioxaoctanediamine"	414.1937	ANYWHERE
+C	dipyrrolylmethanemethyl	418.1376	ANYWHERE
+C	fluorescein-5-thiosemicarbazide	421.07324	ANYWHERE
+C	fluorescein-5-maleimide	427.0692	ANYWHERE
+C	Pierce EZ-Link Biotin-HPDP	428.1916	ANYWHERE
+C	Applied Biosystems original ICAT(TM) d0	442.225	ANYWHERE
+C	was Biotin-maleimide	449.17328	ANYWHERE
+C	Applied Biosystems original ICAT(TM) d8	450.2752	ANYWHERE
+C	flavin mononucleotide	454.08896	ANYWHERE
+C	(-)-epigallocatechin-3-gallate	456.06927	ANYWHERE
+C	S-(4a-FMN)	456.1046	ANYWHERE
+C	High molecular absorption label for proteins	458.16238	ANYWHERE
+C	Modification of cystein by withaferin	470.26685	ANYWHERE
+C	High molecular absorption maleimide label for proteins	474.25052	ANYWHERE
+C	Gygi ICAT(TM) d0	486.25122	ANYWHERE
+C	Gygi ICAT(TM) d8	494.30142	ANYWHERE
+C	"4-hydroxy-2-nonenal and biotinamidohexanoic acid hydrazide, reduced"	511.3192	ANYWHERE
+C	molybdopterin	521.8841	ANYWHERE
+C	Nalpha-(3-maleimidylpropionyl)biocytin	523.2101	ANYWHERE
+C	Maleimide-Biotin	525.2257	ANYWHERE
+C	ADP  Ribose addition	541.0611	ANYWHERE
+C	Maleimide-Biotin + Water	543.23627	ANYWHERE
+C	Maleimide-Biotin + 2Water	561.2468	ANYWHERE
+C	diacylglycerol	576.5118	ANYWHERE
+C	phytochromobilin	584.2635	ANYWHERE
+C	phycocyanobilin	586.2791	ANYWHERE
+C	phycoerythrobilin	588.2948	ANYWHERE
+C	Ub Fluorescein probe addition	597.2098	ANYWHERE
+C	heme	616.1773	ANYWHERE
+C	Alkylation by biotinylated form of phenacyl bromide	626.2635	ANYWHERE
+C	was 15dB-biotin	626.3866	ANYWHERE
+C	S-diphytanylglycerol diether	634.6628	ANYWHERE
+C	was PGA1-biotin	660.42847	ANYWHERE
+C	Cy3 CyDye DIGE Fluor saturation dye	672.29816	ANYWHERE
+C	fluorescent dye that labels cysteines	682.2461	ANYWHERE
+C	Cy5 CyDye DIGE Fluor saturation dye	684.29816	ANYWHERE
+C	Methyl-PEO12-Maleimide	710.3837	ANYWHERE
+C	bis-N-I-sulfonerahodamine	713.0931	ANYWHERE
+C	Cy3 Maleimide mono-Reactive dye	753.2628	ANYWHERE
+C	Cysteine modified Coenzyme A	765.09955	ANYWHERE
+C	Flavin adenine dinucleotide	783.1415	ANYWHERE
+C	N-acyl diglyceride cysteine	788.72577	PROTEIN_N
+C	Cysteine modifier	820.336	ANYWHERE
+C	Biotin-PEG11-maleimide	921.4617	ANYWHERE
+C	copper sulfido molybdopterin cytosine dinuncleotide	922.83484	ANYWHERE
+C	Thiol-reactive dye for fluorescence labelling of proteins	940.1999	ANYWHERE
+C	maleimide-3-saccharide	969.3662	ANYWHERE
+C	ExacTag Thiol label mass for 2-4-7-10 plex	972.36523	ANYWHERE
+C	maleimide-5-saccharide	1293.4719	ANYWHERE
+C	molybdenum bis(molybdopterin guanine dinucleotide)	1572.9857	ANYWHERE
+C	L-selenocysteinyl molybdenum bis(molybdopterin guanine dinucleotide)	1620.9302	ANYWHERE
+D	Asp->Gly substitution	-58.005478	ANYWHERE
+D	Asp->Ala substitution	-43.98983	ANYWHERE
+D	Asp->Ser substitution	-27.994915	ANYWHERE
+D	Dehydration	-18.010565	ANYWHERE
+D	Asp->Pro substitution	-17.974178	ANYWHERE
+D	reduction	-15.994915	ANYWHERE
+D	Asp->Val substitution	-15.958529	ANYWHERE
+D	Asp->Thr substitution	-13.979265	ANYWHERE
+D	Asp->Cys substitution	-12.017759	ANYWHERE
+D	Asp->Leu/Ile substitution	-1.942879	ANYWHERE
+D	Asp->Asn substitution	-0.984016	ANYWHERE
+D	15N(1)	0.997035	ANYWHERE
+D	13C4 15N1 label for SILAC	5.010454	ANYWHERE
+D	Replacement of proton by lithium	6.008178	ANYWHERE
+D	Asp->Gln substitution	13.031634	ANYWHERE
+D	Asp->Lys substitution	13.06802	ANYWHERE
+D	Methylation	14.01565	ANYWHERE
+D	Asp->Glu substitution	14.01565	ANYWHERE
+D	Conversion of carboxylic acid to hydroxamic acid	15.010899	ANYWHERE
+D	Oxidation or Hydroxylation	15.994915	ANYWHERE
+D	Asp->Met substitution	16.013542	ANYWHERE
+D	replacement of proton with ammonium ion	17.026548	ANYWHERE
+D	deuterated methyl ester	17.03448	ANYWHERE
+D	Replacement of 2 protons by magnesium	21.969393	ANYWHERE
+D	Sodium adduct	21.981943	ANYWHERE
+D	Asp->His substitution	22.03197	ANYWHERE
+D	Ethylation	28.0313	ANYWHERE
+D	persulfide	31.97207	ANYWHERE
+D	Asp->Phe substitution	32.04147	ANYWHERE
+D	propargylamine	37.031635	ANYWHERE
+D	Replacement of 2 protons by calcium	37.94694	ANYWHERE
+D	Replacement of proton by potassium	37.955883	ANYWHERE
+D	Asp->Arg substitution	41.07417	ANYWHERE
+D	Propyl	42.04695	ANYWHERE
+D	Carboxyl modification with ethanolamine	43.0422	ANYWHERE
+D	Carboxylation	43.98983	ANYWHERE
+D	Beta-methylthiolation	45.98772	ANYWHERE
+D	Asp->Tyr substitution	48.036385	ANYWHERE
+D	Replacement of 2 protons by iron	53.91929	ANYWHERE
+D	Replacement of 2 protons by nickel	55.919697	ANYWHERE
+D	Iodoacetamide derivative	57.021465	ANYWHERE
+D	Replacement of 2 protons by zinc	61.913494	ANYWHERE
+D	Replacement of proton by copper	61.921776	ANYWHERE
+D	Asp->Trp substitution	71.05237	ANYWHERE
+D	Phosphorylation	79.96633	ANYWHERE
+D	Replacement of proton by silver	105.89727	ANYWHERE
+D	Side reaction of PG with Side chain of aspartic or glutamic acid	154.07423	ANYWHERE
+D	Light Sulfanilic Acid (SA) C12	155.0041	ANYWHERE
+D	Heavy Sulfanilic Acid (SA) C13	161.02423	ANYWHERE
+D	phosphate-ribosylation	212.00859	ANYWHERE
+D	"cis-14-hydroxy-10,13-dioxo-7-heptadecenoic ester"	294.1831	ANYWHERE
+D	Side reaction of PGPG with Side chain of aspartic or glutamic acid	308.14847	ANYWHERE
+D	Native iodoacetyl Tandem Mass Tag??	324.21616	ANYWHERE
+D	Sixplex iodoacetyl Tandem Mass Tag??	329.2266	ANYWHERE
+D	Biotin polyethyleneoxide amine	356.1882	ANYWHERE
+D	ADP  Ribose addition	541.0611	ANYWHERE
+D	Side reaction of HisTag	1106.4894	ANYWHERE
+D	molybdenum bis(molybdopterin guanine dinucleotide)	1572.9857	ANYWHERE
+E	Glu->Gly substitution	-72.021126	ANYWHERE
+E	Glu->Ala substitution	-58.005478	ANYWHERE
+E	Glu->Ser substitution	-42.010567	ANYWHERE
+E	Glu->Pro substitution	-31.989828	ANYWHERE
+E	Glu->Val substitution	-29.974178	ANYWHERE
+E	Glu->Thr substitution	-27.994915	ANYWHERE
+E	Glu->Cys substitution	-26.03341	ANYWHERE
+E	Pyro-glu from E	-18.010565	PEPTIDE_N
+E	Glu->Leu/Ile substitution	-15.958529	ANYWHERE
+E	Glu->Asn substitution	-14.999666	ANYWHERE
+E	Glu->Asp substitution	-14.01565	ANYWHERE
+E	Glu->Gln substitution	-0.984016	ANYWHERE
+E	Glu->Lys substitution	-0.94763	ANYWHERE
+E	15N(1)	0.997035	ANYWHERE
+E	Glu->Met substitution	1.997892	ANYWHERE
+E	Replacement of proton by lithium	6.008178	ANYWHERE
+E	13C(5) 15N(1) Silac label	6.013809	ANYWHERE
+E	Glu->His substitution	8.016319	ANYWHERE
+E	Methylation	14.01565	ANYWHERE
+E	Conversion of carboxylic acid to hydroxamic acid	15.010899	ANYWHERE
+E	replacement of proton with ammonium ion	17.026548	ANYWHERE
+E	deuterated methyl ester	17.03448	ANYWHERE
+E	Glu->Phe substitution	18.025822	ANYWHERE
+E	Replacement of 2 protons by magnesium	21.969393	ANYWHERE
+E	Sodium adduct	21.981943	ANYWHERE
+E	Glu->Arg substitution	27.058517	ANYWHERE
+E	Ethylation	28.0313	ANYWHERE
+E	Glu->Tyr substitution	34.020737	ANYWHERE
+E	propargylamine	37.031635	ANYWHERE
+E	Replacement of 2 protons by calcium	37.94694	ANYWHERE
+E	Replacement of proton by potassium	37.955883	ANYWHERE
+E	Propyl	42.04695	ANYWHERE
+E	Carboxyl modification with ethanolamine	43.0422	ANYWHERE
+E	Carboxylation	43.98983	ANYWHERE
+E	Replacement of 2 protons by iron	53.91929	ANYWHERE
+E	Replacement of 2 protons by nickel	55.919697	ANYWHERE
+E	Iodoacetamide derivative	57.021465	ANYWHERE
+E	Glu->Trp substitution	57.03672	ANYWHERE
+E	Replacement of 2 protons by zinc	61.913494	ANYWHERE
+E	Replacement of proton by copper	61.921776	ANYWHERE
+E	Replacement of proton by silver	105.89727	ANYWHERE
+E	monoglutamyl	129.04259	ANYWHERE
+E	Side reaction of PG with Side chain of aspartic or glutamic acid	154.07423	ANYWHERE
+E	Light Sulfanilic Acid (SA) C12	155.0041	ANYWHERE
+E	Heavy Sulfanilic Acid (SA) C13	161.02423	ANYWHERE
+E	glycerylphosphorylethanolamine	197.0453	ANYWHERE
+E	phosphate-ribosylation	212.00859	ANYWHERE
+E	diglutamyl	258.08517	ANYWHERE
+E	Side reaction of PGPG with Side chain of aspartic or glutamic acid	308.14847	ANYWHERE
+E	Native iodoacetyl Tandem Mass Tag??	324.21616	ANYWHERE
+E	Diaminopimelic acid-DSP monolinked	328.05515	ANYWHERE
+E	Sixplex iodoacetyl Tandem Mass Tag??	329.2266	ANYWHERE
+E	Biotin polyethyleneoxide amine	356.1882	ANYWHERE
+E	triglutamyl	387.12778	ANYWHERE
+E	tetraglutamyl	516.17035	ANYWHERE
+E	ADP  Ribose addition	541.0611	ANYWHERE
+E	hydroxyheme	614.1616	ANYWHERE
+E	Side reaction of HisTag	1106.4894	ANYWHERE
+F	Phe->Gly substitution	-90.04695	ANYWHERE
+F	Phe->Ala substitution	-76.0313	ANYWHERE
+F	Phe->Ser substitution	-60.036385	ANYWHERE
+F	Phe->Pro substitution	-50.01565	ANYWHERE
+F	Phe->Val substitution	-48	ANYWHERE
+F	Phe->Thr substitution	-46.020737	ANYWHERE
+F	Phe->Cys substitution	-44.05923	ANYWHERE
+F	Phe->Leu/Ile substitution	-33.98435	ANYWHERE
+F	Phe->Asn substitution	-33.025486	ANYWHERE
+F	Phe->Asp substitution	-32.04147	ANYWHERE
+F	Phe->Gln substitution	-19.009836	ANYWHERE
+F	Phe->Lys substitution	-18.973452	ANYWHERE
+F	Phe->Glu substitution	-18.025822	ANYWHERE
+F	Phe->Met substitution	-16.02793	ANYWHERE
+F	Phe->His substitution	-10.009502	ANYWHERE
+F	Deamidation	0.984016	PROTEIN_N
+F	15N(1)	0.997035	ANYWHERE
+F	"4,4,5,5-D4 Lysine"	4.025107	ANYWHERE
+F	13C(9) Silac label	9.030193	ANYWHERE
+F	Phe->Arg substitution	9.032697	ANYWHERE
+F	13C(9) 15N(1) Silac label	10.027228	ANYWHERE
+F	Phe->Cys substitution and carbamidomethylation	12.962234	ANYWHERE
+F	Oxidation or Hydroxylation	15.994915	ANYWHERE
+F	Phe->Tyr substitution	15.994915	ANYWHERE
+F	fluorination	17.990578	ANYWHERE
+F	dihydroxy	31.989828	ANYWHERE
+F	Phe->Trp substitution	39.0109	ANYWHERE
+F	bromination	77.91051	ANYWHERE
+F	"Cross-link of (Iodo)-uracil MP with W,F,Y"	322.0202	ANYWHERE
+G	Enzymatic glycine removal leaving an amidated C-terminus	-58.005478	PEPTIDE_C
+G	15N(1)	0.997035	ANYWHERE
+G	Gly->Ala substitution	14.01565	ANYWHERE
+G	thiocarboxylic acid	15.977156	PROTEIN_C
+G	Oxidation or Hydroxylation	15.994915	PEPTIDE_C
+G	Gly->Ser substitution	30.010565	ANYWHERE
+G	Gly->Pro substitution	40.0313	ANYWHERE
+G	Gly->Val substitution	42.04695	ANYWHERE
+G	Gly->Thr substitution	44.026215	ANYWHERE
+G	Gly->Cys substitution	45.98772	ANYWHERE
+G	Gly->Leu/Ile substitution	56.0626	ANYWHERE
+G	Gly->Asn substitution	57.021465	ANYWHERE
+G	Gly->Asp substitution	58.005478	ANYWHERE
+G	Gly->Gln substitution	71.03712	ANYWHERE
+G	Gly->Lys substitution	71.0735	ANYWHERE
+G	Gly->Glu substitution	72.021126	ANYWHERE
+G	Gly->Met substitution	74.01902	ANYWHERE
+G	Gly->His substitution	80.037445	ANYWHERE
+G	Gly->Phe substitution	90.04695	ANYWHERE
+G	Gly->Arg substitution	99.07964	ANYWHERE
+G	Gly->Tyr substitution	106.04186	ANYWHERE
+G	Gly->Trp substitution	129.05785	ANYWHERE
+G	"(cis,cis-delta 5, delta 8)-tetradecadienoyl"	206.16707	PROTEIN_N
+G	(cis-delta 5)-tetradecaenoyl	208.18271	PROTEIN_N
+G	Myristoylation	210.19836	PEPTIDE_N
+H	His->Gly substitution	-80.037445	ANYWHERE
+H	His->Ala substitution	-66.0218	ANYWHERE
+H	His->Ser substitution	-50.026882	ANYWHERE
+H	His->Pro substitution	-40.00615	ANYWHERE
+H	His->Val substitution	-37.990498	ANYWHERE
+H	His->Thr substitution	-36.011234	ANYWHERE
+H	His->Cys substitution	-34.04973	ANYWHERE
+H	His->Leu/Ile substitution	-23.974848	ANYWHERE
+H	His->Asn substitution	-23.015984	ANYWHERE
+H	His->Asp substitution	-22.03197	ANYWHERE
+H	His->Gln substitution	-9.000334	ANYWHERE
+H	His->Lys substitution	-8.963949	ANYWHERE
+H	His->Glu substitution	-8.016319	ANYWHERE
+H	His->Met substitution	-6.018427	ANYWHERE
+H	15N(3)	2.991105	ANYWHERE
+H	His->Phe substitution	10.009502	ANYWHERE
+H	Methylation	14.01565	ANYWHERE
+H	Oxidation or Hydroxylation	15.994915	ANYWHERE
+H	His->Arg substitution	19.042198	ANYWHERE
+H	His->Tyr substitution	26.004417	ANYWHERE
+H	Acetaldehyde +26	26.01565	ANYWHERE
+H	Acetaldehyde +28	28.0313	ANYWHERE
+H	Propionaldehyde +40	40.0313	ANYWHERE
+H	Acetylation	42.010567	ANYWHERE
+H	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	ANYWHERE
+H	His->Trp substitution	49.0204	ANYWHERE
+H	Acrolein addition +56	56.026215	ANYWHERE
+H	Iodoacetamide derivative	57.021465	ANYWHERE
+H	Reduced acrolein addition +58	58.041866	ANYWHERE
+H	Replacement of 2 protons by zinc	61.913494	ANYWHERE
+H	Replacement of proton by copper	61.921776	ANYWHERE
+H	Crotonaldehyde	70.04186	ANYWHERE
+H	carboxyethyl	72.021126	ANYWHERE
+H	Ethoxyformylation	73.02895	ANYWHERE
+H	bromination	77.91051	ANYWHERE
+H	Phosphorylation	79.96633	ANYWHERE
+H	Modification by hydroxylated mechloroethamine (HN-2)	101.08406	ANYWHERE
+H	reaction with methyl vinyl sulfone	106.00885	ANYWHERE
+H	o-toluene	106.04186	ANYWHERE
+H	DMPO spin-trap nitrone adduct	111.06841	ANYWHERE
+H	Double Carbamidomethylation	114.04293	ANYWHERE
+H	reaction with phenyl salicylate (PS)	120.021126	ANYWHERE
+H	reaction with ethyl vinyl sulfone	120.0245	ANYWHERE
+H	Iodination	125.896645	ANYWHERE
+H	Modification by hydroxylated tris-(2-chloroethyl)amine (HN-3)	131.09464	ANYWHERE
+H	Propiophenone	132.05751	ANYWHERE
+H	O-Diethylphosphorylation	136.02893	ANYWHERE
+H	Dehydrated 4-Oxononenal Michael adduct	136.08882	ANYWHERE
+H	Dehydrated 4-hydroxynonenal	138.10446	ANYWHERE
+H	mTRAQ light	140.09496	ANYWHERE
+H	Diphthamide	143.11844	ANYWHERE
+H	mTRAQ medium	144.10207	ANYWHERE
+H	Representative mass and accurate mass for 116 & 117	144.10207	ANYWHERE
+H	mTRAQ heavy	148.10916	ANYWHERE
+H	4-Oxononenal (ONE)	154.09938	ANYWHERE
+H	4-hydroxynonenal (HNE)	156.11504	ANYWHERE
+H	reduced 4-Hydroxynonenal	158.13068	ANYWHERE
+H	O-pinacolylmethylphosphonylation	162.08096	ANYWHERE
+H	"Chemical reaction with 2,4-dinitro-1-chloro benzene (DNCB)"	166.00145	ANYWHERE
+H	o-toluyl-phosphorylation	170.01328	ANYWHERE
+H	Aminoethylbenzenesulfonylation	183.0354	ANYWHERE
+H	Michael addition of BHT quinone methide to Cysteine and Lysine	218.16707	ANYWHERE
+H	Native Tandem Mass Tag??	224.15248	ANYWHERE
+H	Duplex Tandem Mass Tag??	225.15584	ANYWHERE
+H	Sixplex Tandem Mass Tag??	229.16293	ANYWHERE
+H	"Michael addition of t-butyl hydroxylated BHT (BHTOH) to C, H or K"	234.16199	ANYWHERE
+H	di-Iodination	251.79329	ANYWHERE
+H	Mass Defect Tag on lysine e-amino	253.01022	ANYWHERE
+H	Cresyl-Saligenin-phosphorylation	276.05515	ANYWHERE
+H	biotin hydrazide labeled acrolein addition +298	298.14633	ANYWHERE
+H	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	ANYWHERE
+H	uridine phosphodiester	306.0253	ANYWHERE
+H	Native iodoacetyl Tandem Mass Tag??	324.21616	ANYWHERE
+H	Nitroalkylation by Nitro Linoleic Acid	325.2253	ANYWHERE
+H	Nitroalkylation by Nitro Oleic Acid	327.24097	ANYWHERE
+H	AMP	329.05252	ANYWHERE
+H	Sixplex iodoacetyl Tandem Mass Tag??	329.2266	ANYWHERE
+H	phospho-guanosine	345.04742	ANYWHERE
+H	flavin mononucleotide	454.08896	ANYWHERE
+H	"4-hydroxy-2-nonenal and biotinamidohexanoic acid hydrazide, reduced"	511.3192	ANYWHERE
+H	heme	616.1773	ANYWHERE
+H	Alkylation by biotinylated form of phenacyl bromide	626.2635	ANYWHERE
+H	Flavin adenine dinucleotide	783.1415	ANYWHERE
+I	Leu/Ile->Gly substitution	-56.0626	ANYWHERE
+I	Leu/Ile->Ala substitution	-42.04695	ANYWHERE
+I	Leu/Ile->Ser substitution	-26.052036	ANYWHERE
+I	Leu/Ile->Pro substitution	-16.0313	ANYWHERE
+I	Leu/Ile->Val substitution	-14.01565	ANYWHERE
+I	Leu/Ile->Thr substitution	-12.036386	ANYWHERE
+I	Leu/Ile->Cys substitution	-10.07488	ANYWHERE
+I	Leu/Ile->Asn substitution	0.958863	ANYWHERE
+I	15N(1)	0.997035	ANYWHERE
+I	Leu/Ile->Asp substitution	1.942879	ANYWHERE
+I	13C(6) Silac label	6.020129	ANYWHERE
+I	13C(6) 15N(1) Silac label	7.017164	ANYWHERE
+I	Methylation	14.01565	ANYWHERE
+I	Leu/Ile->Gln substitution	14.974514	ANYWHERE
+I	Leu/Ile->Lys substitution	15.010899	ANYWHERE
+I	Leu/Ile->Glu substitution	15.958529	ANYWHERE
+I	Leu/Ile->Met substitution	17.95642	ANYWHERE
+I	Leu/Ile->His substitution	23.974848	ANYWHERE
+I	Leu/Ile->Phe substitution	33.98435	ANYWHERE
+I	Leu/Ile->Arg substitution	43.017048	ANYWHERE
+I	Leu/Ile->Tyr substitution	49.979263	ANYWHERE
+I	Leu/Ile->Trp substitution	72.99525	ANYWHERE
+K	Loss of C-terminal K from Heavy Chain of MAb	-128.09496	PROTEIN_C
+K	Lys->Gly substitution	-71.0735	ANYWHERE
+K	Lys->Ala substitution	-57.05785	ANYWHERE
+K	Lys->Ser substitution	-41.062935	ANYWHERE
+K	Lys->Pro substitution	-31.042198	ANYWHERE
+K	Lys->Val substitution	-29.026548	ANYWHERE
+K	Lys->Thr substitution	-27.047285	ANYWHERE
+K	Lys->Cys substitution	-25.08578	ANYWHERE
+K	Lys->Leu/Ile substitution	-15.010899	ANYWHERE
+K	Lys->Asn substitution	-14.052036	ANYWHERE
+K	Lys->Asp substitution	-13.06802	ANYWHERE
+K	2-amino-3-oxo-butanoic_acid	-2.01565	PEPTIDE_C
+K	Lysine oxidation to aminoadipic semialdehyde	-1.031634	ANYWHERE
+K	Lys->Gln substitution	-0.036386	ANYWHERE
+K	Lys->Glu substitution	0.94763	ANYWHERE
+K	15N(2)	1.99407	ANYWHERE
+K	Lys->Met substitution	2.945522	ANYWHERE
+K	"4,4,5,5-D4 Lysine"	4.025107	ANYWHERE
+K	13C(6) Silac label	6.020129	ANYWHERE
+K	13C(6) 15N(2) Silac label	8.014199	ANYWHERE
+K	Lys->His substitution	8.963949	ANYWHERE
+K	SILAC label	11.050561	ANYWHERE
+K	Methylation	14.01565	ANYWHERE
+K	alpha-amino adipic acid	14.96328	ANYWHERE
+K	Oxidation or Hydroxylation	15.994915	ANYWHERE
+K	Deuterium Methylation of Lysine	16.028204	ANYWHERE
+K	deuterated methyl ester	17.03448	ANYWHERE
+K	13C(6) 15N(2) (D)9 SILAC label	17.07069	ANYWHERE
+K	monomethylation	18.037834	ANYWHERE
+K	Lys->Met substitution and sulfoxidation	18.940435	ANYWHERE
+K	Lys->Phe substitution	18.973452	ANYWHERE
+K	Acetaldehyde +26	26.01565	ANYWHERE
+K	Formylation	27.994915	ANYWHERE
+K	Lys->Arg substitution	28.006147	ANYWHERE
+K	di-Methylation	28.0313	ANYWHERE
+K	Ethylation	28.0313	ANYWHERE
+K	Acetaldehyde +28	28.0313	ANYWHERE
+K	Lys->Cys substitution and carbamidomethylation	31.935684	ANYWHERE
+K	dihydroxy	31.989828	ANYWHERE
+K	DiMethyl-CHD2	32.056408	ANYWHERE
+K	Dimethyl 13C(6) Silac label	34.05143	ANYWHERE
+K	DiMethyl-C13HD2	34.063118	ANYWHERE
+K	Dimethyl-Medium	34.068962	ANYWHERE
+K	Lys->Tyr substitution	34.968365	ANYWHERE
+K	Dimethyl 13C(6)15N(2) Silac label	36.045498	ANYWHERE
+K	dimethylation	36.07567	ANYWHERE
+K	Acrolein addition +38	38.01565	ANYWHERE
+K	Propionaldehyde +40	40.0313	ANYWHERE
+K	amidination of lysines or N-terminal amines with methyl acetimidate	41.02655	ANYWHERE
+K	Acetylation	42.010567	ANYWHERE
+K	Guanidination	42.021797	ANYWHERE
+K	tri-Methylation	42.04695	ANYWHERE
+K	Propyl	42.04695	ANYWHERE
+K	Carbamylation	43.005814	ANYWHERE
+K	Carboxylation	43.98983	ANYWHERE
+K	heavy acetylation	44.017273	ANYWHERE
+K	Ethanolation	44.026215	ANYWHERE
+K	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	ANYWHERE
+K	Beta-methylthiolation	45.98772	ANYWHERE
+K	"Acetyl 4,4,5,5-D4 Lysine"	46.03567	ANYWHERE
+K	Acetyl 13C(6) Silac label	48.030693	ANYWHERE
+K	Propyl:2H(6)	48.08461	ANYWHERE
+K	Acetyl_13C(6) 15N(2) Silac label	50.024765	ANYWHERE
+K	3-fold methylation with deuterated methyl groups	51.10344	ANYWHERE
+K	MDA adduct +54	54.010567	ANYWHERE
+K	3-fold methylation with fully labelled methyl groups	54.113506	ANYWHERE
+K	Propionate labeling reagent light form (N-term & K)	56.026215	ANYWHERE
+K	Acrolein addition +56	56.026215	ANYWHERE
+K	"Diethylation, analogous to Dimethylation"	56.0626	ANYWHERE
+K	Iodoacetamide derivative	57.021465	ANYWHERE
+K	Addition of Glycine	57.021465	ANYWHERE
+K	Lys->Trp substitution	57.98435	ANYWHERE
+K	Iodoacetic acid derivative	58.005478	ANYWHERE
+K	Reduced acrolein addition +58	58.041866	ANYWHERE
+K	"Propionate labeling reagent heavy form (+3amu), N-term & K"	59.036278	ANYWHERE
+K	Mono-methylated lysine labelled with Acetyl_heavy	59.045044	ANYWHERE
+K	"5-hydroxy-N6,N6,N6-trimethyl"	59.04969	ANYWHERE
+K	MDA adduct +62	62.01565	ANYWHERE
+K	3-fold methylated lysine labelled with Acetyl_heavy	62.063873	ANYWHERE
+K	Crotonylation	68.026215	ANYWHERE
+K	IMID d0	68.037445	ANYWHERE
+K	Piperidination	68.0626	ANYWHERE
+K	N-pyruvic acid 2-iminyl	70.00548	ANYWHERE
+K	Crotonaldehyde	70.04186	ANYWHERE
+K	Butyryl	70.04186	ANYWHERE
+K	Acrylamide adduct	71.03712	ANYWHERE
+K	Deoxyhypusine	71.0735	ANYWHERE
+K	carboxyethyl	72.021126	ANYWHERE
+K	IMID d4	72.06255	ANYWHERE
+K	Acrolein addition +76	76.0313	ANYWHERE
+K	"2,5-dimethypyrrole"	78.04695	ANYWHERE
+K	Phosphorylation	79.96633	ANYWHERE
+K	"dimethyl 3,3\'-dithiobispropionimidate"	87.01427	ANYWHERE
+K	glycidamide adduct	87.03203	ANYWHERE
+K	hypusine	87.06841	ANYWHERE
+K	3-sulfanylpropanoyl	87.99828	ANYWHERE
+K	Acrolein addition +94	94.04186	ANYWHERE
+K	maleimide	97.01638	ANYWHERE
+K	Acetyldeoxyhypusine	97.08915	ANYWHERE
+K	EGS crosslinker to Lys or N-terminus following hydroxylamine cleavage	99.03203	ANYWHERE
+K	Succinic anhydride labeling reagent light form (N-term & K)	100.016045	ANYWHERE
+K	Modification by hydroxylated mechloroethamine (HN-2)	101.08406	ANYWHERE
+K	labeling reagent light form (N-term & K)	104.026215	ANYWHERE
+K	"Succinic anhydride labeling reagent, heavy form (+4amu, 4C13), N-term & K"	104.029465	ANYWHERE
+K	"Succinic anhydride labeling reagent, heavy form (+4amu, 4H2), N-term & K"	104.04115	ANYWHERE
+K	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, light form"	105.02146	ANYWHERE
+K	Nicotinic Acid	105.02146	ANYWHERE
+K	reaction with methyl vinyl sulfone	106.00885	ANYWHERE
+K	o-toluene	106.04186	ANYWHERE
+K	O-Ethylphosphorylation	107.99763	ANYWHERE
+K	2-ammonio-6-[4-(hydroxymethyl)-3-oxidopyridinium-1-yl]- hexanoate	108.021126	ANYWHERE
+K	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, medium form"	109.04657	ANYWHERE
+K	deuterated Nicotinic Acid	109.04812	ANYWHERE
+K	4-methyl-delta-1-pyrroline-5-carboxyl	109.052765	ANYWHERE
+K	Nmethylmaleimide	111.03203	ANYWHERE
+K	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, heavy form"	111.041595	ANYWHERE
+K	Acrolein addition +112	112.05243	ANYWHERE
+K	Acetylhypusine	113.08406	ANYWHERE
+K	ubiquitinylation residue	114.04293	ANYWHERE
+K	Double Carbamidomethylation	114.04293	ANYWHERE
+K	"Bruker Daltonics SERVA-ICPL(TM) quantification chemistry, +10 Da form"	115.0667	ANYWHERE
+K	N-Homocysteine thiolactone	117.02483	ANYWHERE
+K	Ubiquitination 2H4 lysine	118.06803	ANYWHERE
+K	pyridylacetyl	119.03712	ANYWHERE
+K	reaction with phenyl salicylate (PS)	120.021126	ANYWHERE
+K	reaction with ethyl vinyl sulfone	120.0245	ANYWHERE
+K	13C(4) 15N(2) Lysine glygly	120.050415	ANYWHERE
+K	13C6 labeled ubiquitinylation residue	120.06306	ANYWHERE
+K	13C(6) 15N(2) Lysine glygly	122.05713	ANYWHERE
+K	Both ends of crosslink attached to same peptide	122.0844	ANYWHERE
+K	N-Succinimidyl-2-morpholine acetate	127.06333	ANYWHERE
+K	Quaternary amine labeling reagent light form (N-term & K)	127.09972	ANYWHERE
+K	4-trimethyllammoniumbutyryl-	128.10754	ANYWHERE
+K	"Quaternary amine labeling reagent heavy (+3amu) form, N-term & K"	130.11855	ANYWHERE
+K	Modification by hydroxylated tris-(2-chloroethyl)amine (HN-3)	131.09464	ANYWHERE
+K	Monolink of DST crosslinker to Lys or N-terminus	132.00587	ANYWHERE
+K	Propiophenone	132.05751	ANYWHERE
+K	modification of the lysine side chain from NH2 to guanidine with a H removed in favor of a benzyl group	132.06874	ANYWHERE
+K	iodoacetanilide derivative	133.05276	ANYWHERE
+K	"Quaternary amine labeling reagent heavy form (+6amu), N-term & K"	133.13737	ANYWHERE
+K	O-Diethylphosphorylation	136.02893	ANYWHERE
+K	Dehydrated 4-Oxononenal Michael adduct	136.08882	ANYWHERE
+K	"Quaternary amine labeling reagent heavy form (+9amu), N-term & K"	136.1562	ANYWHERE
+K	d9-4-trimethyllammoniumbutyryl-	137.16403	ANYWHERE
+K	Dehydrated 4-hydroxynonenal	138.10446	ANYWHERE
+K	13C labelled iodoacetanilide derivative	139.07289	ANYWHERE
+K	mTRAQ light	140.09496	ANYWHERE
+K	Monolink of DMP crosslinker to Lys or N-terminus	140.09496	ANYWHERE
+K	CLIP_TRAQ_2	141.09831	ANYWHERE
+K	Nethylmaleimidehydrolysis	143.05824	ANYWHERE
+K	Accurate mass for 115	144.0996	ANYWHERE
+K	mTRAQ medium	144.10207	ANYWHERE
+K	Representative mass and accurate mass for 116 & 117	144.10207	ANYWHERE
+K	Accurate mass for 114	144.10591	ANYWHERE
+K	3-(carbamidomethylthio)propanoyl	145.01974	ANYWHERE
+K	Accurate mass for DiLeu 115 isobaric tag	145.12	ANYWHERE
+K	Accurate mass for DiLeu 117 isobaric tag	145.12831	ANYWHERE
+K	Accurate mass for DiLeu 116 isobaric tag	145.13216	ANYWHERE
+K	Accurate mass for DiLeu 118 isobaric tag	145.14047	ANYWHERE
+K	mTRAQ heavy	148.10916	ANYWHERE
+K	Benzyl isothiocyanate	149.02992	ANYWHERE
+K	4-Oxononenal (ONE)	154.09938	ANYWHERE
+K	"One end of crosslink attached, one end free"	154.11061	ANYWHERE
+K	Monolink of DSS/BS3 crosslinker to Lys or N-terminus	156.07864	ANYWHERE
+K	4-hydroxynonenal (HNE)	156.11504	ANYWHERE
+K	reduced 4-Hydroxynonenal	158.13068	ANYWHERE
+K	membrane protein extraction	159.0354	ANYWHERE
+K	Hexosamine	161.0688	ANYWHERE
+K	Hexose	162.05283	ANYWHERE
+K	O-pinacolylmethylphosphonylation	162.08096	ANYWHERE
+K	Phenethyl isothiocyanate	163.04556	ANYWHERE
+K	O-Diisopropylphosphorylation	164.06023	ANYWHERE
+K	"Chemical reaction with 2,4-dinitro-1-chloro benzene (DNCB)"	166.00145	ANYWHERE
+K	3-phosphoglyceryl	167.98238	ANYWHERE
+K	o-toluyl-phosphorylation	170.01328	ANYWHERE
+K	Menadione quinone derivative	170.03677	ANYWHERE
+K	6-aminoquinolyl-N-hydroxysuccinimidyl carbamate	170.04802	ANYWHERE
+K	Menadione hydroquinone derivative	172.05243	ANYWHERE
+K	"naphthalene-2,3-dicarboxaldehyde"	175.0422	ANYWHERE
+K	Galactosyl hydroxylysine	178.04774	ANYWHERE
+K	Gluconoylation	178.04774	ANYWHERE
+K	Aminoethylbenzenesulfonylation	183.0354	ANYWHERE
+K	Lipoyl	188.03296	ANYWHERE
+K	Monolink of DSP/DTSSP crosslinker to Lys or N-terminus	191.99149	ANYWHERE
+K	Heptose	192.06339	ANYWHERE
+K	desthiobiotin modification of lysine	196.12119	ANYWHERE
+K	Addition of DFDNB crosslinker	203.99826	ANYWHERE
+K	Myristoylation	210.19836	ANYWHERE
+K	tri nitro benzene	210.98654	ANYWHERE
+K	4-sulfophenyl isothiocyanate	214.97108	ANYWHERE
+K	Accurate mass for DiART6plex 115	217.15662	ANYWHERE
+K	Accurate mass for DiART6plex 117	217.16246	ANYWHERE
+K	Representative mass and accurate mass for 114	217.16293	ANYWHERE
+K	Accurate mass for DiART6plex 116 and 119	217.16878	ANYWHERE
+K	Accurate mass for DiART6plex 118	217.1751	ANYWHERE
+K	Michael addition of BHT quinone methide to Cysteine and Lysine	218.16707	ANYWHERE
+K	4-sulfophenyl isothiocyanate (Heavy C13)	220.99121	ANYWHERE
+K	Native Tandem Mass Tag??	224.15248	ANYWHERE
+K	Iminobiotinylation	225.09358	ANYWHERE
+K	Duplex Tandem Mass Tag??	225.15584	ANYWHERE
+K	Biotinylation	226.07759	ANYWHERE
+K	"[3-(2,5)-Dioxopyrrolidin-1-yloxycarbonyl)-propyl]dimethyloctylammonium"	227.22491	ANYWHERE
+K	Pyridoxal phosphate	229.014	ANYWHERE
+K	Sixplex Tandem Mass Tag??	229.16293	ANYWHERE
+K	PLP bound to lysine reduced by sodium borohydride (NaBH4) to create amine linkage	231.02966	ANYWHERE
+K	5-dimethylaminonaphthalene-1-sulfonyl	233.05106	ANYWHERE
+K	"Michael addition of t-butyl hydroxylated BHT (BHTOH) to C, H or K"	234.16199	ANYWHERE
+K	Palmitoylation	238.22966	ANYWHERE
+K	oxidized Lysine biotinylated with biotin hydrazide	241.0885	ANYWHERE
+K	SUMOylation leaving GlyGlyGln	242.1015	ANYWHERE
+K	addition of GGE	243.08553	ANYWHERE
+K	Monolink of EGS crosslinker to Lys or N-terminus	244.0583	ANYWHERE
+K	CLIP_TRAQ_4	244.10146	ANYWHERE
+K	Mass Defect Tag on lysine e-amino	253.01022	ANYWHERE
+K	covalent modification of lysine by cross-linking reagent	253.09502	ANYWHERE
+K	Phosphogluconoylation	258.01407	ANYWHERE
+K	"3,4-didehydroretinylidene"	264.1878	ANYWHERE
+K	retinal	266.20346	ANYWHERE
+K	CLIP_TRAQ_3	271.14874	ANYWHERE
+K	Cresyl-Saligenin-phosphorylation	276.05515	ANYWHERE
+K	biotin hydrazide labeled acrolein addition +298	298.14633	ANYWHERE
+K	Levuglandinyl-lysine anhyropyrrole adduct	298.19327	ANYWHERE
+K	"Accurate mass for 115, 118, 119 & 121"	304.19904	ANYWHERE
+K	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	ANYWHERE
+K	Levuglandinyl-lysine anhydrolactam adduct	314.1882	ANYWHERE
+K	Levuglandinyl-lysine pyrrole adduct	316.20386	ANYWHERE
+K	Lactosylation	324.10565	ANYWHERE
+K	Native iodoacetyl Tandem Mass Tag??	324.21616	ANYWHERE
+K	Diaminopimelic acid-DSP monolinked	328.05515	ANYWHERE
+K	AMP	329.05252	ANYWHERE
+K	Sixplex iodoacetyl Tandem Mass Tag??	329.2266	ANYWHERE
+K	Levuglandinyl - lysine lactam adduct	332.19876	ANYWHERE
+K	ESP-Tag light d0	338.17764	ANYWHERE
+K	NHS-LC-Biotin	339.16165	ANYWHERE
+K	N-biotinyl-6-aminohexanoyl	339.16165	ANYWHERE
+K	glucosylgalactosyl hydroxylysine	340.10056	ANYWHERE
+K	SUMOylation leaving GlnThrGlyGly	343.14917	ANYWHERE
+K	phospho-guanosine	345.04742	ANYWHERE
+K	Levuglandinyl - lysine hydroxylactam adduct	348.19366	ANYWHERE
+K	ESP-Tag heavy d10	348.24042	ANYWHERE
+K	Oxidized lysine biotinylated with biotin-LC-hydrazide	352.15692	ANYWHERE
+K	"Oxidized lysine biotinylated with biotin-LC-hydrazide, reduced"	354.17258	ANYWHERE
+K	nucleophilic addtion to cytopiloyne	362.13657	ANYWHERE
+K	nucleophilic addition to cytopiloyne+H2O	380.14713	ANYWHERE
+K	Ubiquitination	383.2281	ANYWHERE
+K	fluorescein-5-thiosemicarbazide	421.07324	ANYWHERE
+K	BisANS with loss of both sulfonates	437.20178	ANYWHERE
+K	Biot_LC_LC	452.24573	ANYWHERE
+K	fluorescein-hexanoate-NHS hydrolysis	471.1318	ANYWHERE
+K	Biotin_PEG4	473.21957	ANYWHERE
+K	Sumo mutant Smt3-WT tail following trypsin digestion	484.22815	ANYWHERE
+K	"4-hydroxy-2-nonenal and biotinamidohexanoic acid hydrazide, reduced"	511.3192	ANYWHERE
+K	ADP  Ribose addition	541.0611	ANYWHERE
+K	10-ethoxyphosphinyl-N-(biotinamidopentyl)decanamide	572.3161	ANYWHERE
+K	"4,4\'-dianilino-1,1\'-binaphthyl-5,5\'-disulfonic acid"	594.0919	ANYWHERE
+K	SUMOylation by SUMO-2/3	599.26636	ANYWHERE
+K	SUMOylation by SUMO-1	600.25037	ANYWHERE
+K	Glycosylation with IME linked Hex(2) NeuAc	688.1997	ANYWHERE
+K	was ChromoBiotin	695.3101	ANYWHERE
+K	NHS ester linked Green Fluorescent Bodipy Dye	758.38086	ANYWHERE
+K	SUMOylation by SUMO-2/3 (formic acid cleavage)	845.40314	ANYWHERE
+K	maleimide-3-saccharide	969.3662	ANYWHERE
+K	ExacTag Amine label mass for 2-4-7-10 plex	1046.3479	ANYWHERE
+K	SUMOylation by SUMO-1 (formic acid cleavage)	1203.5771	ANYWHERE
+K	maleimide-5-saccharide	1293.4719	ANYWHERE
+K	Sumoylation by SUMO-2/3 after Cyanogen bromide (CNBr) cleavage	1662.7009	ANYWHERE
+K	Sumoylation by SUMO-1 after Cyanogen bromide (CNBr) cleavage	1705.7319	ANYWHERE
+K	Addition of DEDGFLYMVYASQETFG	1970.8245	ANYWHERE
+K	SUMOylation by SUMO-1 after tryptic cleavage	2135.9204	ANYWHERE
+K	SUMOylation by SUMO-2/3 after tryptic cleavage	3549.5366	ANYWHERE
+L	Leu/Ile->Gly substitution	-56.0626	ANYWHERE
+L	Leu/Ile->Ala substitution	-42.04695	ANYWHERE
+L	Leu/Ile->Ser substitution	-26.052036	ANYWHERE
+L	Leu/Ile->Pro substitution	-16.0313	ANYWHERE
+L	Leu/Ile->Val substitution	-14.01565	ANYWHERE
+L	Leu/Ile->Thr substitution	-12.036386	ANYWHERE
+L	Leu/Ile->Cys substitution	-10.07488	ANYWHERE
+L	Leu/Ile->Asn substitution	0.958863	ANYWHERE
+L	15N(1)	0.997035	ANYWHERE
+L	Leu/Ile->Asp substitution	1.942879	ANYWHERE
+L	Trideuteration	3.01883	ANYWHERE
+L	13C(6) Silac label	6.020129	ANYWHERE
+L	13C(6) 15N(1) Silac label	7.017164	ANYWHERE
+L	2H(10) label	10.062767	ANYWHERE
+L	Methylation	14.01565	ANYWHERE
+L	Leu/Ile->Gln substitution	14.974514	ANYWHERE
+L	Leu/Ile->Lys substitution	15.010899	ANYWHERE
+L	Leu/Ile->Glu substitution	15.958529	ANYWHERE
+L	Leu/Ile->Met substitution	17.95642	ANYWHERE
+L	Leu/Ile->His substitution	23.974848	ANYWHERE
+L	Leu->Met substitution and sulfoxidation	33.951336	ANYWHERE
+L	Leu/Ile->Phe substitution	33.98435	ANYWHERE
+L	Leu/Ile->Arg substitution	43.017048	ANYWHERE
+L	Leu/Ile->Tyr substitution	49.979263	ANYWHERE
+L	trifluoroleucine replacement of leucine	53.971733	ANYWHERE
+L	Leu/Ile->Trp substitution	72.99525	ANYWHERE
+L	Reduced acrolein addition +96	96.05752	ANYWHERE
+L	4-hydroxynonenal (HNE)	156.11504	ANYWHERE
+M	Removal of initiator methionine from protein N-terminus	-131.04048	PROTEIN_N
+M	"Removal of initiator methionine from protein N-terminus, then acetylation of the new N-terminus"	-89.02992	PROTEIN_N
+M	Met->Gly substitution	-74.01902	ANYWHERE
+M	Met->Ala substitution	-60.003372	ANYWHERE
+M	Homoserine lactone	-48.003372	PEPTIDE_C
+M	Prompt loss of side chain from oxidised Met	-48.003372	ANYWHERE
+M	Met->Ser substitution	-44.008457	ANYWHERE
+M	Met->Pro substitution	-33.98772	ANYWHERE
+M	Met->Val substitution	-31.97207	ANYWHERE
+M	Met->Thr substitution	-29.992805	ANYWHERE
+M	Homoserine	-29.992805	PEPTIDE_C
+M	Met->Cys substitution	-28.0313	ANYWHERE
+M	methionine replacement by homopropargylglycine	-21.98772	ANYWHERE
+M	Met->Leu/Ile substitution	-17.95642	ANYWHERE
+M	Met->Asn substitution	-16.997557	ANYWHERE
+M	Met->Asp substitution	-16.013542	ANYWHERE
+M	Methionine replacement by azido homoalanine	-4.986324	ANYWHERE
+M	Met->Gln substitution	-2.981907	ANYWHERE
+M	Met->Lys substitution	-2.945522	ANYWHERE
+M	Met->Glu substitution	-1.997892	ANYWHERE
+M	15N(1)	0.997035	ANYWHERE
+M	Trideuteration	3.01883	ANYWHERE
+M	13C4 Methionine label	4.013419	ANYWHERE
+M	SILAC	4.022185	ANYWHERE
+M	13C(5) 15N(1) Silac label	6.013809	ANYWHERE
+M	Met->His substitution	6.018427	ANYWHERE
+M	Oxidation or Hydroxylation	15.994915	ANYWHERE
+M	Met->Phe substitution	16.02793	ANYWHERE
+M	Oxidised 2H(3) labelled Methionine	19.013744	ANYWHERE
+M	Oxidised 13C4 labelled Methionine	20.008333	ANYWHERE
+M	Oxidised methionine 13C(1)2H(3) SILAC label	20.0171	ANYWHERE
+M	Met->Arg substitution	25.060625	ANYWHERE
+M	dihydroxy	31.989828	ANYWHERE
+M	Met->Tyr substitution	32.022842	ANYWHERE
+M	methionine oxidation to homocysteic acid	33.969093	ANYWHERE
+M	Carbamylation	43.005814	ANYWHERE
+M	Carboxylation	43.98983	PROTEIN_N
+M	Selenium replaces sulfur	47.94445	ANYWHERE
+M	Met->Trp substitution	55.03883	ANYWHERE
+M	Azidohomoalanine (AHA) bound to propargylglycine-NH2 (alkyne)	107.07734	ANYWHERE
+M	Azidohomoalanine coupled to reductively cleaved tag	195.07562	ANYWHERE
+M	carbamidomethylated form of reductively cleaved tag coupled to azidohomoalanine	252.09709	ANYWHERE
+M	1-methyl-3-benzoyl-4-hydroxy-4-phenylpiperidine	263.131	ANYWHERE
+M	"2-ethyl-3-hydroxy-1,3-diphenylpentan-1-one"	266.13068	ANYWHERE
+M	Biotin polyethyleneoxide (n=3) alkyne	578.3176	ANYWHERE
+M	Azidohomoalanine (AHA) bound to DDDDK-propargylglycine-NH2 (alkyne)	695.2801	ANYWHERE
+N	Asn->Gly substitution	-57.021465	ANYWHERE
+N	Asn->Ala substitution	-43.005814	ANYWHERE
+N	Asn->Ser substitution	-27.010899	ANYWHERE
+N	Dehydration	-18.010565	PROTEIN_C
+N	Loss of ammonia	-17.026548	ANYWHERE
+N	Asn->Pro substitution	-16.990164	ANYWHERE
+N	Asn->Val substitution	-14.974514	ANYWHERE
+N	Asn->Thr substitution	-12.995249	ANYWHERE
+N	Asn->Cys substitution	-11.033743	ANYWHERE
+N	Asn->Leu/Ile substitution	-0.958863	ANYWHERE
+N	Deamidation	0.984016	ANYWHERE
+N	Asn->Asp substitution	0.984016	ANYWHERE
+N	15N(2)	1.99407	ANYWHERE
+N	glycosylated asparagine 18O labeling	2.988261	ANYWHERE
+N	Deamidation in presence of O18	2.988261	ANYWHERE
+N	Methylation	14.01565	ANYWHERE
+N	Asn->Gln substitution	14.01565	ANYWHERE
+N	Asn->Lys substitution	14.052036	ANYWHERE
+N	Deamidation followed by a methylation	14.999666	ANYWHERE
+N	Asn->Glu substitution	14.999666	ANYWHERE
+N	Oxidation or Hydroxylation	15.994915	ANYWHERE
+N	Asn->Met substitution	16.997557	ANYWHERE
+N	Asn->His substitution	23.015984	ANYWHERE
+N	di-Methylation	28.0313	ANYWHERE
+N	deamidation followed by esterification with ethanol	29.015316	ANYWHERE
+N	hydroxymethyl	30.010565	ANYWHERE
+N	Asn->Phe substitution	33.025486	ANYWHERE
+N	Asn->Arg substitution	42.058186	ANYWHERE
+N	Beta-methylthiolation	45.98772	ANYWHERE
+N	Asn->Tyr substitution	49.0204	ANYWHERE
+N	Asn->Trp substitution	72.036385	ANYWHERE
+N	"dimethyl 3,3\'-dithiobispropionimidate"	87.01427	ANYWHERE
+N	Fucose	146.0579	ANYWHERE
+N	Hexosamine	161.0688	ANYWHERE
+N	Hexose	162.05283	ANYWHERE
+N	Heptose	192.06339	ANYWHERE
+N	N-Acetylhexosamine	203.07938	ANYWHERE
+N	Addition of DFDNB crosslinker	203.99826	ANYWHERE
+N	"2,4-diacetamido-2,4,6-trideoxyglucopyranose"	228.11101	ANYWHERE
+N	N-acetyl neuraminic acid	291.09543	ANYWHERE
+N	N-glycoyl neuraminic acid	307.09033	ANYWHERE
+N	HexNAc1dHex1	349.13727	ANYWHERE
+N	Hex1HexNAc1	365.1322	ANYWHERE
+N	H1O3P1Hex2	404.072	ANYWHERE
+N	HexNAc2	406.15875	ANYWHERE
+N	Hex3	486.15848	ANYWHERE
+N	HexNAc1dHex2	495.1952	ANYWHERE
+N	Photocleavable Biotin + GalNAz on O-GlcNAc	502.20233	ANYWHERE
+N	Hex1HexNAc1dHex1	511.1901	ANYWHERE
+N	ADP  Ribose addition	541.0611	ANYWHERE
+N	HexNAc2dHex1	552.2167	ANYWHERE
+N	Hex1HexNAc2	568.21155	ANYWHERE
+N	Hex1HexNAc1NeuAc1	656.2276	ANYWHERE
+N	HexNAc2dHex2	698.27454	ANYWHERE
+N	Hex1HexNAc2Pent1	700.25385	ANYWHERE
+N	Hex1HexNAc2dHex1	714.2695	ANYWHERE
+N	Hex2HexNAc2	730.2644	ANYWHERE
+N	Hex3HexNAc1Pent1	821.2801	ANYWHERE
+N	Hex1HexNAc2dHex1Pent1	846.3117	ANYWHERE
+N	Hex1HexNAc2dHex2	860.3274	ANYWHERE
+N	Hex2HexNAc2Pent1	862.30664	ANYWHERE
+N	Hex2HexNAc2dHex1	876.3223	ANYWHERE
+N	Hex3HexNAc2	892.3172	ANYWHERE
+N	Hex1HexNAc1NeuAc2	947.32306	ANYWHERE
+N	Hex(3) HexNAc(2) Phos	972.28357	ANYWHERE
+N	dHex Hex(2) HexNAc(2) Pent	1008.36456	ANYWHERE
+N	Hex(2) HexNAc(2) NeuAc	1021.3598	ANYWHERE
+N	dHex(2) Hex(2) HexNAc(2)	1022.3802	ANYWHERE
+N	Hex(3) HexNAc(2) Pent	1024.3595	ANYWHERE
+N	dHex Hex(3) HexNAc(2)	1038.3751	ANYWHERE
+N	Hex(4) HexNAc(2)	1054.37	ANYWHERE
+N	dHex Hex(2) HexNAc(3)	1079.4017	ANYWHERE
+N	Hex(3) HexNAc(3)	1095.3966	ANYWHERE
+N	dHex Hex(3) HexNAc(2) Sulf	1118.3319	ANYWHERE
+N	dHex Hex(4) HexNAc Pent	1129.3909	ANYWHERE
+N	dHex Hex(3) HexNAc(2) Pent	1170.4174	ANYWHERE
+N	Hex(3) HexNAc(2) NeuAc	1183.4126	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(2)	1184.433	ANYWHERE
+N	Hex(4) HexNAc(2) Pent	1186.4124	ANYWHERE
+N	dHex Hex(4) HexNAc(2)	1200.428	ANYWHERE
+N	N-linked glycan core	1216.4229	ANYWHERE
+N	dHex(2) Hex(2) HexNAc(3)	1225.4596	ANYWHERE
+N	Hex(3) HexNAc(3) Pent	1227.4388	ANYWHERE
+N	dHex Hex(3) HexNAc(3)	1241.4545	ANYWHERE
+N	Hex(4) HexNAc(3)	1257.4495	ANYWHERE
+N	Hex(5) HexNAc(2) Phos	1296.3892	ANYWHERE
+N	Biantennary (-2 galactose)	1298.476	ANYWHERE
+N	dHex Hex(4) HexNAc(2) Pent	1332.4702	ANYWHERE
+N	Hex(7) HexNAc	1337.4491	ANYWHERE
+N	Hex(4) HexNAc(2) NeuAc	1345.4655	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(2)	1346.4858	ANYWHERE
+N	dHex Hex(5) HexNAc(2)	1362.4807	ANYWHERE
+N	dHex Hex(3) HexNAc(3) Pent	1373.4967	ANYWHERE
+N	Hex(3) HexNAc(4) Sulf	1378.4327	ANYWHERE
+N	Hex(6) HexNAc(2)	1378.4757	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(3)	1387.5125	ANYWHERE
+N	Hex(4) HexNAc(3) Pent	1389.4917	ANYWHERE
+N	dHex Hex(4) HexNAc(3)	1403.5073	ANYWHERE
+N	Hex(5) HexNAc(3)	1419.5022	ANYWHERE
+N	Hex(3) HexNAc(4) Pent	1430.5182	ANYWHERE
+N	Fucosylated biantennary (-2 galactose)	1444.5338	ANYWHERE
+N	Hex(6) HexNAc(2) Phos	1458.442	ANYWHERE
+N	Biantennary (-1 galactose)	1460.5288	ANYWHERE
+N	dHex Hex(4) HexNAc(3) Sulf	1483.4641	ANYWHERE
+N	dHex Hex(5) HexNAc(2) Pent	1494.5231	ANYWHERE
+N	Hex(8) HexNAc	1499.502	ANYWHERE
+N	Hex(3) HexNAc(5)	1501.5553	ANYWHERE
+N	dHex Hex(3) HexNAc(3) Pent(2)	1505.5391	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(3) Pent	1519.5547	ANYWHERE
+N	dHex Hex(3) HexNAc(4) Sulf	1524.4907	ANYWHERE
+N	dHex Hex(6) HexNAc(2)	1524.5336	ANYWHERE
+N	dHex Hex(4) HexNAc(3) Pent	1535.5496	ANYWHERE
+N	Hex(4) HexNAc(4) Sulf	1540.4856	ANYWHERE
+N	Hex(7) HexNAc(2)	1540.5286	ANYWHERE
+N	Hex(4) HexNAc(3) NeuAc	1548.5448	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(3)	1549.5652	ANYWHERE
+N	Hex(5) HexNAc(3) Pent	1551.5444	ANYWHERE
+N	Hex(4) HexNAc(3) NeuGc	1564.5398	ANYWHERE
+N	dHex Hex(5) HexNAc(3)	1565.5602	ANYWHERE
+N	dHex Hex(3) HexNAc(4) Pent	1576.5762	ANYWHERE
+N	Hex(3) HexNAc(5) Sulf	1581.5122	ANYWHERE
+N	Hex(6) HexNAc(3)	1581.555	ANYWHERE
+N	Hex(3) HexNAc(4) NeuAc	1589.5714	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(4)	1590.5918	ANYWHERE
+N	Hex(4) HexNAc(4) Pent	1592.571	ANYWHERE
+N	Fucosylated biantennary (-1 galactose)	1606.5867	ANYWHERE
+N	Hex(7) HexNAc(2) Phos	1620.4949	ANYWHERE
+N	Hex(4) HexNAc(4) Me(2) Pent	1620.6023	ANYWHERE
+N	Biantennary	1622.5817	ANYWHERE
+N	dHex Hex(3) HexNAc(3) Pent(3)	1637.5813	ANYWHERE
+N	dHex Hex(5) HexNAc(3) Sulf	1645.517	ANYWHERE
+N	dHex Hex(3) HexNAc(5)	1647.6133	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(3) Pent(2)	1651.5969	ANYWHERE
+N	Hex(6) HexNAc(3) Phos	1661.5214	ANYWHERE
+N	Hex(4) HexNAc(5)	1663.6082	ANYWHERE
+N	dHex(3) Hex(3) HexNAc(3) Pent	1665.6125	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(3) Pent	1681.6075	ANYWHERE
+N	dHex Hex(4) HexNAc(4) Sulf	1686.5435	ANYWHERE
+N	dHex Hex(7) HexNAc(2)	1686.5864	ANYWHERE
+N	dHex Hex(4) HexNAc(3) NeuAc	1694.6028	ANYWHERE
+N	Hex(7) HexNAc(2) Phos(2)	1700.4612	ANYWHERE
+N	Hex(5) HexNAc(4) Sulf	1702.5385	ANYWHERE
+N	Hex(8) HexNAc(2)	1702.5813	ANYWHERE
+N	Hex(3) HexNAc(6)	1704.6348	ANYWHERE
+N	dHex Hex(3) HexNAc(4) Pent(2)	1708.6184	ANYWHERE
+N	dHex Hex(4) HexNAc(3) NeuGc	1710.5977	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(4) Pent	1722.634	ANYWHERE
+N	dHex Hex(3) HexNAc(5) Sulf	1727.5701	ANYWHERE
+N	dHex Hex(6) HexNAc(3)	1727.6129	ANYWHERE
+N	dHex Hex(3) HexNAc(4) NeuAc	1735.6293	ANYWHERE
+N	dHex(3) Hex(3) HexNAc(4)	1736.6497	ANYWHERE
+N	dHex Hex(4) HexNAc(4) Pent	1738.6289	ANYWHERE
+N	Hex(4) HexNAc(5) Sulf	1743.565	ANYWHERE
+N	Hex(7) HexNAc(3)	1743.6079	ANYWHERE
+N	Hex(4) HexNAc(4) NeuAc	1751.6241	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(4)	1752.6447	ANYWHERE
+N	Fucosylated biantennary	1768.6395	ANYWHERE
+N	dHex Hex(4) HexNAc(3) NeuAc Sulf	1774.5596	ANYWHERE
+N	Hex(5) HexNAc(4) Me(2) Pent	1782.6552	ANYWHERE
+N	Hex(3) HexNAc(6) Sulf	1784.5916	ANYWHERE
+N	Hex(6) HexNAc(4)	1784.6344	ANYWHERE
+N	dHex Hex(6) HexNAc(3) Sulf	1807.5698	ANYWHERE
+N	dHex Hex(4) HexNAc(5)	1809.666	ANYWHERE
+N	dHex Hex(5) HexA HexNAc(3) Sulf	1821.5491	ANYWHERE
+N	Hex(7) HexNAc(3) Phos	1823.5742	ANYWHERE
+N	Hex(5) HexNAc(5)	1825.661	ANYWHERE
+N	Hex(6) HexNAc(4) Me(3)	1826.6814	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(4) Sulf	1832.6014	ANYWHERE
+N	Hex(4) HexNAc(3) NeuAc(2)	1839.6403	ANYWHERE
+N	dHex Hex(3) HexNAc(4) Pent(3)	1840.6606	ANYWHERE
+N	dHex(2) Hex(5) HexNAc(3) Pent	1843.6603	ANYWHERE
+N	dHex Hex(5) HexNAc(4) Sulf	1848.5963	ANYWHERE
+N	dHex Hex(3) HexNAc(6)	1850.6926	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(4) Pent(2)	1854.6763	ANYWHERE
+N	dHex Hex(5) HexNAc(3) NeuAc	1856.6555	ANYWHERE
+N	Hex(3) HexNAc(6) Sulf(2)	1864.5483	ANYWHERE
+N	Hex(9) HexNAc(2)	1864.6342	ANYWHERE
+N	Hex(4) HexNAc(6)	1866.6875	ANYWHERE
+N	dHex(3) Hex(3) HexNAc(4) Pent	1868.6919	ANYWHERE
+N	dHex Hex(5) HexNAc(3) NeuGc	1872.6505	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(4) Pent	1884.6869	ANYWHERE
+N	dHex Hex(4) HexNAc(5) Sulf	1889.6229	ANYWHERE
+N	dHex Hex(7) HexNAc(3)	1889.6658	ANYWHERE
+N	dHex Hex(4) HexNAc(4) NeuAc	1897.6821	ANYWHERE
+N	dHex(3) Hex(4) HexNAc(4)	1898.7025	ANYWHERE
+N	dHex Hex(5) HexNAc(4) Pent	1900.6818	ANYWHERE
+N	dHex Hex(5) HexA HexNAc(3) Sulf(2)	1901.5059	ANYWHERE
+N	Hex(3) HexNAc(7)	1907.7141	ANYWHERE
+N	Hex(5) HexNAc(4) NeuAc	1913.677	ANYWHERE
+N	dHex(2) Hex(5) HexNAc(4)	1914.6974	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(3) NeuAc Sulf	1920.6174	ANYWHERE
+N	dHex Hex(5) HexNAc(4) Sulf(2)	1928.5531	ANYWHERE
+N	dHex Hex(5) HexNAc(4) Me(2) Pent	1928.7131	ANYWHERE
+N	Hex(5) HexNAc(4) NeuGc	1929.672	ANYWHERE
+N	dHex Hex(3) HexNAc(6) Sulf	1930.6494	ANYWHERE
+N	dHex Hex(6) HexNAc(4)	1930.6924	ANYWHERE
+N	dHex Hex(5) HexNAc(3) NeuAc Sulf	1936.6124	ANYWHERE
+N	dHex Hex(3) HexNAc(5) NeuAc	1938.7086	ANYWHERE
+N	Hex(7) HexNAc(4)	1946.6873	ANYWHERE
+N	dHex Hex(5) HexNAc(3) NeuGc Sulf	1952.6073	ANYWHERE
+N	Hex(4) HexNAc(5) NeuAc	1954.7036	ANYWHERE
+N	dHex(2) Hex(4) HexNAc(5)	1955.724	ANYWHERE
+N	Hex(6) HexNAc(4) Me(3) Pent	1958.7236	ANYWHERE
+N	dHex Hex(7) HexNAc(3) Sulf	1969.6226	ANYWHERE
+N	dHex Hex(7) HexNAc(3) Phos	1969.6321	ANYWHERE
+N	dHex Hex(5) HexNAc(5)	1971.7189	ANYWHERE
+N	dHex Hex(4) HexNAc(4) NeuAc Sulf	1977.6389	ANYWHERE
+N	dHex(3) Hex(4) HexNAc(4) Sulf	1978.6593	ANYWHERE
+N	Hex(3) HexNAc(7) Sulf	1987.6709	ANYWHERE
+N	Hex(6) HexNAc(5)	1987.7137	ANYWHERE
+N	Hex(5) HexNAc(4) NeuAc Sulf	1993.6338	ANYWHERE
+N	Hex(3) HexNAc(6) NeuAc	1995.7301	ANYWHERE
+N	dHex(2) Hex(3) HexNAc(6)	1996.7505	ANYWHERE
+N	dHex Hex(5) HexNAc(4) NeuAc	2059.7349	ANYWHERE
+N	Hex(5) HexNAc(4) NeuAc(2)	2204.7725	ANYWHERE
+N	dHex Hex(5) HexNAc(4) NeuAc(2)	2350.8303	ANYWHERE
+P	Pro->Gly substitution	-40.0313	ANYWHERE
+P	Proline oxidation to pyrrolidinone	-30.010565	ANYWHERE
+P	Pyrrolidone from Proline	-27.994915	ANYWHERE
+P	Pro->Ala substitution	-26.01565	ANYWHERE
+P	Pro->Ser substitution	-10.020735	ANYWHERE
+P	15N(1)	0.997035	ANYWHERE
+P	Pro->Val substitution	2.01565	ANYWHERE
+P	Pro->Thr substitution	3.994915	ANYWHERE
+P	13C(5) Silac label	5.016774	ANYWHERE
+P	Pro->Cys substitution	5.956421	ANYWHERE
+P	13C(5) 15N(1) Silac label	6.013809	ANYWHERE
+P	Label:2H(6)15N(1)	7.034695	ANYWHERE
+P	proline oxidation to pyroglutamic acid	13.979265	ANYWHERE
+P	Oxidation or Hydroxylation	15.994915	ANYWHERE
+P	Pro->Leu/Ile substitution	16.0313	ANYWHERE
+P	Pro->Asn substitution	16.990164	ANYWHERE
+P	Pro->Asp substitution	17.974178	ANYWHERE
+P	di-Methylation	28.0313	PROTEIN_N
+P	Dimethylation of proline residue	29.039125	ANYWHERE
+P	Pro->Gln substitution	31.005814	ANYWHERE
+P	Pro->Lys substitution	31.042198	ANYWHERE
+P	dihydroxy	31.989828	ANYWHERE
+P	Pro->Glu substitution	31.989828	ANYWHERE
+P	Pro->Met substitution	33.98772	ANYWHERE
+P	Pro->His substitution	40.00615	ANYWHERE
+P	Pro->Phe substitution	50.01565	ANYWHERE
+P	Pro->Arg substitution	59.048347	ANYWHERE
+P	Pro->Tyr substitution	66.01057	ANYWHERE
+P	Pro->Trp substitution	89.02655	ANYWHERE
+P	glycosyl-L-hydroxyproline	148.03717	ANYWHERE
+P	oxidized proline biotinylated with biotin hydrazide	258.11505	ANYWHERE
+P	nucleophilic addtion to cytopiloyne	362.13657	ANYWHERE
+P	Oxidized Proline biotinylated with biotin-LC-hydrazide	369.18347	ANYWHERE
+P	"Oxidized proline biotinylated with biotin-LC-hydrazide, reduced"	371.1991	ANYWHERE
+P	fluorescein-5-thiosemicarbazide	421.07324	ANYWHERE
+Q	Gln->Gly substitution	-71.03712	ANYWHERE
+Q	Gln->Ala substitution	-57.021465	ANYWHERE
+Q	Gln->Ser substitution	-41.02655	ANYWHERE
+Q	Gln->Pro substitution	-31.005814	ANYWHERE
+Q	Gln->Val substitution	-28.990164	ANYWHERE
+Q	Gln->Thr substitution	-27.010899	ANYWHERE
+Q	Gln->Cys substitution	-25.049393	ANYWHERE
+Q	Dehydration	-18.010565	PROTEIN_C
+Q	Pyro-glu from Q	-17.026548	PEPTIDE_N
+Q	Gln->Leu/Ile substitution	-14.974514	ANYWHERE
+Q	Gln->Asn substitution	-14.01565	ANYWHERE
+Q	Gln->Asp substitution	-13.031634	ANYWHERE
+Q	Gln->Lys substitution	0.036386	ANYWHERE
+Q	Gln->Glu substitution	0.984016	ANYWHERE
+Q	Deamidation	0.984016	ANYWHERE
+Q	15N(2)	1.99407	ANYWHERE
+Q	Gln->Met substitution	2.981907	ANYWHERE
+Q	Deamidation in presence of O18	2.988261	ANYWHERE
+Q	Gln->His substitution	9.000334	ANYWHERE
+Q	Methylation	14.01565	ANYWHERE
+Q	Deamidation followed by a methylation	14.999666	ANYWHERE
+Q	Gln->Phe substitution	19.009836	ANYWHERE
+Q	Gln->Arg substitution	28.042534	ANYWHERE
+Q	deamidation followed by esterification with ethanol	29.015316	ANYWHERE
+Q	Gln->Tyr substitution	35.00475	ANYWHERE
+Q	Gln->Trp substitution	58.020737	ANYWHERE
+Q	Deoxyhypusine	71.0735	ANYWHERE
+Q	Labeling transglutaminase substrate on glutamine side chain	85.08915	ANYWHERE
+Q	"dimethyl 3,3\'-dithiobispropionimidate"	87.01427	ANYWHERE
+Q	spermidine adduct	128.13135	ANYWHERE
+Q	spermine adduct	185.1892	ANYWHERE
+Q	Heptose	192.06339	ANYWHERE
+Q	Addition of DFDNB crosslinker	203.99826	ANYWHERE
+Q	was PentylamineBiotin	311.16675	ANYWHERE
+R	Loss of arginine due to transpeptidation	-156.1011	PEPTIDE_C
+R	Arg->Gly substitution	-99.07964	ANYWHERE
+R	Arg->Ala substitution	-85.063995	ANYWHERE
+R	Arg->Ser substitution	-69.069084	ANYWHERE
+R	Arg->Pro substitution	-59.048347	ANYWHERE
+R	Arg->Val substitution	-57.032696	ANYWHERE
+R	Arg->Thr substitution	-55.053432	ANYWHERE
+R	Arg->Cys substitution	-53.091927	ANYWHERE
+R	Arginine oxidation to glutamic semialdehyde	-43.053432	ANYWHERE
+R	Arg->Leu/Ile substitution	-43.017048	ANYWHERE
+R	Arg->Asn substitution	-42.058186	ANYWHERE
+R	Ornithine from Arginine	-42.021797	ANYWHERE
+R	Arg->Asp substitution	-41.07417	ANYWHERE
+R	Arg->Gln substitution	-28.042534	ANYWHERE
+R	Arg->Lys substitution	-28.006147	ANYWHERE
+R	Arg->Glu substitution	-27.058517	ANYWHERE
+R	Arg->Met substitution	-25.060625	ANYWHERE
+R	Arg->His substitution	-19.042198	ANYWHERE
+R	Arg->Phe substitution	-9.032697	ANYWHERE
+R	Deamidation	0.984016	ANYWHERE
+R	SILAC 15N(4)	3.98814	ANYWHERE
+R	Label:2H(4)13C(1)	5.028462	ANYWHERE
+R	13C(6) Silac label	6.020129	ANYWHERE
+R	Arg->Tyr substitution	6.962218	ANYWHERE
+R	13C(6) 15N(4) Silac label	10.008269	ANYWHERE
+R	Label:2H(7)15N(4)	11.032077	ANYWHERE
+R	Methylation	14.01565	ANYWHERE
+R	Oxidation or Hydroxylation	15.994915	ANYWHERE
+R	deuterated methyl ester	17.03448	ANYWHERE
+R	monomethylation	18.037834	ANYWHERE
+R	Monomethylated Arg13C(6) 15N(4)	24.023918	ANYWHERE
+R	di-Methylation	28.0313	ANYWHERE
+R	2H(3) 13C(1) monomethylated Arg13C(6) 15N(4)	28.046104	ANYWHERE
+R	Arg->Trp substitution	29.978203	ANYWHERE
+R	dihydroxy	31.989828	ANYWHERE
+R	DiMethyl-CHD2	32.056408	ANYWHERE
+R	DiMethyl-C13HD2	34.063118	ANYWHERE
+R	Dimethyl-Medium	34.068962	ANYWHERE
+R	dimethylation	36.07567	ANYWHERE
+R	Dimethylated Arg13C(6) 15N(4)	38.03957	ANYWHERE
+R	Glyoxal-derived hydroimiadazolone	39.994915	ANYWHERE
+R	tri-Methylation	42.04695	ANYWHERE
+R	Carbamylation	43.005814	ANYWHERE
+R	Ethanolation	44.026215	ANYWHERE
+R	2H(6) 13C(2) Dimethylated Arg13C(6) 15N(4)	46.08394	ANYWHERE
+R	3-fold methylation with deuterated methyl groups	51.10344	ANYWHERE
+R	Methylglyoxal-derived hydroimidazolone	54.010567	ANYWHERE
+R	MDA adduct +54	54.010567	ANYWHERE
+R	3-fold methylation with fully labelled methyl groups	54.113506	ANYWHERE
+R	Dihydroxy methylglyoxal adduct	72.021126	ANYWHERE
+R	Phosphorylation	79.96633	ANYWHERE
+R	Arginine replacement by Nitropyrimidyl ornithine	80.98508	ANYWHERE
+R	"dimethyl 3,3\'-dithiobispropionimidate"	87.01427	ANYWHERE
+R	Double Carbamidomethylation	114.04293	ANYWHERE
+R	Hydroxyphenylglyoxal arginine	132.02113	ANYWHERE
+R	Propiophenone	132.05751	ANYWHERE
+R	Condensation product of 3-deoxyglucosone	144.04225	ANYWHERE
+R	Condensation product of glucosone	160.03717	ANYWHERE
+R	Hexose	162.05283	ANYWHERE
+R	o-toluyl-phosphorylation	170.01328	ANYWHERE
+R	Heptose	192.06339	ANYWHERE
+R	oxidized Arginine biotinylated with biotin hydrazide	199.0667	ANYWHERE
+R	Addition of DFDNB crosslinker	203.99826	ANYWHERE
+R	phosphate-ribosylation	212.00859	ANYWHERE
+R	Adduct of phenylglyoxal with Arg	266.05792	ANYWHERE
+R	Cresyl-Saligenin-phosphorylation	276.05515	ANYWHERE
+R	bis(hydroxphenylglyoxal) arginine	282.05283	ANYWHERE
+R	Levuglandinyl - arginine lactam adduct	290.17697	ANYWHERE
+R	Levuglandinyl - arginine hydroxylactam adduct	306.17188	ANYWHERE
+R	Oxidized arginine biotinylated with biotin-LC-hydrazide	310.1351	ANYWHERE
+R	"Oxidized arginine biotinylated with biotin-LC-hydrazide, reduced"	312.15076	ANYWHERE
+R	Lactosylation	324.10565	ANYWHERE
+R	nucleophilic addtion to cytopiloyne	362.13657	ANYWHERE
+R	nucleophilic addition to cytopiloyne+H2O	380.14713	ANYWHERE
+R	fluorescein-5-thiosemicarbazide	421.07324	ANYWHERE
+R	ADP  Ribose addition	541.0611	ANYWHERE
+S	Ser->Gly substitution	-30.010565	ANYWHERE
+S	Formation of five membered aromatic heterocycle	-20.026215	ANYWHERE
+S	Loss of ammonia (15N)	-18.023584	PROTEIN_N
+S	Dehydration	-18.010565	ANYWHERE
+S	Loss of ammonia	-17.026548	PROTEIN_N
+S	reduction	-15.994915	ANYWHERE
+S	Ser->Ala substitution	-15.994915	ANYWHERE
+S	lactic acid from N-term Ser	-15.010899	PROTEIN_N
+S	2-amino-3-oxo-butanoic_acid	-2.01565	ANYWHERE
+S	15N(1)	0.997035	ANYWHERE
+S	O18 Labeling	2.004246	ANYWHERE
+S	Ser->Pro substitution	10.020735	ANYWHERE
+S	Ser->Val substitution	12.036386	ANYWHERE
+S	Michael addition with methylamine	13.031634	ANYWHERE
+S	Methylation	14.01565	ANYWHERE
+S	Ser->Thr substitution	14.01565	ANYWHERE
+S	Ser->Cys substitution	15.977156	ANYWHERE
+S	Ser->Leu/Ile substitution	26.052036	ANYWHERE
+S	Ser->Asn substitution	27.010899	ANYWHERE
+S	ethyl amino	27.047285	ANYWHERE
+S	Formylation	27.994915	ANYWHERE
+S	Ser->Asp substitution	27.994915	ANYWHERE
+S	Ser->Gln substitution	41.02655	ANYWHERE
+S	Ser->Lys substitution	41.062935	ANYWHERE
+S	Acetylation	42.010567	ANYWHERE
+S	Ser->Glu substitution	42.010567	ANYWHERE
+S	Carbamylation	43.005814	ANYWHERE
+S	S-Ethylcystine from Serine	44.008457	ANYWHERE
+S	Ser->Met substitution	44.008457	ANYWHERE
+S	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	ANYWHERE
+S	Ser->His substitution	50.026882	ANYWHERE
+S	Propionate labeling reagent light form (N-term & K)	56.026215	ANYWHERE
+S	Iodoacetamide derivative	57.021465	ANYWHERE
+S	Addition of Glycine	57.021465	ANYWHERE
+S	"2,3-dihydro-2,2-dimethyl-7-benzofuranol N-methyl carbamate"	58.02929	ANYWHERE
+S	aminoethylcysteine	59.019356	ANYWHERE
+S	2-OH-ethyl thio-Ser	60.003372	ANYWHERE
+S	Ser->Phe substitution	60.036385	ANYWHERE
+S	deuterium cysteamine modification to S or T	63.04446	ANYWHERE
+S	Ser->Arg substitution	69.069084	ANYWHERE
+S	EDT	75.98053	ANYWHERE
+S	Ser->Tyr substitution	76.0313	ANYWHERE
+S	Methylphosphonylation	77.98707	ANYWHERE
+S	O-Sulfonation	79.95682	ANYWHERE
+S	Phosphorylation	79.96633	ANYWHERE
+S	Malonylation of C and S residues	86.0004	ANYWHERE
+S	phosphorylation to amine thiol	87.05065	ANYWHERE
+S	O-Methylphosphorylation	93.98198	ANYWHERE
+S	Thiophosphorylation	95.94349	ANYWHERE
+S	Ser->Trp substitution	99.04729	ANYWHERE
+S	Methylmalonylation on Serine	100.016045	ANYWHERE
+S	N-dimethylphosphate	107.01362	ANYWHERE
+S	O-Dimethylphosphorylation	107.99763	ANYWHERE
+S	O-Ethylphosphorylation	107.99763	ANYWHERE
+S	ubiquitinylation residue	114.04293	ANYWHERE
+S	phospho-propargylamine	116.99796	ANYWHERE
+S	O-Isopropylmethylphosphonylation	120.03402	ANYWHERE
+S	phosphorylation to pyridyl thiol	121.035	ANYWHERE
+S	O-Isopropylphosphorylation	122.01328	ANYWHERE
+S	octanoyl	126.10446	ANYWHERE
+S	Pentose	132.04225	ANYWHERE
+S	Propiophenone	132.05751	ANYWHERE
+S	"O-ethyl, N-dimethyl phosphate"	135.04492	ANYWHERE
+S	Dithiothreitol (DTT)	136.00166	ANYWHERE
+S	O-Diethylphosphorylation	136.02893	ANYWHERE
+S	mTRAQ light	140.09496	ANYWHERE
+S	Isotopically labeled Dithiothreitol (DTT) modification of serines or threonines	142.03932	ANYWHERE
+S	Representative mass and accurate mass for 116 & 117	144.10207	ANYWHERE
+S	mTRAQ medium	144.10207	ANYWHERE
+S	Fucose	146.0579	ANYWHERE
+S	mTRAQ heavy	148.10916	ANYWHERE
+S	S-guanylation-2	150.04158	ANYWHERE
+S	"O,O-diethyl o-3,5,6-trichloro-2-pyridyl phosphorothioate"	153.01392	ANYWHERE
+S	glycerophospho	154.00311	ANYWHERE
+S	lipid	154.13576	ANYWHERE
+S	pyrophosphorylation of Ser/Thr	159.93266	ANYWHERE
+S	Hexosamine	161.0688	ANYWHERE
+S	Hexose	162.05283	ANYWHERE
+S	O-pinacolylmethylphosphonylation	162.08096	ANYWHERE
+S	O-Diisopropylphosphorylation	164.06023	ANYWHERE
+S	o-toluyl-phosphorylation	170.01328	ANYWHERE
+S	hexuronic acid	176.03209	ANYWHERE
+S	Aminoethylbenzenesulfonylation	183.0354	ANYWHERE
+S	Heptose	192.06339	ANYWHERE
+S	N-Acetylhexosamine	203.07938	ANYWHERE
+S	Native Tandem Mass Tag??	224.15248	ANYWHERE
+S	Duplex Tandem Mass Tag??	225.15584	ANYWHERE
+S	Sixplex Tandem Mass Tag??	229.16293	ANYWHERE
+S	palmitoleyl	236.21402	ANYWHERE
+S	Palmitoylation	238.22966	ANYWHERE
+S	phosphoglycosyl-D-mannose-1-phosphoryl	242.01915	ANYWHERE
+S	Cresyl-Saligenin-phosphorylation	276.05515	ANYWHERE
+S	O3S1HexNAc1	283.0362	ANYWHERE
+S	N-acetylglucosamine-1-phosphoryl	283.04572	ANYWHERE
+S	N-acetyl neuraminic acid	291.09543	ANYWHERE
+S	Hex Pent	294.0951	ANYWHERE
+S	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	ANYWHERE
+S	N-glycoyl neuraminic acid	307.09033	ANYWHERE
+S	Hex1dHex1	308.11072	ANYWHERE
+S	Hex HexA	338.0849	ANYWHERE
+S	Phosphopantetheine	340.0858	ANYWHERE
+S	S-guanylation	343.0318	ANYWHERE
+S	HexNAc1dHex1	349.13727	ANYWHERE
+S	nucleophilic addtion to cytopiloyne	362.13657	ANYWHERE
+S	Hex1HexNAc1	365.1322	ANYWHERE
+S	nucleophilic addition to cytopiloyne+H2O	380.14713	ANYWHERE
+S	H1O3P1Hex2	404.072	ANYWHERE
+S	HexNAc2	406.15875	ANYWHERE
+S	fluorescein-5-thiosemicarbazide	421.07324	ANYWHERE
+S	Hex Pent(2)	426.13733	ANYWHERE
+S	BisANS with loss of both sulfonates	437.20178	ANYWHERE
+S	O3-(riboflavin phosphoryl)	438.09406	ANYWHERE
+S	desthiobiotin fluorophosphonate	443.2913	ANYWHERE
+S	Hex HexNAc Sulf	445.08902	ANYWHERE
+S	Hex HexNAc Phos	445.09854	ANYWHERE
+S	6-N-biotinylaminohexyl isopropyl phosphate	447.19568	ANYWHERE
+S	Hex NeuAc	453.14825	ANYWHERE
+S	Hex NeuGc	469.14316	ANYWHERE
+S	Hex2dHex1	470.16354	ANYWHERE
+S	Hex3	486.15848	ANYWHERE
+S	EDT-iodo-PEO-biotin	490.17422	ANYWHERE
+S	HexNAc NeuAc	494.17477	ANYWHERE
+S	Photocleavable Biotin + GalNAz on O-GlcNAc	502.20233	ANYWHERE
+S	HexNAc NeuGc	510.1697	ANYWHERE
+S	Hex1HexNAc1dHex1	511.1901	ANYWHERE
+S	thiophosphate labeled with biotin-HPDP	525.1429	ANYWHERE
+S	Hex HexNAc dHex Me	525.20575	ANYWHERE
+S	Hex(2) HexNAc	527.185	ANYWHERE
+S	Hex HexNAc dHex Me(2)	539.2214	ANYWHERE
+S	ADP  Ribose addition	541.0611	ANYWHERE
+S	Hex HexA HexNAc	541.1643	ANYWHERE
+S	Hex(2) HexNAc Me	541.2007	ANYWHERE
+S	Hex(3) Phos	566.1248	ANYWHERE
+S	Hex1HexNAc2	568.21155	ANYWHERE
+S	10-ethoxyphosphinyl-N-(biotinamidopentyl)decanamide	572.3161	ANYWHERE
+S	Hex NeuAc Pent	585.1905	ANYWHERE
+S	EDT-maleimide-PEO-biotin	601.20624	ANYWHERE
+S	Hex(2) HexNAc Sulf	607.14185	ANYWHERE
+S	HexNAc(3)	609.2381	ANYWHERE
+S	Hex(2) NeuAc	615.20105	ANYWHERE
+S	Hex2 dHex2	616.22144	ANYWHERE
+S	Alkylation by biotinylated form of phenacyl bromide	626.2635	ANYWHERE
+S	Hex3dHex1	632.2164	ANYWHERE
+S	dHex Hex(2) HexA	646.1956	ANYWHERE
+S	Hex HexNAc(2) Sulf	648.1684	ANYWHERE
+S	Hex(4)	648.2113	ANYWHERE
+S	Hex1HexNAc1NeuAc1	656.2276	ANYWHERE
+S	TAMRA fluorophosphonate modification of serine	659.31244	ANYWHERE
+S	Hex HexNAc NeuGc	672.22253	ANYWHERE
+S	dHex Hex(2) HexNAc	673.2429	ANYWHERE
+S	HexNAc(3) Sulf	689.19495	ANYWHERE
+S	Hex(3) HexNAc	689.23785	ANYWHERE
+S	Hex HexNAc Kdn Sulf	695.1579	ANYWHERE
+S	HexNAc(2) NeuAc	697.25415	ANYWHERE
+S	Ac Hex HexNAc NeuAc	698.23816	ANYWHERE
+S	HexNAc Kdn(2)	703.2171	ANYWHERE
+S	Hex(3) HexNAc Me	703.2535	ANYWHERE
+S	Hex(2) HexA Pent Sulf	712.1368	ANYWHERE
+S	HexNAc(2) NeuGc	713.2491	ANYWHERE
+S	Hex1HexNAc2dHex1	714.2695	ANYWHERE
+S	Hex(4) Phos	728.1776	ANYWHERE
+S	Hex2HexNAc2	730.2644	ANYWHERE
+S	Hex HexNAc NeuAc Sulf	736.18445	ANYWHERE
+S	Hex HexA HexNAc(2)	744.24365	ANYWHERE
+S	dHex Hex(2) HexNAc Sulf	753.19977	ANYWHERE
+S	dHex HexNAc(3)	755.296	ANYWHERE
+S	dHex Hex HexNAc Kdn	761.259	ANYWHERE
+S	Hex HexNAc(3)	771.29095	ANYWHERE
+S	HexNAc(2) NeuAc Sulf	777.211	ANYWHERE
+S	dHex(2) Hex(3)	778.2743	ANYWHERE
+S	Hex(2) HexA HexNAc Sulf	783.17395	ANYWHERE
+S	dHex(2) Hex(2) HexA	792.25354	ANYWHERE
+S	dHex Hex HexNAc(2) Sulf	794.2263	ANYWHERE
+S	Hex4dHex1	794.2692	ANYWHERE
+S	dHex Hex HexNAc NeuAc	802.2855	ANYWHERE
+S	Hex(2) HexNAc(2) Sulf	810.2212	ANYWHERE
+S	Hex(5)	810.2641	ANYWHERE
+S	HexNAc(4)	812.3175	ANYWHERE
+S	HexNAc NeuGc(2)	817.26	ANYWHERE
+S	dHex Hex HexNAc NeuGc	818.28046	ANYWHERE
+S	dHex(2) Hex(2) HexNAc	819.30084	ANYWHERE
+S	Hex(2) HexNAc NeuGc	834.2753	ANYWHERE
+S	dHex Hex(3) HexNAc	835.2958	ANYWHERE
+S	dHex Hex(2) HexA HexNAc	849.275	ANYWHERE
+S	Hex HexNAc(3) Sulf	851.24774	ANYWHERE
+S	Hex(4) HexNAc	851.29065	ANYWHERE
+S	Hex HexNAc(2) NeuAc	859.307	ANYWHERE
+S	Hex1HexNAc2dHex2	860.3274	ANYWHERE
+S	Hex HexNAc(2) NeuGc	875.3019	ANYWHERE
+S	Hex2HexNAc2dHex1	876.3223	ANYWHERE
+S	phosphoribosyl dephospho-coenzyme A	881.1469	ANYWHERE
+S	Hex(5) Phos	890.23047	ANYWHERE
+S	Hex3HexNAc2	892.3172	ANYWHERE
+S	dHex(2) Hex HexNAc Kdn	907.3169	ANYWHERE
+S	dHex Hex(3) HexNAc Sulf	915.25256	ANYWHERE
+S	dHex Hex HexNAc(3)	917.3489	ANYWHERE
+S	dHex Hex(2) HexA HexNAc Sulf	929.2318	ANYWHERE
+S	Hex(2) HexNAc(3)	933.34375	ANYWHERE
+S	Hex HexNAc(2) NeuAc Sulf	939.2638	ANYWHERE
+S	dHex(2) Hex(4)	940.3271	ANYWHERE
+S	Hex1HexNAc1NeuAc2	947.32306	ANYWHERE
+S	dHex(2) HexNAc(2) Kdn	948.34344	ANYWHERE
+S	dHex Hex(2) HexNAc(2) Sulf	956.2791	ANYWHERE
+S	Hex5dHex1	956.322	ANYWHERE
+S	dHex HexNAc(4)	958.3754	ANYWHERE
+S	Hex HexNAc NeuAc NeuGc	963.31793	ANYWHERE
+S	dHex Hex HexNAc(2) Kdn	964.3383	ANYWHERE
+S	Hex HexNAc NeuGc(2)	979.31287	ANYWHERE
+S	Ac Hex HexNAc NeuAc(2)	989.3336	ANYWHERE
+S	dHex(2) Hex(2) HexA HexNAc	995.33295	ANYWHERE
+S	dHex Hex HexNAc(3) Sulf	997.30566	ANYWHERE
+S	Hex(2) HexA NeuAc Pent Sulf	1003.23224	ANYWHERE
+S	dHex Hex HexNAc(2) NeuAc	1005.36487	ANYWHERE
+S	dHex Hex(3) HexA HexNAc	1011.3278	ANYWHERE
+S	Hex(2) HexNAc(3) Sulf	1013.3006	ANYWHERE
+S	Hex(5) HexNAc	1013.3435	ANYWHERE
+S	HexNAc(5)	1015.39685	ANYWHERE
+S	dHex Hex HexNAc(2) NeuGc	1021.3598	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2)	1022.3802	ANYWHERE
+S	Ac(2) Hex HexNAc NeuAc(2)	1031.3441	ANYWHERE
+S	Hex(2) HexNAc(2) NeuGc	1037.3547	ANYWHERE
+S	dHex Hex(3) HexNAc(2)	1038.3751	ANYWHERE
+S	Hex(5) Phos(3)	1050.1631	ANYWHERE
+S	Hex(6) Phos	1052.2833	ANYWHERE
+S	dHex Hex(2) HexA HexNAc(2)	1052.3544	ANYWHERE
+S	dHex(2) Hex(3) HexNAc Sulf	1061.3104	ANYWHERE
+S	Hex HexNAc(3) NeuAc	1062.3864	ANYWHERE
+S	dHex(2) Hex HexNAc(3)	1063.4067	ANYWHERE
+S	Hex HexNAc(3) NeuGc	1078.3812	ANYWHERE
+S	dHex Hex(2) HexNAc(3)	1079.4017	ANYWHERE
+S	dHex Hex HexNAc(2) NeuAc Sulf	1085.3217	ANYWHERE
+S	dHex Hex(3) HexA HexNAc Sulf	1091.2847	ANYWHERE
+S	dHex Hex HexA HexNAc(3)	1093.381	ANYWHERE
+S	Hex(3) HexNAc(3)	1095.3966	ANYWHERE
+S	Hex(2) HexNAc(2) NeuAc Sulf	1101.3167	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2) Sulf	1102.337	ANYWHERE
+S	dHex(2) Hex HexNAc(2) Kdn	1110.3962	ANYWHERE
+S	dHex Hex(3) HexNAc(2) Sulf	1118.3319	ANYWHERE
+S	Hex6dHex1	1118.3749	ANYWHERE
+S	dHex Hex HexNAc(4)	1120.4282	ANYWHERE
+S	Hex(2) HexNAc(4)	1136.4231	ANYWHERE
+S	Hex(2) HexNAc NeuGc(2)	1141.3657	ANYWHERE
+S	dHex(2) Hex(4) HexNAc	1143.4065	ANYWHERE
+S	Hex HexNAc(2) NeuAc(2)	1150.4023	ANYWHERE
+S	dHex(2) Hex HexNAc(2) NeuAc	1151.4229	ANYWHERE
+S	dHex Hex(2) HexNAc(3) Sulf	1159.3585	ANYWHERE
+S	dHex HexNAc(5)	1161.4547	ANYWHERE
+S	dHex(2) Hex HexNAc(2) NeuGc	1167.4177	ANYWHERE
+S	dHex(3) Hex(2) HexNAc(2)	1168.4381	ANYWHERE
+S	Hex(3) HexNAc(3) Sulf	1175.3534	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2) Sulf(2)	1182.2938	ANYWHERE
+S	dHex Hex(2) HexNAc(2) NeuGc	1183.4126	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(2)	1184.433	ANYWHERE
+S	dHex Hex(4) HexNAc(2)	1200.428	ANYWHERE
+S	dHex Hex HexNAc(3) NeuAc	1208.4442	ANYWHERE
+S	Hex(6) Phos(3)	1212.216	ANYWHERE
+S	dHex Hex(3) HexA HexNAc(2)	1214.4072	ANYWHERE
+S	dHex Hex HexNAc(3) NeuGc	1224.4392	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(3)	1225.4596	ANYWHERE
+S	Hex HexNAc(2) NeuAc(2) Sulf	1230.3593	ANYWHERE
+S	dHex(2) Hex(3) HexA HexNAc Sulf	1237.3425	ANYWHERE
+S	Hex HexNAc NeuAc(3)	1238.4185	ANYWHERE
+S	Hex(2) HexNAc(3) NeuGc	1240.4341	ANYWHERE
+S	dHex Hex(3) HexNAc(3)	1241.4545	ANYWHERE
+S	dHex Hex(2) HexNAc(2) NeuAc Sulf	1247.3745	ANYWHERE
+S	dHex(3) Hex HexNAc(2) Kdn	1256.4542	ANYWHERE
+S	Hex(4) HexNAc(3)	1257.4495	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(2) Sulf	1264.3899	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2) Kdn	1272.4491	ANYWHERE
+S	dHex(2) Hex(2) HexA HexNAc(2) Sulf	1278.3691	ANYWHERE
+S	dHex Hex(2) HexNAc(4)	1282.4811	ANYWHERE
+S	Hex HexNAc NeuGc(3)	1286.4032	ANYWHERE
+S	dHex Hex HexNAc(3) NeuAc Sulf	1288.4011	ANYWHERE
+S	dHex Hex(3) HexA HexNAc(2) Sulf	1294.364	ANYWHERE
+S	dHex Hex HexNAc(2) NeuAc(2)	1296.4603	ANYWHERE
+S	dHex(3) HexNAc(3) Kdn	1297.4807	ANYWHERE
+S	Biantennary (-2 galactose)	1298.476	ANYWHERE
+S	Hex(2) HexNAc(3) NeuAc Sulf	1304.396	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(3) Sulf	1305.4164	ANYWHERE
+S	dHex(2) HexNAc(5)	1307.5127	ANYWHERE
+S	Hex(2) HexNAc(2) NeuAc(2)	1312.4552	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2) NeuAc	1313.4756	ANYWHERE
+S	dHex Hex(3) HexNAc(3) Sulf	1321.4113	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2) NeuGc	1329.4706	ANYWHERE
+S	Hex(2) HexNAc(5)	1339.5026	ANYWHERE
+S	dHex Hex(3) HexNAc(2) NeuGc	1345.4655	ANYWHERE
+S	dHex(2) Hex(4) HexNAc(2)	1346.4858	ANYWHERE
+S	Hex HexNAc(3) NeuAc(2)	1353.4818	ANYWHERE
+S	dHex Hex(2) HexNAc(3) NeuAc	1370.4971	ANYWHERE
+S	dHex(3) Hex(2) HexNAc(3)	1371.5175	ANYWHERE
+S	Hex(7) Phos(3)	1374.2688	ANYWHERE
+S	dHex Hex(4) HexA HexNAc(2)	1376.4601	ANYWHERE
+S	Hex(3) HexNAc(3) NeuAc	1386.4921	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(3)	1387.5125	ANYWHERE
+S	dHex Hex(3) HexA(2) HexNAc(2)	1390.4393	ANYWHERE
+S	Hex(2) HexNAc(2) NeuAc(2) Sulf	1392.412	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(2) NeuAc Sulf	1393.4325	ANYWHERE
+S	Hex(3) HexNAc(3) NeuGc	1402.4869	ANYWHERE
+S	dHex(4) Hex HexNAc(2) Kdn	1402.5121	ANYWHERE
+S	dHex(3) Hex(2) HexNAc(2) Kdn	1418.507	ANYWHERE
+S	dHex(3) Hex(2) HexA HexNAc(2) Sulf	1424.427	ANYWHERE
+S	Hex(2) HexNAc(4) NeuAc	1427.5186	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(4)	1428.539	ANYWHERE
+S	dHex(2) Hex(3) HexA HexNAc(2) Sulf	1440.4219	ANYWHERE
+S	dHex(4) HexNAc(3) Kdn	1443.5386	ANYWHERE
+S	Fucosylated biantennary (-2 galactose)	1444.5338	ANYWHERE
+S	Hex(2) HexNAc NeuGc(3)	1448.456	ANYWHERE
+S	dHex(4) Hex HexNAc Kdn(2)	1449.5016	ANYWHERE
+S	dHex Hex(2) HexNAc(3) NeuAc Sulf	1450.4539	ANYWHERE
+S	dHex Hex(2) HexNAc(2) NeuAc(2)	1458.5132	ANYWHERE
+S	dHex(3) Hex HexNAc(3) Kdn	1459.5336	ANYWHERE
+S	Biantennary (-1 galactose)	1460.5288	ANYWHERE
+S	Hex(3) HexNAc(3) NeuAc Sulf	1466.4489	ANYWHERE
+S	Hex(3) HexNAc(2) NeuAc(2)	1474.508	ANYWHERE
+S	Hex(3) HexNAc(3) NeuGc Sulf	1482.4437	ANYWHERE
+S	dHex Hex(2) HexNAc(2) NeuGc(2)	1490.5029	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(2) NeuGc	1491.5233	ANYWHERE
+S	dHex Hex(3) HexA HexNAc(3) Sulf	1497.4434	ANYWHERE
+S	Hex(3) HexNAc(5)	1501.5553	ANYWHERE
+S	Hex(2) HexNAc(3) NeuAc(2)	1515.5345	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(3) NeuAc	1516.555	ANYWHERE
+S	dHex(4) Hex(2) HexNAc(3)	1517.5754	ANYWHERE
+S	Hex(2) HexNAc(3) NeuAc NeuGc	1531.5295	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(3) NeuGc	1532.5499	ANYWHERE
+S	dHex(3) Hex(3) HexNAc(3)	1533.5703	ANYWHERE
+S	Hex(8) Phos(3)	1536.3215	ANYWHERE
+S	dHex Hex(2) HexNAc(2) NeuAc(2) Sulf	1538.47	ANYWHERE
+S	Hex(2) HexNAc(3) NeuGc(2)	1547.5244	ANYWHERE
+S	Hex(4) HexNAc(3) NeuAc	1548.5448	ANYWHERE
+S	dHex(4) Hex(2) HexNAc(2) Kdn	1564.565	ANYWHERE
+S	dHex Hex(2) HexNAc(4) NeuAc	1573.5764	ANYWHERE
+S	dHex(3) Hex(2) HexNAc(4)	1574.5969	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(4)	1590.5918	ANYWHERE
+S	Hex HexNAc NeuGc(4)	1593.4935	ANYWHERE
+S	dHex(4) Hex HexNAc(3) Kdn	1605.5914	ANYWHERE
+S	Fucosylated biantennary (-1 galactose)	1606.5867	ANYWHERE
+S	Hex(4) HexNAc(4) Sulf(2)	1620.4424	ANYWHERE
+S	dHex(3) Hex(2) HexNAc(3) Kdn	1621.5863	ANYWHERE
+S	Biantennary	1622.5817	ANYWHERE
+S	dHex(2) Hex(2) HexNAc(5)	1631.6183	ANYWHERE
+S	dHex(2) Hex(3) HexA HexNAc(3) Sulf	1643.5013	ANYWHERE
+S	dHex Hex(3) HexNAc(5)	1647.6133	ANYWHERE
+S	dHex Hex(4) HexA HexNAc(3) Sulf	1659.4962	ANYWHERE
+S	Hex(3) HexNAc(3) NeuAc(2)	1677.5874	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(3) NeuAc	1678.6078	ANYWHERE
+S	dHex(4) Hex(3) HexNAc(3)	1679.6282	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(3) NeuGc	1694.6028	ANYWHERE
+S	Hex(9) Phos(3)	1698.3744	ANYWHERE
+S	Hex(3) HexNAc(6)	1704.6348	ANYWHERE
+S	dHex(2) HexNAc(7)	1713.6714	ANYWHERE
+S	Hex(4) HexNAc(4) NeuAc	1751.6241	ANYWHERE
+S	dHex(2) Hex(4) HexNAc(4)	1752.6447	ANYWHERE
+S	Hex(2) HexNAc NeuGc(4)	1755.5464	ANYWHERE
+S	Hex(3) HexNAc(3) NeuAc(2) Sulf	1757.5442	ANYWHERE
+S	Hex(6) HexNAc(4)	1784.6344	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(5)	1793.6711	ANYWHERE
+S	dHex Hex(2) HexNAc(2) NeuGc(3)	1797.5933	ANYWHERE
+S	dHex(2) Hex(4) HexA HexNAc(3) Sulf	1805.5541	ANYWHERE
+S	Hex(2) HexNAc(3) NeuAc(3)	1806.63	ANYWHERE
+S	dHex Hex(3) HexNAc(3) NeuAc(2)	1823.6454	ANYWHERE
+S	dHex(3) Hex(3) HexNAc(3) NeuAc	1824.6658	ANYWHERE
+S	Hex(5) HexNAc(5)	1825.661	ANYWHERE
+S	dHex Hex(3) HexNAc(6)	1850.6926	ANYWHERE
+S	Hex(2) HexNAc(3) NeuGc(3)	1854.6147	ANYWHERE
+S	Hex(10) Phos(3)	1860.4272	ANYWHERE
+S	dHex Hex(2) HexNAc(4) NeuAc(2)	1864.6719	ANYWHERE
+S	dHex Hex(4) HexNAc(4) NeuAc	1897.6821	ANYWHERE
+S	dHex(3) Hex(4) HexNAc(4)	1898.7025	ANYWHERE
+S	Hex HexNAc NeuGc(5)	1900.5839	ANYWHERE
+S	Hex(4) HexNAc(4) NeuAc Sulf(2)	1911.5378	ANYWHERE
+S	Hex(4) HexNAc(4) NeuGc Sulf(2)	1927.5327	ANYWHERE
+S	dHex Hex(3) HexNAc(5) NeuAc	1938.7086	ANYWHERE
+S	dHex(2) Hex(4) HexNAc(5)	1955.724	ANYWHERE
+S	dHex(2) Hex(3) HexNAc(3) NeuAc(2)	1969.7032	ANYWHERE
+S	Hex(4) HexNAc(4) NeuAc Sulf(3)	1991.4946	ANYWHERE
+C-term	ISD a-series (C-Term)	-46.005478	PEPTIDE_C
+C-term	Amidation	-0.984016	PROTEIN_C
+C-term	Amidation	-0.984016	PEPTIDE_C
+C-term	O18 Labeling	2.004246	PEPTIDE_C
+C-term	O18 label at both C-terminal oxygens	4.008491	PEPTIDE_C
+C-term	Replacement of proton by lithium	6.008178	PEPTIDE_C
+C-term	Methylation	14.01565	PEPTIDE_C
+C-term	replacement of proton with ammonium ion	17.026548	PEPTIDE_C
+C-term	deuterated methyl ester	17.03448	ANYWHERE
+C-term	Replacement of 2 protons by magnesium	21.969393	PEPTIDE_C
+C-term	Sodium adduct	21.981943	PEPTIDE_C
+C-term	Ethylation	28.0313	PEPTIDE_C
+C-term	propargylamine	37.031635	PEPTIDE_C
+C-term	Replacement of 2 protons by calcium	37.94694	PEPTIDE_C
+C-term	Replacement of proton by potassium	37.955883	PEPTIDE_C
+C-term	Propyl	42.04695	PROTEIN_C
+C-term	Propyl	42.04695	PEPTIDE_C
+C-term	Carboxyl modification with ethanolamine	43.0422	PEPTIDE_C
+C-term	Replacement of 2 protons by iron	53.91929	PEPTIDE_C
+C-term	Replacement of 2 protons by nickel	55.919697	PEPTIDE_C
+C-term	Replacement of 2 protons by zinc	61.913494	PEPTIDE_C
+C-term	Replacement of proton by copper	61.921776	PEPTIDE_C
+C-term	Replacement of proton by silver	105.89727	PEPTIDE_C
+C-term	glycosylphosphatidylinositol	123.00853	PROTEIN_C
+C-term	monoglutamyl	129.04259	PROTEIN_C
+C-term	Light Sulfanilic Acid (SA) C12	155.0041	PEPTIDE_C
+C-term	Heavy Sulfanilic Acid (SA) C13	161.02423	PEPTIDE_C
+C-term	diglutamyl	258.08517	PROTEIN_C
+C-term	C-terminal homoserine lactone and two aminohexanoic acids	309.20523	PEPTIDE_C
+C-term	Biotin polyethyleneoxide amine	356.1882	PROTEIN_C
+C-term	cholesterol ester	368.3443	PROTEIN_C
+C-term	(3-aminopropyl)(L-aspartyl-1-amino)phosphoryl-5-adenosine	386.11038	PROTEIN_C
+C-term	triglutamyl	387.12778	PROTEIN_C
+C-term	Puromycin	453.21246	PEPTIDE_C
+C-term	was Biotin-PEO4-hydrazide	487.24646	ANYWHERE
+C-term	tetraglutamyl	516.17035	PROTEIN_C
+C-term	microcin E492 siderophore ester from serine	831.197	PROTEIN_C
+T	Thr->Gly substitution	-44.026215	ANYWHERE
+T	Thr->Ala substitution	-30.010565	ANYWHERE
+T	Loss of ammonia (15N)	-18.023584	PROTEIN_N
+T	Dehydration	-18.010565	ANYWHERE
+T	Loss of ammonia	-17.026548	PROTEIN_N
+T	reduction	-15.994915	ANYWHERE
+T	Thr->Ser substitution	-14.01565	ANYWHERE
+T	Thr->Pro substitution	-3.994915	ANYWHERE
+T	2-amino-3-oxo-butanoic_acid	-2.01565	ANYWHERE
+T	Thr->Val substitution	-1.979265	ANYWHERE
+T	15N(1)	0.997035	ANYWHERE
+T	Thr->Cys substitution	1.961506	ANYWHERE
+T	O18 Labeling	2.004246	ANYWHERE
+T	Thr->Leu/Ile substitution	12.036386	ANYWHERE
+T	Thr->Asn substitution	12.995249	ANYWHERE
+T	Michael addition with methylamine	13.031634	ANYWHERE
+T	Thr->Asp substitution	13.979265	ANYWHERE
+T	Methylation	14.01565	ANYWHERE
+T	Thr->Gln substitution	27.010899	ANYWHERE
+T	Thr->Lys substitution	27.047285	ANYWHERE
+T	ethyl amino	27.047285	ANYWHERE
+T	Thr->Glu substitution	27.994915	ANYWHERE
+T	Formylation	27.994915	ANYWHERE
+T	Thr->Met substitution	29.992805	ANYWHERE
+T	Thr->His substitution	36.011234	ANYWHERE
+T	Acetylation	42.010567	ANYWHERE
+T	Carbamylation	43.005814	ANYWHERE
+T	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	ANYWHERE
+T	Thr->Phe substitution	46.020737	ANYWHERE
+T	Thr->Arg substitution	55.053432	ANYWHERE
+T	Propionate labeling reagent light form (N-term & K)	56.026215	ANYWHERE
+T	Addition of Glycine	57.021465	ANYWHERE
+T	Iodoacetamide derivative	57.021465	ANYWHERE
+T	aminoethylcysteine	59.019356	ANYWHERE
+T	2-OH-ethyl thio-Ser	60.003372	ANYWHERE
+T	Thr->Tyr substitution	62.01565	ANYWHERE
+T	deuterium cysteamine modification to S or T	63.04446	ANYWHERE
+T	EDT	75.98053	ANYWHERE
+T	Methylphosphonylation	77.98707	ANYWHERE
+T	O-Sulfonation	79.95682	ANYWHERE
+T	Phosphorylation	79.96633	ANYWHERE
+T	Thr->Trp substitution	85.03163	ANYWHERE
+T	phosphorylation to amine thiol	87.05065	ANYWHERE
+T	O-Methylphosphorylation	93.98198	ANYWHERE
+T	Thiophosphorylation	95.94349	ANYWHERE
+T	O-Ethylphosphorylation	107.99763	ANYWHERE
+T	O-Dimethylphosphorylation	107.99763	ANYWHERE
+T	ubiquitinylation residue	114.04293	ANYWHERE
+T	phospho-propargylamine	116.99796	ANYWHERE
+T	O-Isopropylmethylphosphonylation	120.03402	ANYWHERE
+T	phosphorylation to pyridyl thiol	121.035	ANYWHERE
+T	O-Isopropylphosphorylation	122.01328	ANYWHERE
+T	octanoyl	126.10446	ANYWHERE
+T	Pentose	132.04225	ANYWHERE
+T	Propiophenone	132.05751	ANYWHERE
+T	Dithiothreitol (DTT)	136.00166	ANYWHERE
+T	O-Diethylphosphorylation	136.02893	ANYWHERE
+T	mTRAQ light	140.09496	ANYWHERE
+T	Isotopically labeled Dithiothreitol (DTT) modification of serines or threonines	142.03932	ANYWHERE
+T	mTRAQ medium	144.10207	ANYWHERE
+T	Representative mass and accurate mass for 116 & 117	144.10207	ANYWHERE
+T	Fucose	146.0579	ANYWHERE
+T	mTRAQ heavy	148.10916	ANYWHERE
+T	"O,O-diethyl o-3,5,6-trichloro-2-pyridyl phosphorothioate"	153.01392	ANYWHERE
+T	lipid	154.13576	ANYWHERE
+T	pyrophosphorylation of Ser/Thr	159.93266	ANYWHERE
+T	Hexosamine	161.0688	ANYWHERE
+T	Hexose	162.05283	ANYWHERE
+T	O-pinacolylmethylphosphonylation	162.08096	ANYWHERE
+T	O-Diisopropylphosphorylation	164.06023	ANYWHERE
+T	o-toluyl-phosphorylation	170.01328	ANYWHERE
+T	hexuronic acid	176.03209	ANYWHERE
+T	Heptose	192.06339	ANYWHERE
+T	N-Acetylhexosamine	203.07938	ANYWHERE
+T	Native Tandem Mass Tag??	224.15248	ANYWHERE
+T	Duplex Tandem Mass Tag??	225.15584	ANYWHERE
+T	Sixplex Tandem Mass Tag??	229.16293	ANYWHERE
+T	palmitoleyl	236.21402	ANYWHERE
+T	Palmitoylation	238.22966	ANYWHERE
+T	oxidized Threonine biotinylated with biotin hydrazide	240.10448	ANYWHERE
+T	phosphoglycosyl-D-mannose-1-phosphoryl	242.01915	ANYWHERE
+T	Cresyl-Saligenin-phosphorylation	276.05515	ANYWHERE
+T	O3S1HexNAc1	283.0362	ANYWHERE
+T	N-acetylglucosamine-1-phosphoryl	283.04572	ANYWHERE
+T	N-acetyl neuraminic acid	291.09543	ANYWHERE
+T	Hex Pent	294.0951	ANYWHERE
+T	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	ANYWHERE
+T	N-glycoyl neuraminic acid	307.09033	ANYWHERE
+T	Hex1dHex1	308.11072	ANYWHERE
+T	AMP	329.05252	ANYWHERE
+T	Hex HexA	338.0849	ANYWHERE
+T	HexNAc1dHex1	349.13727	ANYWHERE
+T	Hex1HexNAc1	365.1322	ANYWHERE
+T	nucleophilic addition to cytopiloyne+H2O	380.14713	ANYWHERE
+T	H1O3P1Hex2	404.072	ANYWHERE
+T	HexNAc2	406.15875	ANYWHERE
+T	Hex Pent(2)	426.13733	ANYWHERE
+T	BisANS with loss of both sulfonates	437.20178	ANYWHERE
+T	O3-(riboflavin phosphoryl)	438.09406	ANYWHERE
+T	Hex HexNAc Sulf	445.08902	ANYWHERE
+T	Hex HexNAc Phos	445.09854	ANYWHERE
+T	6-N-biotinylaminohexyl isopropyl phosphate	447.19568	ANYWHERE
+T	Hex NeuAc	453.14825	ANYWHERE
+T	Hex NeuGc	469.14316	ANYWHERE
+T	Hex2dHex1	470.16354	ANYWHERE
+T	Hex3	486.15848	ANYWHERE
+T	EDT-iodo-PEO-biotin	490.17422	ANYWHERE
+T	HexNAc NeuAc	494.17477	ANYWHERE
+T	Photocleavable Biotin + GalNAz on O-GlcNAc	502.20233	ANYWHERE
+T	HexNAc NeuGc	510.1697	ANYWHERE
+T	Hex1HexNAc1dHex1	511.1901	ANYWHERE
+T	thiophosphate labeled with biotin-HPDP	525.1429	ANYWHERE
+T	Hex HexNAc dHex Me	525.20575	ANYWHERE
+T	Hex(2) HexNAc	527.185	ANYWHERE
+T	Hex HexNAc dHex Me(2)	539.2214	ANYWHERE
+T	ADP  Ribose addition	541.0611	ANYWHERE
+T	Hex HexA HexNAc	541.1643	ANYWHERE
+T	Hex(2) HexNAc Me	541.2007	ANYWHERE
+T	Hex(3) Phos	566.1248	ANYWHERE
+T	Hex1HexNAc2	568.21155	ANYWHERE
+T	10-ethoxyphosphinyl-N-(biotinamidopentyl)decanamide	572.3161	ANYWHERE
+T	Hex NeuAc Pent	585.1905	ANYWHERE
+T	EDT-maleimide-PEO-biotin	601.20624	ANYWHERE
+T	Hex(2) HexNAc Sulf	607.14185	ANYWHERE
+T	HexNAc(3)	609.2381	ANYWHERE
+T	Hex(2) NeuAc	615.20105	ANYWHERE
+T	Hex2 dHex2	616.22144	ANYWHERE
+T	Hex3dHex1	632.2164	ANYWHERE
+T	dHex Hex(2) HexA	646.1956	ANYWHERE
+T	Hex HexNAc(2) Sulf	648.1684	ANYWHERE
+T	Hex(4)	648.2113	ANYWHERE
+T	Hex1HexNAc1NeuAc1	656.2276	ANYWHERE
+T	Hex HexNAc NeuGc	672.22253	ANYWHERE
+T	dHex Hex(2) HexNAc	673.2429	ANYWHERE
+T	HexNAc(3) Sulf	689.19495	ANYWHERE
+T	Hex(3) HexNAc	689.23785	ANYWHERE
+T	Hex HexNAc Kdn Sulf	695.1579	ANYWHERE
+T	HexNAc(2) NeuAc	697.25415	ANYWHERE
+T	Ac Hex HexNAc NeuAc	698.23816	ANYWHERE
+T	HexNAc Kdn(2)	703.2171	ANYWHERE
+T	Hex(3) HexNAc Me	703.2535	ANYWHERE
+T	Hex(2) HexA Pent Sulf	712.1368	ANYWHERE
+T	HexNAc(2) NeuGc	713.2491	ANYWHERE
+T	Hex1HexNAc2dHex1	714.2695	ANYWHERE
+T	Hex(4) Phos	728.1776	ANYWHERE
+T	Hex2HexNAc2	730.2644	ANYWHERE
+T	Hex HexNAc NeuAc Sulf	736.18445	ANYWHERE
+T	Hex HexA HexNAc(2)	744.24365	ANYWHERE
+T	dHex Hex(2) HexNAc Sulf	753.19977	ANYWHERE
+T	dHex HexNAc(3)	755.296	ANYWHERE
+T	dHex Hex HexNAc Kdn	761.259	ANYWHERE
+T	Hex HexNAc(3)	771.29095	ANYWHERE
+T	HexNAc(2) NeuAc Sulf	777.211	ANYWHERE
+T	dHex(2) Hex(3)	778.2743	ANYWHERE
+T	Hex(2) HexA HexNAc Sulf	783.17395	ANYWHERE
+T	dHex(2) Hex(2) HexA	792.25354	ANYWHERE
+T	dHex Hex HexNAc(2) Sulf	794.2263	ANYWHERE
+T	Hex4dHex1	794.2692	ANYWHERE
+T	dHex Hex HexNAc NeuAc	802.2855	ANYWHERE
+T	Hex(2) HexNAc(2) Sulf	810.2212	ANYWHERE
+T	Hex(5)	810.2641	ANYWHERE
+T	HexNAc(4)	812.3175	ANYWHERE
+T	HexNAc NeuGc(2)	817.26	ANYWHERE
+T	dHex Hex HexNAc NeuGc	818.28046	ANYWHERE
+T	dHex(2) Hex(2) HexNAc	819.30084	ANYWHERE
+T	Hex(2) HexNAc NeuGc	834.2753	ANYWHERE
+T	dHex Hex(3) HexNAc	835.2958	ANYWHERE
+T	dHex Hex(2) HexA HexNAc	849.275	ANYWHERE
+T	Hex HexNAc(3) Sulf	851.24774	ANYWHERE
+T	Hex(4) HexNAc	851.29065	ANYWHERE
+T	Hex HexNAc(2) NeuAc	859.307	ANYWHERE
+T	Hex1HexNAc2dHex2	860.3274	ANYWHERE
+T	Hex HexNAc(2) NeuGc	875.3019	ANYWHERE
+T	Hex2HexNAc2dHex1	876.3223	ANYWHERE
+T	Hex(5) Phos	890.23047	ANYWHERE
+T	Hex3HexNAc2	892.3172	ANYWHERE
+T	dHex(2) Hex HexNAc Kdn	907.3169	ANYWHERE
+T	dHex Hex(3) HexNAc Sulf	915.25256	ANYWHERE
+T	dHex Hex HexNAc(3)	917.3489	ANYWHERE
+T	dHex Hex(2) HexA HexNAc Sulf	929.2318	ANYWHERE
+T	Hex(2) HexNAc(3)	933.34375	ANYWHERE
+T	Hex HexNAc(2) NeuAc Sulf	939.2638	ANYWHERE
+T	dHex(2) Hex(4)	940.3271	ANYWHERE
+T	Hex1HexNAc1NeuAc2	947.32306	ANYWHERE
+T	dHex(2) HexNAc(2) Kdn	948.34344	ANYWHERE
+T	dHex Hex(2) HexNAc(2) Sulf	956.2791	ANYWHERE
+T	Hex5dHex1	956.322	ANYWHERE
+T	dHex HexNAc(4)	958.3754	ANYWHERE
+T	Hex HexNAc NeuAc NeuGc	963.31793	ANYWHERE
+T	dHex Hex HexNAc(2) Kdn	964.3383	ANYWHERE
+T	Hex HexNAc NeuGc(2)	979.31287	ANYWHERE
+T	Ac Hex HexNAc NeuAc(2)	989.3336	ANYWHERE
+T	dHex(2) Hex(2) HexA HexNAc	995.33295	ANYWHERE
+T	dHex Hex HexNAc(3) Sulf	997.30566	ANYWHERE
+T	Hex(2) HexA NeuAc Pent Sulf	1003.23224	ANYWHERE
+T	dHex Hex HexNAc(2) NeuAc	1005.36487	ANYWHERE
+T	dHex Hex(3) HexA HexNAc	1011.3278	ANYWHERE
+T	Hex(2) HexNAc(3) Sulf	1013.3006	ANYWHERE
+T	Hex(5) HexNAc	1013.3435	ANYWHERE
+T	HexNAc(5)	1015.39685	ANYWHERE
+T	dHex Hex HexNAc(2) NeuGc	1021.3598	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2)	1022.3802	ANYWHERE
+T	Ac(2) Hex HexNAc NeuAc(2)	1031.3441	ANYWHERE
+T	Hex(2) HexNAc(2) NeuGc	1037.3547	ANYWHERE
+T	dHex Hex(3) HexNAc(2)	1038.3751	ANYWHERE
+T	Hex(5) Phos(3)	1050.1631	ANYWHERE
+T	Hex(6) Phos	1052.2833	ANYWHERE
+T	dHex Hex(2) HexA HexNAc(2)	1052.3544	ANYWHERE
+T	dHex(2) Hex(3) HexNAc Sulf	1061.3104	ANYWHERE
+T	Hex HexNAc(3) NeuAc	1062.3864	ANYWHERE
+T	dHex(2) Hex HexNAc(3)	1063.4067	ANYWHERE
+T	Hex HexNAc(3) NeuGc	1078.3812	ANYWHERE
+T	dHex Hex(2) HexNAc(3)	1079.4017	ANYWHERE
+T	dHex Hex HexNAc(2) NeuAc Sulf	1085.3217	ANYWHERE
+T	dHex Hex(3) HexA HexNAc Sulf	1091.2847	ANYWHERE
+T	dHex Hex HexA HexNAc(3)	1093.381	ANYWHERE
+T	Hex(3) HexNAc(3)	1095.3966	ANYWHERE
+T	Hex(2) HexNAc(2) NeuAc Sulf	1101.3167	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2) Sulf	1102.337	ANYWHERE
+T	dHex(2) Hex HexNAc(2) Kdn	1110.3962	ANYWHERE
+T	dHex Hex(3) HexNAc(2) Sulf	1118.3319	ANYWHERE
+T	Hex6dHex1	1118.3749	ANYWHERE
+T	dHex Hex HexNAc(4)	1120.4282	ANYWHERE
+T	Hex(2) HexNAc(4)	1136.4231	ANYWHERE
+T	Hex(2) HexNAc NeuGc(2)	1141.3657	ANYWHERE
+T	dHex(2) Hex(4) HexNAc	1143.4065	ANYWHERE
+T	Hex HexNAc(2) NeuAc(2)	1150.4023	ANYWHERE
+T	dHex(2) Hex HexNAc(2) NeuAc	1151.4229	ANYWHERE
+T	dHex Hex(2) HexNAc(3) Sulf	1159.3585	ANYWHERE
+T	dHex HexNAc(5)	1161.4547	ANYWHERE
+T	dHex(2) Hex HexNAc(2) NeuGc	1167.4177	ANYWHERE
+T	dHex(3) Hex(2) HexNAc(2)	1168.4381	ANYWHERE
+T	Hex(3) HexNAc(3) Sulf	1175.3534	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2) Sulf(2)	1182.2938	ANYWHERE
+T	dHex Hex(2) HexNAc(2) NeuGc	1183.4126	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(2)	1184.433	ANYWHERE
+T	dHex Hex(4) HexNAc(2)	1200.428	ANYWHERE
+T	dHex Hex HexNAc(3) NeuAc	1208.4442	ANYWHERE
+T	Hex(6) Phos(3)	1212.216	ANYWHERE
+T	dHex Hex(3) HexA HexNAc(2)	1214.4072	ANYWHERE
+T	dHex Hex HexNAc(3) NeuGc	1224.4392	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(3)	1225.4596	ANYWHERE
+T	Hex HexNAc(2) NeuAc(2) Sulf	1230.3593	ANYWHERE
+T	dHex(2) Hex(3) HexA HexNAc Sulf	1237.3425	ANYWHERE
+T	Hex HexNAc NeuAc(3)	1238.4185	ANYWHERE
+T	Hex(2) HexNAc(3) NeuGc	1240.4341	ANYWHERE
+T	dHex Hex(3) HexNAc(3)	1241.4545	ANYWHERE
+T	dHex Hex(2) HexNAc(2) NeuAc Sulf	1247.3745	ANYWHERE
+T	dHex(3) Hex HexNAc(2) Kdn	1256.4542	ANYWHERE
+T	Hex(4) HexNAc(3)	1257.4495	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(2) Sulf	1264.3899	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2) Kdn	1272.4491	ANYWHERE
+T	dHex(2) Hex(2) HexA HexNAc(2) Sulf	1278.3691	ANYWHERE
+T	dHex Hex(2) HexNAc(4)	1282.4811	ANYWHERE
+T	Hex HexNAc NeuGc(3)	1286.4032	ANYWHERE
+T	dHex Hex HexNAc(3) NeuAc Sulf	1288.4011	ANYWHERE
+T	dHex Hex(3) HexA HexNAc(2) Sulf	1294.364	ANYWHERE
+T	dHex Hex HexNAc(2) NeuAc(2)	1296.4603	ANYWHERE
+T	dHex(3) HexNAc(3) Kdn	1297.4807	ANYWHERE
+T	Biantennary (-2 galactose)	1298.476	ANYWHERE
+T	Hex(2) HexNAc(3) NeuAc Sulf	1304.396	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(3) Sulf	1305.4164	ANYWHERE
+T	dHex(2) HexNAc(5)	1307.5127	ANYWHERE
+T	Hex(2) HexNAc(2) NeuAc(2)	1312.4552	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2) NeuAc	1313.4756	ANYWHERE
+T	dHex Hex(3) HexNAc(3) Sulf	1321.4113	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2) NeuGc	1329.4706	ANYWHERE
+T	Hex(2) HexNAc(5)	1339.5026	ANYWHERE
+T	dHex Hex(3) HexNAc(2) NeuGc	1345.4655	ANYWHERE
+T	dHex(2) Hex(4) HexNAc(2)	1346.4858	ANYWHERE
+T	Hex HexNAc(3) NeuAc(2)	1353.4818	ANYWHERE
+T	dHex Hex(2) HexNAc(3) NeuAc	1370.4971	ANYWHERE
+T	dHex(3) Hex(2) HexNAc(3)	1371.5175	ANYWHERE
+T	Hex(7) Phos(3)	1374.2688	ANYWHERE
+T	dHex Hex(4) HexA HexNAc(2)	1376.4601	ANYWHERE
+T	Hex(3) HexNAc(3) NeuAc	1386.4921	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(3)	1387.5125	ANYWHERE
+T	dHex Hex(3) HexA(2) HexNAc(2)	1390.4393	ANYWHERE
+T	Hex(2) HexNAc(2) NeuAc(2) Sulf	1392.412	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(2) NeuAc Sulf	1393.4325	ANYWHERE
+T	Hex(3) HexNAc(3) NeuGc	1402.4869	ANYWHERE
+T	dHex(4) Hex HexNAc(2) Kdn	1402.5121	ANYWHERE
+T	dHex(3) Hex(2) HexNAc(2) Kdn	1418.507	ANYWHERE
+T	dHex(3) Hex(2) HexA HexNAc(2) Sulf	1424.427	ANYWHERE
+T	Hex(2) HexNAc(4) NeuAc	1427.5186	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(4)	1428.539	ANYWHERE
+T	dHex(2) Hex(3) HexA HexNAc(2) Sulf	1440.4219	ANYWHERE
+T	dHex(4) HexNAc(3) Kdn	1443.5386	ANYWHERE
+T	Fucosylated biantennary (-2 galactose)	1444.5338	ANYWHERE
+T	Hex(2) HexNAc NeuGc(3)	1448.456	ANYWHERE
+T	dHex(4) Hex HexNAc Kdn(2)	1449.5016	ANYWHERE
+T	dHex Hex(2) HexNAc(3) NeuAc Sulf	1450.4539	ANYWHERE
+T	dHex Hex(2) HexNAc(2) NeuAc(2)	1458.5132	ANYWHERE
+T	dHex(3) Hex HexNAc(3) Kdn	1459.5336	ANYWHERE
+T	Biantennary (-1 galactose)	1460.5288	ANYWHERE
+T	Hex(3) HexNAc(3) NeuAc Sulf	1466.4489	ANYWHERE
+T	Hex(3) HexNAc(2) NeuAc(2)	1474.508	ANYWHERE
+T	Hex(3) HexNAc(3) NeuGc Sulf	1482.4437	ANYWHERE
+T	dHex Hex(2) HexNAc(2) NeuGc(2)	1490.5029	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(2) NeuGc	1491.5233	ANYWHERE
+T	dHex Hex(3) HexA HexNAc(3) Sulf	1497.4434	ANYWHERE
+T	Hex(3) HexNAc(5)	1501.5553	ANYWHERE
+T	Hex(2) HexNAc(3) NeuAc(2)	1515.5345	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(3) NeuAc	1516.555	ANYWHERE
+T	dHex(4) Hex(2) HexNAc(3)	1517.5754	ANYWHERE
+T	Hex(2) HexNAc(3) NeuAc NeuGc	1531.5295	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(3) NeuGc	1532.5499	ANYWHERE
+T	dHex(3) Hex(3) HexNAc(3)	1533.5703	ANYWHERE
+T	Hex(8) Phos(3)	1536.3215	ANYWHERE
+T	dHex Hex(2) HexNAc(2) NeuAc(2) Sulf	1538.47	ANYWHERE
+T	Hex(2) HexNAc(3) NeuGc(2)	1547.5244	ANYWHERE
+T	Hex(4) HexNAc(3) NeuAc	1548.5448	ANYWHERE
+T	dHex(4) Hex(2) HexNAc(2) Kdn	1564.565	ANYWHERE
+T	dHex Hex(2) HexNAc(4) NeuAc	1573.5764	ANYWHERE
+T	dHex(3) Hex(2) HexNAc(4)	1574.5969	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(4)	1590.5918	ANYWHERE
+T	Hex HexNAc NeuGc(4)	1593.4935	ANYWHERE
+T	dHex(4) Hex HexNAc(3) Kdn	1605.5914	ANYWHERE
+T	Fucosylated biantennary (-1 galactose)	1606.5867	ANYWHERE
+T	Hex(4) HexNAc(4) Sulf(2)	1620.4424	ANYWHERE
+T	dHex(3) Hex(2) HexNAc(3) Kdn	1621.5863	ANYWHERE
+T	Biantennary	1622.5817	ANYWHERE
+T	dHex(2) Hex(2) HexNAc(5)	1631.6183	ANYWHERE
+T	dHex(2) Hex(3) HexA HexNAc(3) Sulf	1643.5013	ANYWHERE
+T	dHex Hex(3) HexNAc(5)	1647.6133	ANYWHERE
+T	dHex Hex(4) HexA HexNAc(3) Sulf	1659.4962	ANYWHERE
+T	Hex(3) HexNAc(3) NeuAc(2)	1677.5874	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(3) NeuAc	1678.6078	ANYWHERE
+T	dHex(4) Hex(3) HexNAc(3)	1679.6282	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(3) NeuGc	1694.6028	ANYWHERE
+T	Hex(9) Phos(3)	1698.3744	ANYWHERE
+T	Hex(3) HexNAc(6)	1704.6348	ANYWHERE
+T	dHex(2) HexNAc(7)	1713.6714	ANYWHERE
+T	Hex(4) HexNAc(4) NeuAc	1751.6241	ANYWHERE
+T	dHex(2) Hex(4) HexNAc(4)	1752.6447	ANYWHERE
+T	Hex(2) HexNAc NeuGc(4)	1755.5464	ANYWHERE
+T	Hex(3) HexNAc(3) NeuAc(2) Sulf	1757.5442	ANYWHERE
+T	Hex(6) HexNAc(4)	1784.6344	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(5)	1793.6711	ANYWHERE
+T	dHex Hex(2) HexNAc(2) NeuGc(3)	1797.5933	ANYWHERE
+T	dHex(2) Hex(4) HexA HexNAc(3) Sulf	1805.5541	ANYWHERE
+T	Hex(2) HexNAc(3) NeuAc(3)	1806.63	ANYWHERE
+T	dHex Hex(3) HexNAc(3) NeuAc(2)	1823.6454	ANYWHERE
+T	dHex(3) Hex(3) HexNAc(3) NeuAc	1824.6658	ANYWHERE
+T	Hex(5) HexNAc(5)	1825.661	ANYWHERE
+T	dHex Hex(3) HexNAc(6)	1850.6926	ANYWHERE
+T	Hex(2) HexNAc(3) NeuGc(3)	1854.6147	ANYWHERE
+T	Hex(10) Phos(3)	1860.4272	ANYWHERE
+T	dHex Hex(2) HexNAc(4) NeuAc(2)	1864.6719	ANYWHERE
+T	dHex Hex(4) HexNAc(4) NeuAc	1897.6821	ANYWHERE
+T	dHex(3) Hex(4) HexNAc(4)	1898.7025	ANYWHERE
+T	Hex HexNAc NeuGc(5)	1900.5839	ANYWHERE
+T	Hex(4) HexNAc(4) NeuAc Sulf(2)	1911.5378	ANYWHERE
+T	Hex(4) HexNAc(4) NeuGc Sulf(2)	1927.5327	ANYWHERE
+T	dHex Hex(3) HexNAc(5) NeuAc	1938.7086	ANYWHERE
+T	dHex(2) Hex(4) HexNAc(5)	1955.724	ANYWHERE
+T	dHex(2) Hex(3) HexNAc(3) NeuAc(2)	1969.7032	ANYWHERE
+T	Hex(4) HexNAc(4) NeuAc Sulf(3)	1991.4946	ANYWHERE
+V	Val->Gly substitution	-42.04695	ANYWHERE
+V	Val->Ala substitution	-28.0313	ANYWHERE
+V	Val->Ser substitution	-12.036386	ANYWHERE
+V	Val->Pro substitution	-2.01565	ANYWHERE
+V	15N(1)	0.997035	ANYWHERE
+V	Val->Thr substitution	1.979265	ANYWHERE
+V	Val->Cys substitution	3.940771	ANYWHERE
+V	13C(5) 15N(1) Silac label	6.013809	ANYWHERE
+V	Val->Leu/Ile substitution	14.01565	ANYWHERE
+V	Val->Asn substitution	14.974514	ANYWHERE
+V	Val->Asp substitution	15.958529	ANYWHERE
+V	Val->Gln substitution	28.990164	ANYWHERE
+V	Val->Lys substitution	29.026548	ANYWHERE
+V	Val->Glu substitution	29.974178	ANYWHERE
+V	Val->Met substitution	31.97207	ANYWHERE
+V	Val->His substitution	37.990498	ANYWHERE
+V	Val->Phe substitution	48	ANYWHERE
+V	Val->Arg substitution	57.032696	ANYWHERE
+V	Val->Tyr substitution	63.994915	ANYWHERE
+V	N-pyruvic acid 2-iminyl	70.00548	PROTEIN_N
+V	Val->Trp substitution	87.0109	ANYWHERE
+W	Trp->Gly substitution	-129.05785	ANYWHERE
+W	Trp->Ala substitution	-115.0422	ANYWHERE
+W	Trp->Ser substitution	-99.04729	ANYWHERE
+W	Trp->Pro substitution	-89.02655	ANYWHERE
+W	Trp->Val substitution	-87.0109	ANYWHERE
+W	Trp->Thr substitution	-85.03163	ANYWHERE
+W	Trp->Cys substitution	-83.07013	ANYWHERE
+W	Trp->Leu/Ile substitution	-72.99525	ANYWHERE
+W	Trp->Asn substitution	-72.036385	ANYWHERE
+W	Trp->Asp substitution	-71.05237	ANYWHERE
+W	Trp->Gln substitution	-58.020737	ANYWHERE
+W	Trp->Lys substitution	-57.98435	ANYWHERE
+W	Trp->Glu substitution	-57.03672	ANYWHERE
+W	Trp->Met substitution	-55.03883	ANYWHERE
+W	Trp->His substitution	-49.0204	ANYWHERE
+W	Trp->Phe substitution	-39.0109	ANYWHERE
+W	Trp->Arg substitution	-29.978203	ANYWHERE
+W	Trp->Tyr substitution	-23.015984	ANYWHERE
+W	15N(2)	1.99407	ANYWHERE
+W	tryptophan oxidation to kynurenin	3.994915	ANYWHERE
+W	Tryptophan oxidation to oxolactone	13.979265	ANYWHERE
+W	Oxidation or Hydroxylation	15.994915	ANYWHERE
+W	fluorination	17.990578	ANYWHERE
+W	tryptophan oxidation to hydroxykynurenin	19.989828	ANYWHERE
+W	quinone	29.974178	ANYWHERE
+W	persulfide	31.97207	ANYWHERE
+W	dihydroxy	31.989828	ANYWHERE
+W	Carboxylation	43.98983	ANYWHERE
+W	Oxidation to nitro	44.985077	ANYWHERE
+W	cysteine oxidation to cysteic acid	47.984745	ANYWHERE
+W	Iodoacetic acid derivative	58.005478	ANYWHERE
+W	bromination	77.91051	ANYWHERE
+W	Propiophenone	132.05751	ANYWHERE
+W	Shimadzu NBS-12C	152.98845	ANYWHERE
+W	Shimadzu NBS-13C	159.00858	ANYWHERE
+W	Hexosamine	161.0688	ANYWHERE
+W	Hexose	162.05283	ANYWHERE
+W	"2,4-Dinitrobenzenesulfenyl"	198.98135	ANYWHERE
+W	Mass Defect Tag on lysine e-amino	253.01022	ANYWHERE
+W	"Cross-link of (Iodo)-uracil MP with W,F,Y"	322.0202	ANYWHERE
+Y	Tyr->Gly substitution	-106.04186	ANYWHERE
+Y	Dehydroalanine (from Tyrosine)	-94.04186	ANYWHERE
+Y	Tyr->Ala substitution	-92.026215	ANYWHERE
+Y	Tyr->Ser substitution	-76.0313	ANYWHERE
+Y	Tyr->Pro substitution	-66.01057	ANYWHERE
+Y	Tyr->Val substitution	-63.994915	ANYWHERE
+Y	Tyr->Thr substitution	-62.01565	ANYWHERE
+Y	Tyr->Cys substitution	-60.054146	ANYWHERE
+Y	Tyr->Leu/Ile substitution	-49.979263	ANYWHERE
+Y	Tyr->Asn substitution	-49.0204	ANYWHERE
+Y	Tyr->Asp substitution	-48.036385	ANYWHERE
+Y	Tyr->Gln substitution	-35.00475	ANYWHERE
+Y	Tyr->Lys substitution	-34.968365	ANYWHERE
+Y	Tyr->Glu substitution	-34.020737	ANYWHERE
+Y	Tyr->Met substitution	-32.022842	ANYWHERE
+Y	Tyr->His substitution	-26.004417	ANYWHERE
+Y	Dehydration	-18.010565	ANYWHERE
+Y	Tyr->Phe substitution	-15.994915	ANYWHERE
+Y	Tyr->Arg substitution	-6.962218	ANYWHERE
+Y	2-amino-3-oxo-butanoic_acid	-2.01565	ANYWHERE
+Y	15N(1)	0.997035	ANYWHERE
+Y	O18 Labeling	2.004246	ANYWHERE
+Y	"4,4,5,5-D4 Lysine"	4.025107	ANYWHERE
+Y	13C(9) Silac label	9.030193	ANYWHERE
+Y	Tyrosine oxidation to 2-aminotyrosine	15.010899	ANYWHERE
+Y	Oxidation or Hydroxylation	15.994915	ANYWHERE
+Y	fluorination	17.990578	ANYWHERE
+Y	Tyr->Trp substitution	23.015984	ANYWHERE
+Y	quinone	29.974178	ANYWHERE
+Y	dihydroxy	31.989828	ANYWHERE
+Y	Chlorination of tyrosine residues	33.96103	ANYWHERE
+Y	Acetylation	42.010567	ANYWHERE
+Y	Carbamylation	43.005814	ANYWHERE
+Y	Oxidation to nitro	44.985077	ANYWHERE
+Y	"Acetate labeling reagent (N-term & K) (heavy form, +3amu)"	45.029396	ANYWHERE
+Y	cysteine oxidation to cysteic acid	47.984745	ANYWHERE
+Y	Iodoacetamide derivative	57.021465	ANYWHERE
+Y	Chemical modification of the iodinated sites of thyroglobulin by Suzuki reaction	66.01057	ANYWHERE
+Y	Dichlorination	67.92206	ANYWHERE
+Y	bromination	77.91051	ANYWHERE
+Y	Methylphosphonylation	77.98707	ANYWHERE
+Y	O-Sulfonation	79.95682	ANYWHERE
+Y	Phosphorylation	79.96633	ANYWHERE
+Y	N-ethyl iodoacetamide-d0	85.052765	ANYWHERE
+Y	C13 label (Phosphotyrosine)	88.99652	ANYWHERE
+Y	N-ethyl iodoacetamide-d5	90.084145	ANYWHERE
+Y	O-Methylphosphorylation	93.98198	ANYWHERE
+Y	aminotyrosine with sulfation	94.96771	ANYWHERE
+Y	Thiophosphorylation	95.94349	ANYWHERE
+Y	O-Ethylphosphorylation	107.99763	ANYWHERE
+Y	O-Dimethylphosphorylation	107.99763	ANYWHERE
+Y	DMPO spin-trap nitrone adduct	111.06841	ANYWHERE
+Y	phospho-propargylamine	116.99796	ANYWHERE
+Y	O-Isopropylmethylphosphonylation	120.03402	ANYWHERE
+Y	O-Isopropylphosphorylation	122.01328	ANYWHERE
+Y	Iodination	125.896645	ANYWHERE
+Y	Chemical modification of the diiodinated sites of thyroglobulin by Suzuki reaction	132.02113	ANYWHERE
+Y	Tyrosine caged with 2-nitrobenzyl (ONB)	135.03203	ANYWHERE
+Y	O-Diethylphosphorylation	136.02893	ANYWHERE
+Y	mTRAQ light	140.09496	ANYWHERE
+Y	CLIP_TRAQ_2	141.09831	ANYWHERE
+Y	Accurate mass for 115	144.0996	ANYWHERE
+Y	Representative mass and accurate mass for 116 & 117	144.10207	ANYWHERE
+Y	mTRAQ medium	144.10207	ANYWHERE
+Y	Accurate mass for 114	144.10591	ANYWHERE
+Y	Accurate mass for DiLeu 115 isobaric tag	145.12	ANYWHERE
+Y	Accurate mass for DiLeu 117 isobaric tag	145.12831	ANYWHERE
+Y	Accurate mass for DiLeu 116 isobaric tag	145.13216	ANYWHERE
+Y	Accurate mass for DiLeu 118 isobaric tag	145.14047	ANYWHERE
+Y	mTRAQ heavy	148.10916	ANYWHERE
+Y	"O,O-diethyl o-3,5,6-trichloro-2-pyridyl phosphorothioate"	153.01392	ANYWHERE
+Y	Dibromo	155.82101	ANYWHERE
+Y	Hexose	162.05283	ANYWHERE
+Y	O-pinacolylmethylphosphonylation	162.08096	ANYWHERE
+Y	O-Diisopropylphosphorylation	164.06023	ANYWHERE
+Y	"Chemical reaction with 2,4-dinitro-1-chloro benzene (DNCB)"	166.00145	ANYWHERE
+Y	o-toluyl-phosphorylation	170.01328	ANYWHERE
+Y	Aminoethylbenzenesulfonylation	183.0354	ANYWHERE
+Y	Accurate mass for DiART6plex 115	217.15662	ANYWHERE
+Y	Accurate mass for DiART6plex 117	217.16246	ANYWHERE
+Y	Representative mass and accurate mass for 114	217.16293	ANYWHERE
+Y	Accurate mass for DiART6plex 116 and 119	217.16878	ANYWHERE
+Y	Accurate mass for DiART6plex 118	217.1751	ANYWHERE
+Y	CLIP_TRAQ_4	244.10146	ANYWHERE
+Y	di-Iodination	251.79329	ANYWHERE
+Y	Mass Defect Tag on lysine e-amino	253.01022	ANYWHERE
+Y	CLIP_TRAQ_3	271.14874	ANYWHERE
+Y	Cresyl-Saligenin-phosphorylation	276.05515	ANYWHERE
+Y	"Accurate mass for 115, 118, 119 & 121"	304.19904	ANYWHERE
+Y	"Representative mass and accurate mass for 113, 114, 116 & 117"	304.20535	ANYWHERE
+Y	uridine phosphodiester	306.0253	ANYWHERE
+Y	"Cross-link of (Iodo)-uracil MP with W,F,Y"	322.0202	ANYWHERE
+Y	AMP	329.05252	ANYWHERE
+Y	nucleophilic addtion to cytopiloyne	362.13657	ANYWHERE
+Y	tri-Iodination	377.68994	ANYWHERE
+Y	nucleophilic addition to cytopiloyne+H2O	380.14713	ANYWHERE
+Y	desthiobiotin fluorophosphonate	443.2913	ANYWHERE
+Y	6-N-biotinylaminohexyl isopropyl phosphate	447.19568	ANYWHERE
+Y	triiodo	469.71616	ANYWHERE
+Y	thiophosphate labeled with biotin-HPDP	525.1429	ANYWHERE
+Y	10-ethoxyphosphinyl-N-(biotinamidopentyl)decanamide	572.3161	ANYWHERE
+Y	tetraiodo	595.6128	ANYWHERE
+Y	TAMRA fluorophosphonate modification of serine	659.31244	ANYWHERE
+Y	Flavin adenine dinucleotide	783.1415	ANYWHERE
