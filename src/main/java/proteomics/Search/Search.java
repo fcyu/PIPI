@@ -219,21 +219,20 @@ public class Search {
 
         if (PIPI.DEV) {
             logger.debug("Writing searching results...");
-            writeResult("ptm_only_candidates" + "." + batchStartIdx + "." + Thread.currentThread().getId() + ".csv", ptmOnlyResultMap);
+            writeResult("ptm_only_candidates" + "." + batchStartIdx + "." + Thread.currentThread().getId() + ".csv", ptmOnlyResult);
         }
     }
 
-    private void writeResult(String filePath, Map<Integer, PriorityQueue<ResultEntry>> ptmOnly) {
+    private void writeResult(String filePath,  Map<Integer, List<Peptide>> ptmOnly) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("scanNum,peptide,score,is_decoy\n");
+            writer.write("scanNum,peptide,globalRank,is_decoy\n");
             for (int scanNum : ptmOnly.keySet()) {
-                PriorityQueue<ResultEntry> pq = ptmOnly.get(scanNum);
-                while (!pq.isEmpty()) {
-                    ResultEntry entry = pq.poll();
-                    if (entry.isDecoy()) {
-                        writer.write(scanNum + "," + entry.peptide + "," + entry.score + ",1\n");
+                List<Peptide> peptideList = ptmOnly.get(scanNum);
+                for (Peptide peptide : peptideList) {
+                    if (peptide.isDecoy()) {
+                        writer.write(scanNum + "," + peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",1\n");
                     } else {
-                        writer.write(scanNum + "," + entry.peptide + "," + entry.score + ",0\n");
+                        writer.write(scanNum + "," + peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",0\n");
                     }
                 }
             }
