@@ -201,7 +201,20 @@ public class Peptide implements Comparable<Peptide> {
             }
             return sb.toString();
         } else {
-            return peptideString;
+            StringBuilder sb = new StringBuilder(peptideString.length() * 5);
+            int i = 0;
+            while (i < peptideString.length()) {
+                // add fix modification
+                float deltaMass = fixModMap.get(String.valueOf(peptideString.charAt(i)));
+                if (Math.abs(deltaMass) > 1e-6) {
+                    sb.append(peptideString.charAt(i));
+                    sb.append(String.format("(%.2f)", deltaMass));
+                } else {
+                    sb.append(peptideString.charAt(i));
+                }
+                ++i;
+            }
+            return sb.toString();
         }
     }
 
