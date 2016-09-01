@@ -84,20 +84,6 @@ public class CalXcorr {
             }
         }
 
-        // use all peptides
-        if (gapNum > 0) {
-            subMap = new TreeMap<>();
-            if (massPeptideMap.firstKey() < precursorMass - evalueTolerance2) {
-                subMap.putAll(massPeptideMap.subMap(massPeptideMap.firstKey(), true, precursorMass - evalueTolerance2, false));
-            }
-            if (precursorMass + evalueTolerance2 < massPeptideMap.lastKey()) {
-                subMap.putAll(massPeptideMap.subMap(precursorMass + evalueTolerance2, false, massPeptideMap.lastKey(), true));
-            }
-            if (!subMap.isEmpty()) {
-                gapNum = accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge);
-            }
-        }
-
         if (gapNum > 0) {
             logger.warn("Scan {} doesn't have enough data points ({}/{}) for E-Value estimation. Its E-Value may be not accurate.", psm.getScanNum(), minDecoyNum - gapNum, minDecoyNum);
         }
@@ -109,10 +95,12 @@ public class CalXcorr {
                 if (!psm.scored(peptide)) {
                     SparseBooleanVector theoIonVector = massToolObj.buildVector(massToolObj.buildIonArray(peptide, precursorCharge), precursorCharge);
                     double dotProduct = theoIonVector.dot(expXcorrPl) * 0.25; // doesn't to make it larger than 0. for histogram accumulation.
-                    psm.addToScoreHistogram(dotProduct);
-                    --gapNum;
-                    if (gapNum == 0) {
-                        return gapNum;
+                    if (dotProduct > 0) {
+                        psm.addToScoreHistogram(dotProduct);
+                        --gapNum;
+                        if (gapNum == 0) {
+                            return gapNum;
+                        }
                     }
                 }
             }

@@ -100,13 +100,8 @@ public class FinalResultEntry {
     }
 
     public void addToScoreHistogram(double score) {
-        if (score >= 0) {
-            ++candidateNum;
-            ++scoreHistogram[(int) (score / histogramBinSize + histogramBinOffset)];
-        } else {
-            ++candidateNum;
-            ++scoreHistogram[0];
-        }
+        ++candidateNum;
+        ++scoreHistogram[(int) (score / histogramBinSize + histogramBinOffset)];
     }
 
     public void setQValue(float qValue) {
