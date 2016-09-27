@@ -21,10 +21,11 @@ public class FinalResultEntry {
 
     private int candidateNum;
     private final int[] scoreHistogram = new int[(int) (maxScore / histogramBinSize) + 1]; // start from zero score.
+    private double eValue = 9999;
     private double negativeLog10EValue = -9999;
     private float qValue = -1;
 
-    private double[] log10SurvivalArray;
+    private double[] lnSurvivalArray;
     private int startIdx = -1;
     private double rSquare = -1;
 
@@ -116,8 +117,13 @@ public class FinalResultEntry {
         return scoreHistogram;
     }
 
-    public void setNegativeLog10EValue(double negativeLog10EValue) {
-        this.negativeLog10EValue = negativeLog10EValue;
+    public void setEValue(double eValue) {
+        this.eValue = eValue;
+        negativeLog10EValue = -1 * Math.log10(eValue);
+    }
+
+    public double getEValue() {
+        return eValue;
     }
 
     public double getNegativeLog10EValue() {
@@ -132,12 +138,12 @@ public class FinalResultEntry {
         return histogramBinOffset;
     }
 
-    public void setLog10SurvivalArray(double[] log10SurvivalArray) {
-        this.log10SurvivalArray = log10SurvivalArray;
+    public void setLnSurvivalArray(double[] lnSurvivalArray) {
+        this.lnSurvivalArray = lnSurvivalArray;
     }
 
-    public double[] getLog10SurvivalArray() {
-        return log10SurvivalArray;
+    public double[] getLnSurvivalArray() {
+        return lnSurvivalArray;
     }
 
     public void setStartIdx(int startIdx) {

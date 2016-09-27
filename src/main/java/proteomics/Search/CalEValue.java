@@ -36,9 +36,9 @@ public class CalEValue {
         }
 
         // log transform. eliminate the non-null points
-        double[] log10SurvivalCountArray = new double[nullEndIdx + 1];
+        double[] lnSurvivalCountArray = new double[nullEndIdx + 1];
         for (int i = 0; i <= nullEndIdx; ++i) {
-            log10SurvivalCountArray[i] = Math.log10(survivalCountArray[i]);
+            lnSurvivalCountArray[i] = Math.log(survivalCountArray[i]);
         }
 
         // try and find the best linear regression result
@@ -63,7 +63,7 @@ public class CalEValue {
             for (int i = startIdx; i <= nullEndIdx; i++) {
                 if (survivalCountArray[i] > 0) {
                     xSum += i;
-                    ySum += log10SurvivalCountArray[i];
+                    ySum += lnSurvivalCountArray[i];
                     ++pointNum;
                 }
             }
@@ -76,7 +76,7 @@ public class CalEValue {
             for (int i = startIdx; i <= nullEndIdx; i++) {
                 if (survivalCountArray[i] > 0) {
                     double dX = i - xMean;
-                    double dY = log10SurvivalCountArray[i] - yMean;
+                    double dY = lnSurvivalCountArray[i] - yMean;
                     xxMean += dX * dX;
                     yyMean += dY * dY;
                     xyMean += dX * dY;
@@ -110,16 +110,16 @@ public class CalEValue {
         }
 
         if (PIPI.DEV) {
-            resultEntry.setLog10SurvivalArray(log10SurvivalCountArray);
+            resultEntry.setLnSurvivalArray(lnSurvivalCountArray);
             resultEntry.setStartIdx(optimalStartIdx);
             resultEntry.setRSquare(maxRSquare);
         }
 
         if (optimalSlope >= 0) {
-            resultEntry.setNegativeLog10EValue(-999);
+            resultEntry.setEValue(9999);
         } else {
-            double negativeLog10EValue = -1 * (optimalSlope * (resultEntry.getScore() / histogramBinSize + histogramBinOffset) + optimalIntercept);
-            resultEntry.setNegativeLog10EValue(negativeLog10EValue);
+            double eValue = Math.exp(optimalSlope * (resultEntry.getScore() / histogramBinSize + histogramBinOffset) + optimalIntercept);
+            resultEntry.setEValue(eValue);
         }
     }
 }
