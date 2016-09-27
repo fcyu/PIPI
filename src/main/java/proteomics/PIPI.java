@@ -117,7 +117,7 @@ public class PIPI {
 
         int threadNum = Integer.valueOf(parameterMap.get("thread_num"));
         if (threadNum == 0) {
-            threadNum = 1 + Runtime.getRuntime().availableProcessors();
+            threadNum = 2 * Runtime.getRuntime().availableProcessors();
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
