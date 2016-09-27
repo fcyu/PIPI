@@ -89,7 +89,7 @@ public class Search {
                         }
                         float deltaMass = scanMass - peptideMass;
                         if (isTarget) {
-                            if ((Math.abs(deltaMass) <= tolerance) || (Math.abs(deltaMass - massTable.get("C13_DIFF")) <= tolerance) || (Math.abs(deltaMass - 2 * massTable.get("C13_DIFF")) <= tolerance)) {
+                            if (Math.abs(deltaMass) <= tolerance) {
                                 // PTM-free
                                 if (ptmFreeResultMap.containsKey(scanNum)) {
                                     PriorityQueue<ResultEntry> temp = ptmFreeResultMap.get(scanNum);
@@ -127,7 +127,7 @@ public class Search {
                                 }
                             }
                         } else {
-                            if ((Math.abs(deltaMass) <= tolerance) || (Math.abs(deltaMass - massTable.get("C13_DIFF")) <= tolerance) || (Math.abs(deltaMass - 2 * massTable.get("C13_DIFF")) <= tolerance)) {
+                            if (Math.abs(deltaMass) <= tolerance) {
                                 // PTM-free
                                 if (ptmFreeResultMap.containsKey(scanNum)) {
                                     PriorityQueue<ResultEntry> temp = ptmFreeResultMap.get(scanNum);

@@ -154,7 +154,7 @@ public class FindPTM {
             tolerance = peptideMass * ms1Tolerance / 1e6f;
         }
         tolerance = (float) Math.max(tolerance, 0.1);
-        if ((Math.abs(deltaMass - totalDeltaMass) > tolerance) && (Math.abs(deltaMass - totalDeltaMass - massTable.get("C13_DIFF")) > tolerance) && (Math.abs(deltaMass - totalDeltaMass - 2 * massTable.get("C13_DIFF")) > tolerance)) {
+        if (Math.abs(deltaMass - totalDeltaMass) > tolerance) {
             logger.debug("Spectrum {}, peptide {}, the precursor mass difference is not balance. There are {} .", spectrumEntry.scanNum, peptide.getPTMFreeSeq(), deltaMass - totalDeltaMass);
         }
 
