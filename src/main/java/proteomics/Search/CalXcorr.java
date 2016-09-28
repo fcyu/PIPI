@@ -73,14 +73,14 @@ public class CalXcorr {
     private void generateDecoyScores(FinalResultEntry psm, SparseVector expXcorrPl, TreeMap<Float, Set<String>> massPeptideMap, int gapNum, float precursorMass, int precursorCharge) {
         // 3 Da tolerance first
         NavigableMap<Float, Set<String>> subMap = massPeptideMap.subMap(precursorMass - evalueTolerance1, true, precursorMass + evalueTolerance1, true);
-        gapNum = accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge);
+        gapNum = accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge, false);
 
         // 20 Da tolerance second
         if (gapNum > 0) {
             subMap = new TreeMap<>(massPeptideMap.subMap(precursorMass - evalueTolerance2, true, precursorMass - evalueTolerance1, false));
             subMap.putAll(massPeptideMap.subMap(precursorMass + evalueTolerance1, false, precursorMass + evalueTolerance2, true));
             if (!subMap.isEmpty()) {
-                gapNum = accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge);
+                gapNum = accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge, true);
             }
         }
 
@@ -89,10 +89,10 @@ public class CalXcorr {
         }
     }
 
-    private int accumulate(FinalResultEntry psm, SparseVector expXcorrPl, NavigableMap<Float, Set<String>> subMap, int gapNum, int precursorCharge) {
+    private int accumulate(FinalResultEntry psm, SparseVector expXcorrPl, NavigableMap<Float, Set<String>> subMap, int gapNum, int precursorCharge, boolean notCheckScored) {
         for (Set<String> peptideSet : subMap.values()) {
             for (String peptide : peptideSet) {
-                if (!psm.scored(peptide)) {
+                if (notCheckScored || !psm.scored(peptide)) {
                     SparseBooleanVector theoIonVector = massToolObj.buildVector(massToolObj.buildIonArray(peptide, precursorCharge), precursorCharge);
                     double dotProduct = theoIonVector.dot(expXcorrPl) * 0.25; // doesn't to make it larger than 0. for histogram accumulation.
                     if (dotProduct > 0) {
