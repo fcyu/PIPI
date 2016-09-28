@@ -1,9 +1,9 @@
 batch_size = 5000
 thread_num = 0
-percolator_path = C:\Program Files\percolator-v2-10\bin\percolator.exe # Please input absolute path of Percolator binary file
+percolator_path = C:\Program Files (x86)\percolator-v3-00\bin\percolator.exe # Please input absolute path of Percolator binary file
 
 # Database
-db = 02A.pin.selected_2psm.fasta
+db = Homo_sapiens_Human.fasta
 missed_cleavage = 0 # maximum number of missed cleavage
 min_precursor_mass = 600
 max_precursor_mass = 5000 # for benchmarking comet
@@ -17,11 +17,11 @@ min_peak_num = 10
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
 ms1_tolerance = 10
-ms2_tolerance = 0.02 # unit: Th
+ms2_tolerance = 0.02
 mz_bin_offset = 0
 
 # Modification related
-PTM_db = PTM_db.txt
+PTM_db = unimod.txt
 min_ptm_mass = -250
 max_ptm_mass = 250
 
