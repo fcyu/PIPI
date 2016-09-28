@@ -46,7 +46,7 @@ public class FilterSpectra {
             }
 
             if (spectrum.getPeakList().size() < minPeakNum) {
-                logger.warn("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
+                logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
                 continue;
             }
 

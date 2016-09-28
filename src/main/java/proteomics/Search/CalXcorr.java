@@ -85,7 +85,7 @@ public class CalXcorr {
         }
 
         if (gapNum > 0) {
-            logger.warn("Scan {} doesn't have enough data points ({}/{}) for E-Value estimation. Its E-Value may be not accurate.", psm.getScanNum(), minDecoyNum - gapNum, minDecoyNum);
+            logger.debug("Scan {} doesn't have enough data points ({}/{}) for E-Value estimation. Its E-Value may be not accurate.", psm.getScanNum(), minDecoyNum - gapNum, minDecoyNum);
         }
     }
 
