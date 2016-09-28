@@ -39,9 +39,9 @@ public class CalXcorr {
             for (Peptide peptide : candidateList) {
                 SparseBooleanVector theoIonVector = massToolObj.buildVector(peptide.getIonMatrix(), spectrum.precursorCharge);
                 double xcorr = theoIonVector.dot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
-                psm.addToScoreHistogram(xcorr);
-                psm.addScoredPeptide(peptide.getPTMFreeSeq());
                 if (xcorr > 0) {
+                    psm.addToScoreHistogram(xcorr);
+                    psm.addScoredPeptide(peptide.getPTMFreeSeq());
                     if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && psm.isDecoy() && (!peptide.isDecoy()))) {
                         psm.setPeptide(peptide);
                         psm.setScanNum(scanNum);
