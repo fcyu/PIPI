@@ -176,6 +176,10 @@ public class InferenceSegment {
         return normalizedSeq;
     }
 
+    public int sparseVectorLength() {
+        return aaVectorTemplate.size();
+    }
+
     private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap) { // todo: only support 3-tag
         Float[] mzArray = plMap.keySet().toArray(new Float[plMap.size()]);
         Float[] intensityArray = plMap.values().toArray(new Float[plMap.size()]);

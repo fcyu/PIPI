@@ -1,5 +1,6 @@
 package proteomics.Types;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -41,5 +42,33 @@ public class SparseBooleanVector {
             }
         }
         return dotProduct;
+    }
+
+    public SparseBooleanVector deepCopy() {
+        SparseBooleanVector outputVector = new SparseBooleanVector();
+        for (int idx : this.sparseVector) {
+            outputVector.put(idx);
+        }
+        return outputVector;
+    }
+
+    public boolean isZero(int idx) {
+        return !sparseVector.contains(idx);
+    }
+
+    public void delete(int idx) {
+        if (sparseVector.contains(idx)) {
+            sparseVector.remove(idx);
+        }
+    }
+
+    public int getNonZeroNum() {
+        return sparseVector.size();
+    }
+
+    public Integer[] getNonZeroIdxes() {
+        Integer[] outputArray = sparseVector.toArray(new Integer[sparseVector.size()]);
+        Arrays.sort(outputArray);
+        return outputArray;
     }
 }

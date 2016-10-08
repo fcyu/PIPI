@@ -158,6 +158,10 @@ public class MassTool {
         return (int) Math.floor(mz / ms2Tolerance + oneMinusBinOffset);
     }
 
+    public float binToMz(int idx) {
+        return (idx - oneMinusBinOffset) * ms2Tolerance;
+    }
+
     private Map<Integer, List<int[]>> digestTrypsin(String proSeq) {
         // Cut a protein
         List<Integer> cutPointList = new ArrayList<>(200);
