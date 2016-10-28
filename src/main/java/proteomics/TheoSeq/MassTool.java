@@ -128,23 +128,14 @@ public class MassTool {
             rowNum = 2;
         }
 
-        List<Integer> idxList = new LinkedList<>();
-        int maxIdx = 0;
+        SparseBooleanVector theoIonVector = new SparseBooleanVector();
         for (int i = 0; i < rowNum; ++i) {
             for (int j = 0; j < colNum; ++j) {
                 if (ionMatrix[i][j] > 1e-6) {
                     int idx = mzToBin(ionMatrix[i][j]);
-                    idxList.add(idx);
-                    if (idx > maxIdx) {
-                        maxIdx = idx;
-                    }
+                    theoIonVector.put(idx);
                 }
             }
-        }
-
-        SparseBooleanVector theoIonVector = new SparseBooleanVector();
-        for (int idx : idxList) {
-            theoIonVector.put(idx);
         }
 
         return theoIonVector;
