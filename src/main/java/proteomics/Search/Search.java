@@ -63,7 +63,7 @@ public class Search {
             float rightMass = Math.min(peptideMass + maxPtmMass, massNumMap.lastKey());
 
             // The peptide mass is too small or too large.
-            if (leftMass >= rightMass) {
+            if (leftMass > rightMass) {
                 continue;
             }
 
