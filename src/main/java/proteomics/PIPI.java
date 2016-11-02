@@ -211,7 +211,7 @@ public class PIPI {
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
-            logger.info("Percolator failed to estimate FDR. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
+            logger.warn("Percolator failed to estimate FDR. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
         }
 
         if (!outputPercolatorInput) {
