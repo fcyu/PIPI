@@ -193,6 +193,11 @@ public class PIPI {
             System.exit(1);
         }
 
+        if (finalScoredPsms.isEmpty()) {
+            logger.error("There is no useful results.");
+            System.exit(1);
+        }
+
         logger.info("Estimating FDR...");
         // estimate T-D FDR
         new EstimateFDR(finalScoredPsms);
