@@ -29,6 +29,7 @@ public class BuildIndex {
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float oneMinusBinOffset = 1 - Float.valueOf(parameterMap.get("mz_bin_offset"));
+        boolean containDecoy = parameterMap.get("contain_decoy").contentEquals("1");
 
         // Read fix modification
         fixModMap.put("G", Float.valueOf(parameterMap.get("G")));
@@ -64,8 +65,10 @@ public class BuildIndex {
         massTable = massToolObj.returnMassTable();
 
         // build database
-        buildPeptideMap();
-        buildDecoyPepChainMap();
+        buildPeptideMap(containDecoy);
+        if (!containDecoy) {
+            buildDecoyPepChainMap();
+        }
         buildMassPeptideMap();
     }
 
@@ -102,32 +105,55 @@ public class BuildIndex {
         return massPeptideMap;
     }
 
-    private void buildPeptideMap() {
-        Set<String> proIdSet = proPeptideMap.keySet();
-        for (String proId : proIdSet) {
-            String proSeq = proPeptideMap.get(proId);
-            Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
-            for (String peptide : peptideSet) {
-                if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z")) {
-                    continue;
+    private void buildPeptideMap(boolean containDecoy) {
+        for (String proId : proPeptideMap.keySet()) {
+            if (!proId.startsWith("DECOY_")) {
+                String proSeq = proPeptideMap.get(proId);
+                Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
+                for (String peptide : peptideSet) {
+                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z")) {
+                        continue;
+                    }
+
+                    float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("n") + massTable.get("H2O"); // calMass just calculate the residue mass, so we should add a H2O
+                    if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
+                        peptideMassMap.put(peptide, massTemp);
+
+                        // Add the sequence to the check set for decoy duplicate check
+                        String templateSeq = peptide.replace('L', 'I'); // "L" and "I" have the same mass.
+                        forCheckDuplicate.add(templateSeq);
+
+                        if (peptideProMap.containsKey(peptide)) {
+                            Set<String> proList = peptideProMap.get(peptide);
+                            proList.add(proId);
+                            peptideProMap.put(peptide, proList);
+                        } else {
+                            Set<String> proList = new HashSet<>();
+                            proList.add(proId);
+                            peptideProMap.put(peptide, proList);
+                        }
+                    }
                 }
+            }
+        }
 
-                float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("n") + massTable.get("H2O"); // calMass just calculate the residue mass, so we should add a H2O
-                if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
-                    peptideMassMap.put(peptide, massTemp);
+        if (containDecoy) {
+            for (String proId : proPeptideMap.keySet()) {
+                if (proId.startsWith("DECOY_")) {
+                    String proSeq = proPeptideMap.get(proId);
+                    Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
+                    for (String peptide : peptideSet) {
+                        if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z")) {
+                            continue;
+                        }
 
-                    // Add the sequence to the check set for decoy duplicate check
-                    String templateSeq = peptide.replace('L', 'I'); // "L" and "I" have the same mass.
-                    forCheckDuplicate.add(templateSeq);
-
-                    if (peptideProMap.containsKey(peptide)) {
-                        Set<String> proList = peptideProMap.get(peptide);
-                        proList.add(proId);
-                        peptideProMap.put(peptide, proList);
-                    } else {
-                        Set<String> proList = new HashSet<>();
-                        proList.add(proId);
-                        peptideProMap.put(peptide, proList);
+                        if (!forCheckDuplicate.contains(peptide.replace("L", "I"))) {
+                            float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("n") + massTable.get("H2O");
+                            if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
+                                decoyPeptideMassMap.put(peptide, massTemp);
+                                decoyPeptideProMap.put(peptide, proId);
+                            }
+                        }
                     }
                 }
             }
@@ -160,22 +186,6 @@ public class BuildIndex {
                 temp.add(peptide);
                 massPeptideMap.put(mass, temp);
             }
-        }
-    }
-
-    private String reverseSeq(String seq) {
-        String decoySeq;
-        if ((seq.charAt(seq.length() - 1) == 'K') || (seq.charAt(seq.length() - 1) == 'R')) {
-            StringBuilder sb = new StringBuilder(seq.substring(0, seq.length() - 1)).reverse();
-            decoySeq = sb.toString() + seq.substring(seq.length() - 1);
-        } else {
-            StringBuilder sb = new StringBuilder(seq).reverse();
-            decoySeq = sb.toString();
-        }
-        if (forCheckDuplicate.contains(decoySeq.replace('L', 'I'))) {
-            return "";
-        } else {
-            return decoySeq;
         }
     }
 
