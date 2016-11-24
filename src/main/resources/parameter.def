@@ -17,7 +17,7 @@ min_peak_num = 10
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
 ms1_tolerance = 10
-ms2_tolerance = 0.02
+ms2_tolerance = 0.01
 mz_bin_offset = 0
 
 # Modification related
