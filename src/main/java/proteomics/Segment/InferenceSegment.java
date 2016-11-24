@@ -16,7 +16,6 @@ public class InferenceSegment {
     private static final float maxTagIntensity = 4; // there are in total 4 peaks whose highest intensity is 1.
     private static final int regionNum = 10;
     private static final int topNumInEachRegion = 20;
-    private static final int peakNumTInTagInfer = 500;
 
     private final Float[] deltaMassArray;
     private final float ms2Tolerance;
@@ -181,23 +180,9 @@ public class InferenceSegment {
         return aaVectorTemplate.size();
     }
 
-    private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap) { // todo: improvement for large number of peaks. Right now, we set the max number of peaks to 500.
-        float intensityT = 0;
-        if (plMap.size() > peakNumTInTagInfer) {
-            Float[] tempArray = plMap.values().toArray(new Float[plMap.size()]);
-            Arrays.sort(tempArray);
-            intensityT = tempArray[tempArray.length - peakNumTInTagInfer - 1];
-        }
-        float[] mzArray = new float[Math.min(peakNumTInTagInfer, plMap.size())];
-        float[] intensityArray = new float[Math.min(peakNumTInTagInfer, plMap.size())];
-        int idx = 0;
-        for (float mz : plMap.keySet()) {
-            if ((plMap.get(mz) > intensityT) && (idx < mzArray.length)) {
-                mzArray[idx] = mz;
-                intensityArray[idx] = plMap.get(mz);
-                ++idx;
-            }
-        }
+    private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap) {
+        Float[] mzArray = plMap.keySet().toArray(new Float[plMap.size()]);
+        Float[] intensityArray = plMap.values().toArray(new Float[plMap.size()]);
         List<ThreeExpAA> tempList = new LinkedList<>();
         List<ThreeExpAA> outputList = new LinkedList<>();
         for (int i = 0; i < mzArray.length; ++i) {

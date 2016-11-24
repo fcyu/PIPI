@@ -24,10 +24,10 @@ public class PreSpectrum {
         TreeMap<Float, Float> temp = removePrecursorPeak(peaksMap, precursorMass, precursorCharge, ms2Tolerance);
 
         // reduce noise
-        // TreeMap<Float, Float> deionisedPlMap = deNoise(new TreeMap<>(temp.subMap(0f, precursorMass)));
+        TreeMap<Float, Float> deionisedPlMap = deNoise(new TreeMap<>(temp.subMap(0f, precursorMass)));
 
         // normalize
-        return normalizeSpec(new TreeMap<>(temp.subMap(0f, precursorMass)));
+        return normalizeSpec(deionisedPlMap);
     }
 
     public SparseVector prepareXcorr(TreeMap<Float, Float> plMap, float precursorMass) {
