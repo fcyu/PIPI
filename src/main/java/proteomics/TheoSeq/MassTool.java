@@ -146,11 +146,11 @@ public class MassTool {
     }
 
     public int mzToBin(float mz) {
-        return (int) Math.floor(mz / ms2Tolerance + oneMinusBinOffset);
+        return (int) Math.floor(mz / (2 * ms2Tolerance) + oneMinusBinOffset);
     }
 
     public float binToMz(int idx) {
-        return (idx - oneMinusBinOffset) * ms2Tolerance;
+        return (idx - oneMinusBinOffset) * 2 * ms2Tolerance;
     }
 
     private Map<Integer, List<int[]>> digestTrypsin(String proSeq) {
