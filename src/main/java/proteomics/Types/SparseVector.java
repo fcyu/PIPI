@@ -69,10 +69,10 @@ public class SparseVector {
     public double dot(SparseVector other) {
         double output = 0;
         Map<Integer, Float> otherVector = other.sparseVector;
-        for (int i : sparseVector.keySet()) {
-            if (otherVector.containsKey(i)) {
-                output += sparseVector.get(i) * otherVector.get(i);
-            }
+        Set<Integer> intersectedKeys = new HashSet<>(sparseVector.keySet());
+        intersectedKeys.retainAll(otherVector.keySet());
+        for (int i : intersectedKeys) {
+            output += sparseVector.get(i) * otherVector.get(i);
         }
         return output;
     }

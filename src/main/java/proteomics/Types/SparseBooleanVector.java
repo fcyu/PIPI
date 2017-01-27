@@ -26,22 +26,18 @@ public class SparseBooleanVector {
     public double dot(SparseVector other) {
         double output = 0;
         Map<Integer, Float> otherVector = other.getVectorMap();
-        for (int i : sparseVector) {
-            if (otherVector.containsKey(i)) {
-                output += otherVector.get(i);
-            }
+        Set<Integer> intersectedKeys = new HashSet<>(sparseVector);
+        intersectedKeys.retainAll(otherVector.keySet());
+        for (int i : intersectedKeys) {
+            output += otherVector.get(i);
         }
         return output;
     }
 
     public double dot(SparseBooleanVector other) {
-        double dotProduct = 0;
-        for (int k : other.sparseVector) {
-            if (sparseVector.contains(k)) {
-                ++dotProduct;
-            }
-        }
-        return dotProduct;
+        Set<Integer> intersectedKeys = new HashSet<>(sparseVector);
+        intersectedKeys.retainAll(other.sparseVector);
+        return intersectedKeys.size();
     }
 
     public SparseBooleanVector deepCopy() {
