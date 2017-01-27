@@ -177,8 +177,20 @@ public class BuildIndex {
     }
 
     private void buildMassPeptideMap() {
+        // target
         for (String peptide : peptideMassMap.keySet()) {
             float mass = peptideMassMap.get(peptide);
+            if (massPeptideMap.containsKey(mass)) {
+                massPeptideMap.get(mass).add(peptide);
+            } else {
+                Set<String> temp = new HashSet<>();
+                temp.add(peptide);
+                massPeptideMap.put(mass, temp);
+            }
+        }
+        // decoy
+        for (String peptide : decoyPeptideMassMap.keySet()) {
+            float mass = decoyPeptideMassMap.get(peptide);
             if (massPeptideMap.containsKey(mass)) {
                 massPeptideMap.get(mass).add(peptide);
             } else {
