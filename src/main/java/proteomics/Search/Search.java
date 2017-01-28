@@ -207,38 +207,27 @@ public class Search {
                     } else {
                         writer.write("-,-\n");
                     }
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                System.exit(1);
-            }
-        }
-
         ptmFreeResult = convertResult(ptmFreeResultMap, peptideProteinMap, proteinSeqMap);
         ptmOnlyResult = convertResult(ptmOnlyResultMap, peptideProteinMap, proteinSeqMap);
 
-        if (PIPI.DEV) {
-            writeResult("ptm_only_candidates" + "." + batchStartIdx + "." + Thread.currentThread().getId() + ".csv", ptmOnlyResult);
-        }
     }
+                    writer.close();
 
-    private void writeResult(String filePath,  Map<Integer, List<Peptide>> ptmOnly) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write("scanNum,peptide,globalRank,is_decoy\n");
-            for (int scanNum : ptmOnly.keySet()) {
-                List<Peptide> peptideList = ptmOnly.get(scanNum);
-                for (Peptide peptide : peptideList) {
-                    if (peptide.isDecoy()) {
-                        writer.write(scanNum + "," + peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",1\n");
-                    } else {
-                        writer.write(scanNum + "," + peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",0\n");
+                    writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + scanNum + ".csv"));
+                    writer.write("peptide,globalRank,is_decoy\n");
+                    for (Peptide peptide : ptmOnlyResult) {
+                        if (peptide.isDecoy()) {
+                            writer.write(peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",1\n");
+                        } else {
+                            writer.write(peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",0\n");
+                        }
                     }
+                    writer.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    System.exit(1);
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            logger.error(ex.getMessage());
-            System.exit(1);
         }
     }
 
