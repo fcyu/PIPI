@@ -218,7 +218,6 @@ public class Search {
         ptmOnlyResult = convertResult(ptmOnlyResultMap, peptideProteinMap, proteinSeqMap);
 
         if (PIPI.DEV) {
-            logger.debug("Writing searching results...");
             writeResult("ptm_only_candidates" + "." + batchStartIdx + "." + Thread.currentThread().getId() + ".csv", ptmOnlyResult);
         }
     }

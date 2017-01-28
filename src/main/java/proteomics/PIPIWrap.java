@@ -71,11 +71,9 @@ public class PIPIWrap implements Callable<List<FinalResultEntry>> {
             // Begin search.
             Search searchObj = new Search(buildIndexObj, numCodeMap, inference3SegmentObj, subMassNumMap, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge, batchStartIdx);
 
-            logger.debug("Analyzing PTMs...");
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), numSpectrumMap, numExp3aaLists, massToolObj, siteMass1000Map, minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, batchStartIdx);
             Map<Integer, List<Peptide>> ptmOnlyTemp = findPtmObj.getPeptidesWithPTMs();
 
-            logger.debug("Calculating final score...");
             Map<Integer, List<Peptide>> numCandidateMap = new HashMap<>(searchObj.getPTMFreeResult());
             for (int scanNum : ptmOnlyTemp.keySet()) {
                 if (numCandidateMap.containsKey(scanNum)) {
@@ -89,7 +87,6 @@ public class PIPIWrap implements Callable<List<FinalResultEntry>> {
 
             new CalSubscores(subScoredPsms, numSpectrumMap, ms2Tolerance);
 
-            logger.debug("Estimating E-value for each PSM...");
             for (FinalResultEntry psm : subScoredPsms) {
                 new CalEValue(psm);
             }
