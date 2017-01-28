@@ -94,7 +94,6 @@ public class PIPIWrap implements Callable<List<FinalResultEntry>> {
                 new CalEValue(psm);
             }
 
-            System.gc();
             return subScoredPsms;
         } catch (Exception ex) {
             logger.error(ex.getMessage());

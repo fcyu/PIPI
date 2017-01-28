@@ -176,8 +176,6 @@ public class PIPI {
                     System.exit(1);
                 }
             }
-
-            System.gc();
         }
 
         // shutdown threads.
