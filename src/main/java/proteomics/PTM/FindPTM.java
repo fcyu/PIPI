@@ -83,7 +83,7 @@ public class FindPTM {
         return resultWithPtm;
     }
 
-    private PositionDeltaMassMap inferGaps(Peptide peptide, SpectrumEntry spectrumEntry, float NTermMz, float CTermMz, List<ThreeExpAA> exp3aaListSet) throws Exception {
+    private PositionDeltaMassMap inferGaps(Peptide peptide, SpectrumEntry spectrumEntry, float NTermMz, float CTermMz, List<ThreeExpAA> exp3aaListSet) {
         float expPrecursorMass = spectrumEntry.precursorMass;
         float peptideMass = peptide.getPrecursorMass();
         float deltaMass = expPrecursorMass - peptideMass;
