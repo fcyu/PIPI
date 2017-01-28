@@ -267,6 +267,7 @@ public class Search {
                         }
                     } else if (startIdx == proSeq.length() - peptideString.length()) {
                         leftFlank = proSeq.substring(startIdx - 1, startIdx);
+                    logger.warn("Something wrong happened in Search.java (line: 223), scan num = {}, peptide = {}.", scanNum, peptideString);
                     } else {
                         leftFlank = proSeq.substring(startIdx - 1, startIdx);
                         rightFlank = proSeq.substring(startIdx + peptideString.length(), startIdx + peptideString.length() + 1);

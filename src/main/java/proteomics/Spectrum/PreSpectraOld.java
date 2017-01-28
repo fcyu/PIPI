@@ -39,7 +39,7 @@ public class PreSpectraOld {
 
 
             if (spectrum.getPrecursorCharge() == null) {
-                logger.debug("Scan {} doesn't contain precursor charge information.", Integer.valueOf(spectrum.getId()));
+                logger.warn("Scan {} doesn't contain precursor charge information.", Integer.valueOf(spectrum.getId()));
                 continue;
             }
 
