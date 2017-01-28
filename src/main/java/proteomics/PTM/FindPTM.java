@@ -23,12 +23,12 @@ public class FindPTM {
     private final float minPtmMass;
     private final float maxPtmMass;
     private final Map<String, Float> massTable;
-    private Map<Integer, List<Peptide>> resultWithPtm = new HashMap<>();
+    private List<Peptide> peptideWithPtmList = new LinkedList<>();
     private float totalResidueMz;
     private final Map<String, TreeSet<Integer>> siteMass100Map;
-    private final Map<Integer, Set<String>> noResultScanPeptide = new HashMap<>();
+    private final Set<String> noResultScanPeptide = new HashSet<>();
 
-    public FindPTM(Map<Integer, List<Peptide>> numResultMap, Map<Integer, SpectrumEntry> numSpectrumMap, Map<Integer, List<ThreeExpAA>> numExp3aaLists, MassTool massToolObj, Map<String, TreeSet<Integer>> siteMass100Map, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, int batchStartIdx) throws Exception {
+    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, MassTool massToolObj, Map<String, TreeSet<Integer>> siteMass100Map, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
@@ -37,39 +37,28 @@ public class FindPTM {
         this.massTable = massToolObj.returnMassTable();
         this.siteMass100Map = siteMass100Map;
 
-        for (int scanNum : numResultMap.keySet()) {
-            SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
-            totalResidueMz = spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON");
-            List<Peptide> peptideWithPtmList = new LinkedList<>();
-            for (Peptide peptide : numResultMap.get(scanNum)) {
-                PositionDeltaMassMap gaps = inferGaps(peptide, spectrumEntry, massTable.get("PROTON"), totalResidueMz, numExp3aaLists.get(scanNum));
-                if ((gaps != null) && (!gaps.isEmpty())) {
-                    PositionDeltaMassMap ptms = gaps2Ptms(peptide, gaps);
-                    if (ptms != null) {
-                        Peptide peptideWithPtm = peptide.clone();
-                        peptideWithPtm.setVarPTM(ptms);
-                        peptideWithPtmList.add(peptideWithPtm);
-                    } else if (PIPI.DEV) {
-                        addToNoResult(scanNum, peptide.getPTMFreeSeq());
-                    }
+        totalResidueMz = spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON");
+        for (Peptide peptide : peptideList) {
+            PositionDeltaMassMap gaps = inferGaps(peptide, spectrumEntry, massTable.get("PROTON"), totalResidueMz, exp3aaLists);
+            if ((gaps != null) && (!gaps.isEmpty())) {
+                PositionDeltaMassMap ptms = gaps2Ptms(peptide, gaps);
+                if (ptms != null) {
+                    Peptide peptideWithPtm = peptide.clone();
+                    peptideWithPtm.setVarPTM(ptms);
+                    peptideWithPtmList.add(peptideWithPtm);
                 } else if (PIPI.DEV) {
-                    addToNoResult(scanNum, peptide.getPTMFreeSeq());
+                    noResultScanPeptide.add(peptide.getPTMFreeSeq());
                 }
-            }
-
-            if (!peptideWithPtmList.isEmpty()) {
-                resultWithPtm.put(scanNum, peptideWithPtmList);
+            } else if (PIPI.DEV) {
+                noResultScanPeptide.add(peptide.getPTMFreeSeq());
             }
         }
 
         if (PIPI.DEV) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("no_result_scans" + "." + batchStartIdx + "." + Thread.currentThread().getId() + ".csv"))) {
-                writer.write("scan_num,total_candidate,no_result_candidate\n");
-                for (int scanNum : noResultScanPeptide.keySet()) {
-                    Set<String> tempSet = noResultScanPeptide.get(scanNum);
-                    for (String seq : tempSet) {
-                        writer.write(String.format("%d,%d,%s\n", scanNum, numResultMap.get(scanNum).size(), seq));
-                    }
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("no_result_scans" + "." + spectrumEntry.scanNum + ".csv"))) {
+                writer.write("total_candidate,no_result_candidate\n");
+                for (String seq : noResultScanPeptide) {
+                    writer.write(String.format("%d,%s\n", peptideList.size(), seq));
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -79,8 +68,8 @@ public class FindPTM {
         }
     }
 
-    public Map<Integer, List<Peptide>> getPeptidesWithPTMs() {
-        return resultWithPtm;
+    public List<Peptide> getPeptidesWithPTMs() {
+        return peptideWithPtmList;
     }
 
     private PositionDeltaMassMap inferGaps(Peptide peptide, SpectrumEntry spectrumEntry, float NTermMz, float CTermMz, List<ThreeExpAA> exp3aaListSet) {
@@ -340,15 +329,5 @@ public class FindPTM {
             logger.debug("There is something wrong in FindPTM (line: 345).");
         }
         return modifiedAaMap;
-    }
-
-    private void addToNoResult(int scanNum, String seq) {
-        if (noResultScanPeptide.containsKey(scanNum)) {
-            noResultScanPeptide.get(scanNum).add(seq);
-        } else {
-            Set<String> temp = new HashSet<>();
-            temp.add(seq);
-            noResultScanPeptide.put(scanNum, temp);
-        }
     }
 }

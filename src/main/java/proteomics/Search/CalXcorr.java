@@ -17,57 +17,49 @@ public class CalXcorr {
     private static final float evalueTolerance1 = 3;
     private static final float evalueTolerance2 = 20;
 
-    private List<FinalResultEntry> finalScoredPsm = new LinkedList<>();
+    private FinalResultEntry psm;
     private final MassTool massToolObj;
 
-    public CalXcorr(Map<Integer, List<Peptide>> numCandidateMap, Map<Integer, SpectrumEntry> numSpectrumMap, MassTool massToolObj, BuildIndex buildIndexObj) {
+    public CalXcorr(List<Peptide> candidateList, SpectrumEntry spectrum, MassTool massToolObj, BuildIndex buildIndexObj) {
         this.massToolObj = massToolObj;
+        int scanNum = spectrum.scanNum;
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
 
-        for (int scanNum : numCandidateMap.keySet()) {
-            // prepare the spectrum
-            SpectrumEntry spectrum = numSpectrumMap.get(scanNum);
-            SparseVector expXcorrPl = spectrum.plMapXcorr;
-            if (expXcorrPl == null) {
-                // xcorr version of experimental spectrum didn't prepared. generated it on the fly for the sake of memory.
-                expXcorrPl = preSpectrumObj.prepareXcorr(spectrum.plMap, spectrum.precursorMass);
-            }
+        // prepare the XCORR vector
+        SparseVector expXcorrPl = preSpectrumObj.prepareXcorr(spectrum.plMap, spectrum.precursorMass);
 
-            // calculate Xcorr
-            FinalResultEntry psm = new FinalResultEntry(scanNum);
-            List<Peptide> candidateList = numCandidateMap.get(scanNum);
-            for (Peptide peptide : candidateList) {
-                SparseBooleanVector theoIonVector = massToolObj.buildVector(peptide.getIonMatrix(), spectrum.precursorCharge);
-                double xcorr = theoIonVector.dot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
-                if (xcorr > 0) {
-                    psm.addToScoreHistogram(xcorr);
-                    psm.addScoredPeptide(peptide.getPTMFreeSeq());
-                    if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && psm.isDecoy() && (!peptide.isDecoy()))) {
-                        psm.setPeptide(peptide);
-                        psm.setScanNum(scanNum);
-                        psm.setGlobalSearchRank(peptide.getGlobalRank());
-                        psm.setNormalizedCrossXcorr(peptide.getNormalizedCrossCorr());
-                    }
-                    psm.addScore(xcorr);
+        // calculate Xcorr
+        psm = new FinalResultEntry(scanNum);
+        for (Peptide peptide : candidateList) {
+            SparseBooleanVector theoIonVector = massToolObj.buildVector(peptide.getIonMatrix(), spectrum.precursorCharge);
+            double xcorr = theoIonVector.dot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
+            if (xcorr > 0) {
+                psm.addToScoreHistogram(xcorr);
+                psm.addScoredPeptide(peptide.getPTMFreeSeq());
+                if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && psm.isDecoy() && (!peptide.isDecoy()))) {
+                    psm.setPeptide(peptide);
+                    psm.setScanNum(scanNum);
+                    psm.setGlobalSearchRank(peptide.getGlobalRank());
+                    psm.setNormalizedCrossXcorr(peptide.getNormalizedCrossCorr());
                 }
+                psm.addScore(xcorr);
             }
+        }
 
-            if (psm.getPeptide() != null) {
-                // generate permutated decoy peptides to fill up the number of total decoy peptides.
-                if (psm.getCandidateNum() < minDecoyNum) {
-                    // generateDecoyScores(psm, expXcorrPl, numCandidateMap.get(scanNum), minDecoyNum - psm.getCandidateNum(), spectrum.precursorCharge);
-                    generateDecoyScores(psm, expXcorrPl, buildIndexObj.getMassPeptideMap(),  minDecoyNum - psm.getCandidateNum(), spectrum.precursorMass, spectrum.precursorCharge);
-                }
-
-                finalScoredPsm.add(psm);
-            } else {
-                logger.debug("Something wrong happened in CalXcorr.java (line: 83), scan num = {}.", scanNum);
+        if (psm.getPeptide() != null) {
+            // generate permutated decoy peptides to fill up the number of total decoy peptides.
+            if (psm.getCandidateNum() < minDecoyNum) {
+                // generateDecoyScores(psm, expXcorrPl, numCandidateMap.get(scanNum), minDecoyNum - psm.getCandidateNum(), spectrum.precursorCharge);
+                generateDecoyScores(psm, expXcorrPl, buildIndexObj.getMassPeptideMap(),  minDecoyNum - psm.getCandidateNum(), spectrum.precursorMass, spectrum.precursorCharge);
             }
+        } else {
+            psm = null;
+            logger.debug("Scan {} doesn't have a peptide to make XCorr > 0.", scanNum);
         }
     }
 
-    public List<FinalResultEntry> getScoredPSMs() {
-        return finalScoredPsm;
+    public FinalResultEntry getScoredPSM() {
+        return psm;
     }
 
     private void generateDecoyScores(FinalResultEntry psm, SparseVector expXcorrPl, TreeMap<Float, Set<String>> massPeptideMap, int gapNum, float precursorMass, int precursorCharge) {

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.FDR.EstimateFDR;
 import proteomics.Segment.InferenceSegment;
-import proteomics.Spectrum.FilterSpectra;
 import proteomics.Types.*;
 import proteomics.Index.BuildIndex;
 import proteomics.Parameter.Parameter;
@@ -64,13 +63,27 @@ public class PIPI {
         float ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         int ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         int maxMs2Charge = Integer.valueOf(parameterMap.get("max_ms2_charge"));
-        int batchSize = Integer.valueOf(parameterMap.get("batch_size"));
         String percolatorPath = parameterMap.get("percolator_path");
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
 
         logger.info("Indexing protein database...");
         BuildIndex buildIndexObj = new BuildIndex(parameterMap);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
+
+        InferenceSegment inference3SegmentObj = new InferenceSegment(buildIndexObj, ms2Tolerance, 3);
+
+        // coding peptide beforehand
+        Map<String, Peptide0> peptideCodeMap = new HashMap<>();
+        Map<String, Float> peptideMassMap = buildIndexObj.returnPepMassMap();
+        for (String peptide : peptideMassMap.keySet()) {
+            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide));
+            peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), true));
+        }
+        peptideMassMap = buildIndexObj.returnDecoyPepMassMap();
+        for (String peptide : peptideMassMap.keySet()) {
+            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide));
+            peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), false));
+        }
 
         logger.info("Reading PTM database...");
         Map<String, TreeSet<Integer>> siteMass1000Map = readPTMDb(parameterMap, buildIndexObj.returnFixModMap());
@@ -103,6 +116,9 @@ public class PIPI {
                 spectraParser = new MzXMLFile(spectraFile);
             } else if (ext.contentEquals("mgf")) {
                 spectraParser = new MgfFile(spectraFile);
+            } else {
+                logger.error("Unsupported file format {}.", ext);
+                logger.error("Currently, PIPI only support mzXML and MGF.");
             }
         } catch (FileNotFoundException | MzXMLParsingException ex) {
             ex.printStackTrace();
@@ -110,10 +126,12 @@ public class PIPI {
             System.exit(1);
         }
 
-        FilterSpectra filterSpectraObj = new FilterSpectra(spectraParser, parameterMap, massToolObj.returnMassTable());
-        FilterSpectra.MassScan[] scanNumArray = filterSpectraObj.getScanNumArray();
+        PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext);
+        Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
+        Map<Integer, ChargeMassTuple> numChargeMassMap = preSpectraObj.getNumChargeMassMap();
+        logger.info("Useful MS/MS spectra number: {}", numSpectrumMap.size());
 
-        logger.info("Useful MS/MS spectra number: {}", scanNumArray.length);
+        logger.info("Start searching...");
 
         int threadNum = Integer.valueOf(parameterMap.get("thread_num"));
         if (threadNum == 0) {
@@ -121,62 +139,50 @@ public class PIPI {
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
-        InferenceSegment inference3SegmentObj = new InferenceSegment(buildIndexObj, ms2Tolerance, 3);
+        List<Future<FinalResultEntry>> tempResultList = new LinkedList<>();
+        for (int scanNum : numSpectrumMap.keySet()) {
+            tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, numSpectrumMap.get(scanNum), siteMass1000Map, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+        }
 
-        List<FinalResultEntry> finalScoredPsms = new LinkedList<>();
-        Map<Integer, ChargeMassTuple> numChargeMassMap = new HashMap<>();
-        int startIdx;
-        int endIdx = 0;
-        while (endIdx < scanNumArray.length) {
-            startIdx = endIdx;
-            if (batchSize == 0) {
-                endIdx = scanNumArray.length;
-            } else {
-                endIdx = Math.min(startIdx + batchSize, scanNumArray.length);
-            }
-
-            logger.info("Searching batch {} - {} ({}%)...", startIdx, endIdx, String.format("%.1f", (float) endIdx * 100 / (float) scanNumArray.length));
-            PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, scanNumArray, startIdx, endIdx);
-            Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
-            TreeMap<Float, List<Integer>> massNumMap = preSpectraObj.returnMassNumMap();
-            numChargeMassMap.putAll(preSpectraObj.getNumChargeMassMap());
-
-            if (!massNumMap.isEmpty()) {
-                int batchSize2 = (massNumMap.size() / threadNum) + 1;
-                Float[] massArray = massNumMap.keySet().toArray(new Float[massNumMap.size()]);
-                Collection<PIPIWrap> taskList = new LinkedList<>();
-                for (int i = 0; i < threadNum; ++i) {
-                    int leftIdx = i * batchSize2;
-                    int rightIdx = Math.min((i + 1) * batchSize2, massArray.length - 1);
-                    if (leftIdx > massArray.length - 1) {
-                        break;
-                    }
-
-                    if (rightIdx < massArray.length - 1) {
-                        NavigableMap<Float, List<Integer>> subMassNumMap = massNumMap.subMap(massArray[leftIdx], true, massArray[rightIdx], false);
-                        taskList.add(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, numSpectrumMap, subMassNumMap, siteMass1000Map, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge, startIdx));
-                    } else {
-                        NavigableMap<Float, List<Integer>> subMassNumMap = massNumMap.subMap(massArray[leftIdx], true, massArray[rightIdx], true);
-                        taskList.add(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, numSpectrumMap, subMassNumMap, siteMass1000Map, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge, startIdx));
-                    }
+        // check progress every minute
+        int lastProgress = 0;
+        try {
+            int count;
+            while (((count = finishedFutureNum(tempResultList)) < numSpectrumMap.size()) && hasUnfinishedFuture(tempResultList)) {
+                int progress = count * 20 / numSpectrumMap.size();
+                if (progress != lastProgress) {
+                    logger.info("Searching {}%...", progress * 5);
+                    lastProgress = progress;
                 }
-                try {
-                    List<Future<List<FinalResultEntry>>> tempResultList = threadPool.invokeAll(taskList);
-                    for (Future<List<FinalResultEntry>> tempResult : tempResultList) {
-                        if (tempResult.isDone() && !tempResult.isCancelled()) {
-                            finalScoredPsms.addAll(tempResult.get());
-                        } else {
-                            logger.error("Threads were not finished normally.");
-                            System.exit(1);
-                        }
+                Thread.sleep(60000);
+            }
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+            logger.error(ex.toString());
+            System.exit(1);
+        }
+
+        logger.info("Searching 100%...");
+
+        // record search results.
+        List<FinalResultEntry> finalScoredPsms = new LinkedList<>();
+        try {
+            for (Future<FinalResultEntry> tempResult : tempResultList) {
+                if (tempResult.isDone() && !tempResult.isCancelled()) {
+                    if (tempResult.get() != null) {
+                        finalScoredPsms.add(tempResult.get());
                     }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    logger.error(ex.getMessage());
+                } else {
+                    logger.error("Threads were not finished normally.");
                     System.exit(1);
                 }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(ex.getMessage());
+            System.exit(1);
         }
+
 
         // shutdown threads.
         threadPool.shutdown();
@@ -472,5 +478,24 @@ public class PIPI {
         }
 
         return siteMass1000Map;
+    }
+
+    private static int finishedFutureNum(List<Future<FinalResultEntry>> futureList) {
+        int count = 0;
+        for (Future<FinalResultEntry> future : futureList) {
+            if (future.isDone()) {
+                ++count;
+            }
+        }
+        return count;
+    }
+
+    private static boolean hasUnfinishedFuture(List<Future<FinalResultEntry>> futureList) {
+        for (Future<FinalResultEntry> future : futureList) {
+            if (!future.isDone()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

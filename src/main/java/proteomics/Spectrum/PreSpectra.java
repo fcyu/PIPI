@@ -20,9 +20,12 @@ public class PreSpectra {
 
     private Map<Integer, ChargeMassTuple> numChargeMassMap = new HashMap<>();
     private Map<Integer, SpectrumEntry> numSpectrumMap = new HashMap<>();
-    private TreeMap<Float, List<Integer>> massNumMap = new TreeMap<>();
 
-    public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext, FilterSpectra.MassScan[] scanNumArray, int startIdx, int endIdx) {
+    public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext) {
+        int minMs1Charge = Integer.valueOf(parameterMap.get("min_ms1_charge"));
+        int maxMs1Charge = Integer.valueOf(parameterMap.get("max_ms1_charge"));
+        float minPrecursorMass =  Float.valueOf(parameterMap.get("min_precursor_mass"));
+        float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         Map<String, Float> massTable = massToolObj.returnMassTable();
@@ -35,50 +38,54 @@ public class PreSpectra {
         });
         System.setOut(nullStream);
 
-        int idx = startIdx;
-        try {
-            while ((idx < endIdx) && (idx < scanNumArray.length)) {
-                Spectrum spectrum = spectraParser.getSpectrumById(scanNumArray[idx].scanId);
-                int precursorCharge = spectrum.getPrecursorCharge();
-                float precursorMz = spectrum.getPrecursorMZ().floatValue();
-                float precursorMass = precursorMz * precursorCharge - precursorCharge * massTable.get("PROTON");
-                Map<Double, Double> rawMzIntensityMap = spectrum.getPeakList();
-                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
-                if (plMap.size() <= minPeakNum) {
-                    ++idx;
-                    continue;
-                }
+        Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
+        while (spectrumIterator.hasNext()) {
+            Spectrum spectrum = spectrumIterator.next();
 
-                int scanNum = Integer.valueOf(spectrum.getId());
-                try {
-                    if (ext.contentEquals("mgf")) {
-                        String title = ((Ms2Query) spectrum).getTitle();
-                        String[] temp = title.split("\\.");
-                        scanNum = Integer.valueOf(temp[temp.length - 2]);
-                    }
-                } catch (Exception ex) {}
-
-                SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, null);
-
-                if (massNumMap.containsKey(precursorMass)) {
-                    List<Integer> spectrumList = massNumMap.get(precursorMass);
-                    spectrumList.add(scanNum);
-                    massNumMap.put(precursorMass, spectrumList);
-                } else {
-                    List<Integer> scanNumList = new LinkedList<>();
-                    scanNumList.add(scanNum);
-                    massNumMap.put(precursorMass, scanNumList);
-                }
-
-                numSpectrumMap.put(scanNum, spectrumEntry);
-                numChargeMassMap.put(scanNum, new ChargeMassTuple(precursorCharge, precursorMass));
-
-                ++idx;
+            if (spectrum.getMsLevel() != 2) {
+                continue;
             }
-        } catch (JMzReaderException ex) {
-            logger.error(ex.getMessage());
-            ex.printStackTrace();
-            System.exit(1);
+
+            if (spectrum.getPrecursorCharge() == null) {
+                logger.warn("Scan {} doesn't have charge information. Skip.", spectrum.getId());
+                continue;
+            }
+            int precursorCharge = spectrum.getPrecursorCharge();
+
+            if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
+                continue;
+            }
+
+            float precursorMz = spectrum.getPrecursorMZ().floatValue();
+            float precursorMass = precursorMz * precursorCharge - precursorCharge * massTable.get("PROTON");
+            if ((precursorMass > maxPrecursorMass) || (precursorMass < minPrecursorMass)) {
+                continue;
+            }
+
+            if (spectrum.getPeakList().size() < minPeakNum) {
+                logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
+                continue;
+            }
+
+            Map<Double, Double> rawMzIntensityMap = spectrum.getPeakList();
+            TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
+            if (plMap.size() <= minPeakNum) {
+                continue;
+            }
+
+            int scanNum = Integer.valueOf(spectrum.getId());
+            try {
+                if (ext.contentEquals("mgf")) {
+                    String title = ((Ms2Query) spectrum).getTitle();
+                    String[] temp = title.split("\\.");
+                    scanNum = Integer.valueOf(temp[temp.length - 2]);
+                }
+            } catch (Exception ex) {}
+
+            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
+
+            numSpectrumMap.put(scanNum, spectrumEntry);
+            numChargeMassMap.put(scanNum, new ChargeMassTuple(precursorCharge, precursorMass));
         }
 
         System.setOut(originalStream);
@@ -86,10 +93,6 @@ public class PreSpectra {
 
     public Map<Integer, SpectrumEntry> returnNumSpectrumMap() {
         return numSpectrumMap;
-    }
-
-    public TreeMap<Float, List<Integer>> returnMassNumMap() {
-        return massNumMap;
     }
 
     public Map<Integer, ChargeMassTuple> getNumChargeMassMap() {

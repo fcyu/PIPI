@@ -73,7 +73,7 @@ public class PreSpectraOld {
                 }
             } catch (Exception ex) {}
 
-            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, null);
+            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
 
             if (massNumMap.containsKey(precursorMass)) {
                 List<Integer> spectrumList = massNumMap.get(precursorMass);
