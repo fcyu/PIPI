@@ -44,30 +44,9 @@ public class PreSpectra {
                 continue;
             }
 
-            if (spectrum.getPrecursorCharge() == null) {
-                logger.warn("Scan {} doesn't have charge information. Skip.", spectrum.getId());
-                continue;
-            }
-            int precursorCharge = spectrum.getPrecursorCharge();
-
-            if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
-                continue;
-            }
-
-            float precursorMz = spectrum.getPrecursorMZ().floatValue();
-            float precursorMass = precursorMz * precursorCharge - precursorCharge * massTable.get("PROTON");
-            if ((precursorMass > maxPrecursorMass) || (precursorMass < minPrecursorMass)) {
-                continue;
-            }
-
-            if (spectrum.getPeakList().size() < minPeakNum) {
-                logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
-                continue;
-            }
-
             Map<Double, Double> rawMzIntensityMap = spectrum.getPeakList();
-            TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
-            if (plMap.size() <= minPeakNum) {
+            if (rawMzIntensityMap.size() < minPeakNum) {
+                logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
                 continue;
             }
 
@@ -80,7 +59,35 @@ public class PreSpectra {
                 }
             } catch (Exception ex) {}
 
-            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
+            float precursorMz = spectrum.getPrecursorMZ().floatValue();
+
+            SpectrumEntry spectrumEntry;
+            int precursorCharge;
+            float precursorMass;
+            if (spectrum.getPrecursorCharge() == null) {
+                logger.debug("Scan {} doesn't have charge information.", spectrum.getId());
+                precursorCharge = 0;
+                precursorMass = 0;
+                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
+                if (plMap.size() <= minPeakNum) {
+                    continue;
+                }
+                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
+            } else {
+                precursorCharge = spectrum.getPrecursorCharge();
+                if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
+                    continue;
+                }
+                precursorMass = precursorMz * precursorCharge - precursorCharge * massTable.get("PROTON");
+                if ((precursorMass > maxPrecursorMass) || (precursorMass < minPrecursorMass)) {
+                    continue;
+                }
+                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
+                if (plMap.size() <= minPeakNum) {
+                    continue;
+                }
+                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
+            }
 
             numSpectrumMap.put(scanNum, spectrumEntry);
         }

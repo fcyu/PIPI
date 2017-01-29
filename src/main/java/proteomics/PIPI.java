@@ -25,7 +25,7 @@ public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
     private static final float C13Diff = 1.00335483f;
-    private static final String versionStr = "1.2.6";
+    private static final String versionStr = "1.2.7";
 
     public static final boolean DEV = false;
 
@@ -65,6 +65,10 @@ public class PIPI {
         int maxMs2Charge = Integer.valueOf(parameterMap.get("max_ms2_charge"));
         String percolatorPath = parameterMap.get("percolator_path");
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
+        int minPotentialCharge = Integer.valueOf(parameterMap.get("min_potential_charge"));
+        int maxPotentialCharge = Integer.valueOf(parameterMap.get("max_potential_charge"));
+        float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
+        float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
 
         logger.info("Indexing protein database...");
         BuildIndex buildIndexObj = new BuildIndex(parameterMap);
@@ -140,15 +144,26 @@ public class PIPI {
 
         List<Future<FinalResultEntry>> tempResultList = new LinkedList<>();
         for (int scanNum : numSpectrumMap.keySet()) {
-            tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, numSpectrumMap.get(scanNum), siteMass1000Map, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+            SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
+            if (spectrumEntry.precursorCharge > 0) {
+                tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, siteMass1000Map, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+            } else {
+                for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
+                    float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
+                    if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
+                        SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)));
+                        tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, fakeSpectrumEntry, siteMass1000Map, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                    }
+                }
+            }
         }
 
         // check progress every minute
         int lastProgress = 0;
         try {
             int count;
-            while (((count = finishedFutureNum(tempResultList)) < numSpectrumMap.size()) && hasUnfinishedFuture(tempResultList)) {
-                int progress = count * 20 / numSpectrumMap.size();
+            while (((count = finishedFutureNum(tempResultList)) < tempResultList.size()) && hasUnfinishedFuture(tempResultList)) {
+                int progress = count * 20 / tempResultList.size();
                 if (progress != lastProgress) {
                     logger.info("Searching {}%...", progress * 5);
                     lastProgress = progress;
@@ -164,12 +179,12 @@ public class PIPI {
         logger.info("Searching 100%...");
 
         // record search results.
-        List<FinalResultEntry> finalScoredPsms = new LinkedList<>();
+        List<FinalResultEntry> tempList = new LinkedList<>();
         try {
             for (Future<FinalResultEntry> tempResult : tempResultList) {
                 if (tempResult.isDone() && !tempResult.isCancelled()) {
                     if (tempResult.get() != null) {
-                        finalScoredPsms.add(tempResult.get());
+                        tempList.add(tempResult.get());
                     }
                 } else {
                     logger.error("Threads were not finished normally.");
@@ -181,7 +196,6 @@ public class PIPI {
             logger.error(ex.getMessage());
             System.exit(1);
         }
-
 
         // shutdown threads.
         threadPool.shutdown();
@@ -198,9 +212,24 @@ public class PIPI {
             System.exit(1);
         }
 
-        if (finalScoredPsms.isEmpty()) {
+        if (tempList.isEmpty()) {
             logger.error("There is no useful results.");
             System.exit(1);
+        }
+
+        // merge different results corresponding to different charges for the same spectrum.
+        List<FinalResultEntry> finalScoredPsms = new LinkedList<>();
+        for(FinalResultEntry e1 : tempList) {
+            boolean keep = true;
+            for (FinalResultEntry e2 : tempList) {
+                if ((e1.getScanNum() == e2.getScanNum()) && (e1.getNegativeLog10EValue() < e2.getNegativeLog10EValue())) { // Compare e-values because different charge states result in different search space, which result in different e-values even for the same XCorr score.
+                    keep = false;
+                    break;
+                }
+            }
+            if (keep) {
+                finalScoredPsms.add(e1);
+            }
         }
 
         logger.info("Estimating FDR...");
