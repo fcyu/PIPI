@@ -128,7 +128,6 @@ public class PIPI {
 
         PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext);
         Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
-        Map<Integer, ChargeMassTuple> numChargeMassMap = preSpectraObj.getNumChargeMassMap();
         logger.info("Useful MS/MS spectra number: {}", numSpectrumMap.size());
 
         logger.info("Start searching...");
@@ -213,7 +212,7 @@ public class PIPI {
         String percolatorOutputFileName = spectraPath + ".output.temp";
         Map<String, Set<String>> peptideProteinMap = buildIndexObj.returnPepProMap();
         Map<String, String> decoyPeptideProteinMap = buildIndexObj.returnDecoyPepProMap();
-        writePercolator(finalScoredPsms, numChargeMassMap, peptideProteinMap, decoyPeptideProteinMap, percolatorInputFileName, buildIndexObj.returnFixModMap());
+        writePercolator(finalScoredPsms, peptideProteinMap, decoyPeptideProteinMap, percolatorInputFileName, buildIndexObj.returnFixModMap());
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
@@ -226,7 +225,7 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(finalScoredPsms, percolatorResultMap, numChargeMassMap, peptideProteinMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap());
+        writeFinalResult(finalScoredPsms, percolatorResultMap, peptideProteinMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap());
 
         logger.info("Done.");
     }
@@ -244,11 +243,11 @@ public class PIPI {
         System.exit(1);
     }
 
-    private static void writePercolator(List<FinalResultEntry> finalScoredResult, Map<Integer, ChargeMassTuple> numChargeMassMap, Map<String, Set<String>> peptideProteinMap, Map<String, String> decoyPeptideProteinMap, String resultPath, Map<String, Float> fixModMap) {
+    private static void writePercolator(List<FinalResultEntry> finalScoredResult, Map<String, Set<String>> peptideProteinMap, Map<String, String> decoyPeptideProteinMap, String resultPath, Map<String, Float> fixModMap) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
             writer.write("id\tlabel\tscannr\txcorr\tdelta_c\tdelta_L_c\tnegative_log10_e_value\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tIonFrac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\tvar_PTM_num\tpeptide\tprotein\n");
             for (FinalResultEntry entry : finalScoredResult) {
-                float expMass = numChargeMassMap.get(entry.getScanNum()).mass;
+                float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 Peptide peptide = entry.getPeptide();
                 float theoMass = peptide.getPrecursorMass();
                 float massDiff = getMassDiff(expMass, theoMass, C13Diff);
@@ -263,7 +262,7 @@ public class PIPI {
                 }
 
                 StringBuilder sb = new StringBuilder(20);
-                int charge = numChargeMassMap.get(entry.getScanNum()).charge;
+                int charge = entry.getCharge();
                 for (int i = 0; i < 6; ++i) {
                     if (i == charge - 1) {
                         sb.append(1);
@@ -329,15 +328,15 @@ public class PIPI {
         return percolatorResultMap;
     }
 
-    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, Map<Integer, ChargeMassTuple> numChainMassMap, Map<String, Set<String>> peptideProteinMap, String outputPath, Map<String, Float> fixModMap) {
+    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Set<String>> peptideProteinMap, String outputPath, Map<String, Float> fixModMap) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,ppm,protein_ID,xcorr,e_value,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value\n");
             for (FinalResultEntry entry : finalScoredPsms) {
                 if (!entry.isDecoy()) {
                     int scanNum = entry.getScanNum();
-                    float expMass = numChainMassMap.get(scanNum).mass;
-                    int charge = numChainMassMap.get(scanNum).charge;
+                    float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
+                    int charge = entry.getCharge();
                     Peptide peptide = entry.getPeptide();
                     float theoMass = peptide.getPrecursorMass();
                     float massDiff = getMassDiff(expMass, theoMass, C13Diff);

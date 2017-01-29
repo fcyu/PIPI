@@ -3,7 +3,6 @@ package proteomics.Spectrum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.TheoSeq.MassTool;
-import proteomics.Types.ChargeMassTuple;
 import proteomics.Types.SpectrumEntry;
 import uk.ac.ebi.pride.tools.jmzreader.*;
 import uk.ac.ebi.pride.tools.jmzreader.model.*;
@@ -18,7 +17,6 @@ public class PreSpectra {
 
     private static final Logger logger = LoggerFactory.getLogger(PreSpectra.class);
 
-    private Map<Integer, ChargeMassTuple> numChargeMassMap = new HashMap<>();
     private Map<Integer, SpectrumEntry> numSpectrumMap = new HashMap<>();
 
     public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext) {
@@ -85,7 +83,6 @@ public class PreSpectra {
             SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
 
             numSpectrumMap.put(scanNum, spectrumEntry);
-            numChargeMassMap.put(scanNum, new ChargeMassTuple(precursorCharge, precursorMass));
         }
 
         System.setOut(originalStream);
@@ -93,9 +90,5 @@ public class PreSpectra {
 
     public Map<Integer, SpectrumEntry> returnNumSpectrumMap() {
         return numSpectrumMap;
-    }
-
-    public Map<Integer, ChargeMassTuple> getNumChargeMassMap() {
-        return numChargeMassMap;
     }
 }
