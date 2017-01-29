@@ -28,7 +28,7 @@ public class CalXcorr {
         SparseVector expXcorrPl = preSpectrumObj.prepareXcorr(spectrum.plMap);
 
         // calculate Xcorr
-        psm = new FinalResultEntry(spectrum.scanNum, spectrum.precursorCharge);
+        psm = new FinalResultEntry(spectrum.scanNum, spectrum.precursorCharge, spectrum.precursorMz);
         for (Peptide peptide : candidateList) {
             SparseBooleanVector theoIonVector = massToolObj.buildVector(peptide.getIonMatrix(), spectrum.precursorCharge);
             double xcorr = theoIonVector.dot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
