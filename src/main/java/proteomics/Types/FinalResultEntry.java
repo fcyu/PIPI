@@ -10,7 +10,8 @@ public class FinalResultEntry {
     private static final double maxScore = 10;
     private static final int scoreNum = 5;
 
-    private int scanNum;
+    private final int scanNum;
+    private final int charge;
     private List<Double> scoreList = new LinkedList<>();
     private Peptide peptide;
     private double normalizedCrossXcorr;
@@ -29,8 +30,9 @@ public class FinalResultEntry {
     private int startIdx = -1;
     private double rSquare = -1;
 
-    public FinalResultEntry(int scanNum) {
+    public FinalResultEntry(int scanNum, int charge) {
         this.scanNum = scanNum;
+        this.charge = charge;
     }
 
     public double getScore() {
@@ -69,6 +71,10 @@ public class FinalResultEntry {
         return scanNum;
     }
 
+    public int getCharge() {
+        return charge;
+    }
+
     public boolean scored(String peptide) {
         return scoredPeptide.contains(peptide);
     }
@@ -90,10 +96,6 @@ public class FinalResultEntry {
 
     public void setPeptide(Peptide peptide) {
         this.peptide = peptide;
-    }
-
-    public void setScanNum(int scanNum) {
-        this.scanNum = scanNum;
     }
 
     public int getCandidateNum() {
