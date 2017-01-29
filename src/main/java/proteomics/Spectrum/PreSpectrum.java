@@ -30,8 +30,8 @@ public class PreSpectrum {
         return normalizeSpec(deionisedPlMap);
     }
 
-    public SparseVector prepareXcorr(TreeMap<Float, Float> plMap, float precursorMass) {
-        float[] plArray = digitizeSpec(plMap, precursorMass);
+    public SparseVector prepareXcorr(TreeMap<Float, Float> plMap) {
+        float[] plArray = digitizeSpec(plMap);
 
         SparseVector xcorrPl = new SparseVector();
         float mySum = 0;
@@ -182,8 +182,8 @@ public class PreSpectrum {
         return windowedPlMap;
     }
 
-    private float[] digitizeSpec(TreeMap<Float, Float> pl, float precursorMass) {
-        float[] digitizedPl = new float[massToolObj.mzToBin(precursorMass) + 1];
+    private float[] digitizeSpec(TreeMap<Float, Float> pl) {
+        float[] digitizedPl = new float[massToolObj.mzToBin(pl.lastKey()) + 1];
         Set<Float> mzSet = pl.keySet();
         for (float mz : mzSet) {
             int idx = massToolObj.mzToBin(mz);

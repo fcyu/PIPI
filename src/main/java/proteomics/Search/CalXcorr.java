@@ -25,7 +25,7 @@ public class CalXcorr {
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
 
         // prepare the XCORR vector
-        SparseVector expXcorrPl = preSpectrumObj.prepareXcorr(spectrum.plMap, spectrum.precursorMass);
+        SparseVector expXcorrPl = preSpectrumObj.prepareXcorr(spectrum.plMap);
 
         // calculate Xcorr
         psm = new FinalResultEntry(spectrum.scanNum, spectrum.precursorCharge);
