@@ -22,7 +22,6 @@ public class CalXcorr {
 
     public CalXcorr(List<Peptide> candidateList, SpectrumEntry spectrum, MassTool massToolObj, BuildIndex buildIndexObj) {
         this.massToolObj = massToolObj;
-        int scanNum = spectrum.scanNum;
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
 
         // prepare the XCORR vector
@@ -54,7 +53,7 @@ public class CalXcorr {
             }
         } else {
             psm = null;
-            logger.debug("Scan {} doesn't have a peptide to make XCorr > 0.", scanNum);
+            logger.debug("Scan {} doesn't have a peptide to make XCorr > 0.", spectrum.scanNum);
         }
     }
 

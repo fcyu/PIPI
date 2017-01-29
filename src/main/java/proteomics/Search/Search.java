@@ -23,9 +23,6 @@ public class Search {
 
 
     public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, Map<String, Peptide0> peptideCodeMap, TreeMap<Float, Set<String>> massPeptideMap, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
-        int scanNum = spectrumEntry.scanNum;
-        float precursorMass = spectrumEntry.precursorMass;
-
         Map<String, Set<String>> peptideProteinMap = buildIndexObj.returnPepProMap();
         Map<String, String> proteinSeqMap = buildIndexObj.returnProPepMap();
 
@@ -36,11 +33,11 @@ public class Search {
         float leftTol = ms1Tolerance;
         float rightTol = ms1Tolerance;
         if (ms1ToleranceUnit == 1) {
-            leftTol = precursorMass - (precursorMass / (1 + ms1Tolerance * 1e-6f));
-            rightTol = (precursorMass / (1 - ms1Tolerance * 1e-6f)) - precursorMass;
+            leftTol = spectrumEntry.precursorMass - (spectrumEntry.precursorMass / (1 + ms1Tolerance * 1e-6f));
+            rightTol = (spectrumEntry.precursorMass / (1 - ms1Tolerance * 1e-6f)) - spectrumEntry.precursorMass;
         }
-        float leftMass = Math.max(precursorMass + minPtmMass, minPeptideMass);
-        float rightMass = Math.min(precursorMass + maxPtmMass, maxPeptideMass);
+        float leftMass = Math.max(spectrumEntry.precursorMass + minPtmMass, minPeptideMass);
+        float rightMass = Math.min(spectrumEntry.precursorMass + maxPtmMass, maxPeptideMass);
         NavigableMap<Float, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
 
         if (!subMassPeptideMap.isEmpty()) {
@@ -108,8 +105,8 @@ public class Search {
                 }
             }
 
-            ptmFreeResult = convertResult(ptmFreeQueue, peptideProteinMap, proteinSeqMap, massToolObj, maxMs2Charge, scanNum);
-            ptmOnlyResult = convertResult(ptmOnlyQueue, peptideProteinMap, proteinSeqMap, massToolObj, maxMs2Charge, scanNum);
+            ptmFreeResult = convertResult(ptmFreeQueue, peptideProteinMap, proteinSeqMap, massToolObj, maxMs2Charge, spectrumEntry.scanNum);
+            ptmOnlyResult = convertResult(ptmOnlyQueue, peptideProteinMap, proteinSeqMap, massToolObj, maxMs2Charge, spectrumEntry.scanNum);
 
             if (PIPI.DEV) {
                 try {
