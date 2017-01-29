@@ -110,14 +110,7 @@ public class InferenceSegment {
     }
 
     public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry) {
-        // Add four virtual peak.
-        TreeMap<Float, Float> plMap = spectrumEntry.getPlMapWithVirtualPeaks();
-        if (plMap == null) {
-            plMap = addVirtualPeaks(spectrumEntry);
-            spectrumEntry.setPlMapWithVirtualPeaks(plMap);
-        }
-
-        return inferThreeAAFromSpectrum(plMap);
+        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry));
     }
 
     public Set<Segment> cutTheoSegment(String peptide) {

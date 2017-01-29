@@ -8,7 +8,6 @@ public class SpectrumEntry {
     public final float precursorMass;
     public final int precursorCharge;
     public final TreeMap<Float, Float> plMap;
-    private TreeMap<Float, Float> plMapWithVirtualPeaks = null;
     private final String toString;
 
     public SpectrumEntry(int scanNum, float precursorMz, float precursorMass, int precursorCharge, TreeMap<Float, Float> plMap) {
@@ -22,13 +21,5 @@ public class SpectrumEntry {
 
     public String toString() {
         return toString;
-    }
-
-    public void setPlMapWithVirtualPeaks(TreeMap<Float, Float> input) {
-        plMapWithVirtualPeaks = input;
-    }
-
-    public TreeMap<Float, Float> getPlMapWithVirtualPeaks() {
-        return plMapWithVirtualPeaks;
     }
 }
