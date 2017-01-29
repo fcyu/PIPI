@@ -113,7 +113,7 @@ public class Search {
 
             if (PIPI.DEV) {
                 try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("PTMFreeContainingGlobalScoreBound" + "." + scanNum + ".csv"));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("PTMFreeContainingGlobalScoreBound" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
                     writer.write("PTM_free_low,PTM_free_high,PTM_containing_low,PTM_containing_high\n");
                     if (!ptmFreeQueue.isEmpty()) {
                         double highScore = 0;
@@ -147,7 +147,7 @@ public class Search {
                     }
                     writer.close();
 
-                    writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + scanNum + ".csv"));
+                    writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
                     writer.write("peptide,globalRank,is_decoy\n");
                     for (Peptide peptide : ptmOnlyResult) {
                         if (peptide.isDecoy()) {

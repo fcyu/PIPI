@@ -55,7 +55,7 @@ public class FindPTM {
         }
 
         if (PIPI.DEV) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("no_result_scans" + "." + spectrumEntry.scanNum + ".csv"))) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("no_result_scans" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"))) {
                 writer.write("total_candidate,no_result_candidate\n");
                 for (String seq : noResultScanPeptide) {
                     writer.write(String.format("%d,%s\n", peptideList.size(), seq));
