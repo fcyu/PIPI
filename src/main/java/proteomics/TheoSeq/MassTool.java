@@ -40,7 +40,7 @@ public class MassTool {
         massTable.put("Y", 163.063329f + fixModMap.get("Y"));
         massTable.put("W", 186.079313f + fixModMap.get("W"));
         massTable.put("U", 150.953636f + fixModMap.get("U"));
-        massTable.put("O", 237.147727f + fixModMap.get("O"));
+        massTable.put("O", 132.08988f + fixModMap.get("O"));
         massTable.put("n", fixModMap.get("n"));
         massTable.put("#", 113.084064f); // for I and L.
         massTable.put("$", 128.0767705f); // for Q and K.
