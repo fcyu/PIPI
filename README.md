@@ -16,4 +16,16 @@ java -Xmx25g -jar PIPI.jar <parameter_file> <spectra_file>
 example: ```java -Xmx25g -jar PIPI.jar parameter.def data.mzXML```
 
 ## Cite
-Yu, Fengchao, Ning Li, and Weichuan Yu. "PIPI: PTM-Invariant Peptide Identification Using Coding Method" (under review).
+Yu, F., Li, N., & Yu, W. (2016). PIPI: PTM-Invariant Peptide Identification Using Coding Method. Journal of Proteome Research, 15(12), 4423-4435.
+```
+@article{yu2016pipi,
+  title={PIPI: PTM-Invariant Peptide Identification Using Coding Method},
+  author={Yu, Fengchao and Li, Ning and Yu, Weichuan},
+  journal={Journal of Proteome Research},
+  volume={15},
+  number={12},
+  pages={4423--4435},
+  year={2016},
+  publisher={ACS Publications}
+}
+```
