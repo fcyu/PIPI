@@ -25,7 +25,7 @@ public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
     private static final float C13Diff = 1.00335483f;
-    private static final String versionStr = "1.2.7";
+    private static final String versionStr = "1.2.8";
 
     public static final boolean DEV = false;
 

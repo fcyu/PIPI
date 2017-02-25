@@ -19,15 +19,17 @@ public class PreSpectrum {
         massTable = massToolObj.returnMassTable();
     }
 
-    public TreeMap<Float, Float> preSpectrum (Map<Double, Double> peaksMap, float precursorMass, int precursorCharge, float ms2Tolerance) {
+    public TreeMap<Float, Float> preSpectrum (Map<Double, Double> peaksMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         // remove precursor peak from spectrum
         TreeMap<Float, Float> temp;
         if (precursorMass > 10) {
-            temp = removePrecursorPeak(peaksMap, precursorMass, precursorCharge, ms2Tolerance);
+            temp = removeCertainPeaks(peaksMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
         } else {
             temp = new TreeMap<>();
             for (double mz : peaksMap.keySet()) {
-                temp.put((float) mz, peaksMap.get(mz).floatValue());
+                if ((mz < minClear) || (mz > maxClear)) {
+                    temp.put((float) mz, peaksMap.get(mz).floatValue());
+                }
             }
         }
 
@@ -70,14 +72,16 @@ public class PreSpectrum {
         return xcorrPl;
     }
 
-    private TreeMap<Float, Float> removePrecursorPeak(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance) {
+    private TreeMap<Float, Float> removeCertainPeaks(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         TreeMap<Float, Float> mzIntensityMap = new TreeMap<>();
 
         for (double mz : peakMap.keySet()) {
-            for (int charge = precursorCharge; charge > 0; --charge) {
-                float temp = (precursorMass + charge * massTable.get("PROTON")) / charge;
-                if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - temp) > ms2Tolerance)) {
-                    mzIntensityMap.put((float) mz, peakMap.get(mz).floatValue());
+            if ((mz < minClear) || (mz > maxClear)) {
+                for (int charge = precursorCharge; charge > 0; --charge) {
+                    float temp = (precursorMass + charge * massTable.get("PROTON")) / charge;
+                    if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - temp) > ms2Tolerance)) {
+                        mzIntensityMap.put((float) mz, peakMap.get(mz).floatValue());
+                    }
                 }
             }
         }

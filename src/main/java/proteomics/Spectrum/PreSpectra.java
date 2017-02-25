@@ -27,6 +27,8 @@ public class PreSpectra {
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         Map<String, Float> massTable = massToolObj.returnMassTable();
+        float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
+        float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
 
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         PrintStream originalStream = System.out;
@@ -68,7 +70,7 @@ public class PreSpectra {
                 logger.debug("Scan {} doesn't have charge information.", spectrum.getId());
                 precursorCharge = 0;
                 precursorMass = 0;
-                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
+                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
                 if (plMap.size() <= minPeakNum) {
                     continue;
                 }
@@ -82,7 +84,7 @@ public class PreSpectra {
                 if ((precursorMass > maxPrecursorMass) || (precursorMass < minPrecursorMass)) {
                     continue;
                 }
-                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
+                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
                 if (plMap.size() <= minPeakNum) {
                     continue;
                 }

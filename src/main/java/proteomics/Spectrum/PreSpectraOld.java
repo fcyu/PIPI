@@ -25,6 +25,8 @@ public class PreSpectraOld {
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         Map<String, Float> massTable = massToolObj.returnMassTable();
+        float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
+        float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
 
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
@@ -59,7 +61,7 @@ public class PreSpectraOld {
                 continue;
             }
 
-            TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance);
+            TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
             if (plMap.size() <= minPeakNum) {
                 continue;
             }
