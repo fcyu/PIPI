@@ -1,24 +1,25 @@
-batch_size = 5000
 thread_num = 0
 percolator_path = /home/fyuab/percolator-v3-00/bin/percolator # Please input absolute path of Percolator binary file
 
 # Database
-db = TAIR10.target.decoy.fasta
-contain_decoy = 1 # 1: the database contains decoy proteins; 0: doesn't contain. The decoy proteins' headers must start with DECOY_. If 0, PIPI will generate decoy proteins automatically.
+db = Homo_sapiens_Human.fasta
+contain_decoy = 0 # 1: the database contains decoy proteins; 0: doesn't contain. The decoy proteins' headers must start with DECOY_. If 0, PIPI will generate decoy proteins automatically.
 missed_cleavage = 2 # maximum number of missed cleavage
 min_precursor_mass = 600
 max_precursor_mass = 5000 # for benchmarking comet
 
 # Spectrum
-min_ms1_charge  =1
+min_ms1_charge = 2
 max_ms1_charge = 7
 max_ms2_charge = 3 # min ms2 charge is set to 1
 min_peak_num = 10
+min_potential_charge = 2
+max_potential_charge = 4
 
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
 ms1_tolerance = 10
-ms2_tolerance = 0.01
+ms2_tolerance = 0.02
 mz_bin_offset = 0
 min_clear_mz = 112.5 # clear out all peaks in the specified m/z range, mainly for iTRAQ/TMT data
 max_clear_mz = 121.5
