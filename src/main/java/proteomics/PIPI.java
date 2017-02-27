@@ -337,13 +337,11 @@ public class PIPI {
                 }
                 reader.close();
 
-                if (DEV) {
-                    reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
-                    while ((line = reader.readLine()) != null) {
-                        System.err.print(line);
-                    }
-                    reader.close();
+                reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    logger.error("[Percolator error]: {}", line);
                 }
+                reader.close();
             } else {
                 logger.error("Cannot find Percolator for estimating Percolator Q-Value. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
                 return percolatorResultMap;
