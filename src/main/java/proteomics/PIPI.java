@@ -318,7 +318,7 @@ public class PIPI {
         Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
         try {
             if ((new File(percolatorPath)).exists()) {
-                Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --no-terminate --results-psms " + percolatorOutputFileName + " " + percolatorInputFileName);
+                Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 1 --no-terminate --results-psms " + percolatorOutputFileName + " " + percolatorInputFileName);
                 ps.waitFor();
 
                 if (!(new File(percolatorOutputFileName).exists())) {
