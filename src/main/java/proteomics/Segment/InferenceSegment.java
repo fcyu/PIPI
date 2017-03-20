@@ -11,9 +11,7 @@ import java.util.*;
 public class InferenceSegment {
 
     private static final Logger logger = LoggerFactory.getLogger(InferenceSegment.class);
-    private static final float precision = 0.0001f;
     private static final int minTagNum = 200;
-    private static final float maxTagIntensity = 4; // there are in total 4 peaks whose highest intensity is 1.
     private static final int regionNum = 10;
     private static final int topNumInEachRegion = 20;
 
@@ -85,14 +83,6 @@ public class InferenceSegment {
         if (inputList.isEmpty()) {
             return finalVector;
         } else {
-            float[] totalIntensityArray = new float[inputList.size()];
-            int idx = 0;
-            for (ThreeExpAA expAas : inputList) {
-                totalIntensityArray[idx] = expAas.getTotalIntensity();
-                ++idx;
-            }
-            Arrays.sort(totalIntensityArray);
-
             for (ThreeExpAA expAaList : inputList) {
                 float totalIntensity = expAaList.getTotalIntensity();
                 idx = aaVectorTemplate.get(new Segment(expAaList.getAAString()));
@@ -121,10 +111,6 @@ public class InferenceSegment {
             normalizedSeq = normalizedSeq.replaceAll("[QK]", "$");
         }
         return normalizedSeq;
-    }
-
-    public int sparseVectorLength() {
-        return aaVectorTemplate.size();
     }
 
     private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap) {
@@ -173,7 +159,6 @@ public class InferenceSegment {
                 }
             }
         }
-
 
         if (tempList.size() > minTagNum) {
             float minMz = plMap.firstKey();
@@ -254,36 +239,5 @@ public class InferenceSegment {
         }
 
         return finalPlMap;
-    }
-
-    private double[] calPValue(float[] totalIntensityArray) { // p-values in descending order
-        int[] scoreCountArray = new int[(int) (maxTagIntensity / precision) + 1];
-        double[] pValueArray = new double[scoreCountArray.length];
-        for (float totalIntensity : totalIntensityArray) {
-            ++scoreCountArray[intensity2Bin(totalIntensity)];
-        }
-        int count = scoreCountArray[scoreCountArray.length - 1];
-        pValueArray[pValueArray.length - 1] = (double) count / (double) totalIntensityArray.length;
-        for (int i = scoreCountArray.length - 2; i >= 0; --i) {
-            count += scoreCountArray[i];
-            pValueArray[i] = (double) count / (double) totalIntensityArray.length;
-        }
-        return pValueArray;
-    }
-
-    private float getScoreT(double[] pValueArray, double pT) {
-        int idx = 0;
-        for (int i = 0; i < pValueArray.length; ++i) {
-            if (pValueArray[i] <= pT) {
-                idx = i;
-                break;
-            }
-        }
-
-        return idx * precision;
-    }
-
-    private int intensity2Bin(float totalIntensity) {
-        return (int) Math.floor(totalIntensity / precision);
     }
 }
