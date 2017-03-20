@@ -22,12 +22,10 @@ public class InferenceSegment {
     private final boolean lowResolution;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
     private Map<Float, Character> massAaMap = new HashMap<>();
-    private final int tagLength;
     private final Map<String, Float> massTable;
 
-    public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance, int tagLength) throws Exception {
+    public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance) throws Exception {
         this.ms2Tolerance = ms2Tolerance;
-        this.tagLength = tagLength;
         lowResolution = (ms2Tolerance > 0.1);
         massTable = buildIndexObj.returnMassToolObj().returnMassTable();
 
@@ -46,60 +44,16 @@ public class InferenceSegment {
         deltaMassArray = massAaMap.keySet().toArray(new Float[massAaMap.size()]);
         Character[] aaArray = massAaMap.values().toArray(new Character[massAaMap.size()]);
 
-        switch (tagLength) {
-            case 1:
-                // tag-1
-                for (char aa : aaArray) {
-                    Segment segment = new Segment(String.valueOf(aa));
+        for (char aa1 : aaArray) {
+            for (char aa2 : aaArray) {
+                for (char aa3 : aaArray) {
+                    String segmentString = String.valueOf(aa1) + String.valueOf(aa2) + String.valueOf(aa3);
+                    Segment segment = new Segment(segmentString);
                     if (!aaVectorTemplate.containsKey(segment)) {
                         aaVectorTemplate.put(segment, 0);
                     }
                 }
-                break;
-            case 2:
-                // tag-2
-                for (char aa1 : aaArray) {
-                    for (char aa2 : aaArray) {
-                        String segmentString = String.valueOf(aa1) + String.valueOf(aa2);
-                        Segment segment = new Segment(segmentString);
-                        if (!aaVectorTemplate.containsKey(segment)) {
-                            aaVectorTemplate.put(segment, 0);
-                        }
-                    }
-                }
-                break;
-            case 3:
-                // tag-3
-                for (char aa1 : aaArray) {
-                    for (char aa2 : aaArray) {
-                        for (char aa3 : aaArray) {
-                            String segmentString = String.valueOf(aa1) + String.valueOf(aa2) + String.valueOf(aa3);
-                            Segment segment = new Segment(segmentString);
-                            if (!aaVectorTemplate.containsKey(segment)) {
-                                aaVectorTemplate.put(segment, 0);
-                            }
-                        }
-                    }
-                }
-                break;
-            case 4:
-                // tag-4
-                for (char aa1 : aaArray) {
-                    for (char aa2 : aaArray) {
-                        for (char aa3 : aaArray) {
-                            for (char aa4 : aaArray) {
-                                String segmentString = String.valueOf(aa1) + String.valueOf(aa2) + String.valueOf(aa3) + String.valueOf(aa4);
-                                Segment segment = new Segment(segmentString);
-                                if (!aaVectorTemplate.containsKey(segment)) {
-                                    aaVectorTemplate.put(segment, 0);
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-            default:
-                throw new Exception("[ERROR]: The length of tag is larger than 4!");
+            }
         }
 
         int idx = 0;
@@ -116,11 +70,11 @@ public class InferenceSegment {
     public Set<Segment> cutTheoSegment(String peptide) {
         String normalizedPeptide = normalizeSequence(lowResolution, peptide);
         Set<Segment> segmentSet = new HashSet<>();
-        if (normalizedPeptide.length() == tagLength) {
+        if (normalizedPeptide.length() == 3) {
             segmentSet.add(new Segment(normalizedPeptide));
-        } else if (normalizedPeptide.length() > tagLength) {
-            for (int i = 0; i <= normalizedPeptide.length() - tagLength; ++i) {
-                segmentSet.add(new Segment(normalizedPeptide.substring(i, i + tagLength)));
+        } else if (normalizedPeptide.length() > 3) {
+            for (int i = 0; i <= normalizedPeptide.length() - 3; ++i) {
+                segmentSet.add(new Segment(normalizedPeptide.substring(i, i + 3)));
             }
         }
         return segmentSet;

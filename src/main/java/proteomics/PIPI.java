@@ -74,7 +74,7 @@ public class PIPI {
         BuildIndex buildIndexObj = new BuildIndex(parameterMap);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
 
-        InferenceSegment inference3SegmentObj = new InferenceSegment(buildIndexObj, ms2Tolerance, 3);
+        InferenceSegment inference3SegmentObj = new InferenceSegment(buildIndexObj, ms2Tolerance);
 
         // coding peptide beforehand
         Map<String, Peptide0> peptideCodeMap = new HashMap<>();
