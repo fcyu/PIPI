@@ -323,6 +323,17 @@ public class PIPI {
 
                 if (!(new File(percolatorOutputFileName).exists())) {
                     logger.warn("Error in running Percolator. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        logger.error("[Percolator info]: {}", line);
+                    }
+                    reader.close();
+                    reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+                    while ((line = reader.readLine()) != null) {
+                        logger.error("[Percolator info]: {}", line);
+                    }
+                    reader.close();
                     return percolatorResultMap;
                 }
 
@@ -334,12 +345,6 @@ public class PIPI {
                         String[] parts = line.split("\t");
                         percolatorResultMap.put(Integer.valueOf(parts[0]), new PercolatorEntry(Double.valueOf(parts[1]), parts[2], parts[3]));
                     }
-                }
-                reader.close();
-
-                reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
-                while ((line = reader.readLine()) != null) {
-                    logger.error("[Percolator error]: {}", line);
                 }
                 reader.close();
             } else {
