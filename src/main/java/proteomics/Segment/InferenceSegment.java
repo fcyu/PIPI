@@ -17,24 +17,20 @@ public class InferenceSegment {
 
     private final Float[] deltaMassArray;
     private final float ms2Tolerance;
-    private final boolean lowResolution;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
     private Map<Float, Character> massAaMap = new HashMap<>();
     private final Map<String, Float> massTable;
 
     public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance) throws Exception {
         this.ms2Tolerance = ms2Tolerance;
-        lowResolution = (ms2Tolerance > 0.1);
         massTable = buildIndexObj.returnMassToolObj().returnMassTable();
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
 
         for (char aa : standardAaArray) {
-            // # = I/L. $ = Q/K in low resolution.
+            // # = I/L.
             if (aa == 'I' || aa == 'L') {
                 massAaMap.put(massTable.get(String.valueOf(aa)), '#');
-            } else if (((aa == 'Q') || (aa == 'K')) && lowResolution) {
-                massAaMap.put(massTable.get("K"), '$');
             } else {
                 massAaMap.put(massTable.get(String.valueOf(aa)), aa);
             }
@@ -66,7 +62,7 @@ public class InferenceSegment {
     }
 
     public Set<Segment> cutTheoSegment(String peptide) {
-        String normalizedPeptide = normalizeSequence(lowResolution, peptide);
+        String normalizedPeptide = normalizeSequence(peptide);
         Set<Segment> segmentSet = new HashSet<>();
         if (normalizedPeptide.length() == 3) {
             segmentSet.add(new Segment(normalizedPeptide));
@@ -105,12 +101,8 @@ public class InferenceSegment {
         }
     }
 
-    public static String normalizeSequence(boolean lowResolution, String seq) {
-        String normalizedSeq = seq.replaceAll("[IL]", "#");
-        if (lowResolution) {
-            normalizedSeq = normalizedSeq.replaceAll("[QK]", "$");
-        }
-        return normalizedSeq;
+    public static String normalizeSequence(String seq) {
+        return seq.replaceAll("[IL]", "#");
     }
 
     private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap) {

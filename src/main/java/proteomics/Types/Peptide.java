@@ -29,7 +29,7 @@ public class Peptide implements Comparable<Peptide> {
     public Peptide(String peptideString, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, String leftFlank, String rightFlank, int globalRank) {
         this.peptideString = peptideString;
         this.isDecoy = isDecoy;
-        this.normalizedPeptideString = InferenceSegment.normalizeSequence(false, peptideString);
+        this.normalizedPeptideString = InferenceSegment.normalizeSequence(peptideString);
         this.normalizedCrossXcorr = normalizedCrossXcorr;
         precursorMass = massToolObj.calResidueMass(peptideString) + massToolObj.returnMassTable().get("H2O");
         ionMatrix = massToolObj.buildIonArray(peptideString, maxMs2Charge);
