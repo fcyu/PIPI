@@ -235,23 +235,36 @@ public class FindPTM {
         for (int i = 0; i < seq.length(); ++i) {
             String aa = seq.substring(i, i + 1);
             TreeSet<Integer> tempSet = new TreeSet<>();
+            // Consider the amino acid only.
             if (siteMass1000Map.containsKey(aa)) {
                 tempSet.addAll(siteMass1000Map.get(aa));
-            } else if ((i == 0) && peptideN && siteMass1000Map.containsKey(aa + "-PEPTIDE_N")) {
+            }
+
+            // When the amino acid is in the terminal, consider corresponding modification.
+            if ((i == 0) && peptideN && siteMass1000Map.containsKey(aa + "-PEPTIDE_N")) {
                 tempSet.addAll(siteMass1000Map.get(aa + "-PEPTIDE_N"));
-            } else if ((i == 0) && proteinN && siteMass1000Map.containsKey(aa + "-PROTEIN_N")) {
+            }
+            if ((i == 0) && proteinN && siteMass1000Map.containsKey(aa + "-PROTEIN_N")) {
                 tempSet.addAll(siteMass1000Map.get(aa + "-PROTEIN_N"));
-            } else if ((i == seq.length() - 1) && peptideC && siteMass1000Map.containsKey(aa + "-PEPTIDE_C")) {
+            }
+            if ((i == seq.length() - 1) && peptideC && siteMass1000Map.containsKey(aa + "-PEPTIDE_C")) {
                 tempSet.addAll(siteMass1000Map.get(aa + "-PEPTIDE_C"));
-            } else if ((i == seq.length() - 1) && proteinC && siteMass1000Map.containsKey(aa + "-PROTEIN_C")) {
+            }
+            if ((i == seq.length() - 1) && proteinC && siteMass1000Map.containsKey(aa + "-PROTEIN_C")) {
                 tempSet.addAll(siteMass1000Map.get(aa + "-PROTEIN_C"));
-            } else if ((i == 0) && peptideN && siteMass1000Map.containsKey("PEPTIDE_N")) {
+            }
+
+            // When in the terminal, consider the terminal modification.
+            if ((i == 0) && peptideN && siteMass1000Map.containsKey("PEPTIDE_N")) {
                 tempSet.addAll(siteMass1000Map.get("PEPTIDE_N"));
-            } else if ((i == 0) && proteinN && siteMass1000Map.containsKey("PROTEIN_N")) {
+            }
+            if ((i == 0) && proteinN && siteMass1000Map.containsKey("PROTEIN_N")) {
                 tempSet.addAll(siteMass1000Map.get("PROTEIN_N"));
-            } else if ((i == seq.length() - 1) && peptideC && siteMass1000Map.containsKey("PEPTIDE_C")) {
+            }
+            if ((i == seq.length() - 1) && peptideC && siteMass1000Map.containsKey("PEPTIDE_C")) {
                 tempSet.addAll(siteMass1000Map.get("PEPTIDE_C"));
-            } else if ((i == seq.length() - 1) && proteinC && siteMass1000Map.containsKey("PEPTIDE_C")) {
+            }
+            if ((i == seq.length() - 1) && proteinC && siteMass1000Map.containsKey("PEPTIDE_C")) {
                 tempSet.addAll(siteMass1000Map.get("PEPTIDE_C"));
             }
 
