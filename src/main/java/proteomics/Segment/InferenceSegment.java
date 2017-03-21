@@ -15,18 +15,20 @@ public class InferenceSegment {
     private static final int regionNum = 10;
     private static final int topNumInEachRegion = 20;
 
-    private final Float[] deltaMassArray;
     private final float ms2Tolerance;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
-    private Map<Float, Character> massAaMap = new HashMap<>();
     private final Map<String, Float> massTable;
+    private Map<Float, String> modifiedAAMap = new HashMap<>();
+    private final Float[] deltaMassArray;
+    private Map<String, Float> modifiedAAMassMap = new HashMap<>();
 
-    public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance) throws Exception {
+    public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance, Map<String, String> parameterMap) throws Exception {
         this.ms2Tolerance = ms2Tolerance;
         massTable = buildIndexObj.returnMassToolObj().returnMassTable();
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
 
+        Map<Float, Character> massAaMap = new HashMap<>();
         for (char aa : standardAaArray) {
             // # = I/L.
             if (aa == 'I' || aa == 'L') {
@@ -35,7 +37,7 @@ public class InferenceSegment {
                 massAaMap.put(massTable.get(String.valueOf(aa)), aa);
             }
         }
-        deltaMassArray = massAaMap.keySet().toArray(new Float[massAaMap.size()]);
+
         Character[] aaArray = massAaMap.values().toArray(new Character[massAaMap.size()]);
 
         for (char aa1 : aaArray) {
@@ -55,6 +57,35 @@ public class InferenceSegment {
             aaVectorTemplate.put(segment, idx);
             ++idx;
         }
+
+        // generate a mass aa map containing modified amino acid
+        for (float k : massAaMap.keySet()) {
+            modifiedAAMap.put(k, massAaMap.get(k).toString());
+        }
+        for (String k : parameterMap.keySet()) {
+            if (k.startsWith("mod")) {
+                String v = parameterMap.get(k);
+                if (!v.startsWith("0.0")) {
+                    String[] temp = v.split("@");
+                    float tempMass = massTable.get(temp[1].substring(0, 1)) + Float.valueOf(temp[0]);
+                    // check if the mass has conflict
+                    for (float temp2 : modifiedAAMap.keySet()) {
+                        if (Math.abs(temp2 - tempMass) <= ms2Tolerance) {
+                            logger.error("{} and {} have conflict mass values({} vs {}).", v, modifiedAAMap.get(temp2), tempMass, temp2);
+                            System.exit(1);
+                        }
+                    }
+                    if ((temp[1].charAt(0) == 'I') || (temp[1].charAt(0) == 'L')) {
+                        modifiedAAMap.put(tempMass, temp[1].replace(temp[1].charAt(0), '#'));
+                        modifiedAAMassMap.put(temp[1].replace(temp[1].charAt(0), '#'), Float.valueOf(temp[0]));
+                    } else {
+                        modifiedAAMap.put(tempMass, temp[1]);
+                        modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
+                    }
+                }
+            }
+        }
+        deltaMassArray = modifiedAAMap.keySet().toArray(new Float[modifiedAAMap.size()]);
     }
 
     public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry) {
@@ -81,7 +112,7 @@ public class InferenceSegment {
         } else {
             for (ThreeExpAA expAaList : inputList) {
                 float totalIntensity = expAaList.getTotalIntensity();
-                idx = aaVectorTemplate.get(new Segment(expAaList.getAAString()));
+                int idx = aaVectorTemplate.get(new Segment(expAaList.getPtmFreeAAString()));
                 float value = Math.max(totalIntensity, finalVector.get(idx));
                 finalVector.put(idx, value);
             }
@@ -116,23 +147,35 @@ public class InferenceSegment {
             for (int j = i + 1; j < mzArray.length; ++j) {
                 float mz2 = mzArray[j];
                 float intensity2 = intensityArray[j];
-                char aa1 = inferAA(mz1, mz2);
-                if (aa1 != 0) {
-                    ExpAA expAa1 = new ExpAA(aa1, mz1, mz2, intensity1, intensity2, -1);
+                String aa1 = inferAA(mz1, mz2);
+                if (aa1 != null) {
+                    float mod = 0;
+                    if (modifiedAAMassMap.containsKey(aa1)) {
+                        mod = modifiedAAMassMap.get(aa1);
+                    }
+                    ExpAA expAa1 = new ExpAA(aa1, mz1, mz2, intensity1, intensity2, -1, mod);
                     List<List<ExpAA>> tempAasList2 = new LinkedList<>();
                     for (int k = j + 1; k < mzArray.length; ++k) {
                         float mz3 = mzArray[k];
                         float intensity3 = intensityArray[k];
-                        char aa2 = inferAA(mz2, mz3);
-                        if (aa2 != 0) {
-                            ExpAA expAa2 = new ExpAA(aa2, mz2, mz3, intensity2, intensity3, -1);
+                        String aa2 = inferAA(mz2, mz3);
+                        if (aa2 != null) {
+                            mod = 0;
+                            if (modifiedAAMassMap.containsKey(aa2)) {
+                                mod = modifiedAAMassMap.get(aa2);
+                            }
+                            ExpAA expAa2 = new ExpAA(aa2, mz2, mz3, intensity2, intensity3, -1, mod);
                             List<ExpAA> tempAasList3 = new LinkedList<>();
                             for (int l = k + 1; l < mzArray.length; ++l) {
                                 float mz4 = mzArray[l];
                                 float intensity4 = intensityArray[l];
-                                char aa3 = inferAA(mz3, mz4);
-                                if (aa3 != 0) {
-                                    ExpAA expAa3 = new ExpAA(aa3, mz3, mz4, intensity3, intensity4, -1);
+                                String aa3 = inferAA(mz3, mz4);
+                                if (aa3 != null) {
+                                    mod = 0;
+                                    if (modifiedAAMassMap.containsKey(aa3)) {
+                                        mod = modifiedAAMassMap.get(aa3);
+                                    }
+                                    ExpAA expAa3 = new ExpAA(aa3, mz3, mz4, intensity3, intensity4, -1, mod);
                                     tempAasList3.add(expAa3);
                                 }
                             }
@@ -184,14 +227,14 @@ public class InferenceSegment {
         }
     }
 
-    private char inferAA(float mz1, float mz2) {
+    private String inferAA(float mz1, float mz2) {
         float mzDiff = mz2 - mz1;
         for (float mass : deltaMassArray) {
             if (Math.abs(mzDiff - mass) <= ms2Tolerance) {
-                return massAaMap.get(mass);
+                return modifiedAAMap.get(mass);
             }
         }
-        return 0;
+        return null;
     }
 
     private TreeMap<Float, Float> addVirtualPeaks(SpectrumEntry spectrumEntry) {

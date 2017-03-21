@@ -97,6 +97,12 @@ public class FindPTM {
         // find gaps
         PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
         float totalDeltaMass = 0;
+        for (ExpAA aa : alignedResult) {
+            if (aa.getMod() > 0) {
+                totalDeltaMass += aa.getMod();
+                positionDeltaMassMap.put(new Coordinate(aa.getTheoLocation(), aa.getTheoLocation() + 1), aa.getMod());
+            }
+        }
 
         // check N-term first
         ExpAA firstExpAa = alignedResult.get(0);
@@ -176,29 +182,33 @@ public class FindPTM {
             // Infer and validate PTMs
             PositionDeltaMassMap newPositionGapMap = new PositionDeltaMassMap();
             for (Coordinate coordinate : positionGapMap.keySet()) {
-                String aaSeq = peptideString.substring(coordinate.x, coordinate.y);
-                float deltaMass = positionGapMap.get(coordinate);
-                boolean peptideN = false;
-                boolean peptideC = false;
-                boolean proteinN = false;
-                boolean proteinC = false;
-                if (coordinate.x == 0) {
-                    if (peptide.getLeftFlank().contentEquals("-")) {
-                        proteinN = true;
-                    } else {
-                        peptideN = true;
+                if (coordinate.y - coordinate.x == 1) {
+                    newPositionGapMap.put(new Coordinate(coordinate.x, coordinate.y), positionGapMap.get(coordinate));
+                } else {
+                    String aaSeq = peptideString.substring(coordinate.x, coordinate.y);
+                    float deltaMass = positionGapMap.get(coordinate);
+                    boolean peptideN = false;
+                    boolean peptideC = false;
+                    boolean proteinN = false;
+                    boolean proteinC = false;
+                    if (coordinate.x == 0) {
+                        if (peptide.getLeftFlank().contentEquals("-")) {
+                            proteinN = true;
+                        } else {
+                            peptideN = true;
+                        }
+                    } else if (coordinate.y == peptideString.length()) {
+                        if (peptide.getRightFlank().contentEquals("-")) {
+                            proteinC = true;
+                        } else {
+                            peptideC = true;
+                        }
                     }
-                } else if (coordinate.y == peptideString.length()) {
-                    if (peptide.getRightFlank().contentEquals("-")) {
-                        proteinC = true;
-                    } else {
-                        peptideC = true;
-                    }
-                }
 
-                Map<Integer, Float> tempMap = pinPointPTM(siteMass100Map, aaSeq, peptideN, peptideC, proteinN, proteinC, deltaMass, 2 * ms2Tolerance);
-                for (int idx : tempMap.keySet()) {
-                    newPositionGapMap.put(new Coordinate(coordinate.x + idx, coordinate.x + idx + 1), tempMap.get(idx));
+                    Map<Integer, Float> tempMap = pinPointPTM(siteMass100Map, aaSeq, peptideN, peptideC, proteinN, proteinC, deltaMass, 2 * ms2Tolerance);
+                    for (int idx : tempMap.keySet()) {
+                        newPositionGapMap.put(new Coordinate(coordinate.x + idx, coordinate.x + idx + 1), tempMap.get(idx));
+                    }
                 }
             }
             return newPositionGapMap;
@@ -212,7 +222,7 @@ public class FindPTM {
         for (ThreeExpAA expAaList : inputSet) {
             int idx = 0;
             while (idx != -1) {
-                idx = normalizedPeptideString.indexOf(expAaList.getAAString(), idx);
+                idx = normalizedPeptideString.indexOf(expAaList.getPtmFreeAAString(), idx);
                 if (idx != -1) {
                     // check if the segment is in the tolerance boundary.
                     float temp = expAaList.getTailLocation() - peptideBIonArray[idx + expAaList.size() - 1];
