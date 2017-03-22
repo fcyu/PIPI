@@ -105,7 +105,7 @@ public class PreSpectrum {
                 subPlMap = plMap.subMap(leftMz, true, rightMz, true);
             }
 
-            if (subPlMap.size() > 9) {
+            if (subPlMap.size() > 20) {
                 float noiseIntensity = estimateNoiseIntensity(subPlMap);
                 for (float mz : subPlMap.keySet()) {
                     if (subPlMap.get(mz) > noiseIntensity) {
