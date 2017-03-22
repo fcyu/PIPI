@@ -28,7 +28,7 @@ public class PreSpectrum {
         } else {
             temp = new TreeMap<>();
             for (double mz : peaksMap.keySet()) {
-                if ((mz < minClear) || (mz > maxClear)) {
+                if (((mz < minClear) || (mz > maxClear)) && (mz > 50)) {
                     temp.put((float) mz, peaksMap.get(mz).floatValue());
                 }
             }
@@ -94,7 +94,7 @@ public class PreSpectrum {
         float precursorMzWaterLoss = precursorMz - massTable.get("H2O") / precursorCharge;
         float precursorMzAmmoniaLoss = precursorMz - massTable.get("NH3") / precursorCharge;
         for (double mz : peakMap.keySet()) {
-            if ((mz < minClear) || (mz > maxClear)) {
+            if (((mz < minClear) || (mz > maxClear)) && (mz > 50)) {
                 if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - precursorMz) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzWaterLoss) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzAmmoniaLoss) > ms2Tolerance)) {
                     mzIntensityMap.put((float) mz, peakMap.get(mz).floatValue());
                 }
