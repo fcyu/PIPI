@@ -75,13 +75,13 @@ public class PreSpectrum {
     private TreeMap<Float, Float> removeCertainPeaks(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         TreeMap<Float, Float> mzIntensityMap = new TreeMap<>();
 
+        float precursorMz = precursorMass / precursorCharge + massTable.get("PROTON");
+        float precursorMzWaterLoss = precursorMz - massTable.get("H2O") / precursorCharge;
+        float precursorMzAmmoniaLoss = precursorMz - massTable.get("NH3") / precursorCharge;
         for (double mz : peakMap.keySet()) {
             if ((mz < minClear) || (mz > maxClear)) {
-                for (int charge = precursorCharge; charge > 0; --charge) {
-                    float temp = (precursorMass + charge * massTable.get("PROTON")) / charge;
-                    if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - temp) > ms2Tolerance)) {
-                        mzIntensityMap.put((float) mz, peakMap.get(mz).floatValue());
-                    }
+                if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - precursorMz) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzWaterLoss) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzAmmoniaLoss) > ms2Tolerance)) {
+                    mzIntensityMap.put((float) mz, peakMap.get(mz).floatValue());
                 }
             }
         }
