@@ -42,6 +42,7 @@ public class MassTool {
         massTable.put("U", 150.953636f + fixModMap.get("U"));
         massTable.put("O", 132.08988f + fixModMap.get("O"));
         massTable.put("n", fixModMap.get("n"));
+        massTable.put("c", fixModMap.get("c"));
         massTable.put("#", 113.084064f); // for I and L.
         massTable.put("$", 128.0767705f); // for Q and K.
         massTable.put("C13_DIFF", 1.00335483f);
@@ -63,7 +64,7 @@ public class MassTool {
         }
     }
 
-    public float calResidueMass(String seq){ // Caution: nterm mod is not included!!!!!
+    public float calResidueMass(String seq){
         float totalMass = 0;
         int length = seq.length();
         for (int idx = 0; idx < length; ++idx) {
@@ -80,38 +81,39 @@ public class MassTool {
         for (int i = 0; i <= missedCleavage; ++i) {
             for (int[] digestRange1 : digestRangeMap.get(i)) {
                 String subString = proSeq.substring(digestRange1[0], digestRange1[1]);
-                peptideSeqSet.add(subString);
+                peptideSeqSet.add("n" + subString + "c");
             }
         }
         return peptideSeqSet;
     }
 
-    public float[][] buildIonArray(String pepPeptide, int maxCharge) {
+    public float[][] buildIonArray(String pepPeptide, int maxCharge) { // it doesn't consider PTM
         // [NOTE] The b/y-ions charge 0
-        float[][] peptideIonArray = new float[2 * maxCharge][pepPeptide.length()];
+        float[][] peptideIonArray = new float[2 * maxCharge][pepPeptide.length() - 2];
         float bIonMass = massTable.get("n");
-        float yIonMass = calResidueMass(pepPeptide) + massTable.get("n") + massTable.get("H2O");
+        float yIonMass = calResidueMass(pepPeptide) + massTable.get("H2O");
 
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            float bIonMassCharge = (bIonMass + charge * massTable.get("PROTON")) / charge;
-            float yIonMassCharge = (yIonMass + charge * massTable.get("PROTON")) / charge;
-            int chargeIdx = charge - 1;
-            int chargeIdx2 = 2 * chargeIdx;
-            int chargeIdx21 = chargeIdx2 + 1;
+            float bIonMassCharge = bIonMass / charge + massTable.get("PROTON");
+            float yIonMassCharge = yIonMass / charge + massTable.get("PROTON");
 
-            for (int idx = 0; idx < pepPeptide.length(); ++idx) {
+            for (int i = 1; i < pepPeptide.length() - 1; ++i) {
                 // y-ion
-                peptideIonArray[chargeIdx21][idx] = yIonMassCharge;
+                peptideIonArray[2 * (charge - 1) + 1][i - 1] = yIonMassCharge;
 
-                String aa = pepPeptide.substring(idx, idx + 1);
+                String aa = pepPeptide.substring(i, i + 1);
 
                 // b-ion
-                bIonMassCharge += massTable.get(aa) / charge;
-                peptideIonArray[chargeIdx2][idx] = bIonMassCharge;
+                if (i == pepPeptide.length() - 2) {
+                    bIonMassCharge += massTable.get(aa) / charge + massTable.get("c") / charge;
+                } else {
+                    bIonMassCharge += massTable.get(aa) / charge;
+                }
+                peptideIonArray[2 * (charge - 1)][i - 1] = bIonMassCharge;
 
                 // Calculate next y-ion:
-                if (idx == 0) {
-                    yIonMassCharge -= (massTable.get(aa) / charge + massTable.get("n") / charge);
+                if (i == 1) {
+                    yIonMassCharge -= massTable.get(aa) / charge + massTable.get("n") / charge;
                 } else {
                     yIonMassCharge -= massTable.get(aa) / charge;
                 }

@@ -80,12 +80,12 @@ public class PIPI {
         Map<String, Peptide0> peptideCodeMap = new HashMap<>();
         Map<String, Float> peptideMassMap = buildIndexObj.returnPepMassMap();
         for (String peptide : peptideMassMap.keySet()) {
-            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide));
+            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide.substring(1, peptide.length() - 1)));
             peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), true));
         }
         peptideMassMap = buildIndexObj.returnDecoyPepMassMap();
         for (String peptide : peptideMassMap.keySet()) {
-            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide));
+            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide.substring(1, peptide.length() - 1)));
             peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), false));
         }
 

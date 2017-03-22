@@ -1,26 +1,31 @@
 package proteomics.Types;
 
 public class ExpAA implements Comparable<ExpAA> {
-
     private final String aa;
+    private final char ptmFreeAA;
     private final float headLocation;
     private final float tailLocation;
     private final float headIntensity;
     private final float tailIntensity;
     private final float totalHalfIntensity;
     private final float mod;
-    private int theoLocation; // starts from 0
+    private final float nTermMod;
+    private final float cTermMod;
+    private int theoLocation; // starts from 0, include N/C-terminal
     private String toString;
     private int hashCode;
 
-    public ExpAA(String aa, float headLocation, float tailLocation, float headIntensity, float tailIntensity, int theoLocation, float mod) {
+    public ExpAA(String aa, char ptmFreeAA, float headLocation, float tailLocation, float headIntensity, float tailIntensity, int theoLocation, float mod, float nTermMod, float cTermMod) {
         this.aa = aa;
+        this.ptmFreeAA = ptmFreeAA;
         this.headLocation = headLocation;
         this.tailLocation = tailLocation;
         this.headIntensity = headIntensity;
         this.tailIntensity = tailIntensity;
         this.totalHalfIntensity = (headIntensity + tailIntensity) / 2;
         this.mod = mod;
+        this.nTermMod = nTermMod;
+        this.cTermMod = cTermMod;
         this.theoLocation = -1;
         toString = headLocation + "." + aa + "." + theoLocation + "." + tailLocation;
         hashCode = toString.hashCode();
@@ -31,11 +36,19 @@ public class ExpAA implements Comparable<ExpAA> {
     }
 
     public char getPtmFreeAA() {
-        return aa.charAt(0);
+        return ptmFreeAA;
     }
 
     public float getMod() {
         return mod;
+    }
+
+    public float getnTermMod() {
+        return nTermMod;
+    }
+
+    public float getcTermMod() {
+        return cTermMod;
     }
 
     void setTheoLocation(int theo) {
@@ -77,7 +90,7 @@ public class ExpAA implements Comparable<ExpAA> {
     }
 
     public ExpAA clone() {
-        return new ExpAA(aa, headLocation, tailLocation, headIntensity, tailIntensity, theoLocation, mod);
+        return new ExpAA(aa, ptmFreeAA, headLocation, tailLocation, headIntensity, tailIntensity, theoLocation, mod, nTermMod, cTermMod);
     }
 
     public float getHeadLocation() {

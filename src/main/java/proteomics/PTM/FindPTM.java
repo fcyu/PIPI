@@ -217,21 +217,25 @@ public class FindPTM {
         }
     }
 
-    private Set<ThreeExpAA> cleanLocateTags(List<ThreeExpAA> inputSet, float[] peptideBIonArray, String normalizedPeptideString) {
+    private Set<ThreeExpAA> cleanLocateTags(List<ThreeExpAA> inputSet, float[] peptideBIonArray, String normalizedPeptideString) { // todo: check
         Set<ThreeExpAA> outputSet = new HashSet<>();
         for (ThreeExpAA expAaList : inputSet) {
             int idx = 0;
             while (idx != -1) {
                 idx = normalizedPeptideString.indexOf(expAaList.getPtmFreeAAString(), idx);
                 if (idx != -1) {
-                    // check if the segment is in the tolerance boundary.
-                    float temp = expAaList.getTailLocation() - peptideBIonArray[idx + expAaList.size() - 1];
-                    if ((temp <= maxPtmMass) && (temp >= minPtmMass)) {
-                        ThreeExpAA usefulAaList = expAaList.clone();
-                        for (int i = 0; i < usefulAaList.size(); ++i) {
-                            usefulAaList.setTheoLocation(i, idx + i);
+                    if ((expAaList.get(0).getnTermMod() == 0) || ((idx == 1) && (expAaList.get(2).getcTermMod() == 0))) { // check N-term modification
+                        if ((expAaList.get(2).getcTermMod() == 0) || ((idx == normalizedPeptideString.length() - 4) && (expAaList.get(0).getnTermMod() == 0))) { // check C-term modification
+                            // check if the segment is in the tolerance boundary.
+                            float temp = expAaList.getTailLocation() - peptideBIonArray[idx - 1 + expAaList.size() - 1]; // there is a "n" at the beginning
+                            if ((temp <= maxPtmMass) && (temp >= minPtmMass)) {
+                                ThreeExpAA usefulAaList = expAaList.clone();
+                                for (int i = 0; i < usefulAaList.size(); ++i) {
+                                    usefulAaList.setTheoLocation(i, idx + i);
+                                }
+                                outputSet.add(usefulAaList);
+                            }
                         }
-                        outputSet.add(usefulAaList);
                     }
                     ++idx;
                 }

@@ -7,6 +7,8 @@ import proteomics.Index.BuildIndex;
 import proteomics.Types.*;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InferenceSegment {
 
@@ -14,6 +16,7 @@ public class InferenceSegment {
     private static final int minTagNum = 200;
     private static final int regionNum = 10;
     private static final int topNumInEachRegion = 20;
+    private static final Pattern pattern = Pattern.compile("([nc][0-9])?([A-Z#$].?)");
 
     private final float ms2Tolerance;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
@@ -21,6 +24,8 @@ public class InferenceSegment {
     private Map<Float, String> modifiedAAMap = new HashMap<>();
     private final Float[] deltaMassArray;
     private Map<String, Float> modifiedAAMassMap = new HashMap<>();
+    private float[] nTermPossibleMod = null;
+    private float[] cTermPossibleMod = null;
 
     public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance, Map<String, String> parameterMap) throws Exception {
         this.ms2Tolerance = ms2Tolerance;
@@ -83,13 +88,29 @@ public class InferenceSegment {
                         modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
                     }
                 }
+            } else if (k.contentEquals("nterm")) {
+                if (!parameterMap.get(k).startsWith("0.0")) {
+                    String[] tempArray = parameterMap.get(k).split(",");
+                    nTermPossibleMod = new float[tempArray.length];
+                    for (int i = 0; i < tempArray.length; ++i) {
+                        nTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                    }
+                }
+            } else if (k.contentEquals("cterm")) {
+                if (!parameterMap.get(k).startsWith("0.0")) {
+                    String[] tempArray = parameterMap.get(k).split(",");
+                    cTermPossibleMod = new float[tempArray.length];
+                    for (int i = 0; i < tempArray.length; ++i) {
+                        cTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                    }
+                }
             }
         }
         deltaMassArray = modifiedAAMap.keySet().toArray(new Float[modifiedAAMap.size()]);
     }
 
     public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry) {
-        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry));
+        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry), spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON"));
     }
 
     public Set<Segment> cutTheoSegment(String peptide) {
@@ -132,11 +153,23 @@ public class InferenceSegment {
         }
     }
 
+    public Map<String, Float> getModifiedAAMassMap() {
+        return modifiedAAMassMap;
+    }
+
+    public float[] getnTermPossibleMod() {
+        return nTermPossibleMod;
+    }
+
+    public float[] getcTermPossibleMod() {
+        return cTermPossibleMod;
+    }
+
     public static String normalizeSequence(String seq) {
         return seq.replaceAll("[IL]", "#");
     }
 
-    private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap) {
+    private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap, float cTermMz) {
         Float[] mzArray = plMap.keySet().toArray(new Float[plMap.size()]);
         Float[] intensityArray = plMap.values().toArray(new Float[plMap.size()]);
         List<ThreeExpAA> tempList = new LinkedList<>();
@@ -147,35 +180,59 @@ public class InferenceSegment {
             for (int j = i + 1; j < mzArray.length; ++j) {
                 float mz2 = mzArray[j];
                 float intensity2 = intensityArray[j];
-                String aa1 = inferAA(mz1, mz2);
+                String aa1 = inferAA(mz1, mz2, Math.abs(mz1 - massTable.get("PROTON")) <= ms2Tolerance, false);
                 if (aa1 != null) {
+                    Matcher matcher = pattern.matcher(aa1);
+                    char ptmFreeAA = '\0';
                     float mod = 0;
-                    if (modifiedAAMassMap.containsKey(aa1)) {
-                        mod = modifiedAAMassMap.get(aa1);
+                    float nTermMod = 0;
+                    if (matcher.matches()) {
+                        if (modifiedAAMassMap.containsKey(matcher.group(2))) {
+                            mod = modifiedAAMassMap.get(matcher.group(2));
+                        }
+                        ptmFreeAA = matcher.group(2).charAt(0);
+                        if (matcher.group(1) != null) {
+                            nTermMod = nTermPossibleMod[matcher.group(1).charAt(1) - '0'];
+                        }
+                    } else {
+                        logger.error("Cannot find the PTM free amino acid for {}.", aa1);
+                        System.exit(1);
                     }
-                    ExpAA expAa1 = new ExpAA(aa1, mz1, mz2, intensity1, intensity2, -1, mod);
+                    ExpAA expAa1 = new ExpAA(aa1, ptmFreeAA, mz1, mz2, intensity1, intensity2, -1, mod, nTermMod, 0);
                     List<List<ExpAA>> tempAasList2 = new LinkedList<>();
                     for (int k = j + 1; k < mzArray.length; ++k) {
                         float mz3 = mzArray[k];
                         float intensity3 = intensityArray[k];
-                        String aa2 = inferAA(mz2, mz3);
+                        String aa2 = inferAA(mz2, mz3, false, false);
                         if (aa2 != null) {
                             mod = 0;
                             if (modifiedAAMassMap.containsKey(aa2)) {
                                 mod = modifiedAAMassMap.get(aa2);
                             }
-                            ExpAA expAa2 = new ExpAA(aa2, mz2, mz3, intensity2, intensity3, -1, mod);
+                            ExpAA expAa2 = new ExpAA(aa2, aa2.charAt(0), mz2, mz3, intensity2, intensity3, -1, mod, 0, 0);
                             List<ExpAA> tempAasList3 = new LinkedList<>();
                             for (int l = k + 1; l < mzArray.length; ++l) {
                                 float mz4 = mzArray[l];
                                 float intensity4 = intensityArray[l];
-                                String aa3 = inferAA(mz3, mz4);
+                                String aa3 = inferAA(mz3, mz4, false, Math.abs(mz4 - cTermMz) <= ms2Tolerance);
                                 if (aa3 != null) {
+                                    matcher = pattern.matcher(aa3);
+                                    ptmFreeAA = '\0';
                                     mod = 0;
-                                    if (modifiedAAMassMap.containsKey(aa3)) {
-                                        mod = modifiedAAMassMap.get(aa3);
+                                    float cTermMod = 0;
+                                    if (matcher.matches()) {
+                                        if (modifiedAAMassMap.containsKey(matcher.group(2))) {
+                                            mod = modifiedAAMassMap.get(matcher.group(2));
+                                        }
+                                        ptmFreeAA = matcher.group(2).charAt(0);
+                                        if (matcher.group(1) != null) {
+                                            cTermMod = cTermPossibleMod[matcher.group(1).charAt(1) - '0'];
+                                        }
+                                    } else {
+                                        logger.error("Cannot find the PTM free amino acid for {}.", aa3);
+                                        System.exit(1);
                                     }
-                                    ExpAA expAa3 = new ExpAA(aa3, mz3, mz4, intensity3, intensity4, -1, mod);
+                                    ExpAA expAa3 = new ExpAA(aa3, ptmFreeAA, mz3, mz4, intensity3, intensity4, -1, mod, 0, cTermMod);
                                     tempAasList3.add(expAa3);
                                 }
                             }
@@ -227,11 +284,31 @@ public class InferenceSegment {
         }
     }
 
-    private String inferAA(float mz1, float mz2) {
+    private String inferAA(float mz1, float mz2, boolean nTerm, boolean cTerm) {
         float mzDiff = mz2 - mz1;
         for (float mass : deltaMassArray) {
             if (Math.abs(mzDiff - mass) <= ms2Tolerance) {
                 return modifiedAAMap.get(mass);
+            }
+        }
+
+        if (nTerm && (nTermPossibleMod != null)) {
+            for (float mass : deltaMassArray) {
+                for (int i = 0; i < nTermPossibleMod.length; ++i) {
+                    if (Math.abs(mzDiff - mass - nTermPossibleMod[i]) <= ms2Tolerance) {
+                        return "n" + i + modifiedAAMap.get(mass);
+                    }
+                }
+            }
+        }
+
+        if (cTerm && (cTermPossibleMod != null)) {
+            for (float mass : deltaMassArray) {
+                for (int i = 0; i < cTermPossibleMod.length; ++i) {
+                    if (Math.abs(mzDiff - mass - cTermPossibleMod[i]) <= ms2Tolerance) {
+                        return "c" + i + modifiedAAMap.get(mass);
+                    }
+                }
             }
         }
         return null;

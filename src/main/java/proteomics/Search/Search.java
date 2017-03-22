@@ -172,7 +172,7 @@ public class Search {
             String peptideString = temp.peptide;
             if (peptideProteinMap.containsKey(peptideString)) {
                 String proSeq = proteinSeqMap.get(peptideProteinMap.get(peptideString).iterator().next());
-                int startIdx = proSeq.indexOf(peptideString);
+                int startIdx = proSeq.indexOf(peptideString.substring(1, peptideString.length() - 1));
                 if (startIdx == -1) {
                     logger.warn("Something wrong happened in Search.java (line: 223), scan num = {}, peptide = {}.", scanNum, peptideString);
                 } else if (startIdx == 0) {

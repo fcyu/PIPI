@@ -115,7 +115,7 @@ public class Peptide implements Comparable<Peptide> {
         return rightFlank;
     }
 
-    public void setVarPTM(PositionDeltaMassMap ptmMap) {
+    public void setVarPTM(PositionDeltaMassMap ptmMap) { // todo: check again later
         this.varPTMMap = ptmMap;
         if (ptmMap != null) {
             for (Coordinate co : ptmMap.keySet()) {
@@ -123,18 +123,24 @@ public class Peptide implements Comparable<Peptide> {
                 for (int i = 0; i < ionMatrix.length / 2; ++i) {
                     float deltaMz = deltaMass / (i + 1);
                     // if the PTM can be pin-pointed to a single amino acid, change the ions' mz values as what they should be
-                    // the PTM cannot be pin-pointed to a single amino acid, all peaks in the block except for head or tail are treated as missing peaks
-                    for (int j = co.x; j < co.y - 1; ++j) {
-                        ionMatrix[i * 2][j] = 0;
-                    }
-                    for (int j = co.y - 1; j < ionMatrix[0].length; ++j) {
-                        ionMatrix[i * 2][j] += deltaMz;
-                    }
-                    for (int j = co.x + 1; j < co.y; ++j) {
-                        ionMatrix[i * 2 + 1][j] = 0;
-                    }
-                    for (int j = 0; j <= co.x; ++j) {
-                        ionMatrix[i * 2 + 1][j] += deltaMz;
+                    // the PTM cannot be pin-pointed to a single amino acid, all peaks in the block except for head or tail are treated as unmodified peaks
+                    if (co.x == 0) {
+                        for (int j = co.y - 2; j < ionMatrix[0].length; ++j) {
+                            ionMatrix[i * 2][j] += deltaMz;
+                        }
+                        ionMatrix[i * 2 + 1][0] += deltaMz;
+                    } else if (co.y > peptideString.length() - 2) {
+                        ionMatrix[i * 2][ionMatrix[0].length - 1] += deltaMz;
+                        for (int j = 0; j < co.x; ++j) {
+                            ionMatrix[i * 2 + 1][j] += deltaMz;
+                        }
+                    } else {
+                        for (int j = co.y - 2; j < ionMatrix[0].length; ++j) {
+                            ionMatrix[i * 2][j] += deltaMz;
+                        }
+                        for (int j = 0; j < co.x; ++j) {
+                            ionMatrix[i * 2 + 1][j] += deltaMz;
+                        }
                     }
                 }
             }

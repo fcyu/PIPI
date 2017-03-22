@@ -55,6 +55,7 @@ public class BuildIndex {
         fixModMap.put("U", Float.valueOf(parameterMap.get("U")));
         fixModMap.put("O", Float.valueOf(parameterMap.get("O")));
         fixModMap.put("n", Float.valueOf(parameterMap.get("n")));
+        fixModMap.put("c", Float.valueOf(parameterMap.get("c")));
 
         // read protein database
         DbTool dbToolObj = new DbTool(dbPath);
@@ -115,7 +116,7 @@ public class BuildIndex {
                         continue;
                     }
 
-                    float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("n") + massTable.get("H2O"); // calMass just calculate the residue mass, so we should add a H2O
+                    float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("H2O");
                     if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
                         peptideMassMap.put(peptide, massTemp);
 
@@ -148,7 +149,7 @@ public class BuildIndex {
                         }
 
                         if (!forCheckDuplicate.contains(peptide.replace("L", "I"))) {
-                            float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("n") + massTable.get("H2O");
+                            float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("H2O");
                             if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
                                 decoyPeptideMassMap.put(peptide, massTemp);
                                 decoyPeptideProMap.put(peptide, proId);
@@ -163,7 +164,7 @@ public class BuildIndex {
     private void buildDecoyPepChainMap() {
         Set<String> peptideSet = peptideProMap.keySet();
         for (String originalPeptide : peptideSet) {
-            String decoyPeptide = shuffleSeq2(originalPeptide);
+            String decoyPeptide = "n" + shuffleSeq2(originalPeptide.substring(1, originalPeptide.length() - 1)) + "c";
             if (decoyPeptide.isEmpty()) {
                 continue;
             }
@@ -212,7 +213,7 @@ public class BuildIndex {
                 idx += 2;
             }
             String decoySeq = String.valueOf(tempArray) + seq.substring(seq.length() - 1, seq.length());
-            if (forCheckDuplicate.contains(decoySeq.replace('L', 'I'))) {
+            if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
                 return "";
             } else {
                 return decoySeq;
@@ -227,7 +228,7 @@ public class BuildIndex {
                 idx += 2;
             }
             String decoySeq = String.valueOf(tempArray);
-            if (forCheckDuplicate.contains(decoySeq.replace('L', 'I'))) {
+            if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
                 return "";
             } else {
                 return decoySeq;
