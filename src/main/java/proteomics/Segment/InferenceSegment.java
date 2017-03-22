@@ -259,18 +259,16 @@ public class InferenceSegment {
         }
 
         // Add two virtual peak. Because we have convert all y-ions to b-ions.
-        float[] mzList = new float[]{massTable.get("PROTON"), spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON")};
-        for (float mz : mzList) {
-            float leftMz = mz - ms2Tolerance;
-            float rightMz = mz + ms2Tolerance;
-            NavigableMap<Float, Float> temp = null;
-            try {
-                temp = plMap.subMap(leftMz, true, rightMz, true);
-            } catch (IllegalArgumentException ex) {}
-
-            if ((temp == null) || (temp.isEmpty())) {
-                finalPlMap.put(mz, 1f);
-            }
+        finalPlMap.put(massTable.get("PROTON"), 1f);
+        float cTermMz = spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON");
+        float leftMz = cTermMz - ms2Tolerance;
+        float rightMz = cTermMz + ms2Tolerance;
+        NavigableMap<Float, Float> temp = null;
+        try {
+            temp = plMap.subMap(leftMz, true, rightMz, true);
+        } catch (IllegalArgumentException ex) {}
+        if ((temp == null) || (temp.isEmpty())) {
+            finalPlMap.put(cTermMz, 1f);
         }
 
         return finalPlMap;
