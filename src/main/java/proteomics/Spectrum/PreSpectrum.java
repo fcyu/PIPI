@@ -10,6 +10,7 @@ public class PreSpectrum {
     private static final float defaultIntensity = 1; // DO NOT change. Otherwise, change the whole project accordingly.
     private static final float floatZero = 1e-6f;
     private static final int xcorrOffset = 75;
+    private static final int peakNum = 200;
 
     private final MassTool massToolObj;
     private final Map<String, Float> massTable;
@@ -41,8 +42,22 @@ public class PreSpectrum {
             deionisedPlMap = deNoise(temp);
         }
 
-        // normalize
-        return normalizeSpec(deionisedPlMap);
+        // only keep peakNum peaks
+        if (deionisedPlMap.size() > peakNum) {
+            Float[] intensityArray = deionisedPlMap.values().toArray(new Float[deionisedPlMap.size()]);
+            Arrays.sort(intensityArray, Collections.reverseOrder());
+            float intensityT = intensityArray[peakNum];
+            TreeMap<Float, Float> tempMap = new TreeMap<>();
+            for (float mz : deionisedPlMap.keySet()) {
+                if (deionisedPlMap.get(mz) >= intensityT) {
+                    tempMap.put(mz, deionisedPlMap.get(mz));
+                }
+            }
+            return normalizeSpec(tempMap);
+        } else {
+            // normalize
+            return normalizeSpec(deionisedPlMap);
+        }
     }
 
     public SparseVector prepareXcorr(TreeMap<Float, Float> plMap) {
