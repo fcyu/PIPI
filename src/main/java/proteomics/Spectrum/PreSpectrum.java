@@ -9,7 +9,7 @@ public class PreSpectrum {
 
     private static final float defaultIntensity = 1; // DO NOT change. Otherwise, change the whole project accordingly.
     private static final float floatZero = 1e-6f;
-    private static final int xcprrOffset = 75;
+    private static final int xcorrOffset = 75;
 
     private final MassTool massToolObj;
     private final Map<String, Float> massTable;
@@ -50,22 +50,22 @@ public class PreSpectrum {
 
         SparseVector xcorrPl = new SparseVector();
         float mySum = 0;
-        int offsetRange = 2 * xcprrOffset + 1;
-        for (int i = 0; i < xcprrOffset; ++i) {
+        int offsetRange = 2 * xcorrOffset + 1;
+        for (int i = 0; i < xcorrOffset; ++i) {
             mySum += plArray[i];
         }
 
         float factor = 1 / (float) (offsetRange - 1);
-        for (int i = xcprrOffset; i < plArray.length + xcprrOffset; ++i) {
+        for (int i = xcorrOffset; i < plArray.length + xcorrOffset; ++i) {
             if (i < plArray.length) {
                 mySum += plArray[i];
             }
             if (i >= offsetRange) {
                 mySum -= plArray[i - offsetRange];
             }
-            float temp = (plArray[i - xcprrOffset] - (mySum - plArray[i - xcprrOffset]) * factor);
+            float temp = (plArray[i - xcorrOffset] - (mySum - plArray[i - xcorrOffset]) * factor);
             if (Math.abs(temp) > floatZero) {
-                xcorrPl.put(i - xcprrOffset, temp);
+                xcorrPl.put(i - xcorrOffset, temp);
             }
         }
 
