@@ -201,43 +201,6 @@ public class BuildIndex {
         }
     }
 
-    private String shuffleSeq(String seq) {
-        List<Character> seqList = new ArrayList<>(seq.length() + 2);
-        Random randomObj = new Random();
-        if ((seq.charAt(seq.length() - 1) == 'K') || (seq.charAt(seq.length() - 1) == 'R')) {
-            for (int i = 0; i < seq.length() - 1; ++i) {
-                seqList.add(seq.charAt(i));
-            }
-            StringBuilder sb;
-            int loopTime = maxLoopTime;
-            do {
-                --loopTime;
-                Collections.shuffle(seqList, randomObj);
-                sb = new StringBuilder(seq.length() + 2);
-                for (char aa : seqList) {
-                    sb.append(aa);
-                }
-                sb.append(seq.charAt(seq.length() - 1));
-            } while ((forCheckDuplicate.contains(sb.toString().replace('L', 'I'))) && (loopTime > 0));
-            return sb.toString();
-        } else {
-            for (int i = 0; i < seq.length(); ++i) {
-                seqList.add(seq.charAt(i));
-            }
-            StringBuilder sb;
-            int loopTime = maxLoopTime;
-            do {
-                --loopTime;
-                Collections.shuffle(seqList, randomObj);
-                sb = new StringBuilder(seq.length() + 2);
-                for (char aa : seqList) {
-                    sb.append(aa);
-                }
-            } while ((forCheckDuplicate.contains(sb.toString().replace('L', 'I'))) && (loopTime > 0));
-            return sb.toString();
-        }
-    }
-
     private String shuffleSeq2(String seq) {
         if ((seq.charAt(seq.length() - 1) == 'K') || (seq.charAt(seq.length() - 1) == 'R')) {
             char[] tempArray = seq.substring(0, seq.length() - 1).toCharArray();
