@@ -169,10 +169,10 @@ public class Search {
             ResultEntry temp = inputQueue.poll();
             String leftFlank = "-";
             String rightFlank = "-";
-            String peptideString = temp.peptide;
-            if (peptideProteinMap.containsKey(peptideString)) {
-                String proSeq = proteinSeqMap.get(peptideProteinMap.get(peptideString).iterator().next());
-                int startIdx = proSeq.indexOf(peptideString.substring(1, peptideString.length() - 1));
+            String peptideString = temp.peptide.substring(1, temp.peptide.length() - 1);
+            if (peptideProteinMap.containsKey(temp.peptide)) {
+                String proSeq = proteinSeqMap.get(peptideProteinMap.get(temp.peptide).iterator().next());
+                int startIdx = proSeq.indexOf(peptideString);
                 if (startIdx == -1) {
                     logger.warn("Something wrong happened in Search.java (line: 223), scan num = {}, peptide = {}.", scanNum, peptideString);
                 } else if (startIdx == 0) {
