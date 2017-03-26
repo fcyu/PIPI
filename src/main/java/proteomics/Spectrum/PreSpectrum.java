@@ -10,7 +10,6 @@ public class PreSpectrum {
     private static final float defaultIntensity = 1; // DO NOT change. Otherwise, change the whole project accordingly.
     private static final float floatZero = 1e-6f;
     private static final int xcorrOffset = 75;
-    private static final int peakNum = 200;
 
     private final MassTool massToolObj;
     private final Map<String, Float> massTable;
@@ -42,11 +41,11 @@ public class PreSpectrum {
             deionisedPlMap = deNoise(temp);
         }
 
-        // only keep peakNum peaks
-        if (deionisedPlMap.size() > peakNum) {
+        if ((ms2Tolerance > 0.1) && (deionisedPlMap.size() > 200)) {
+            // only keep top 200 peaks
             Float[] intensityArray = deionisedPlMap.values().toArray(new Float[deionisedPlMap.size()]);
             Arrays.sort(intensityArray, Collections.reverseOrder());
-            float intensityT = intensityArray[peakNum];
+            float intensityT = intensityArray[200];
             TreeMap<Float, Float> tempMap = new TreeMap<>();
             for (float mz : deionisedPlMap.keySet()) {
                 if (deionisedPlMap.get(mz) >= intensityT) {
