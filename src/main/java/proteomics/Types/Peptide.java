@@ -125,7 +125,7 @@ public class Peptide implements Comparable<Peptide> {
                     // if the PTM can be pin-pointed to a single amino acid, change the ions' mz values as what they should be
                     // the PTM cannot be pin-pointed to a single amino acid, all peaks in the block except for head or tail are treated as unmodified peaks
                     if (co.x == 0) {
-                        for (int j = co.y - 2; j < ionMatrix[0].length; ++j) {
+                        for (int j = Math.max(0, co.y - 2); j < ionMatrix[0].length; ++j) {
                             ionMatrix[i * 2][j] += deltaMz;
                         }
                         ionMatrix[i * 2 + 1][0] += deltaMz;
