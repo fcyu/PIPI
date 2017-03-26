@@ -52,7 +52,6 @@ public class CalXcorr {
             }
         } else {
             psm = null;
-            logger.debug("Scan {} doesn't have a peptide to make XCorr > 0.", spectrum.scanNum);
         }
     }
 
@@ -70,12 +69,8 @@ public class CalXcorr {
             subMap = new TreeMap<>(massPeptideMap.subMap(precursorMass - evalueTolerance2, true, precursorMass - evalueTolerance1, false));
             subMap.putAll(massPeptideMap.subMap(precursorMass + evalueTolerance1, false, precursorMass + evalueTolerance2, true));
             if (!subMap.isEmpty()) {
-                gapNum = accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge, true);
+                accumulate(psm, expXcorrPl, subMap, gapNum, precursorCharge, true);
             }
-        }
-
-        if (gapNum > 0) {
-            logger.debug("Scan {} doesn't have enough data points ({}/{}) for E-Value estimation. Its E-Value may be not accurate.", psm.getScanNum(), minDecoyNum - gapNum, minDecoyNum);
         }
     }
 
