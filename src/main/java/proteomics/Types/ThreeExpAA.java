@@ -43,6 +43,15 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
         return (other instanceof ThreeExpAA) && (this.hashCode() == other.hashCode());
     }
 
+    public boolean approximateEquals(ThreeExpAA other, float tolerance) {
+        for (int i = 0; i < this.size(); ++i) {
+            if (!this.get(i).approximateEquals(other.get(i), tolerance)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void setTheoLocation(int i, int theoLoc) {
         threeExpAa[i].setTheoLocation(theoLoc);
         // update toString and hashCode

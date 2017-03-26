@@ -217,8 +217,9 @@ public class FindPTM {
         }
     }
 
-    private Set<ThreeExpAA> cleanLocateTags(List<ThreeExpAA> inputSet, float[] peptideBIonArray, String normalizedPeptideString) { // todo: check
+    private Set<ThreeExpAA> cleanLocateTags(List<ThreeExpAA> inputSet, float[] peptideBIonArray, String normalizedPeptideString) {
         Set<ThreeExpAA> outputSet = new HashSet<>();
+        Set<ThreeExpAA> tempSet = new HashSet<>();
         for (ThreeExpAA expAaList : inputSet) {
             int idx = 0;
             while (idx != -1) {
@@ -233,7 +234,7 @@ public class FindPTM {
                                 for (int i = 0; i < usefulAaList.size(); ++i) {
                                     usefulAaList.setTheoLocation(i, idx + i);
                                 }
-                                outputSet.add(usefulAaList);
+                                tempSet.add(usefulAaList);
                             }
                         }
                     }
@@ -241,8 +242,6 @@ public class FindPTM {
                 }
             }
         }
-        return outputSet;
-    }
 
     private Map<Integer, Float> pinPointPTM(Map<String, TreeSet<Integer>> siteMass1000Map, String seq, boolean peptideN, boolean peptideC, boolean proteinN, boolean proteinC, float deltaMass, float tolerance) { // todo: check this function is from TagAlignment.checkJumpConstrain
         Map<Integer, int[]> localSiteMass100Map = new HashMap<>();
