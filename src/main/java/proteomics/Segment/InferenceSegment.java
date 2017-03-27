@@ -307,7 +307,7 @@ public class InferenceSegment {
     private String inferAA(float mz1, float mz2, boolean nTerm, boolean cTerm) {
         float mzDiff = mz2 - mz1;
         for (float mass : deltaMassArray) {
-            if (Math.abs(mzDiff - mass) <= ms2Tolerance) {
+            if (Math.abs(mzDiff - mass) <= 2 * ms2Tolerance) {
                 return modifiedAAMap.get(mass);
             }
         }
@@ -315,7 +315,7 @@ public class InferenceSegment {
         if (nTerm && (nTermPossibleMod != null)) {
             for (float mass : deltaMassArray) {
                 for (int i = 0; i < nTermPossibleMod.length; ++i) {
-                    if (Math.abs(mzDiff - mass - nTermPossibleMod[i]) <= ms2Tolerance) {
+                    if (Math.abs(mzDiff - mass - nTermPossibleMod[i]) <= 2 * ms2Tolerance) {
                         return "n" + i + modifiedAAMap.get(mass);
                     }
                 }
@@ -325,7 +325,7 @@ public class InferenceSegment {
         if (cTerm && (cTermPossibleMod != null)) {
             for (float mass : deltaMassArray) {
                 for (int i = 0; i < cTermPossibleMod.length; ++i) {
-                    if (Math.abs(mzDiff - mass - cTermPossibleMod[i]) <= ms2Tolerance) {
+                    if (Math.abs(mzDiff - mass - cTermPossibleMod[i]) <= 2 * ms2Tolerance) {
                         return "c" + i + modifiedAAMap.get(mass);
                     }
                 }
