@@ -172,7 +172,7 @@ public class InferenceSegment {
     private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Float, Float> plMap, float cTermMz) {
         Float[] mzArray = plMap.keySet().toArray(new Float[plMap.size()]);
         Float[] intensityArray = plMap.values().toArray(new Float[plMap.size()]);
-        List<ThreeExpAA> tempList = new LinkedList<>();
+        Set<ThreeExpAA> tempSet = new HashSet<>();
         List<ThreeExpAA> outputList = new LinkedList<>();
         for (int i = 0; i < mzArray.length; ++i) {
             float mz1 = mzArray[i];
@@ -246,9 +246,29 @@ public class InferenceSegment {
                     }
                     for (List<ExpAA> expAas2 : tempAasList2) {
                         ThreeExpAA threeExpAa = new ThreeExpAA(expAa1, expAas2.get(0), expAas2.get(1));
-                        tempList.add(threeExpAa);
+                        tempSet.add(threeExpAa);
                     }
                 }
+            }
+        }
+
+        // eliminate "overlapped" tags
+        ThreeExpAA[] tempArray = tempSet.toArray(new ThreeExpAA[tempSet.size()]);
+        List<ThreeExpAA> tempList = new LinkedList<>();
+        for (int i = 0; i < tempArray.length; ++i) {
+            boolean keep = true;
+            for (int j = 0; j < tempArray.length; ++j) {
+                if (i != j) {
+                    if (tempArray[i].approximateEquals(tempArray[j], 2 * ms2Tolerance)) {
+                        if (tempArray[i].getTotalIntensity() < tempArray[j].getTotalIntensity()) {
+                            keep = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (keep) {
+                tempList.add(tempArray[i]);
             }
         }
 
