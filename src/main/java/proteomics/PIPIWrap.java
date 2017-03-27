@@ -60,9 +60,31 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, massToolObj, siteMass1000Map, minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);
             List<Peptide> ptmOnlyTemp = findPtmObj.getPeptidesWithPTMs();
 
+            List<Peptide> tempList = new LinkedList<>();
+            tempList.addAll(searchObj.getPTMFreeResult());
+            tempList.addAll(ptmOnlyTemp);
+            Peptide[] tempArray = tempList.toArray(new Peptide[tempList.size()]);
+
+            // Additional short missed cleavaged amino acid sequence may be canceled out by negative PTM. In this situation, we eliminate the missed cleavaged one.
             List<Peptide> candidates = new LinkedList<>();
-            candidates.addAll(searchObj.getPTMFreeResult());
-            candidates.addAll(ptmOnlyTemp);
+            for (int i = 0; i < tempArray.length; ++i) {
+                boolean keep = true;
+                String tempStr1 = tempArray[i].getNormalizedPeptideString();
+                tempStr1 = tempStr1.substring(1, tempStr1.length() - 1);
+                for (int j = 0; j < tempArray.length; ++j) {
+                    if (i != j) {
+                        String tempStr2 = tempArray[j].getNormalizedPeptideString();
+                        tempStr2 = tempStr2.substring(1, tempStr2.length() - 1);
+                        if (tempStr1.contains(tempStr2) && (tempArray[i].getNormalizedCrossCorr() <= tempArray[j].getNormalizedCrossCorr())) {
+                            keep = false;
+                            break;
+                        }
+                    }
+                }
+                if (keep) {
+                    candidates.add(tempArray[i]);
+                }
+            }
 
             if (!candidates.isEmpty()) {
                 CalXcorr calXcorrObj = new CalXcorr(candidates, spectrumEntry, massToolObj, buildIndexObj);
