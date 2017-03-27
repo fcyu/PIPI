@@ -15,7 +15,7 @@ public class CalSubscores {
         float[][] ionMatrix = peptide.getIonMatrix();
         int precursorCharge = spectrum.precursorCharge;
 
-        float matchedPeakIntensity = 0;
+        int matchedPeakNum = 0;
         int maxRow = Math.min(ionMatrix.length, 2 * (precursorCharge - 1));
         if (precursorCharge == 1) {
             maxRow = 2;
@@ -28,24 +28,21 @@ public class CalSubscores {
             intensityT = intensityArray[totalIonNum];
         }
         int matchedHighestPeakNum = 0;
-        float totalIntensity = 0;
         for (int i = 0; i < maxRow; ++i) {
             for (int j = 0; j < ionMatrix[0].length; ++j) {
                 for (float mz : expPl.keySet()) {
-                    float intensity = expPl.get(mz);
-                    totalIntensity += intensity;
                     if (Math.abs(mz - ionMatrix[i][j]) <= ms2Tolerance) {
-                        if (intensity > intensityT) {
+                        if (expPl.get(mz) > intensityT) {
                             ++matchedHighestPeakNum;
                         }
-                        matchedPeakIntensity += intensity;
+                        ++matchedPeakNum;
                         break;
                     }
                 }
             }
         }
 
-        psm.setIonFrac(matchedPeakIntensity / totalIntensity);
+        psm.setIonFrac((double) matchedPeakNum / (double) totalIonNum);
         psm.setMatchedHighestIntensityFrac((double) matchedHighestPeakNum / (double) totalIonNum);
     }
 }
