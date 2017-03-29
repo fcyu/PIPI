@@ -172,7 +172,7 @@ public class Peptide implements Comparable<Peptide> {
         return varPTMMap;
     }
 
-    public String getPTMContainedString(Map<String, Float> fixModMap) { // include fix modification
+    public String getPTMContainedString(Map<String, Float> fixModMap, int decimalPoint) { // include fix modification
         if (hasVarPTM()) {
             StringBuilder sb = new StringBuilder(peptideString.length() * 5);
             int i = 0;
@@ -187,7 +187,13 @@ public class Peptide implements Comparable<Peptide> {
                             sb.append(peptideString.charAt(i));
                             ++i;
                         }
-                        sb.append(String.format("(%.2f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1))))); // add fix modification to variable modification.
+                        if (decimalPoint == 0) {
+                            sb.append(String.format("(%d)", Math.round(varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1)))))); // add fix modification to variable modification.
+                        } else if (decimalPoint == 1) {
+                            sb.append(String.format("(%.1f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1))))); // add fix modification to variable modification.
+                        } else {
+                            sb.append(String.format("(%.2f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1))))); // add fix modification to variable modification.
+                        }
                         ok = true;
                         break;
                     }
@@ -198,7 +204,7 @@ public class Peptide implements Comparable<Peptide> {
                     float deltaMass = fixModMap.get(String.valueOf(peptideString.charAt(i)));
                     if (Math.abs(deltaMass) > 1e-6) {
                         sb.append(peptideString.charAt(i));
-                        sb.append(String.format("(%.2f)", deltaMass));
+                        sb.append(String.format("(%.2f)", deltaMass)); // for fix modification, the decimal point is always 2
                     } else {
                         sb.append(peptideString.charAt(i));
                     }
