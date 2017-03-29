@@ -162,19 +162,27 @@ public class FindPTM {
         // check if there are complementary modification (|diffMass| are equal)
         // If there are, eliminate both of them. (Occam's razor)
         Coordinate[] coordinateArray = positionGapMap.keySet().toArray(new Coordinate[positionGapMap.size()]);
-        List<Coordinate> delCoordinateList = new LinkedList<>();
+        Set<Coordinate> delCoordinateSet = new HashSet<>();
         for (int i = 0; i < coordinateArray.length - 1; ++i) {
             for (int j = i + 1; j < coordinateArray.length; ++j) {
                 float deltaMass1 = positionGapMap.get(coordinateArray[i]);
                 float deltaMass2 = positionGapMap.get(coordinateArray[j]);
                 float tolerance = 2 * ms2Tolerance;
                 if (Math.abs(deltaMass1 + deltaMass2) <= tolerance) {
-                    delCoordinateList.add(coordinateArray[i]);
-                    delCoordinateList.add(coordinateArray[j]);
+                    delCoordinateSet.add(coordinateArray[i]);
+                    delCoordinateSet.add(coordinateArray[j]);
                 }
             }
         }
-        for (Coordinate coordinate : delCoordinateList) {
+
+        // delete gaps with abs PTM mass smaller than a threshold
+        for (Coordinate coordinate : positionGapMap.keySet()) {
+            if (Math.abs(positionGapMap.get(coordinate)) < Math.max(ms2Tolerance, 0.1)) {
+                delCoordinateSet.add(coordinate);
+            }
+        }
+
+        for (Coordinate coordinate : delCoordinateSet) {
             positionGapMap.remove(coordinate);
         }
 
