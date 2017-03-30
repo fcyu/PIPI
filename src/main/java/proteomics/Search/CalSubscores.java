@@ -43,6 +43,6 @@ public class CalSubscores {
         }
 
         psm.setIonFrac((double) matchedPeakNum / (double) totalIonNum);
-        psm.setMatchedHighestIntensityFrac((double) matchedHighestPeakNum / (double) totalIonNum);
+        psm.setMatchedHighestIntensityFrac((double) matchedHighestPeakNum / (double) matchedPeakNum);
     }
 }
