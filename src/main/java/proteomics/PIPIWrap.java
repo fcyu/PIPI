@@ -23,7 +23,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final MassTool massToolObj;
     private final InferenceSegment inference3SegmentObj;
     private final SpectrumEntry spectrumEntry;
-    private final Map<String, TreeSet<Integer>> siteMass1000Map;
     private final Map<String, Peptide0> peptideCodeMap;
     private final float ms1Tolerance;
     private final int ms1ToleranceUnit;
@@ -32,12 +31,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final float maxPtmMass;
     private final int maxMs2Charge;
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, InferenceSegment inference3SegmentObj, SpectrumEntry spectrumEntry, Map<String, TreeSet<Integer>> siteMass1000Map, Map<String, Peptide0> peptideCodeMap, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, InferenceSegment inference3SegmentObj, SpectrumEntry spectrumEntry, Map<String, Peptide0> peptideCodeMap, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.inference3SegmentObj = inference3SegmentObj;
         this.spectrumEntry = spectrumEntry;
-        this.siteMass1000Map = siteMass1000Map;
         this.peptideCodeMap = peptideCodeMap;
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
@@ -57,7 +55,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             // Begin search.
             Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, peptideCodeMap, buildIndexObj.getMassPeptideMap(), massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
 
-            FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, massToolObj, siteMass1000Map, minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);
+            FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, massToolObj, inference3SegmentObj.getModifiedAAMassMap(), inference3SegmentObj.getnTermPossibleMod(), inference3SegmentObj.getcTermPossibleMod(), minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);
             List<Peptide> ptmOnlyTemp = findPtmObj.getPeptidesWithPTMs();
 
             List<Peptide> tempList = new LinkedList<>();

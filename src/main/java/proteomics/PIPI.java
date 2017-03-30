@@ -89,20 +89,6 @@ public class PIPI {
             peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), false));
         }
 
-        logger.info("Reading PTM database...");
-        Map<String, TreeSet<Integer>> siteMass1000Map = readPTMDb(parameterMap, buildIndexObj.returnFixModMap());
-
-        int tempMax = 0;
-        int tempMin = 99999;
-        for (TreeSet<Integer> tempSet : siteMass1000Map.values()) {
-            if (tempSet.last() > tempMax) {
-                tempMax = tempSet.last();
-            }
-            if (tempSet.first() < tempMin) {
-                tempMin = tempSet.first();
-            }
-        }
-
         float minPtmMass = Float.valueOf(parameterMap.get("min_ptm_mass"));
         float maxPtmMass = Float.valueOf(parameterMap.get("max_ptm_mass"));
 
@@ -146,13 +132,13 @@ public class PIPI {
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
-                tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, siteMass1000Map, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
                     if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
                         SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)));
-                        tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, fakeSpectrumEntry, siteMass1000Map, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                        tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, fakeSpectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
                     }
                 }
             }
