@@ -177,8 +177,7 @@ public class FindPTM {
             for (int j = i + 1; j < coordinateArray.length; ++j) {
                 float deltaMass1 = positionGapMap.get(coordinateArray[i]);
                 float deltaMass2 = positionGapMap.get(coordinateArray[j]);
-                float tolerance = 2 * ms2Tolerance;
-                if (Math.abs(deltaMass1 + deltaMass2) <= tolerance) {
+                if (Math.abs(deltaMass1 + deltaMass2) <= 2 * ms2Tolerance) {
                     delCoordinateSet.add(coordinateArray[i]);
                     delCoordinateSet.add(coordinateArray[j]);
                 }
