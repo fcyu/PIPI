@@ -73,9 +73,17 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                     if (i != j) {
                         String tempStr2 = tempArray[j].getNormalizedPeptideString();
                         tempStr2 = tempStr2.substring(1, tempStr2.length() - 1);
-                        if (tempStr1.contains(tempStr2) && (tempArray[i].getNormalizedCrossCorr() <= tempArray[j].getNormalizedCrossCorr())) {
-                            keep = false;
-                            break;
+                        if (tempStr1.contains(tempStr2) && (tempArray[i].getVarPTMs() != null)) {
+                            Map.Entry<Coordinate, Float> tempEntry = tempArray[i].getVarPTMs().firstEntry();
+                            if ((tempEntry.getValue() < 0) && (tempEntry.getKey().y - tempEntry.getKey().x > 1)) {
+                                keep = false;
+                                break;
+                            }
+                            tempEntry = tempArray[i].getVarPTMs().lastEntry();
+                            if ((tempEntry.getValue() < 0) && (tempEntry.getKey().y - tempEntry.getKey().x > 1)) {
+                                keep = false;
+                                break;
+                            }
                         }
                     }
                 }
