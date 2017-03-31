@@ -112,7 +112,7 @@ public class BuildIndex {
                 String proSeq = proPeptideMap.get(proId);
                 Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
                 for (String peptide : peptideSet) {
-                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z")) {
+                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
                         continue;
                     }
 
