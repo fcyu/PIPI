@@ -97,7 +97,7 @@ public class TagAlignment {
                     // there may be overlaps
                     int overlapIdx = findOverlap(expAasFormer, expAas);
                     if (overlapIdx != -1) {
-                        float scoreTemp = matrix[iFormer + 1][expAasFormerEndIdx - overlapIdx].v + expAasStart.getTotalHalfIntensity(); // todo: check
+                        float scoreTemp = matrix[iFormer + 1][expAasFormerEndIdx - overlapIdx].v + expAasStart.getTotalHalfIntensity();
                         if (scoreTemp > score) {
                             score = scoreTemp;
                             from = new Coordinate(iFormer + 1, expAasFormerEndIdx - overlapIdx);

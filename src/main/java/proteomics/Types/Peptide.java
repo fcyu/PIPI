@@ -115,7 +115,7 @@ public class Peptide implements Comparable<Peptide> {
         return rightFlank;
     }
 
-    public void setVarPTM(PositionDeltaMassMap ptmMap) { // todo: check again later
+    public void setVarPTM(PositionDeltaMassMap ptmMap) {
         this.varPTMMap = ptmMap;
         if (ptmMap != null) {
             for (Coordinate co : ptmMap.keySet()) {
