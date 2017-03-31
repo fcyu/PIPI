@@ -267,7 +267,7 @@ public class PIPI {
 
     private static void writePercolator(List<FinalResultEntry> finalScoredResult, Map<String, Set<String>> peptideProteinMap, Map<String, String> decoyPeptideProteinMap, String resultPath, Map<String, Float> fixModMap, int decimalPoint) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
-            writer.write("id\tlabel\tscannr\txcorr\tdelta_c\tdelta_L_c\tnegative_log10_e_value\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tIonFrac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\tvar_PTM_num\tpeptide\tprotein\n");
+            writer.write("id\tlabel\tscannr\txcorr\tdelta_c\tdelta_L_c\tnegative_log10_e_value\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tIonFrac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\tunexplained_AA_num\tpeptide\tprotein\n");
             for (FinalResultEntry entry : finalScoredResult) {
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 Peptide peptide = entry.getPeptide();
@@ -295,9 +295,9 @@ public class PIPI {
                 }
 
                 if (entry.isDecoy()) {
-                    writer.write(entry.getScanNum() + "\t-1\t" + entry.getScanNum() + "\t" + entry.getScore() + "\t" + entry.getDeltaC() + "\t" + entry.getDeltaLC() + "\t" + entry.getNegativeLog10EValue() + "\t" + entry.getNormalizedCrossXcorr() + "\t" + entry.getGlobalSearchRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + entry.getIonFrac() + "\t" + entry.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getVarPTMNum() + "\t" + peptide.getLeftFlank() + "." + peptide.getPTMContainedString(fixModMap, decimalPoint) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
+                    writer.write(entry.getScanNum() + "\t-1\t" + entry.getScanNum() + "\t" + entry.getScore() + "\t" + entry.getDeltaC() + "\t" + entry.getDeltaLC() + "\t" + entry.getNegativeLog10EValue() + "\t" + entry.getNormalizedCrossXcorr() + "\t" + entry.getGlobalSearchRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + entry.getIonFrac() + "\t" + entry.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getUnexplainedAaNum() + "\t" + peptide.getLeftFlank() + "." + peptide.getPTMContainedString(fixModMap, decimalPoint) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
                 } else {
-                    writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + entry.getScore() + "\t" + entry.getDeltaC() + "\t" + entry.getDeltaLC() + "\t" + entry.getNegativeLog10EValue() + "\t" + entry.getNormalizedCrossXcorr() + "\t" + entry.getGlobalSearchRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + entry.getIonFrac() + "\t" + entry.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getVarPTMNum() + "\t" + peptide.getLeftFlank() + "." + peptide.getPTMContainedString(fixModMap, decimalPoint) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
+                    writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + entry.getScore() + "\t" + entry.getDeltaC() + "\t" + entry.getDeltaLC() + "\t" + entry.getNegativeLog10EValue() + "\t" + entry.getNormalizedCrossXcorr() + "\t" + entry.getGlobalSearchRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + entry.getIonFrac() + "\t" + entry.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getUnexplainedAaNum() + "\t" + peptide.getLeftFlank() + "." + peptide.getPTMContainedString(fixModMap, decimalPoint) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
                 }
             }
         } catch (IOException ex) {

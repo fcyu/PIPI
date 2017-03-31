@@ -168,6 +168,20 @@ public class Peptide implements Comparable<Peptide> {
         return peptideString;
     }
 
+    public int getUnexplainedAaNum() {
+        if (varPTMMap == null) {
+            return 0;
+        } else {
+            int total = 0;
+            for (Coordinate co : varPTMMap.keySet()) {
+                if (co.y - co.x > 1) {
+                    total += co.y - co.x;
+                }
+            }
+            return total;
+        }
+    }
+
     public PositionDeltaMassMap getVarPTMs() {
         return varPTMMap;
     }
