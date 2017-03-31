@@ -1,4 +1,4 @@
-thread_num = 1
+thread_num = 0
 percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file
 
 # Database
@@ -38,17 +38,20 @@ mod02 = 79.966331@T! # Phosphorylation
 mod03 = 79.966331@Y% # Phosphorylation
 mod04 = 42.010565@K^ # Acetylation
 mod05 = 15.994915@M& # Oxidation
-mod06 = 28.031300@K* # light dimethyl labelling
-mod07 = 34.063117@K+ # heavy dimethyl labelling
+mod06 = 14.015650@K* # Methylation
+mod07 = 0.0@X+
 mod08 = 0.0@X<
 mod09 = 0.0@X>
 mod10 = 0.0@X?
 
-# considered peptide N/C-terminal modifications in generating tags
+# considered peptide/protein N/C-terminal modifications in generating tags
 # empty ones must with value 0.0
+# different masses in the same location should be separated by ","
 # the maximum number for each terminal is 9
-nterm = 42.010565,28.031300,34.063117
-cterm = 0.0
+pepNterm = 0.0
+pepCterm = 0.0
+proNterm = 42.010565 # Acetylation
+proCterm = 0.0
 
 # Fix modification
 G = 0
