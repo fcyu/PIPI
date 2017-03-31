@@ -1,25 +1,25 @@
-thread_num = 0
-percolator_path = /home/fyuab/percolator-v3-00/bin/percolator # Please input absolute path of Percolator binary file
+thread_num = 1
+percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file
 
 # Database
-db = Homo_sapiens_Human.fasta
+db = test.fasta
 contain_decoy = 0 # 1: the database contains decoy proteins; 0: doesn't contain. The decoy proteins' headers must start with DECOY_. If 0, PIPI will generate decoy proteins automatically.
 missed_cleavage = 2 # maximum number of missed cleavage
 min_precursor_mass = 600
 max_precursor_mass = 5000 # for benchmarking comet
 
 # Spectrum
-min_ms1_charge = 2
+min_ms1_charge = 1
 max_ms1_charge = 7
 max_ms2_charge = 3 # min ms2 charge is set to 1
 min_peak_num = 10
-min_potential_charge = 2
-max_potential_charge = 4
+min_potential_charge = 2 # the min precursor charge tried if there is no charge information for a MS/MS spectrum
+max_potential_charge = 4 # the max precursor charge tried if there is no charge information for a MS/MS spectrum
 
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
 ms1_tolerance = 10
-ms2_tolerance = 0.02
+ms2_tolerance = 0.01
 mz_bin_offset = 0
 min_clear_mz = 112.5 # clear out all peaks in the specified m/z range, mainly for iTRAQ/TMT data
 max_clear_mz = 121.5
@@ -28,6 +28,27 @@ max_clear_mz = 121.5
 PTM_db = unimod.txt
 min_ptm_mass = -250
 max_ptm_mass = 250
+
+# considered modifications in generating tags
+# specify additional mass and amino acid. DO NOT change the last character.
+# maximum number is 10
+# empty entries must start with 0.0
+mod01 = 79.966331@S~ # Phosphorylation
+mod02 = 79.966331@T! # Phosphorylation
+mod03 = 79.966331@Y% # Phosphorylation
+mod04 = 42.010565@K^ # Acetylation
+mod05 = 15.994915@M& # Oxidation
+mod06 = 28.031300@K* # light dimethyl labelling
+mod07 = 34.063117@K+ # heavy dimethyl labelling
+mod08 = 0.0@X<
+mod09 = 0.0@X>
+mod10 = 0.0@X?
+
+# considered peptide N/C-terminal modifications in generating tags
+# empty ones must with value 0.0
+# the maximum number for each terminal is 9
+nterm = 42.010565,28.031300,34.063117
+cterm = 0.0
 
 # Fix modification
 G = 0
@@ -53,6 +74,7 @@ W = 0
 O = 0 # Pyrrolysine
 U = 0 # Selenocysteine
 n = 0 # nterm mod
+c = 0 # cterm mod
 
 # Enzyme digestion specificities
 # enzyme name  	 is cut from C-term 	 cleavage site 	 protection site
