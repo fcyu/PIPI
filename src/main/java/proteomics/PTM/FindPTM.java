@@ -91,7 +91,7 @@ public class FindPTM {
         Collections.sort(usefulExpAas);
 
         // Tag alignment
-        TagAlignment tagAlignmentObj = new TagAlignment(usefulExpAas.toArray(new ThreeExpAA[usefulExpAas.size()]), peptide, modifiedAAMassMap, nTermPossibleMod, cTermPossibleMod, NTermMz, CTermMz, ms2Tolerance);
+        TagAlignment tagAlignmentObj = new TagAlignment(usefulExpAas.toArray(new ThreeExpAA[usefulExpAas.size()]), peptide, NTermMz, CTermMz, ms2Tolerance);
         List<ExpAA> alignedResult = tagAlignmentObj.getAlignedList();
 
         if ((alignedResult == null) || (alignedResult.isEmpty())) {

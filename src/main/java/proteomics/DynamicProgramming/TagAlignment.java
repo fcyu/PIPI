@@ -14,7 +14,7 @@ public class TagAlignment {
     private static final float ptmPenalty = -2;
     private static final float negativePtmPenalty = 2 * ptmPenalty;
 
-    public TagAlignment(ThreeExpAA[] sortedAasArray, Peptide peptide, Map<String, Float> modifiedAAMassMap, float[] nTermPossibleMod, float[] cTermPossibleMod, float NTermMz, float CTermMz, float ms2Tolerance) {
+    public TagAlignment(ThreeExpAA[] sortedAasArray, Peptide peptide, float NTermMz, float CTermMz, float ms2Tolerance) {
         float[] ptmFreeBIonMz = peptide.getChargeOneBIonArray();
         ms2Tolerance = Math.max(ms2Tolerance, 0.02f); // relax the precision in high resolution situation
 
