@@ -25,7 +25,6 @@ min_clear_mz = 112.5 # clear out all peaks in the specified m/z range, mainly fo
 max_clear_mz = 121.5
 
 # Modification related
-PTM_db = unimod.txt
 min_ptm_mass = -250
 max_ptm_mass = 250
 
