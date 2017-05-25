@@ -1,4 +1,5 @@
 # 1.2.9
+# First line is the parameter file version. Don't change it.
 thread_num = 0
 percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file
 
