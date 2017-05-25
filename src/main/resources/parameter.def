@@ -1,3 +1,4 @@
+# 1.2.9
 thread_num = 0
 percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file
 
@@ -45,7 +46,6 @@ mod10 = 0.0@X?
 
 # considered peptide/protein N/C-terminal modifications in generating tags
 # empty ones must with value 0.0
-# different masses in the same location should be separated by ","
 # the maximum number for each terminal is 9
 pepNterm = 0.0
 pepCterm = 0.0

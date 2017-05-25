@@ -2,6 +2,7 @@ package proteomics.Parameter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import proteomics.PIPI;
 
 import java.io.*;
 import java.util.*;
@@ -18,7 +19,11 @@ public class Parameter {
 
     public Parameter(String parameterFile) throws Exception {
         try (BufferedReader parameterReader = new BufferedReader(new FileReader(parameterFile))) {
-            String line;
+            String line = parameterReader.readLine().trim();
+            if (!line.contentEquals("# " + PIPI.versionStr)) {
+                logger.error("The parameter file version ({}) is not compatible with current PIPI version ({}).", line.substring(2), PIPI.versionStr);
+                System.exit(1);
+            }
             while ((line = parameterReader.readLine()) != null) {
                 line = line.trim();
                 Matcher commentLineMatcher = commentLinePattern.matcher(line);
