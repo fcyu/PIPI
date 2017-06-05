@@ -64,7 +64,7 @@ public class PreSpectrum {
             float intensityT = intensityArray[400];
             TreeMap<Float, Float> tempMap = new TreeMap<>();
             for (float mz : deionisedPlMap.keySet()) {
-                if (deionisedPlMap.get(mz) >= intensityT) {
+                if (deionisedPlMap.get(mz) > intensityT) {
                     tempMap.put(mz, deionisedPlMap.get(mz));
                 }
             }
