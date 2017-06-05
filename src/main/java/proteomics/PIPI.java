@@ -132,7 +132,7 @@ public class PIPI {
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
-                tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
