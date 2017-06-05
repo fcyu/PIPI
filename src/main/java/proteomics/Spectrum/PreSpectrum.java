@@ -28,7 +28,9 @@ public class PreSpectrum {
             temp = new TreeMap<>();
             for (double mz : peaksMap.keySet()) {
                 if (((mz < minClear) || (mz > maxClear)) && (mz > 50)) {
-                    temp.put((float) mz, peaksMap.get(mz).floatValue());
+                    if (peaksMap.get(mz) > floatZero) {
+                        temp.put((float) mz, peaksMap.get(mz).floatValue());
+                    }
                 }
             }
         }
@@ -41,27 +43,11 @@ public class PreSpectrum {
             deionisedPlMap = deNoise(temp);
         }
 
-        if (ms2Tolerance > 0.1) {
-            if (deionisedPlMap.size() > 200) {
-                // only keep top 200 peaks
-                Float[] intensityArray = deionisedPlMap.values().toArray(new Float[deionisedPlMap.size()]);
-                Arrays.sort(intensityArray, Collections.reverseOrder());
-                float intensityT = intensityArray[200];
-                TreeMap<Float, Float> tempMap = new TreeMap<>();
-                for (float mz : deionisedPlMap.keySet()) {
-                    if (deionisedPlMap.get(mz) >= intensityT) {
-                        tempMap.put(mz, deionisedPlMap.get(mz));
-                    }
-                }
-                return normalizeSpec(tempMap);
-            } else {
-                return normalizeSpec(deionisedPlMap);
-            }
-        } else if (deionisedPlMap.size() > 400) {
-            // only keep top 400 peaks
+        if (deionisedPlMap.size() > 200) {
+            // only keep top 200 peaks
             Float[] intensityArray = deionisedPlMap.values().toArray(new Float[deionisedPlMap.size()]);
             Arrays.sort(intensityArray, Collections.reverseOrder());
-            float intensityT = intensityArray[400];
+            float intensityT = intensityArray[200];
             TreeMap<Float, Float> tempMap = new TreeMap<>();
             for (float mz : deionisedPlMap.keySet()) {
                 if (deionisedPlMap.get(mz) > intensityT) {
@@ -79,13 +65,14 @@ public class PreSpectrum {
         float[] plArray = digitizeSpec(plMap);
 
         SparseVector xcorrPl = new SparseVector();
-        float mySum = 0;
         int offsetRange = 2 * xcorrOffset + 1;
+        double factor = 1 / (double) (offsetRange - 1); // caution: 1/150 rather than 1/151
+        double mySum = 0;
         for (int i = 0; i < xcorrOffset; ++i) {
             mySum += plArray[i];
         }
 
-        float factor = 1 / (float) (offsetRange - 1);
+        double[] tempArray = new double[plArray.length];
         for (int i = xcorrOffset; i < plArray.length + xcorrOffset; ++i) {
             if (i < plArray.length) {
                 mySum += plArray[i];
@@ -93,9 +80,13 @@ public class PreSpectrum {
             if (i >= offsetRange) {
                 mySum -= plArray[i - offsetRange];
             }
-            float temp = (plArray[i - xcorrOffset] - (mySum - plArray[i - xcorrOffset]) * factor);
-            if (Math.abs(temp) > floatZero) {
-                xcorrPl.put(i - xcorrOffset, temp);
+            tempArray[i - xcorrOffset] = (mySum - plArray[i - xcorrOffset]) * factor;
+        }
+
+        for (int i = 1; i < plArray.length; ++i) {
+            double temp = plArray[i] - tempArray[i];
+            if (Math.abs(temp) > 1e-6) {
+                xcorrPl.put(i, (float) temp);
             }
         }
 
@@ -192,10 +183,8 @@ public class PreSpectrum {
         // sqrt the intensity and find the highest intensity.
         TreeMap<Float, Float> sqrtPlMap = new TreeMap<>();
         for (float mz : plMap.keySet()) {
-            if (plMap.get(mz) > floatZero) {
-                float sqrtIntensity = (float) Math.sqrt(plMap.get(mz));
-                sqrtPlMap.put(mz, sqrtIntensity);
-            }
+            float sqrtIntensity = (float) Math.sqrt(plMap.get(mz));
+            sqrtPlMap.put(mz, sqrtIntensity);
         }
 
         // divide the spectrum into 10 windows and normalize each windows to defaultIntensity
@@ -231,8 +220,7 @@ public class PreSpectrum {
 
     private float[] digitizeSpec(TreeMap<Float, Float> pl) {
         float[] digitizedPl = new float[massToolObj.mzToBin(pl.lastKey()) + 1];
-        Set<Float> mzSet = pl.keySet();
-        for (float mz : mzSet) {
+        for (float mz : pl.keySet()) {
             int idx = massToolObj.mzToBin(mz);
             digitizedPl[idx] = Math.max(pl.get(mz), digitizedPl[idx]);
         }
