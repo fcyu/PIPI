@@ -190,7 +190,7 @@ public class Peptide implements Comparable<Peptide> {
         return varPTMMap;
     }
 
-    public String getPTMContainedString(Map<Character, Float> fixModMap, int decimalPoint) { // include fix modification
+    public String getPTMContainedString(Map<Character, Float> fixModMap, int decimalPoint) { // Caution: include fix modification. Using it to calculate mass and ion mass is incorrect.
         if (hasVarPTM()) {
             StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
             int i = 0;
