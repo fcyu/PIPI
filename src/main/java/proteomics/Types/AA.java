@@ -14,6 +14,10 @@ public class AA {
         hashCode = toString.hashCode();
     }
 
+    public boolean hasMod() {
+        return Math.abs(ptmDeltaMass) > 0.1;
+    }
+
     public String toString() {
         return toString;
     }
