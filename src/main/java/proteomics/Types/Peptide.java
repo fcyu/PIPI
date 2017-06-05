@@ -23,6 +23,8 @@ public class Peptide implements Comparable<Peptide> {
     private final String leftFlank;
     private final String rightFlank;
     private final int globalRank;
+    private String toString;
+    private int hashCode;
 
     private final double normalizedCrossXcorr;
 
@@ -40,6 +42,9 @@ public class Peptide implements Comparable<Peptide> {
         this.leftFlank = leftFlank;
         this.rightFlank = rightFlank;
         this.globalRank = globalRank;
+
+        toString = leftFlank + "." + ptmFreeSeq + "." + rightFlank;
+        hashCode = toString.hashCode();
     }
 
     public int getGlobalRank() {
@@ -67,11 +72,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public String toString() {
-        if (hasVarPTM()) {
-            return leftFlank + "." + ptmFreeSeq + "." + rightFlank + "," + varPTMMap.toString();
-        } else {
-            return leftFlank + "." + ptmFreeSeq + "." + rightFlank;
-        }
+        return toString;
     }
 
     public boolean equals(Object other) {
@@ -80,7 +81,7 @@ public class Peptide implements Comparable<Peptide> {
         }
 
         Peptide otherPeptide = (Peptide) other;
-        return this.hashCode() == otherPeptide.hashCode();
+        return this.hashCode == otherPeptide.hashCode;
     }
 
     public Peptide clone() {
@@ -100,7 +101,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public int hashCode() {
-        return this.toString().hashCode();
+        return hashCode;
     }
 
     public int length() {
@@ -149,6 +150,9 @@ public class Peptide implements Comparable<Peptide> {
                 totalDeltaMass += deltaMass;
             }
             precursorMass += totalDeltaMass;
+
+            toString += "." + varPTMMap.toString();
+            hashCode = toString.hashCode();
         }
     }
 

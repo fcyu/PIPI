@@ -4,8 +4,8 @@ public class Coordinate implements Comparable<Coordinate> {
 
     public final int x;
     public final int y;
-    public final String toString;
-    public final int hashCode;
+    private final String toString;
+    private final int hashCode;
 
     public Coordinate(int x, int y) {
         this.x = x;
