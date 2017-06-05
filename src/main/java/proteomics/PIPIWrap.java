@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.FindPTM;
-import proteomics.Search.CalEValue;
 import proteomics.Search.CalSubscores;
 import proteomics.Search.CalXcorr;
 import proteomics.Search.Search;
@@ -96,7 +95,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 FinalResultEntry scoredPsm = calXcorrObj.getScoredPSM();
                 if (scoredPsm != null) {
                     new CalSubscores(scoredPsm, spectrumEntry, ms2Tolerance);
-                    new CalEValue(scoredPsm);
                     return scoredPsm;
                 } else {
                     return null;

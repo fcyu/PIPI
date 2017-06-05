@@ -5,9 +5,6 @@ import java.util.*;
 
 public class FinalResultEntry {
 
-    private static final double histogramBinSize = 0.05f;
-    private static final double histogramBinOffset = 0.5;
-    private static final double maxScore = 10;
     private static final int scoreNum = 5;
 
     private final int scanNum;
@@ -19,17 +16,8 @@ public class FinalResultEntry {
     private int globalSearchRank;
     private double ionFrac;
     private double matchedHighestIntensityFrac;
-    private Set<String> scoredPeptide = new HashSet<>();
 
-    private int candidateNum;
-    private final int[] scoreHistogram = new int[(int) (maxScore / histogramBinSize) + 1]; // start from zero score.
-    private double eValue = 9999;
-    private double negativeLog10EValue = -9999;
     private float qValue = -1;
-
-    private double[] lnSurvivalArray;
-    private int startIdx = -1;
-    private double rSquare = -1;
 
     public FinalResultEntry(int scanNum, int charge, float precursorMz) {
         this.scanNum = scanNum;
@@ -81,10 +69,6 @@ public class FinalResultEntry {
         return precursorMz;
     }
 
-    public boolean scored(String peptide) {
-        return scoredPeptide.contains(peptide);
-    }
-
     public void addScore(double score) {
         if (scoreList.size() < scoreNum) {
             scoreList.add(score);
@@ -96,21 +80,8 @@ public class FinalResultEntry {
         }
     }
 
-    public void addScoredPeptide(String peptide) {
-        scoredPeptide.add(peptide);
-    }
-
     public void setPeptide(Peptide peptide) {
         this.peptide = peptide;
-    }
-
-    public int getCandidateNum() {
-        return candidateNum;
-    }
-
-    public void addToScoreHistogram(double score) {
-        ++candidateNum;
-        ++scoreHistogram[(int) (score / histogramBinSize + histogramBinOffset)];
     }
 
     public void setQValue(float qValue) {
@@ -119,55 +90,6 @@ public class FinalResultEntry {
 
     public float getQValue() {
         return qValue;
-    }
-
-    public int[] getScoreHistogram() {
-        return scoreHistogram;
-    }
-
-    public void setEValue(double eValue) {
-        this.eValue = eValue;
-        negativeLog10EValue = -1 * Math.log10(eValue);
-    }
-
-    public double getEValue() {
-        return eValue;
-    }
-
-    public double getNegativeLog10EValue() {
-        return negativeLog10EValue;
-    }
-
-    public double getHistogramBinSize() {
-        return histogramBinSize;
-    }
-
-    public double getHistogramBinOffset() {
-        return histogramBinOffset;
-    }
-
-    public void setLnSurvivalArray(double[] lnSurvivalArray) {
-        this.lnSurvivalArray = lnSurvivalArray;
-    }
-
-    public double[] getLnSurvivalArray() {
-        return lnSurvivalArray;
-    }
-
-    public void setStartIdx(int startIdx) {
-        this.startIdx = startIdx;
-    }
-
-    public int getStartIdx() {
-        return startIdx;
-    }
-
-    public void setRSquare(double rSquare) {
-        this.rSquare = rSquare;
-    }
-
-    public double getRSquare() {
-        return rSquare;
     }
 
     public void setNormalizedCrossXcorr(double normalizedCrossXcorr) {

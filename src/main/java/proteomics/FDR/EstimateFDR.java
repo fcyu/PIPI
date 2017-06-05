@@ -9,21 +9,21 @@ public class EstimateFDR {
     private static final float precision = 0.1f;
 
     public EstimateFDR(List<FinalResultEntry> resultList) {
-        double minNegativeLog10Evalue = 9999;
-        double maxNegativeLog10Evalue = -9999;
+        double minScore = 9999;
+        double maxScore = -9999;
         float[] qvalueArray;
 
         for (FinalResultEntry entry : resultList) {
-            if (entry.getNegativeLog10EValue() > maxNegativeLog10Evalue) {
-                maxNegativeLog10Evalue = entry.getNegativeLog10EValue();
+            if (entry.getScore() > maxScore) {
+                maxScore = entry.getScore();
             }
-            if (entry.getNegativeLog10EValue() < minNegativeLog10Evalue) {
-                minNegativeLog10Evalue = entry.getNegativeLog10EValue();
+            if (entry.getScore() < minScore) {
+                minScore = entry.getScore();
             }
         }
 
         // accumulate counts
-        int arrayLength = (int) ((maxNegativeLog10Evalue - minNegativeLog10Evalue) / precision) + 1;
+        int arrayLength = (int) ((maxScore - minScore) / precision) + 1;
         long[] decoyCountArray = new long[arrayLength];
         long[] targetCountArray = new long[arrayLength];
         float[] fdrArray = new float[arrayLength];
@@ -31,9 +31,9 @@ public class EstimateFDR {
 
         for (FinalResultEntry entry : resultList) {
             if (entry.isDecoy()) {
-                ++decoyCountArray[(int) ((entry.getNegativeLog10EValue() - minNegativeLog10Evalue) / precision)];
+                ++decoyCountArray[(int) ((entry.getScore() - minScore) / precision)];
             } else {
-                ++targetCountArray[(int) ((entry.getNegativeLog10EValue() - minNegativeLog10Evalue) / precision)];
+                ++targetCountArray[(int) ((entry.getScore() - minScore) / precision)];
             }
         }
 
@@ -63,7 +63,7 @@ public class EstimateFDR {
 
         // record results
         for (FinalResultEntry entry : resultList) {
-            entry.setQValue(qvalueArray[(int) ((entry.getNegativeLog10EValue() - minNegativeLog10Evalue) / precision)]);
+            entry.setQValue(qvalueArray[(int) ((entry.getScore() - minScore) / precision)]);
         }
     }
 }
