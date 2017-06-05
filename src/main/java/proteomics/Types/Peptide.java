@@ -11,7 +11,7 @@ public class Peptide implements Comparable<Peptide> {
 
     private static Logger logger = LoggerFactory.getLogger(Peptide.class);
 
-    private final String peptideString;
+    private final String ptmFreeSeq;
     private final boolean isDecoy;
     private final String normalizedPeptideString;
     private float precursorMass = 0;
@@ -26,13 +26,13 @@ public class Peptide implements Comparable<Peptide> {
 
     private final double normalizedCrossXcorr;
 
-    public Peptide(String peptideString, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, String leftFlank, String rightFlank, int globalRank) {
-        this.peptideString = peptideString;
+    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, String leftFlank, String rightFlank, int globalRank) {
+        this.ptmFreeSeq = ptmFreeSeq;
         this.isDecoy = isDecoy;
-        this.normalizedPeptideString = InferenceSegment.normalizeSequence(peptideString);
+        this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
         this.normalizedCrossXcorr = normalizedCrossXcorr;
-        precursorMass = massToolObj.calResidueMass(peptideString) + massToolObj.returnMassTable().get("H2O");
-        ionMatrix = massToolObj.buildIonArray(peptideString, maxMs2Charge);
+        precursorMass = massToolObj.calResidueMass(ptmFreeSeq) + massToolObj.returnMassTable().get("H2O");
+        ionMatrix = massToolObj.buildIonArray(ptmFreeSeq, maxMs2Charge);
         chargeOneBIonArray = ionMatrix[0];
 
         this.massToolObj = massToolObj;
@@ -68,9 +68,9 @@ public class Peptide implements Comparable<Peptide> {
 
     public String toString() {
         if (hasVarPTM()) {
-            return leftFlank + "." + peptideString + "." + rightFlank + "," + varPTMMap.toString();
+            return leftFlank + "." + ptmFreeSeq + "." + rightFlank + "," + varPTMMap.toString();
         } else {
-            return leftFlank + "." + peptideString + "." + rightFlank;
+            return leftFlank + "." + ptmFreeSeq + "." + rightFlank;
         }
     }
 
@@ -86,7 +86,7 @@ public class Peptide implements Comparable<Peptide> {
     public Peptide clone() {
         Peptide other = null;
         try {
-            other = new Peptide(peptideString, isDecoy, massToolObj, maxMs2Charge, normalizedCrossXcorr, leftFlank, rightFlank, globalRank);
+            other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossXcorr, leftFlank, rightFlank, globalRank);
             if (varPTMMap != null) {
                 other.setVarPTM(varPTMMap.clone());
             }
@@ -104,7 +104,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public int length() {
-        return peptideString.length();
+        return ptmFreeSeq.length();
     }
 
     public String getLeftFlank() {
@@ -129,7 +129,7 @@ public class Peptide implements Comparable<Peptide> {
                             ionMatrix[i * 2][j] += deltaMz;
                         }
                         ionMatrix[i * 2 + 1][0] += deltaMz;
-                    } else if (co.y > peptideString.length() - 2) {
+                    } else if (co.y > ptmFreeSeq.length() - 2) {
                         ionMatrix[i * 2][ionMatrix[0].length - 1] += deltaMz;
                         for (int j = 0; j < co.x; ++j) {
                             ionMatrix[i * 2 + 1][j] += deltaMz;
@@ -165,7 +165,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public String getPTMFreeSeq() {
-        return peptideString;
+        return ptmFreeSeq;
     }
 
     public int getUnexplainedAaNum() {
@@ -188,9 +188,9 @@ public class Peptide implements Comparable<Peptide> {
 
     public String getPTMContainedString(Map<String, Float> fixModMap, int decimalPoint) { // include fix modification
         if (hasVarPTM()) {
-            StringBuilder sb = new StringBuilder(peptideString.length() * 5);
+            StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
             int i = 0;
-            while (i < peptideString.length()) {
+            while (i < ptmFreeSeq.length()) {
                 boolean ok = false;
 
                 // add variable modification, and maybe fix modification
@@ -198,15 +198,15 @@ public class Peptide implements Comparable<Peptide> {
                     if (co.x == i) {
                         // sb.append("(");
                         while (i < co.y) {
-                            sb.append(peptideString.charAt(i));
+                            sb.append(ptmFreeSeq.charAt(i));
                             ++i;
                         }
                         if (decimalPoint == 0) {
-                            sb.append(String.format("(%d)", Math.round(varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1)))))); // add fix modification to variable modification.
+                            sb.append(String.format("(%d)", Math.round(varPTMMap.get(co) + fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i - 1)))))); // add fix modification to variable modification.
                         } else if (decimalPoint == 1) {
-                            sb.append(String.format("(%.1f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1))))); // add fix modification to variable modification.
+                            sb.append(String.format("(%.1f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i - 1))))); // add fix modification to variable modification.
                         } else {
-                            sb.append(String.format("(%.2f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(peptideString.charAt(i - 1))))); // add fix modification to variable modification.
+                            sb.append(String.format("(%.2f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i - 1))))); // add fix modification to variable modification.
                         }
                         ok = true;
                         break;
@@ -215,28 +215,28 @@ public class Peptide implements Comparable<Peptide> {
 
                 // add fix modification or not
                 if (!ok) {
-                    float deltaMass = fixModMap.get(String.valueOf(peptideString.charAt(i)));
+                    float deltaMass = fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i)));
                     if (Math.abs(deltaMass) > 1e-6) {
-                        sb.append(peptideString.charAt(i));
+                        sb.append(ptmFreeSeq.charAt(i));
                         sb.append(String.format("(%.2f)", deltaMass)); // for fix modification, the decimal point is always 2
                     } else {
-                        sb.append(peptideString.charAt(i));
+                        sb.append(ptmFreeSeq.charAt(i));
                     }
                     ++i;
                 }
             }
             return sb.toString();
         } else {
-            StringBuilder sb = new StringBuilder(peptideString.length() * 5);
+            StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
             int i = 0;
-            while (i < peptideString.length()) {
+            while (i < ptmFreeSeq.length()) {
                 // add fix modification
-                float deltaMass = fixModMap.get(String.valueOf(peptideString.charAt(i)));
+                float deltaMass = fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i)));
                 if (Math.abs(deltaMass) > 1e-6) {
-                    sb.append(peptideString.charAt(i));
+                    sb.append(ptmFreeSeq.charAt(i));
                     sb.append(String.format("(%.2f)", deltaMass));
                 } else {
-                    sb.append(peptideString.charAt(i));
+                    sb.append(ptmFreeSeq.charAt(i));
                 }
                 ++i;
             }
