@@ -190,7 +190,7 @@ public class Peptide implements Comparable<Peptide> {
         return varPTMMap;
     }
 
-    public String getPTMContainedString(Map<String, Float> fixModMap, int decimalPoint) { // include fix modification
+    public String getPTMContainedString(Map<Character, Float> fixModMap, int decimalPoint) { // include fix modification
         if (hasVarPTM()) {
             StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
             int i = 0;
@@ -206,11 +206,11 @@ public class Peptide implements Comparable<Peptide> {
                             ++i;
                         }
                         if (decimalPoint == 0) {
-                            sb.append(String.format("(%d)", Math.round(varPTMMap.get(co) + fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i - 1)))))); // add fix modification to variable modification.
+                            sb.append(String.format("(%d)", Math.round(varPTMMap.get(co) + fixModMap.get(ptmFreeSeq.charAt(i - 1))))); // add fix modification to variable modification.
                         } else if (decimalPoint == 1) {
-                            sb.append(String.format("(%.1f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i - 1))))); // add fix modification to variable modification.
+                            sb.append(String.format("(%.1f)", varPTMMap.get(co) + fixModMap.get(ptmFreeSeq.charAt(i - 1)))); // add fix modification to variable modification.
                         } else {
-                            sb.append(String.format("(%.2f)", varPTMMap.get(co) + fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i - 1))))); // add fix modification to variable modification.
+                            sb.append(String.format("(%.2f)", varPTMMap.get(co) + fixModMap.get(ptmFreeSeq.charAt(i - 1)))); // add fix modification to variable modification.
                         }
                         ok = true;
                         break;
@@ -219,7 +219,7 @@ public class Peptide implements Comparable<Peptide> {
 
                 // add fix modification or not
                 if (!ok) {
-                    float deltaMass = fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i)));
+                    float deltaMass = fixModMap.get(ptmFreeSeq.charAt(i));
                     if (Math.abs(deltaMass) > 1e-6) {
                         sb.append(ptmFreeSeq.charAt(i));
                         sb.append(String.format("(%.2f)", deltaMass)); // for fix modification, the decimal point is always 2
@@ -235,7 +235,7 @@ public class Peptide implements Comparable<Peptide> {
             int i = 0;
             while (i < ptmFreeSeq.length()) {
                 // add fix modification
-                float deltaMass = fixModMap.get(String.valueOf(ptmFreeSeq.charAt(i)));
+                float deltaMass = fixModMap.get(ptmFreeSeq.charAt(i));
                 if (Math.abs(deltaMass) > 1e-6) {
                     sb.append(ptmFreeSeq.charAt(i));
                     sb.append(String.format("(%.2f)", deltaMass));

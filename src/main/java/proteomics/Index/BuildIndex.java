@@ -17,7 +17,7 @@ public class BuildIndex {
     private Set<String> forCheckDuplicate = new HashSet<>();
     private Map<String, Float> decoyPeptideMassMap = new HashMap<>();
     private Map<String, String> decoyPeptideProMap = new HashMap<>();
-    private Map<String, Float> fixModMap = new HashMap<>();
+    private Map<Character, Float> fixModMap = new HashMap<>();
     private TreeMap<Float, Set<String>> massPeptideMap = new TreeMap<>();
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
@@ -32,30 +32,30 @@ public class BuildIndex {
         boolean containDecoy = parameterMap.get("contain_decoy").contentEquals("1");
 
         // Read fix modification
-        fixModMap.put("G", Float.valueOf(parameterMap.get("G")));
-        fixModMap.put("A", Float.valueOf(parameterMap.get("A")));
-        fixModMap.put("S", Float.valueOf(parameterMap.get("S")));
-        fixModMap.put("P", Float.valueOf(parameterMap.get("P")));
-        fixModMap.put("V", Float.valueOf(parameterMap.get("V")));
-        fixModMap.put("T", Float.valueOf(parameterMap.get("T")));
-        fixModMap.put("C", Float.valueOf(parameterMap.get("C")));
-        fixModMap.put("I", Float.valueOf(parameterMap.get("I")));
-        fixModMap.put("L", Float.valueOf(parameterMap.get("L")));
-        fixModMap.put("N", Float.valueOf(parameterMap.get("N")));
-        fixModMap.put("D", Float.valueOf(parameterMap.get("D")));
-        fixModMap.put("Q", Float.valueOf(parameterMap.get("Q")));
-        fixModMap.put("K", Float.valueOf(parameterMap.get("K")));
-        fixModMap.put("E", Float.valueOf(parameterMap.get("E")));
-        fixModMap.put("M", Float.valueOf(parameterMap.get("M")));
-        fixModMap.put("H", Float.valueOf(parameterMap.get("H")));
-        fixModMap.put("F", Float.valueOf(parameterMap.get("F")));
-        fixModMap.put("R", Float.valueOf(parameterMap.get("R")));
-        fixModMap.put("Y", Float.valueOf(parameterMap.get("Y")));
-        fixModMap.put("W", Float.valueOf(parameterMap.get("W")));
-        fixModMap.put("U", Float.valueOf(parameterMap.get("U")));
-        fixModMap.put("O", Float.valueOf(parameterMap.get("O")));
-        fixModMap.put("n", Float.valueOf(parameterMap.get("n")));
-        fixModMap.put("c", Float.valueOf(parameterMap.get("c")));
+        fixModMap.put('G', Float.valueOf(parameterMap.get("G")));
+        fixModMap.put('A', Float.valueOf(parameterMap.get("A")));
+        fixModMap.put('S', Float.valueOf(parameterMap.get("S")));
+        fixModMap.put('P', Float.valueOf(parameterMap.get("P")));
+        fixModMap.put('V', Float.valueOf(parameterMap.get("V")));
+        fixModMap.put('T', Float.valueOf(parameterMap.get("T")));
+        fixModMap.put('C', Float.valueOf(parameterMap.get("C")));
+        fixModMap.put('I', Float.valueOf(parameterMap.get("I")));
+        fixModMap.put('L', Float.valueOf(parameterMap.get("L")));
+        fixModMap.put('N', Float.valueOf(parameterMap.get("N")));
+        fixModMap.put('D', Float.valueOf(parameterMap.get("D")));
+        fixModMap.put('Q', Float.valueOf(parameterMap.get("Q")));
+        fixModMap.put('K', Float.valueOf(parameterMap.get("K")));
+        fixModMap.put('E', Float.valueOf(parameterMap.get("E")));
+        fixModMap.put('M', Float.valueOf(parameterMap.get("M")));
+        fixModMap.put('H', Float.valueOf(parameterMap.get("H")));
+        fixModMap.put('F', Float.valueOf(parameterMap.get("F")));
+        fixModMap.put('R', Float.valueOf(parameterMap.get("R")));
+        fixModMap.put('Y', Float.valueOf(parameterMap.get("Y")));
+        fixModMap.put('W', Float.valueOf(parameterMap.get("W")));
+        fixModMap.put('U', Float.valueOf(parameterMap.get("U")));
+        fixModMap.put('O', Float.valueOf(parameterMap.get("O")));
+        fixModMap.put('n', Float.valueOf(parameterMap.get("n")));
+        fixModMap.put('c', Float.valueOf(parameterMap.get("c")));
 
         // read protein database
         DbTool dbToolObj = new DbTool(dbPath);
@@ -98,7 +98,7 @@ public class BuildIndex {
         return decoyPeptideProMap;
     }
 
-    public Map<String, Float> returnFixModMap() {
+    public Map<Character, Float> returnFixModMap() {
         return fixModMap;
     }
 

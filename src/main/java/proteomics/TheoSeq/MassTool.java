@@ -14,35 +14,35 @@ public class MassTool {
     private Pattern digestSitePattern;
     private final boolean cleavageFromCTerm;
 
-    public MassTool(final int missedCleavage, Map<String, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset) {
+    public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset) {
         this.missedCleavage = missedCleavage;
         this.ms2Tolerance = ms2Tolerance;
         this.oneMinusBinOffset = oneMinusBinOffset;
         this.cleavageFromCTerm = cleavageFromCTerm;
-        massTable.put("G", 57.021464f + fixModMap.get("G"));
-        massTable.put("A", 71.037114f + fixModMap.get("A"));
-        massTable.put("S", 87.032028f + fixModMap.get("S"));
-        massTable.put("P", 97.052764f + fixModMap.get("P"));
-        massTable.put("V", 99.068414f + fixModMap.get("V"));
-        massTable.put("T", 101.047678f + fixModMap.get("I"));
-        massTable.put("C", 103.009184f + fixModMap.get("C"));
-        massTable.put("I", 113.084064f + fixModMap.get("I"));
-        massTable.put("L", 113.084064f + fixModMap.get("L"));
-        massTable.put("N", 114.042927f + fixModMap.get("N"));
-        massTable.put("D", 115.026943f + fixModMap.get("D"));
-        massTable.put("Q", 128.058578f + fixModMap.get("Q"));
-        massTable.put("K", 128.094963f + fixModMap.get("K"));
-        massTable.put("E", 129.042593f + fixModMap.get("E"));
-        massTable.put("M", 131.040485f + fixModMap.get("M"));
-        massTable.put("H", 137.058912f + fixModMap.get("H"));
-        massTable.put("F", 147.068414f + fixModMap.get("F"));
-        massTable.put("R", 156.101111f + fixModMap.get("R"));
-        massTable.put("Y", 163.063329f + fixModMap.get("Y"));
-        massTable.put("W", 186.079313f + fixModMap.get("W"));
-        massTable.put("U", 150.953636f + fixModMap.get("U"));
-        massTable.put("O", 132.08988f + fixModMap.get("O"));
-        massTable.put("n", fixModMap.get("n"));
-        massTable.put("c", fixModMap.get("c"));
+        massTable.put("G", 57.021464f + fixModMap.get('G'));
+        massTable.put("A", 71.037114f + fixModMap.get('A'));
+        massTable.put("S", 87.032028f + fixModMap.get('S'));
+        massTable.put("P", 97.052764f + fixModMap.get('P'));
+        massTable.put("V", 99.068414f + fixModMap.get('V'));
+        massTable.put("T", 101.047678f + fixModMap.get('I'));
+        massTable.put("C", 103.009184f + fixModMap.get('C'));
+        massTable.put("I", 113.084064f + fixModMap.get('I'));
+        massTable.put("L", 113.084064f + fixModMap.get('L'));
+        massTable.put("N", 114.042927f + fixModMap.get('N'));
+        massTable.put("D", 115.026943f + fixModMap.get('D'));
+        massTable.put("Q", 128.058578f + fixModMap.get('Q'));
+        massTable.put("K", 128.094963f + fixModMap.get('K'));
+        massTable.put("E", 129.042593f + fixModMap.get('E'));
+        massTable.put("M", 131.040485f + fixModMap.get('M'));
+        massTable.put("H", 137.058912f + fixModMap.get('H'));
+        massTable.put("F", 147.068414f + fixModMap.get('F'));
+        massTable.put("R", 156.101111f + fixModMap.get('R'));
+        massTable.put("Y", 163.063329f + fixModMap.get('Y'));
+        massTable.put("W", 186.079313f + fixModMap.get('W'));
+        massTable.put("U", 150.953636f + fixModMap.get('U'));
+        massTable.put("O", 132.08988f + fixModMap.get('O'));
+        massTable.put("n", fixModMap.get('n'));
+        massTable.put("c", fixModMap.get('c'));
         massTable.put("#", 113.084064f); // for I and L.
         massTable.put("$", 128.0767705f); // for Q and K.
         massTable.put("C13_DIFF", 1.00335483f);

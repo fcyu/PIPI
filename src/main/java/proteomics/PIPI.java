@@ -265,7 +265,7 @@ public class PIPI {
         System.exit(1);
     }
 
-    private static void writePercolator(List<FinalResultEntry> finalScoredResult, Map<String, Set<String>> peptideProteinMap, Map<String, String> decoyPeptideProteinMap, String resultPath, Map<String, Float> fixModMap, int decimalPoint) {
+    private static void writePercolator(List<FinalResultEntry> finalScoredResult, Map<String, Set<String>> peptideProteinMap, Map<String, String> decoyPeptideProteinMap, String resultPath, Map<Character, Float> fixModMap, int decimalPoint) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
             writer.write("id\tlabel\tscannr\txcorr\tdelta_c\tdelta_L_c\tnegative_log10_e_value\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tIonFrac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\tunexplained_AA_num\tpeptide\tprotein\n");
             for (FinalResultEntry entry : finalScoredResult) {
@@ -353,7 +353,7 @@ public class PIPI {
         return percolatorResultMap;
     }
 
-    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Set<String>> peptideProteinMap, String outputPath, Map<String, Float> fixModMap, int decimalPoint) {
+    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Set<String>> peptideProteinMap, String outputPath, Map<Character, Float> fixModMap, int decimalPoint) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,ppm,protein_ID,xcorr,e_value,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value\n");
@@ -434,7 +434,7 @@ public class PIPI {
         }
     }
 
-    private Map<String, TreeSet<Integer>> readPTMDb(Map<String, String> parameterMap, Map<String, Float> fixModMap) {
+    private Map<String, TreeSet<Integer>> readPTMDb(Map<String, String> parameterMap, Map<Character, Float> fixModMap) {
         Map<String, TreeSet<Integer>> siteMass1000Map = new HashMap<>();
         float minPtmMass = Float.valueOf(parameterMap.get("min_ptm_mass"));
         float maxPtmMass = Float.valueOf(parameterMap.get("max_ptm_mass"));
@@ -459,7 +459,7 @@ public class PIPI {
                 int mass1000 = (int) Math.floor(mass * 1000);
 
                 String siteString;
-                if (site.contentEquals("N-term") && (Math.abs(fixModMap.get("n")) < 1e-6)) {
+                if (site.contentEquals("N-term") && (Math.abs(fixModMap.get('n')) < 1e-6)) {
                     if (position.contentEquals("PROTEIN_N")) {
                         siteString = "PROTEIN_N";
                     } else {
@@ -471,7 +471,7 @@ public class PIPI {
                     } else {
                         siteString = "PEPTIDE_C";
                     }
-                } else if (Math.abs(fixModMap.get(site)) < 1e-6) { // fix modified amino acid cannot be modified again.
+                } else if (Math.abs(fixModMap.get(site.charAt(0))) < 1e-6) { // fix modified amino acid cannot be modified again.
                     if (position.contentEquals("PROTEIN_N")) {
                         siteString = site + "-PROTEIN_N";
                     } else if (position.contentEquals("PROTEIN_C")) {
