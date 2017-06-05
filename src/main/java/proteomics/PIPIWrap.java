@@ -58,12 +58,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, massToolObj, inference3SegmentObj.getModifiedAAMassMap(), inference3SegmentObj.getPepNTermPossibleMod(), inference3SegmentObj.getPepCTermPossibleMod(), inference3SegmentObj.getProNTermPossibleMod(), inference3SegmentObj.getProCTermPossibleMod(), minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);
             List<Peptide> ptmOnlyTemp = findPtmObj.getPeptidesWithPTMs();
 
+            // Additional short missed cleavaged amino acid sequence may be canceled out by negative PTM. In this situation, we eliminate the missed cleavaged one.
             List<Peptide> tempList = new LinkedList<>();
             tempList.addAll(searchObj.getPTMFreeResult());
             tempList.addAll(ptmOnlyTemp);
             Peptide[] tempArray = tempList.toArray(new Peptide[tempList.size()]);
-
-            // Additional short missed cleavaged amino acid sequence may be canceled out by negative PTM. In this situation, we eliminate the missed cleavaged one.
             List<Peptide> candidates = new LinkedList<>();
             for (int i = 0; i < tempArray.length; ++i) {
                 boolean keep = true;
