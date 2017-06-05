@@ -15,6 +15,8 @@ import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLFile;
 import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLParsingException;
 
 import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -41,6 +43,10 @@ public class PIPI {
 
         try {
             logger.info("Running PIPI version {}.", versionStr);
+
+            String hostName = InetAddress.getLocalHost().getHostName();
+            logger.info("Computer: {}", hostName);
+
             logger.info("Spectra: {}, parameter: {}", spectraPath, parameterPath);
 
             if (DEV) {
@@ -48,6 +54,8 @@ public class PIPI {
             }
 
             new PIPI(parameterPath, spectraPath);
+        } catch (UnknownHostException ex) {
+            logger.warn("Cannot get the computer's name.");
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
