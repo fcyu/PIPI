@@ -10,7 +10,7 @@ public class FinalResultEntry {
     private final int scanNum;
     private final int charge;
     private final float precursorMz;
-    private List<Double> scoreList = new LinkedList<>();
+    private LinkedList<Double> scoreList = new LinkedList<>();
     private Peptide peptide;
     private double normalizedCrossXcorr;
     private int globalSearchRank;
@@ -72,11 +72,12 @@ public class FinalResultEntry {
     public void addScore(double score) {
         if (scoreList.size() < scoreNum) {
             scoreList.add(score);
-            Collections.sort(scoreList, Collections.reverseOrder());
-        } else if (score > scoreList.get(scoreNum - 1)) {
-            scoreList.remove(scoreNum - 1);
+            scoreList.sort(Collections.reverseOrder());
+        } else if (score > scoreList.peekLast()) {
+            scoreList.pollLast();
             scoreList.add(score);
-            Collections.sort(scoreList, Collections.reverseOrder());
+            scoreList.sort(Collections.reverseOrder());
+        }
         }
     }
 
