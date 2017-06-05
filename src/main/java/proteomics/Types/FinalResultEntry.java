@@ -50,7 +50,7 @@ public class FinalResultEntry {
     }
 
     public double getDeltaLC() {
-        if (scoreList.size() < 3) {
+        if (scoreList.size() < 2) {
             return 1;
         } else {
             return (scoreList.get(0) - scoreList.get(scoreList.size() - 1)) / scoreList.get(0);
