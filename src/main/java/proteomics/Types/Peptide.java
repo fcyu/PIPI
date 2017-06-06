@@ -14,29 +14,29 @@ public class Peptide implements Comparable<Peptide> {
     private final String ptmFreeSeq;
     private final boolean isDecoy;
     private final String normalizedPeptideString;
-    private float precursorMass = 0;
-    private final float[][] ionMatrix;
-    private final float[] chargeOneBIonArray;
-    private PositionDeltaMassMap varPTMMap = null;
     private final MassTool massToolObj;
     private final int maxMs2Charge;
     private final String leftFlank;
     private final String rightFlank;
     private final int globalRank;
+    private final double normalizedCrossXcorr;
+    private PositionDeltaMassMap varPTMMap = null;
+
     private String toString;
     private int hashCode;
 
-    private final double normalizedCrossXcorr;
+    // these fields need to be changed every time PTM changed.
+    private float precursorMass = -1;
+    private float[][] ionMatrix = null;
+    private float[] chargeOneBIonArray = null;
+    private String varPtmContainingSeq = null;
+    private String ptmContainingSeq = null;
 
     public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, String leftFlank, String rightFlank, int globalRank) {
         this.ptmFreeSeq = ptmFreeSeq;
         this.isDecoy = isDecoy;
         this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
         this.normalizedCrossXcorr = normalizedCrossXcorr;
-        precursorMass = massToolObj.calResidueMass(ptmFreeSeq) + MassTool.H2O;
-        ionMatrix = massToolObj.buildIonArray(ptmFreeSeq, maxMs2Charge);
-        chargeOneBIonArray = ionMatrix[0];
-
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
         this.leftFlank = leftFlank;
@@ -52,6 +52,9 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public float[][] getIonMatrix() {
+        if (ionMatrix == null) {
+            ionMatrix = massToolObj.buildIonArray(getVarPtmContainingSeq(), maxMs2Charge);
+        }
         return ionMatrix;
     }
 
@@ -64,10 +67,17 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public float getPrecursorMass() {
+        if (precursorMass < 0) {
+            precursorMass = massToolObj.calResidueMass(getVarPtmContainingSeq()) + MassTool.H2O;
+        }
         return precursorMass;
     }
 
     public float[] getChargeOneBIonArray() {
+        if (chargeOneBIonArray == null) {
+            float[][] temp = massToolObj.buildIonArray(getVarPtmContainingSeq(), 1);
+            chargeOneBIonArray = temp[0];
+        }
         return chargeOneBIonArray;
     }
 
@@ -119,39 +129,14 @@ public class Peptide implements Comparable<Peptide> {
     public void setVarPTM(PositionDeltaMassMap ptmMap) {
         this.varPTMMap = ptmMap;
         if (ptmMap != null) {
-            for (Coordinate co : ptmMap.keySet()) {
-                float deltaMass = ptmMap.get(co);
-                for (int i = 0; i < ionMatrix.length / 2; ++i) {
-                    float deltaMz = deltaMass / (i + 1);
-                    // if the PTM can be pin-pointed to a single amino acid, change the ions' mz values as what they should be
-                    // the PTM cannot be pin-pointed to a single amino acid, all peaks in the block except for head or tail are treated as unmodified peaks
-                    if (co.x == 0) {
-                        for (int j = Math.max(0, co.y - 2); j < ionMatrix[0].length; ++j) {
-                            ionMatrix[i * 2][j] += deltaMz;
-                        }
-                        ionMatrix[i * 2 + 1][0] += deltaMz;
-                    } else if (co.y > ptmFreeSeq.length() - 2) {
-                        ionMatrix[i * 2][ionMatrix[0].length - 1] += deltaMz;
-                        for (int j = 0; j < co.x; ++j) {
-                            ionMatrix[i * 2 + 1][j] += deltaMz;
-                        }
-                    } else {
-                        for (int j = co.y - 2; j < ionMatrix[0].length; ++j) {
-                            ionMatrix[i * 2][j] += deltaMz;
-                        }
-                        for (int j = 0; j < co.x; ++j) {
-                            ionMatrix[i * 2 + 1][j] += deltaMz;
-                        }
-                    }
-                }
-            }
-            float totalDeltaMass = 0;
-            for (float deltaMass : ptmMap.values()) {
-                totalDeltaMass += deltaMass;
-            }
-            precursorMass += totalDeltaMass;
+            // reset these fields to make them being regenerated again.
+            precursorMass = -1;
+            ionMatrix = null;
+            chargeOneBIonArray = null;
+            varPtmContainingSeq = null;
+            ptmContainingSeq = null;
 
-            toString += "." + varPTMMap.toString();
+            toString = leftFlank + "." + ptmFreeSeq + "." + rightFlank + "." + ptmMap.toString();
             hashCode = toString.hashCode();
         }
     }
@@ -190,56 +175,58 @@ public class Peptide implements Comparable<Peptide> {
         return varPTMMap;
     }
 
-    public String getPTMContainedString(Map<Character, Float> fixModMap) { // Caution: include fix modification. Using it to calculate mass and ion mass is incorrect.
-        if (hasVarPTM()) {
-            StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
-            int i = 0;
-            while (i < ptmFreeSeq.length()) {
-                boolean ok = false;
-
-                // add variable modification, and maybe fix modification
-                for (Coordinate co : varPTMMap.keySet()) {
-                    if (co.x == i) {
-                        // sb.append("(");
-                        while (i < co.y) {
+    public String getVarPtmContainingSeq() {
+        if (varPtmContainingSeq == null) {
+            if (varPTMMap != null) {
+                StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
+                int tempIdx = varPTMMap.firstKey().y;
+                if (tempIdx > 1) {
+                    sb.append(ptmFreeSeq.substring(0, tempIdx - 1));
+                }
+                int i = tempIdx - 1;
+                tempIdx = varPTMMap.lastKey().y;
+                while (i < ptmFreeSeq.length()) {
+                    boolean hasMod = false;
+                    if (tempIdx > i) {
+                        for (Coordinate co : varPTMMap.keySet()) {
+                            if (co.y - 1 == i) {
+                                sb.append(String.format("%c(%.1f)", ptmFreeSeq.charAt(i), varPTMMap.get(co)));
+                                hasMod = true;
+                                ++i;
+                                break;
+                            }
+                        }
+                        if (!hasMod) {
                             sb.append(ptmFreeSeq.charAt(i));
                             ++i;
                         }
-                        sb.append(String.format("(%.1f)", varPTMMap.get(co) + fixModMap.get(ptmFreeSeq.charAt(i - 1)))); // add fix modification to variable modification.
-                        ok = true;
+                    } else {
                         break;
                     }
                 }
-
-                // add fix modification or not
-                if (!ok) {
-                    float deltaMass = fixModMap.get(ptmFreeSeq.charAt(i));
-                    if (Math.abs(deltaMass) > 1e-6) {
-                        sb.append(ptmFreeSeq.charAt(i));
-                        sb.append(String.format("(%.1f)", deltaMass));
-                    } else {
-                        sb.append(ptmFreeSeq.charAt(i));
-                    }
-                    ++i;
+                if (tempIdx < ptmFreeSeq.length()) {
+                    sb.append(ptmFreeSeq.substring(tempIdx));
                 }
+                varPtmContainingSeq = sb.toString();
+            } else {
+                varPtmContainingSeq = ptmFreeSeq;
             }
-            return sb.toString();
-        } else {
-            StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
-            int i = 0;
-            while (i < ptmFreeSeq.length()) {
-                // add fix modification
-                float deltaMass = fixModMap.get(ptmFreeSeq.charAt(i));
-                if (Math.abs(deltaMass) > 1e-6) {
-                    sb.append(ptmFreeSeq.charAt(i));
-                    sb.append(String.format("(%.1f)", deltaMass));
-                } else {
-                    sb.append(ptmFreeSeq.charAt(i));
-                }
-                ++i;
-            }
-            return sb.toString();
         }
+
+        return varPtmContainingSeq;
+    }
+
+    public String getPtmContainingSeq(Map<Character, Float> fixModMap) { // caution: containing fix modification. Calculating ion masses based on it is incorrect.
+        if (ptmContainingSeq == null) {
+            String ptmContainingSeq = getVarPtmContainingSeq();
+            for (char aa : fixModMap.keySet()) {
+                if (Math.abs(fixModMap.get(aa)) > 0.01) {
+                    ptmContainingSeq = ptmContainingSeq.replaceAll(String.valueOf(aa), String.format("%c(%.1f)", aa, fixModMap.get(aa)));
+                }
+            }
+        }
+
+        return ptmContainingSeq;
     }
 
     public double getNormalizedCrossCorr() {
