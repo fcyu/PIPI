@@ -3,7 +3,6 @@ package proteomics.Search;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import proteomics.Index.BuildIndex;
 import proteomics.Spectrum.PreSpectrum;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;

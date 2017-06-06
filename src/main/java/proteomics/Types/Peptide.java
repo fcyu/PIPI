@@ -33,7 +33,7 @@ public class Peptide implements Comparable<Peptide> {
         this.isDecoy = isDecoy;
         this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
         this.normalizedCrossXcorr = normalizedCrossXcorr;
-        precursorMass = massToolObj.calResidueMass(ptmFreeSeq) + massToolObj.returnMassTable().get("H2O");
+        precursorMass = massToolObj.calResidueMass(ptmFreeSeq) + MassTool.H2O;
         ionMatrix = massToolObj.buildIonArray(ptmFreeSeq, maxMs2Charge);
         chargeOneBIonArray = ionMatrix[0];
 

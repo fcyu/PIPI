@@ -10,7 +10,6 @@ public class BuildIndex {
     private float minPrecursorMass = 0;
     private float maxPrecursorMass = 0;
     private final MassTool massToolObj;
-    private Map<String, Float> massTable;
     private Map<String, String> proPeptideMap = new HashMap<>();
     private Map<String, Float> peptideMassMap = new HashMap<>();
     private Map<String, Set<String>> peptideProMap = new HashMap<>();
@@ -63,7 +62,6 @@ public class BuildIndex {
 
         // define a new MassTool object
         massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset);
-        massTable = massToolObj.returnMassTable();
 
         // build database
         buildPeptideMap(containDecoy);
@@ -116,7 +114,7 @@ public class BuildIndex {
                         continue;
                     }
 
-                    float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("H2O");
+                    float massTemp = massToolObj.calResidueMass(peptide) + MassTool.H2O;
                     if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
                         peptideMassMap.put(peptide, massTemp);
 
@@ -149,7 +147,7 @@ public class BuildIndex {
                         }
 
                         if (!forCheckDuplicate.contains(peptide.replace("L", "I"))) {
-                            float massTemp = massToolObj.calResidueMass(peptide) + massTable.get("H2O");
+                            float massTemp = massToolObj.calResidueMass(peptide) + MassTool.H2O;
                             if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
                                 decoyPeptideMassMap.put(peptide, massTemp);
                                 decoyPeptideProMap.put(peptide, proId);

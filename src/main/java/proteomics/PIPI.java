@@ -26,7 +26,6 @@ import java.util.concurrent.TimeUnit;
 public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
-    private static final float C13Diff = 1.00335483f;
     public static final String versionStr = "1.2.9";
 
     public static final boolean DEV = false;
@@ -280,7 +279,7 @@ public class PIPI {
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 Peptide peptide = entry.getPeptide();
                 float theoMass = peptide.getPrecursorMass();
-                float massDiff = getMassDiff(expMass, theoMass, C13Diff);
+                float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                 String proteinIdStr = "";
 
                 if (!entry.isDecoy()) {
@@ -372,7 +371,7 @@ public class PIPI {
                     int charge = entry.getCharge();
                     Peptide peptide = entry.getPeptide();
                     float theoMass = peptide.getPrecursorMass();
-                    float massDiff = getMassDiff(expMass, theoMass, C13Diff);
+                    float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
 

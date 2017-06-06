@@ -12,11 +12,9 @@ public class PreSpectrum {
     private static final int xcorrOffset = 75;
 
     private final MassTool massToolObj;
-    private final Map<String, Float> massTable;
 
     public PreSpectrum(MassTool massToolObj) {
         this.massToolObj = massToolObj;
-        massTable = massToolObj.returnMassTable();
     }
 
     public TreeMap<Float, Float> preSpectrum (Map<Double, Double> peaksMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
@@ -96,9 +94,9 @@ public class PreSpectrum {
     private TreeMap<Float, Float> removeCertainPeaks(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         TreeMap<Float, Float> mzIntensityMap = new TreeMap<>();
 
-        float precursorMz = precursorMass / precursorCharge + massTable.get("PROTON");
-        float precursorMzWaterLoss = precursorMz - massTable.get("H2O") / precursorCharge;
-        float precursorMzAmmoniaLoss = precursorMz - massTable.get("NH3") / precursorCharge;
+        float precursorMz = precursorMass / precursorCharge + MassTool.PROTON;
+        float precursorMzWaterLoss = precursorMz - MassTool.H2O / precursorCharge;
+        float precursorMzAmmoniaLoss = precursorMz - MassTool.NH3 / precursorCharge;
         for (double mz : peakMap.keySet()) {
             if (((mz < minClear) || (mz > maxClear)) && (mz > 50)) {
                 if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - precursorMz) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzWaterLoss) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzAmmoniaLoss) > ms2Tolerance)) {

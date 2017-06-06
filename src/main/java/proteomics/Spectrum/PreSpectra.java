@@ -26,7 +26,6 @@ public class PreSpectra {
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
-        Map<String, Float> massTable = massToolObj.returnMassTable();
         float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
         float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
 
@@ -80,7 +79,7 @@ public class PreSpectra {
                 if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
                     continue;
                 }
-                precursorMass = precursorMz * precursorCharge - precursorCharge * massTable.get("PROTON");
+                precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
                 if ((precursorMass > maxPrecursorMass) || (precursorMass < minPrecursorMass)) {
                     continue;
                 }

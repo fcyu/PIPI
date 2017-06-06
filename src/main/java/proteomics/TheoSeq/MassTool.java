@@ -7,7 +7,12 @@ import java.util.regex.*;
 
 public class MassTool {
 
-    private final Map<String, Float> massTable = new HashMap<>();
+    public static final float C13_DIFF = 1.00335483f;
+    public static final float H2O = 18.010564684f;
+    public static final float PROTON = 1.00727646688f;
+    public static final float NH3 = 17.026549106f;
+
+    private final Map<Character, Float> massTable = new HashMap<>();
     private final int missedCleavage;
     private float ms2Tolerance = 1.0005f;
     private float oneMinusBinOffset = 0.4f;
@@ -19,41 +24,32 @@ public class MassTool {
         this.ms2Tolerance = ms2Tolerance;
         this.oneMinusBinOffset = oneMinusBinOffset;
         this.cleavageFromCTerm = cleavageFromCTerm;
-        massTable.put("G", 57.021464f + fixModMap.get('G'));
-        massTable.put("A", 71.037114f + fixModMap.get('A'));
-        massTable.put("S", 87.032028f + fixModMap.get('S'));
-        massTable.put("P", 97.052764f + fixModMap.get('P'));
-        massTable.put("V", 99.068414f + fixModMap.get('V'));
-        massTable.put("T", 101.047678f + fixModMap.get('I'));
-        massTable.put("C", 103.009184f + fixModMap.get('C'));
-        massTable.put("I", 113.084064f + fixModMap.get('I'));
-        massTable.put("L", 113.084064f + fixModMap.get('L'));
-        massTable.put("N", 114.042927f + fixModMap.get('N'));
-        massTable.put("D", 115.026943f + fixModMap.get('D'));
-        massTable.put("Q", 128.058578f + fixModMap.get('Q'));
-        massTable.put("K", 128.094963f + fixModMap.get('K'));
-        massTable.put("E", 129.042593f + fixModMap.get('E'));
-        massTable.put("M", 131.040485f + fixModMap.get('M'));
-        massTable.put("H", 137.058912f + fixModMap.get('H'));
-        massTable.put("F", 147.068414f + fixModMap.get('F'));
-        massTable.put("R", 156.101111f + fixModMap.get('R'));
-        massTable.put("Y", 163.063329f + fixModMap.get('Y'));
-        massTable.put("W", 186.079313f + fixModMap.get('W'));
-        massTable.put("U", 150.953636f + fixModMap.get('U'));
-        massTable.put("O", 132.08988f + fixModMap.get('O'));
-        massTable.put("n", fixModMap.get('n'));
-        massTable.put("c", fixModMap.get('c'));
-        massTable.put("#", 113.084064f); // for I and L.
-        massTable.put("$", 128.0767705f); // for Q and K.
-        massTable.put("C13_DIFF", 1.00335483f);
-        massTable.put("H2O", 18.010564684f);
-        massTable.put("NH3", 17.026549106f);
-        massTable.put("PROTON", 1.00727646688f);
-        massTable.put("Hatom", 1.007825032f);
-        massTable.put("Natom", 14.00307401f);
-        massTable.put("Oatom", 15.99491462f);
-        massTable.put("Patom", 30.97376151f);
-        massTable.put("Satom", 31.97207069f);
+        massTable.put('G', 57.021464f + fixModMap.get('G'));
+        massTable.put('A', 71.037114f + fixModMap.get('A'));
+        massTable.put('S', 87.032028f + fixModMap.get('S'));
+        massTable.put('P', 97.052764f + fixModMap.get('P'));
+        massTable.put('V', 99.068414f + fixModMap.get('V'));
+        massTable.put('T', 101.047678f + fixModMap.get('I'));
+        massTable.put('C', 103.009184f + fixModMap.get('C'));
+        massTable.put('I', 113.084064f + fixModMap.get('I'));
+        massTable.put('L', 113.084064f + fixModMap.get('L'));
+        massTable.put('N', 114.042927f + fixModMap.get('N'));
+        massTable.put('D', 115.026943f + fixModMap.get('D'));
+        massTable.put('Q', 128.058578f + fixModMap.get('Q'));
+        massTable.put('K', 128.094963f + fixModMap.get('K'));
+        massTable.put('E', 129.042593f + fixModMap.get('E'));
+        massTable.put('M', 131.040485f + fixModMap.get('M'));
+        massTable.put('H', 137.058912f + fixModMap.get('H'));
+        massTable.put('F', 147.068414f + fixModMap.get('F'));
+        massTable.put('R', 156.101111f + fixModMap.get('R'));
+        massTable.put('Y', 163.063329f + fixModMap.get('Y'));
+        massTable.put('W', 186.079313f + fixModMap.get('W'));
+        massTable.put('U', 150.953636f + fixModMap.get('U'));
+        massTable.put('O', 132.08988f + fixModMap.get('O'));
+        massTable.put('n', fixModMap.get('n'));
+        massTable.put('c', fixModMap.get('c'));
+        massTable.put('#', 113.084064f); // for I and L.
+        massTable.put('$', 128.0767705f); // for Q and K.
 
         if (protectionSite.contentEquals("-")) {
             digestSitePattern = Pattern.compile("[" + cleavageSite + "]");
@@ -143,7 +139,7 @@ public class MassTool {
         return theoIonVector;
     }
 
-    public Map<String, Float> returnMassTable() {
+    public Map<Character, Float> returnMassTable() {
         return massTable;
     }
 

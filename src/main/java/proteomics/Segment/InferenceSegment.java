@@ -4,6 +4,7 @@ package proteomics.Segment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
+import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
 import java.util.*;
@@ -20,10 +21,11 @@ public class InferenceSegment {
 
     private final float ms2Tolerance;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
-    private final Map<String, Float> massTable;
+    private final Map<Character, Float> massTable;
     private Map<Float, String> modifiedAAMap = new HashMap<>();
     private final Float[] deltaMassArray;
     private Map<String, Float> modifiedAAMassMap = new HashMap<>();
+    private Set<VarModParam> varModParamSet = new HashSet<>();
     private float[] pepNTermPossibleMod = null;
     private float[] pepCTermPossibleMod = null;
     private float[] proNTermPossibleMod = null;
@@ -39,9 +41,9 @@ public class InferenceSegment {
         for (char aa : standardAaArray) {
             // # = I/L.
             if (aa == 'I' || aa == 'L') {
-                massAaMap.put(massTable.get(String.valueOf(aa)), '#');
+                massAaMap.put(massTable.get(aa), '#');
             } else {
-                massAaMap.put(massTable.get(String.valueOf(aa)), aa);
+                massAaMap.put(massTable.get(aa), aa);
             }
         }
 
@@ -74,7 +76,7 @@ public class InferenceSegment {
                 String v = parameterMap.get(k);
                 if (!v.startsWith("0.0")) {
                     String[] temp = v.split("@");
-                    float tempMass = massTable.get(temp[1].substring(0, 1)) + Float.valueOf(temp[0]);
+                    float tempMass = massTable.get(temp[1].charAt(0)) + Float.valueOf(temp[0]);
                     // check if the mass has conflict
                     for (float temp2 : modifiedAAMap.keySet()) {
                         if (Math.abs(temp2 - tempMass) <= ms2Tolerance) {
@@ -128,7 +130,7 @@ public class InferenceSegment {
     }
 
     public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry) {
-        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry), spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON"));
+        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry), spectrumEntry.precursorMass - MassTool.H2O + MassTool.PROTON);
     }
 
     public Set<Segment> cutTheoSegment(String peptide) {
@@ -206,7 +208,7 @@ public class InferenceSegment {
             for (int j = i + 1; j < mzArray.length; ++j) {
                 float mz2 = mzArray[j];
                 float intensity2 = intensityArray[j];
-                String aa1 = inferAA(mz1, mz2, Math.abs(mz1 - massTable.get("PROTON")) <= ms2Tolerance, false, Math.abs(mz1 - massTable.get("PROTON")) <= ms2Tolerance, false);
+                String aa1 = inferAA(mz1, mz2, Math.abs(mz1 - MassTool.PROTON) <= ms2Tolerance, false, Math.abs(mz1 - MassTool.PROTON) <= ms2Tolerance, false);
                 if (aa1 != null) {
                     Matcher matcher = pattern.matcher(aa1);
                     char ptmFreeAA = '\0';
@@ -396,7 +398,7 @@ public class InferenceSegment {
     }
 
     private TreeMap<Float, Float> addVirtualPeaks(SpectrumEntry spectrumEntry) {
-        float totalMass = spectrumEntry.precursorMass + 2 * massTable.get("PROTON");
+        float totalMass = spectrumEntry.precursorMass + 2 * MassTool.PROTON;
         TreeMap<Float, Float> plMap = spectrumEntry.plMap;
         TreeMap<Float, Float> finalPlMap = new TreeMap<>();
         for (float mz : plMap.keySet()) {
@@ -417,8 +419,8 @@ public class InferenceSegment {
         }
 
         // Add two virtual peak. Because we have convert all y-ions to b-ions.
-        finalPlMap.put(massTable.get("PROTON"), 1f);
-        float cTermMz = spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON");
+        finalPlMap.put(MassTool.PROTON, 1f);
+        float cTermMz = spectrumEntry.precursorMass - MassTool.H2O + MassTool.PROTON;
         float leftMz = cTermMz - ms2Tolerance;
         float rightMz = cTermMz + ms2Tolerance;
         NavigableMap<Float, Float> temp = null;

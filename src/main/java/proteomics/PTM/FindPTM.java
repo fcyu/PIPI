@@ -22,7 +22,6 @@ public class FindPTM {
     private final float ms2Tolerance;
     private final float minPtmMass;
     private final float maxPtmMass;
-    private final Map<String, Float> massTable;
     private List<Peptide> peptideWithPtmList = new LinkedList<>();
     private float totalResidueMz;
     private final Map<String, Float> modifiedAAMassMap;
@@ -32,22 +31,21 @@ public class FindPTM {
     private final float[] proCTermPossibleMod;
     private final Set<String> noResultScanPeptide = new HashSet<>();
 
-    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, MassTool massToolObj, Map<String, Float> modifiedAAMassMap, float[] pepNTermPossibleMod, float[] pepCTermPossibleMod, float[] proNTermPossibleMod, float[] proCTermPossibleMod, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
+    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, Map<String, Float> modifiedAAMassMap, float[] pepNTermPossibleMod, float[] pepCTermPossibleMod, float[] proNTermPossibleMod, float[] proCTermPossibleMod, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
-        this.massTable = massToolObj.returnMassTable();
         this.modifiedAAMassMap = modifiedAAMassMap;
         this.pepNTermPossibleMod = pepNTermPossibleMod;
         this.pepCTermPossibleMod = pepCTermPossibleMod;
         this.proNTermPossibleMod = proNTermPossibleMod;
         this.proCTermPossibleMod = proCTermPossibleMod;
 
-        totalResidueMz = spectrumEntry.precursorMass - massTable.get("H2O") + massTable.get("PROTON");
+        totalResidueMz = spectrumEntry.precursorMass - MassTool.H2O + MassTool.PROTON;
         for (Peptide peptide : peptideList) {
-            PositionDeltaMassMap gaps = inferGaps(peptide, spectrumEntry, massTable.get("PROTON"), totalResidueMz, exp3aaLists);
+            PositionDeltaMassMap gaps = inferGaps(peptide, spectrumEntry, MassTool.PROTON, totalResidueMz, exp3aaLists);
             if ((gaps != null) && (!gaps.isEmpty())) {
                 PositionDeltaMassMap ptms = refineGaps(peptide, gaps);
                 if (ptms != null) {
@@ -122,9 +120,9 @@ public class FindPTM {
 
         // check N-term first
         ExpAA firstExpAa = alignedResult.get(0);
-        if (Math.abs(firstExpAa.getHeadLocation() - massTable.get("PROTON")) > ms2Tolerance) {
-            float expMass = firstExpAa.getHeadLocation() - massTable.get("PROTON");
-            float theoMass = chargeOneBMzArray[firstExpAa.getTheoLocation() - 2] - massTable.get("PROTON");
+        if (Math.abs(firstExpAa.getHeadLocation() - MassTool.PROTON) > ms2Tolerance) {
+            float expMass = firstExpAa.getHeadLocation() - MassTool.PROTON;
+            float theoMass = chargeOneBMzArray[firstExpAa.getTheoLocation() - 2] - MassTool.PROTON;
             float massDiff = expMass - theoMass;
             if (Math.abs(massDiff) > ms2Tolerance) {
                 positionDeltaMassMap.put(new Coordinate(0, firstExpAa.getTheoLocation()), massDiff);
