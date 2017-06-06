@@ -229,19 +229,12 @@ public class PIPI {
         // estimate T-D FDR
         new EstimateFDR(finalScoredPsms);
 
-        int decimalPoint = 2;
-        if (ms2Tolerance >= 0.5) {
-            decimalPoint = 0;
-        } else if ((ms2Tolerance < 0.5) && (ms2Tolerance >= 0.009)) {
-            decimalPoint = 1;
-        }
-
         // estimate Percolator FDR
         String percolatorInputFileName = spectraPath + ".input.temp";
         String percolatorOutputFileName = spectraPath + ".output.temp";
         Map<String, Set<String>> peptideProteinMap = buildIndexObj.returnPepProMap();
         Map<String, String> decoyPeptideProteinMap = buildIndexObj.returnDecoyPepProMap();
-        writePercolator(finalScoredPsms, peptideProteinMap, decoyPeptideProteinMap, percolatorInputFileName, buildIndexObj.returnFixModMap(), decimalPoint);
+        writePercolator(finalScoredPsms, peptideProteinMap, decoyPeptideProteinMap, percolatorInputFileName, buildIndexObj.returnFixModMap(), 1);
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
@@ -254,7 +247,7 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(finalScoredPsms, percolatorResultMap, peptideProteinMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap(), decimalPoint);
+        writeFinalResult(finalScoredPsms, percolatorResultMap, peptideProteinMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap(), 1);
 
         logger.info("Done.");
     }

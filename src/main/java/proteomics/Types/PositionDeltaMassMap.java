@@ -12,7 +12,7 @@ public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
     public String toString() {
         StringBuilder sb = new StringBuilder(1000);
         for (Coordinate co : this.keySet()) {
-            sb.append(String.format("%.2f", this.get(co)));
+            sb.append(String.format("%.1f", this.get(co)));
             sb.append("@");
             sb.append(co.toString());
             sb.append(";");
