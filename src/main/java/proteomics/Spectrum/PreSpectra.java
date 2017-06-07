@@ -73,7 +73,13 @@ public class PreSpectra {
                 if (plMap.size() <= minPeakNum) {
                     continue;
                 }
-                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
+                TreeMap<Float, Float> unprocessedPlMap = new TreeMap<>();
+                for (double mz : rawMzIntensityMap.keySet()) {
+                    if (mz >= 50) {
+                        unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
+                    }
+                }
+                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap);
             } else {
                 precursorCharge = spectrum.getPrecursorCharge();
                 if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
@@ -87,7 +93,13 @@ public class PreSpectra {
                 if (plMap.size() <= minPeakNum) {
                     continue;
                 }
-                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap);
+                TreeMap<Float, Float> unprocessedPlMap = new TreeMap<>();
+                for (double mz : rawMzIntensityMap.keySet()) {
+                    if ((mz >= 50) && (mz <= precursorMass)) {
+                        unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
+                    }
+                }
+                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap);
             }
 
             numSpectrumMap.put(scanNum, spectrumEntry);

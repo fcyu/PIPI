@@ -59,8 +59,9 @@ public class PreSpectrum {
         }
     }
 
-    public SparseVector prepareXcorr(TreeMap<Float, Float> plMap) {
-        float[] plArray = digitizeSpec(plMap);
+    public SparseVector prepareXcorr(TreeMap<Float, Float> unprocessedPlMap) {
+        // start from the unnormalized and undenoised spectrum
+        float[] plArray = digitizeSpec(normalizeSpec(unprocessedPlMap));
 
         SparseVector xcorrPl = new SparseVector();
         int offsetRange = 2 * xcorrOffset + 1;
