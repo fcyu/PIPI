@@ -135,28 +135,45 @@ public class PIPI {
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
-        List<Future<FinalResultEntry>> tempResultList = new LinkedList<>();
+        List<Future<FinalResultEntry>> taskList = new LinkedList<>();
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
-                tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
+                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
                     if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
-                        SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)));
-                        tempResultList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, fakeSpectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                        SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)));
+                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, fakeSpectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
                     }
                 }
             }
         }
 
-        // check progress every minute
+        // check progress every minute, record results,and delete finished tasks.
         int lastProgress = 0;
+        List<FinalResultEntry> resultList = new LinkedList<>();
         try {
-            int count;
-            while (((count = finishedFutureNum(tempResultList)) < tempResultList.size()) && hasUnfinishedFuture(tempResultList)) {
-                int progress = count * 20 / tempResultList.size();
+            int totalCount = taskList.size();
+            int count = 0;
+            while (count < totalCount) {
+                // record search results and delete finished ones.
+                List<Future<FinalResultEntry>> toBeDeleteTaskList = new LinkedList<>();
+                for (Future<FinalResultEntry> task : taskList) {
+                    if (task.isDone()) {
+                        if (task.get() != null) {
+                            resultList.add(task.get());
+                        }
+                        toBeDeleteTaskList.add(task);
+                    } else if (task.isCancelled()) {
+                        toBeDeleteTaskList.add(task);
+                    }
+                }
+                count += toBeDeleteTaskList.size();
+                taskList.removeAll(toBeDeleteTaskList);
+
+                int progress = count * 20 / totalCount;
                 if (progress != lastProgress) {
                     logger.info("Searching {}%...", progress * 5);
                     lastProgress = progress;
@@ -170,25 +187,6 @@ public class PIPI {
         }
 
         logger.info("Searching 100%...");
-
-        // record search results.
-        List<FinalResultEntry> tempList = new LinkedList<>();
-        try {
-            for (Future<FinalResultEntry> tempResult : tempResultList) {
-                if (tempResult.isDone() && !tempResult.isCancelled()) {
-                    if (tempResult.get() != null) {
-                        tempList.add(tempResult.get());
-                    }
-                } else {
-                    logger.error("Threads were not finished normally.");
-                    System.exit(1);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.getMessage());
-            System.exit(1);
-        }
 
         // shutdown threads.
         threadPool.shutdown();
@@ -205,16 +203,16 @@ public class PIPI {
             System.exit(1);
         }
 
-        if (tempList.isEmpty()) {
+        if (resultList.isEmpty()) {
             logger.error("There is no useful results.");
             System.exit(1);
         }
 
         // merge different results corresponding to different charges for the same spectrum.
         List<FinalResultEntry> finalScoredPsms = new LinkedList<>();
-        for(FinalResultEntry e1 : tempList) {
+        for(FinalResultEntry e1 : resultList) {
             boolean keep = true;
-            for (FinalResultEntry e2 : tempList) {
+            for (FinalResultEntry e2 : resultList) {
                 if ((e1.getScanNum() == e2.getScanNum()) && (e1.getScore() > e2.getScore())) {
                     keep = false;
                     break;
