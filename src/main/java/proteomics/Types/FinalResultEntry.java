@@ -16,6 +16,7 @@ public class FinalResultEntry {
     private int globalSearchRank;
     private double ionFrac;
     private double matchedHighestIntensityFrac;
+    private double ptmDeltasScore;
 
     private float qValue = -1;
 
@@ -78,7 +79,6 @@ public class FinalResultEntry {
             scoreList.add(score);
             scoreList.sort(Collections.reverseOrder());
         }
-        }
     }
 
     public void setPeptide(Peptide peptide) {
@@ -123,5 +123,13 @@ public class FinalResultEntry {
 
     public double getMatchedHighestIntensityFrac() {
         return matchedHighestIntensityFrac;
+    }
+
+    public void setPtmDeltasScore(double ptmDeltasScore) {
+        this.ptmDeltasScore = ptmDeltasScore;
+    }
+
+    public double getPtmDeltasScore() {
+        return ptmDeltasScore;
     }
 }
