@@ -91,6 +91,7 @@ public class InferenceSegment {
                         modifiedAAMap.put(tempMass, temp[1]);
                         modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
                     }
+                    varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0)));
                 }
             } else if (k.contentEquals("pepNterm")) {
                 if (!parameterMap.get(k).startsWith("0.0")) {
@@ -98,6 +99,7 @@ public class InferenceSegment {
                     pepNTermPossibleMod = new float[tempArray.length];
                     for (int i = 0; i < tempArray.length; ++i) {
                         pepNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n'));
                     }
                 }
             } else if (k.contentEquals("pepCterm")) {
@@ -106,6 +108,7 @@ public class InferenceSegment {
                     pepCTermPossibleMod = new float[tempArray.length];
                     for (int i = 0; i < tempArray.length; ++i) {
                         pepCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c'));
                     }
                 }
             } else if (k.contentEquals("proNterm")) {
@@ -114,6 +117,7 @@ public class InferenceSegment {
                     proNTermPossibleMod = new float[tempArray.length];
                     for (int i = 0; i < tempArray.length; ++i) {
                         proNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n')); // to be improve: we don't distinguish protein and peptide N-term
                     }
                 }
             } else if (k.contentEquals("proCterm")) {
@@ -122,6 +126,7 @@ public class InferenceSegment {
                     proCTermPossibleMod = new float[tempArray.length];
                     for (int i = 0; i < tempArray.length; ++i) {
                         proCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c')); // to be improve: we don't distinguish protein and peptide C-term
                     }
                 }
             }
@@ -175,6 +180,10 @@ public class InferenceSegment {
 
     public Map<String, Float> getModifiedAAMassMap() {
         return modifiedAAMassMap;
+    }
+
+    public Set<VarModParam> getVarModParamSet() {
+        return varModParamSet;
     }
 
     public float[] getPepNTermPossibleMod() {

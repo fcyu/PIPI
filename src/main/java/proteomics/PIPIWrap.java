@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.FindPTM;
+import proteomics.PTM.GeneratePtmCandidates;
 import proteomics.Search.CalSubscores;
 import proteomics.Search.CalXcorr;
 import proteomics.Search.Search;
@@ -54,44 +55,15 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             // Begin search.
             Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, peptideCodeMap, buildIndexObj.getMassPeptideMap(), massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
 
+            // Infer PTMs based on DP
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, inference3SegmentObj.getModifiedAAMassMap(), inference3SegmentObj.getPepNTermPossibleMod(), inference3SegmentObj.getPepCTermPossibleMod(), inference3SegmentObj.getProNTermPossibleMod(), inference3SegmentObj.getProCTermPossibleMod(), minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);
-            List<Peptide> ptmOnlyTemp = findPtmObj.getPeptidesWithPTMs();
 
-            // Additional short missed cleavaged amino acid sequence may be canceled out by negative PTM. In this situation, we eliminate the missed cleavaged one.
-            List<Peptide> tempList = new LinkedList<>();
-            tempList.addAll(searchObj.getPTMFreeResult());
-            tempList.addAll(ptmOnlyTemp);
-            Peptide[] tempArray = tempList.toArray(new Peptide[tempList.size()]);
-            List<Peptide> candidates = new LinkedList<>();
-            for (int i = 0; i < tempArray.length; ++i) {
-                boolean keep = true;
-                String tempStr1 = tempArray[i].getNormalizedPeptideString();
-                tempStr1 = tempStr1.substring(1, tempStr1.length() - 1);
-                for (int j = 0; j < tempArray.length; ++j) {
-                    if (i != j) {
-                        String tempStr2 = tempArray[j].getNormalizedPeptideString();
-                        tempStr2 = tempStr2.substring(1, tempStr2.length() - 1);
-                        if (tempStr1.contains(tempStr2) && (tempArray[i].getVarPTMs() != null)) {
-                            Map.Entry<Coordinate, Float> tempEntry = tempArray[i].getVarPTMs().firstEntry();
-                            if ((tempEntry.getValue() < 0) && (tempEntry.getKey().y - tempEntry.getKey().x > 1)) {
-                                keep = false;
-                                break;
-                            }
-                            tempEntry = tempArray[i].getVarPTMs().lastEntry();
-                            if ((tempEntry.getValue() < 0) && (tempEntry.getKey().y - tempEntry.getKey().x > 1)) {
-                                keep = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (keep) {
-                    candidates.add(tempArray[i]);
-                }
-            }
+            GeneratePtmCandidates generatePtmCandidates = new GeneratePtmCandidates(inference3SegmentObj, spectrumEntry, massToolObj, buildIndexObj, ms2Tolerance, maxMs2Charge);
+            // Generate all candidates based on inferred PTMs and known PTMs.
+            Set<Peptide> finalCandidates = generatePtmCandidates.generateAllPtmCandidates(generatePtmCandidates.eliminateMissedCleavageCausedPtms(searchObj.getPTMFreeResult(), findPtmObj.getPeptidesWithPTMs()));
 
-            if (!candidates.isEmpty()) {
-                CalXcorr calXcorrObj = new CalXcorr(candidates, spectrumEntry, massToolObj, buildIndexObj);
+            if (!finalCandidates.isEmpty()) {
+                CalXcorr calXcorrObj = new CalXcorr(finalCandidates, spectrumEntry, massToolObj);
                 FinalResultEntry scoredPsm = calXcorrObj.getScoredPSM();
                 if (scoredPsm != null) {
                     new CalSubscores(scoredPsm, spectrumEntry, ms2Tolerance);
