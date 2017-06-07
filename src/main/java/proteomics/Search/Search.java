@@ -38,6 +38,11 @@ public class Search {
         }
         float leftMass = Math.max(spectrumEntry.precursorMass + minPtmMass, minPeptideMass);
         float rightMass = Math.min(spectrumEntry.precursorMass + maxPtmMass, maxPeptideMass);
+
+        if (leftMass >= rightMass) {
+            return;
+        }
+
         NavigableMap<Float, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
 
         if (!subMassPeptideMap.isEmpty()) {

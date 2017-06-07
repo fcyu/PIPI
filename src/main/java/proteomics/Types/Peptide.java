@@ -218,7 +218,7 @@ public class Peptide implements Comparable<Peptide> {
 
     public String getPtmContainingSeq(Map<Character, Float> fixModMap) { // caution: containing fix modification. Calculating ion masses based on it is incorrect.
         if (ptmContainingSeq == null) {
-            String ptmContainingSeq = getVarPtmContainingSeq();
+            ptmContainingSeq = getVarPtmContainingSeq();
             for (char aa : fixModMap.keySet()) {
                 if (Math.abs(fixModMap.get(aa)) > 0.01) {
                     ptmContainingSeq = ptmContainingSeq.replaceAll(String.valueOf(aa), String.format("%c(%.1f)", aa, fixModMap.get(aa)));
