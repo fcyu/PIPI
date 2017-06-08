@@ -4,11 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.FindPTM;
-import proteomics.PTM.GeneratePtmCandidates;
+import proteomics.PTM.GeneratePtmCandidatesCalculateXcorr;
 import proteomics.Search.CalSubscores;
 import proteomics.Search.CalXcorr;
 import proteomics.Search.Search;
 import proteomics.Segment.InferenceSegment;
+import proteomics.Spectrum.PreSpectrum;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
@@ -58,19 +59,27 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             // Infer PTMs based on DP
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, inference3SegmentObj.getModifiedAAMassMap(), inference3SegmentObj.getPepNTermPossibleMod(), inference3SegmentObj.getPepCTermPossibleMod(), inference3SegmentObj.getProNTermPossibleMod(), inference3SegmentObj.getProCTermPossibleMod(), minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);
 
-            GeneratePtmCandidates generatePtmCandidates = new GeneratePtmCandidates(inference3SegmentObj, spectrumEntry, massToolObj, buildIndexObj, ms2Tolerance, maxMs2Charge);
-            // Generate all candidates based on inferred PTMs and known PTMs.
-            Set<Peptide> finalCandidates = generatePtmCandidates.generateAllPtmCandidates(generatePtmCandidates.eliminateMissedCleavageCausedPtms(searchObj.getPTMFreeResult(), findPtmObj.getPeptidesWithPTMs()));
+            // prepare the XCorr spectrum
+            PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
+            SparseVector expXcorrPl = preSpectrumObj.prepareXcorr(spectrumEntry.unprocessedPlMap);
 
-            if (!finalCandidates.isEmpty()) {
-                CalXcorr calXcorrObj = new CalXcorr(finalCandidates, spectrumEntry, massToolObj);
-                FinalResultEntry scoredPsm = calXcorrObj.getScoredPSM();
-                if (scoredPsm != null) {
-                    new CalSubscores(scoredPsm, spectrumEntry, ms2Tolerance);
-                    return scoredPsm;
-                } else {
-                    return null;
+            GeneratePtmCandidatesCalculateXcorr generatePtmCandidatesCalculateXcorr = new GeneratePtmCandidatesCalculateXcorr(inference3SegmentObj, spectrumEntry, massToolObj, buildIndexObj, ms2Tolerance, maxMs2Charge);
+
+            // Generate all candidates based on inferred PTMs and known PTMs. Calculate XCorr
+            FinalResultEntry psm = generatePtmCandidatesCalculateXcorr.generateAllPtmCandidatesCalculateXcorr(generatePtmCandidatesCalculateXcorr.eliminateMissedCleavageCausedPtms(searchObj.getPTMFreeResult(), findPtmObj.getPeptidesWithPTMs()), expXcorrPl, spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz);
+
+            // Calculate XCorr for PTM free peptide
+            for (Peptide peptide : searchObj.getPTMFreeResult()) {
+                CalXcorr.calXcorr(peptide, expXcorrPl, psm, massToolObj, null);
+            }
+
+            if (psm.getPeptide() != null) {
+                new CalSubscores(psm, spectrumEntry, ms2Tolerance);
+                if (!psm.getPeptide().hasVarPTM()) {
+                    // The final peptides doesn't have PTM. Recalculate the PTM delta score.
+                    psm.setPtmDeltasScore(psm.getScore());
                 }
+                return psm;
             } else {
                 return null;
             }
