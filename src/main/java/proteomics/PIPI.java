@@ -178,6 +178,10 @@ public class PIPI {
                     logger.info("Searching {}%...", progress * 5);
                     lastProgress = progress;
                 }
+
+                if (count == totalCount) {
+                    break;
+                }
                 Thread.sleep(60000);
             }
         } catch (InterruptedException ex) {
@@ -185,8 +189,6 @@ public class PIPI {
             logger.error(ex.toString());
             System.exit(1);
         }
-
-        logger.info("Searching 100%...");
 
         // shutdown threads.
         threadPool.shutdown();
