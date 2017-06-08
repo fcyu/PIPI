@@ -341,7 +341,7 @@ public class PIPI {
                 }
                 reader.close();
             } else {
-                logger.error("Cannot find Percolator for estimating Percolator Q-Value. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
+                logger.error("Cannot find Percolator (from {}) for estimating Percolator Q-Value. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.", percolatorPath);
                 return percolatorResultMap;
             }
         } catch (IOException | InterruptedException ex) {
