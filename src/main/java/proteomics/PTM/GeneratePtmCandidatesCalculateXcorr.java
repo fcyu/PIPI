@@ -69,6 +69,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
     public FinalResultEntry generateAllPtmCandidatesCalculateXcorr(Set<Peptide> ptmOnlyCandidates, SparseVector expXcorrPl, int scanNum, int precursorCharge, float precursorMz) {
         FinalResultEntry psm = new FinalResultEntry(scanNum, precursorCharge, precursorMz);
         Map<String, LinkedList<PeptideScore>> modSequences = new HashMap<>();
+        Set<String> checkedSequenceSet = new HashSet<>(); // record checked sequence to avoid recording the same sequence twice
 
         // Add all PTM sequence given known variable modifications.
         Set<VarModParam> varModParamSet = inference3SegmentObj.getVarModParamSet();
@@ -83,7 +84,10 @@ public class GeneratePtmCandidatesCalculateXcorr {
                             positionDeltaMassMap.put(new Coordinate(i, i + 1), deltaMass);
                             Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                             peptideObj.setVarPTM(positionDeltaMassMap);
-                            CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                            if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
+                                CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
+                            }
                         }
                     }
                 }
@@ -109,7 +113,10 @@ public class GeneratePtmCandidatesCalculateXcorr {
                                     positionDeltaMassMap.put(new Coordinate(i, i + 1), deltaMass);
                                     Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                                     peptideObj.setVarPTM(positionDeltaMassMap);
-                                    CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                    if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
+                                        CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                        checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
+                                    }
                                 }
                             }
                         }
@@ -123,7 +130,10 @@ public class GeneratePtmCandidatesCalculateXcorr {
                         }
                         Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                         peptideObj.setVarPTM(positionDeltaMassMap);
-                        CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                        if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
+                            CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                            checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
+                        }
                     }
                 }
             }
@@ -145,7 +155,10 @@ public class GeneratePtmCandidatesCalculateXcorr {
                             }
                             Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                             peptideObj.setVarPTM(positionDeltaMassMap);
-                            CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                            if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
+                                CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
+                            }
                         }
                     }
                 }
