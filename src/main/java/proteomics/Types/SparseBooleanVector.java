@@ -67,4 +67,22 @@ public class SparseBooleanVector {
         Arrays.sort(outputArray);
         return outputArray;
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(sparseVector.size() * 6);
+        for (int idx : sparseVector) {
+            sb.append(idx);
+            sb.append(";");
+        }
+        return sb.toString();
+    }
+
+    public static SparseBooleanVector toSparseBooleanVector(String str) {
+        String[] parts = str.split(";");
+        SparseBooleanVector sparseBooleanVector = new SparseBooleanVector();
+        for (String part : parts) {
+            sparseBooleanVector.put(Integer.valueOf(part));
+        }
+        return sparseBooleanVector;
+    }
 }

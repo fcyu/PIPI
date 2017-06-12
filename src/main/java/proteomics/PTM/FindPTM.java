@@ -212,7 +212,7 @@ public class FindPTM {
                     // try one known PTM
                     for (int i = 0; i < aaSeqCharArray.length; ++i) {
                         if (coordinate.x + i == 0) {
-                            if (peptide.getLeftFlank().contentEquals("-") && (proNTermPossibleMod != null)) {
+                            if ((peptide.getLeftFlank() == '-') && (proNTermPossibleMod != null)) {
                                 for (float nTermMod : proNTermPossibleMod) {
                                     if (Math.abs(nTermMod - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
@@ -231,7 +231,7 @@ public class FindPTM {
                                 }
                             }
                         } else if (coordinate.x + i == peptideString.length() - 1) {
-                            if (peptide.getRightFlank().contentEquals("-") && (proCTermPossibleMod != null)) {
+                            if ((peptide.getRightFlank() == '-') && (proCTermPossibleMod != null)) {
                                 for (float cTermMod : proCTermPossibleMod) {
                                     if (Math.abs(cTermMod - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), cTermMod);
@@ -268,7 +268,7 @@ public class FindPTM {
                         for (int i = 0; i < aaSeqCharArray.length - 1; ++i) {
                             for (int j = i + 1; j < aaSeqCharArray.length; ++j) {
                                 if (coordinate.x + i == 0) {
-                                    if (peptide.getLeftFlank().contentEquals("-") && (proNTermPossibleMod != null)) {
+                                    if ((peptide.getLeftFlank() == '-') && (proNTermPossibleMod != null)) {
                                         for (float nTermMod : proNTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[j]) {
@@ -303,7 +303,7 @@ public class FindPTM {
                                         }
                                     }
                                 } else if (coordinate.x + j == peptideString.length() - 1) {
-                                    if (peptide.getRightFlank().contentEquals("-") && (proCTermPossibleMod != null)) {
+                                    if ((peptide.getRightFlank() == '-') && (proCTermPossibleMod != null)) {
                                         for (float cTermMod : proCTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[i]) {

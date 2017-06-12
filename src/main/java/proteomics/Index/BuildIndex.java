@@ -1,7 +1,13 @@
 package proteomics.Index;
 
+import java.sql.*;
 import java.util.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import proteomics.Segment.InferenceSegment;
 import proteomics.TheoSeq.*;
+import proteomics.Types.SparseBooleanVector;
 
 public class BuildIndex {
 
@@ -10,17 +16,13 @@ public class BuildIndex {
     private float minPrecursorMass = 0;
     private float maxPrecursorMass = 0;
     private final MassTool massToolObj;
-    private Map<String, String> proPeptideMap = new HashMap<>();
-    private Map<String, Float> peptideMassMap = new HashMap<>();
-    private Map<String, Set<String>> peptideProMap = new HashMap<>();
-    private Set<String> forCheckDuplicate = new HashSet<>();
-    private Map<String, Float> decoyPeptideMassMap = new HashMap<>();
-    private Map<String, String> decoyPeptideProMap = new HashMap<>();
     private Map<Character, Float> fixModMap = new HashMap<>();
-    private TreeMap<Float, Set<String>> massPeptideMap = new TreeMap<>();
+    private float minPeptideMass = 9999;
+    private float maxPeptideMass = 0;
+    private InferenceSegment inference3SegmentObj;
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
-    public BuildIndex(Map<String, String> parameterMap) {
+    public BuildIndex(Map<String, String> parameterMap, String sqlPath) {
         // initialize parameters
         minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
         maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
@@ -28,7 +30,6 @@ public class BuildIndex {
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float oneMinusBinOffset = 1 - Float.valueOf(parameterMap.get("mz_bin_offset"));
-        boolean containDecoy = parameterMap.get("contain_decoy").contentEquals("1");
 
         // Read fix modification
         fixModMap.put('G', Float.valueOf(parameterMap.get("G")));
@@ -58,17 +59,139 @@ public class BuildIndex {
 
         // read protein database
         DbTool dbToolObj = new DbTool(dbPath);
-        proPeptideMap = dbToolObj.returnSeqMap();
+        Map<String, String> proteinPeptideMap = dbToolObj.returnSeqMap();
 
         // define a new MassTool object
         massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset);
 
         // build database
-        buildPeptideMap(containDecoy);
-        if (!containDecoy) {
-            buildDecoyPepChainMap();
+        try {
+            // prepare SQL database
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+            sqlStatement.executeUpdate("DROP TABLE IF EXISTS peptideTable");
+            sqlStatement.executeUpdate("CREATE TABLE peptideTable (peptideIndex INTEGER PRIMARY KEY ASC , peptideMass REAL NOT NULL, sequence TEXT NOT NULL, peptideCode TEXT NOT NULL, codeNormSquare REAL NOT NULL, isTarget INTEGER NOT NULL, proteins TEXT NOT NULL, leftFlank TEXT NOT NULL, rightFlank TEXT NOT NULL);");
+            sqlStatement.executeUpdate("CREATE INDEX peptideMass ON peptideTable (peptideMass)");
+            sqlStatement.executeUpdate("CREATE INDEX sequence ON peptideTable (sequence)");
+
+            inference3SegmentObj = new InferenceSegment(massToolObj.returnMassTable(), ms2Tolerance, parameterMap);
+
+            Set<String> forCheckDuplicate = new HashSet<>();
+            Map<String, Set<String>> targetPeptideProteinMap = new HashMap<>();
+            Map<String, Float> targetPeptideMassMap = new HashMap<>();
+            for (String proId : proteinPeptideMap.keySet()) {
+                String proSeq = proteinPeptideMap.get(proId);
+                Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
+                for (String peptide : peptideSet) {
+                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
+                        continue;
+                    }
+
+                    float mass = massToolObj.calResidueMass(peptide) + MassTool.H2O;
+                    if ((mass <= maxPrecursorMass) && (mass >= minPrecursorMass)) { // TODO: fix this bug
+                        // Add the sequence to the check set for decoy duplicate check
+                        forCheckDuplicate.add(peptide.replace('L', 'I')); // "L" and "I" have the same mass.
+
+                        // recode min and max peptide mass
+                        if (mass < minPeptideMass) {
+                            minPeptideMass = mass;
+                        }
+                        if (mass > maxPeptideMass) {
+                            maxPeptideMass = mass;
+                        }
+
+                        targetPeptideMassMap.put(peptide, mass);
+                        if (targetPeptideProteinMap.containsKey(peptide)) {
+                            Set<String> proteins = targetPeptideProteinMap.get(peptide);
+                            proteins.add(proId);
+                            targetPeptideProteinMap.put(peptide, proteins);
+                        } else {
+                            Set<String> proteins = new HashSet<>();
+                            proteins.add(proId);
+                            targetPeptideProteinMap.put(peptide, proteins);
+                        }
+                    }
+                }
+            }
+
+            PreparedStatement sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO peptideTable (peptideMass, sequence, peptideCode, codeNormSquare, isTarget, proteins, leftFlank, rightFlank) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+           sqlConnection.setAutoCommit(false);
+
+            for (String targetPeptide : targetPeptideMassMap.keySet()) {
+                sqlPrepareStatement.setFloat(1, targetPeptideMassMap.get(targetPeptide));
+                sqlPrepareStatement.setString(2, targetPeptide);
+
+                SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(targetPeptide.substring(1, targetPeptide.length() - 1)));
+                sqlPrepareStatement.setString(3, code.toString());
+                sqlPrepareStatement.setDouble(4, code.norm2square());
+
+                sqlPrepareStatement.setBoolean(5, true);
+
+                StringBuilder sb = new StringBuilder(targetPeptideProteinMap.get(targetPeptide).size() * 10);
+                for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
+                    sb.append(proteinId);
+                    sb.append(";");
+                }
+                sqlPrepareStatement.setString(6, sb.toString());
+
+                String leftFlank = "-";
+                String rightFlank = "-";
+                String peptideString = targetPeptide.substring(1, targetPeptide.length() - 1);
+                if (targetPeptideProteinMap.containsKey(targetPeptide)) {
+                    String proteinSequence = proteinPeptideMap.get(targetPeptideProteinMap.get(targetPeptide).iterator().next());
+                    int startIdx = proteinSequence.indexOf(peptideString);
+                    if (startIdx == -1) {
+                        logger.warn("Cannot locate {} in protein {}.", targetPeptide, proteinSequence);
+                    } else if (startIdx == 0) {
+                        int tempIdx = peptideString.length();
+                        if (tempIdx < proteinSequence.length()) {
+                            rightFlank = proteinSequence.substring(tempIdx, tempIdx + 1);
+                        }
+                    } else if (startIdx == proteinSequence.length() - peptideString.length()) {
+                        leftFlank = proteinSequence.substring(startIdx - 1, startIdx);
+                    } else {
+                        leftFlank = proteinSequence.substring(startIdx - 1, startIdx);
+                        rightFlank = proteinSequence.substring(startIdx + peptideString.length(), startIdx + peptideString.length() + 1);
+                    }
+                }
+                sqlPrepareStatement.setString(7, leftFlank);
+                sqlPrepareStatement.setString(8, rightFlank);
+                sqlPrepareStatement.executeUpdate();
+
+                String decoyPeptide = shuffleSeq2(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
+                if (!decoyPeptide.isEmpty()) {
+                    decoyPeptide = "n" + decoyPeptide + "c";
+
+                    sqlPrepareStatement.setFloat(1, targetPeptideMassMap.get(targetPeptide));
+                    sqlPrepareStatement.setString(2, decoyPeptide);
+
+                    code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(decoyPeptide.substring(1, decoyPeptide.length() - 1)));
+                    sqlPrepareStatement.setString(3, code.toString());
+                    sqlPrepareStatement.setDouble(4, code.norm2square());
+
+                    sqlPrepareStatement.setBoolean(5, false);
+                    sb = new StringBuilder(targetPeptideProteinMap.get(targetPeptide).size() * 10);
+                    for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
+                        sb.append("DECOY_");
+                        sb.append(proteinId);
+                        sb.append(";");
+                    }
+                    sqlPrepareStatement.setString(6, sb.toString());
+                    sqlPrepareStatement.setString(7, leftFlank);
+                    sqlPrepareStatement.setString(8, rightFlank);
+                    sqlPrepareStatement.executeUpdate();
+                }
+            }
+            sqlConnection.commit();
+            sqlConnection.setAutoCommit(true);
+            sqlStatement.close();
+            sqlPrepareStatement.close();
+            sqlConnection.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(ex.getMessage());
+            System.exit(1);
         }
-        buildMassPeptideMap();
     }
 
     /////////////////////////////////////public methods////////////////////////////////////////////////////////////////////
@@ -76,128 +199,20 @@ public class BuildIndex {
         return massToolObj;
     }
 
-    public Map<String, String> returnProPepMap() {
-        return proPeptideMap;
+    public float getMinPeptideMass() {
+        return minPeptideMass;
     }
 
-    public Map<String, Float> returnPepMassMap() {
-        return peptideMassMap;
-    }
-
-    public Map<String, Set<String>> returnPepProMap() {
-        return peptideProMap;
-    }
-
-    public Map<String, Float> returnDecoyPepMassMap() {
-        return decoyPeptideMassMap;
-    }
-
-    public Map<String, String> returnDecoyPepProMap() {
-        return decoyPeptideProMap;
+    public float getMaxPeptideMass() {
+        return maxPeptideMass;
     }
 
     public Map<Character, Float> returnFixModMap() {
         return fixModMap;
     }
 
-    public TreeMap<Float, Set<String>> getMassPeptideMap() {
-        return massPeptideMap;
-    }
-
-    private void buildPeptideMap(boolean containDecoy) {
-        for (String proId : proPeptideMap.keySet()) {
-            if (!proId.startsWith("DECOY_")) {
-                String proSeq = proPeptideMap.get(proId);
-                Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
-                for (String peptide : peptideSet) {
-                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
-                        continue;
-                    }
-
-                    float massTemp = massToolObj.calResidueMass(peptide) + MassTool.H2O;
-                    if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
-                        peptideMassMap.put(peptide, massTemp);
-
-                        // Add the sequence to the check set for decoy duplicate check
-                        String templateSeq = peptide.replace('L', 'I'); // "L" and "I" have the same mass.
-                        forCheckDuplicate.add(templateSeq);
-
-                        if (peptideProMap.containsKey(peptide)) {
-                            Set<String> proList = peptideProMap.get(peptide);
-                            proList.add(proId);
-                            peptideProMap.put(peptide, proList);
-                        } else {
-                            Set<String> proList = new HashSet<>();
-                            proList.add(proId);
-                            peptideProMap.put(peptide, proList);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (containDecoy) {
-            for (String proId : proPeptideMap.keySet()) {
-                if (proId.startsWith("DECOY_")) {
-                    String proSeq = proPeptideMap.get(proId);
-                    Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
-                    for (String peptide : peptideSet) {
-                        if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z")) {
-                            continue;
-                        }
-
-                        if (!forCheckDuplicate.contains(peptide.replace("L", "I"))) {
-                            float massTemp = massToolObj.calResidueMass(peptide) + MassTool.H2O;
-                            if ((massTemp <= maxPrecursorMass) && (massTemp >= minPrecursorMass)) {
-                                decoyPeptideMassMap.put(peptide, massTemp);
-                                decoyPeptideProMap.put(peptide, proId);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void buildDecoyPepChainMap() {
-        Set<String> peptideSet = peptideProMap.keySet();
-        for (String originalPeptide : peptideSet) {
-            String decoyPeptide = "n" + shuffleSeq2(originalPeptide.substring(1, originalPeptide.length() - 1)) + "c";
-            if (decoyPeptide.isEmpty()) {
-                continue;
-            }
-
-            float decoyMassTemp = peptideMassMap.get(originalPeptide);
-            decoyPeptideMassMap.put(decoyPeptide, decoyMassTemp);
-            String proId = peptideProMap.get(originalPeptide).iterator().next();
-            String decoyProId = "DECOY_" + proId;
-            decoyPeptideProMap.put(decoyPeptide, decoyProId);
-        }
-    }
-
-    private void buildMassPeptideMap() {
-        // target
-        for (String peptide : peptideMassMap.keySet()) {
-            float mass = peptideMassMap.get(peptide);
-            if (massPeptideMap.containsKey(mass)) {
-                massPeptideMap.get(mass).add(peptide);
-            } else {
-                Set<String> temp = new HashSet<>();
-                temp.add(peptide);
-                massPeptideMap.put(mass, temp);
-            }
-        }
-        // decoy
-        for (String peptide : decoyPeptideMassMap.keySet()) {
-            float mass = decoyPeptideMassMap.get(peptide);
-            if (massPeptideMap.containsKey(mass)) {
-                massPeptideMap.get(mass).add(peptide);
-            } else {
-                Set<String> temp = new HashSet<>();
-                temp.add(peptide);
-                massPeptideMap.put(mass, temp);
-            }
-        }
+    public InferenceSegment getInference3SegmentObj() {
+        return inference3SegmentObj;
     }
 
     private String shuffleSeq2(String seq, Set<String> forCheckDuplicate) {

@@ -21,7 +21,6 @@ public class InferenceSegment {
 
     private final float ms2Tolerance;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
-    private final Map<Character, Float> massTable;
     private Map<Float, String> modifiedAAMap = new HashMap<>();
     private final Float[] deltaMassArray;
     private Map<String, Float> modifiedAAMassMap = new HashMap<>();
@@ -31,9 +30,8 @@ public class InferenceSegment {
     private float[] proNTermPossibleMod = null;
     private float[] proCTermPossibleMod = null;
 
-    public InferenceSegment(BuildIndex buildIndexObj, float ms2Tolerance, Map<String, String> parameterMap) throws Exception {
+    public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap) throws Exception {
         this.ms2Tolerance = ms2Tolerance;
-        massTable = buildIndexObj.returnMassToolObj().returnMassTable();
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
 

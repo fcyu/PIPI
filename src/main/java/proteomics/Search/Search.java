@@ -9,8 +9,10 @@ import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.*;
 import java.util.*;
 
 public class Search {
@@ -22,96 +24,105 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, Map<String, Peptide0> peptideCodeMap, TreeMap<Float, Set<String>> massPeptideMap, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
-        Map<String, Set<String>> peptideProteinMap = buildIndexObj.returnPepProMap();
-        Map<String, String> proteinSeqMap = buildIndexObj.returnProPepMap();
+    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+        PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
+        PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
+        try {
+            double scanNormSquare = scanCode.norm2square();
+            float leftTol = ms1Tolerance;
+            float rightTol = ms1Tolerance;
+            if (ms1ToleranceUnit == 1) {
+                leftTol = spectrumEntry.precursorMass - (spectrumEntry.precursorMass / (1 + ms1Tolerance * 1e-6f));
+                rightTol = (spectrumEntry.precursorMass / (1 - ms1Tolerance * 1e-6f)) - spectrumEntry.precursorMass;
+            }
+            float leftMass = Math.max(spectrumEntry.precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
+            float rightMass = Math.min(spectrumEntry.precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());
 
-        float minPeptideMass = massPeptideMap.firstKey();
-        float maxPeptideMass = massPeptideMap.lastKey();
+            if (leftMass >= rightMass) {
+                return;
+            }
 
-        double scanNormSquare = scanCode.norm2square();
-        float leftTol = ms1Tolerance;
-        float rightTol = ms1Tolerance;
-        if (ms1ToleranceUnit == 1) {
-            leftTol = spectrumEntry.precursorMass - (spectrumEntry.precursorMass / (1 + ms1Tolerance * 1e-6f));
-            rightTol = (spectrumEntry.precursorMass / (1 - ms1Tolerance * 1e-6f)) - spectrumEntry.precursorMass;
-        }
-        float leftMass = Math.max(spectrumEntry.precursorMass + minPtmMass, minPeptideMass);
-        float rightMass = Math.min(spectrumEntry.precursorMass + maxPtmMass, maxPeptideMass);
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+            ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT peptideMass, sequence, peptideCode, codeNormSquare, isTarget, leftFlank, rightFlank FROM peptideTable WHERE peptideMass BETWEEN %f AND %f", leftMass, rightMass));
+            while (sqlResultSet.next()) {
+                float peptideMass = sqlResultSet.getFloat(1);
+                String peptide = sqlResultSet.getString(2);
+                SparseBooleanVector theoVector = SparseBooleanVector.toSparseBooleanVector(sqlResultSet.getString(3));
+                double theoNormSquare = sqlResultSet.getDouble(4);
+                boolean isTarget = sqlResultSet.getBoolean(5);
+                char leftFlank = sqlResultSet.getString(6).charAt(0);
+                char rightFlank = sqlResultSet.getString(7).charAt(0);
 
-        if (leftMass >= rightMass) {
-            return;
-        }
+                double score = 0;
+                double temp1 = Math.sqrt(theoNormSquare * scanNormSquare);
+                if (temp1 > 1e-6) {
+                    score = theoVector.dot(scanCode) / temp1;
+                }
+                float deltaMass = peptideMass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
 
-        NavigableMap<Float, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
-
-        if (!subMassPeptideMap.isEmpty()) {
-            PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
-            PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
-            for (Set<String> peptideSet: subMassPeptideMap.values()) {
-                for (String peptide : peptideSet) {
-                    Peptide0 peptideOObj = peptideCodeMap.get(peptide);
-                    double score = 0;
-                    double temp1 = Math.sqrt(peptideOObj.codeNormSquare * scanNormSquare);
-                    if (temp1 > 1e-6) {
-                        score = peptideOObj.code.dot(scanCode) / temp1;
+                if (isTarget) {
+                    if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
+                        // PTM-free
+                        if (ptmFreeQueue.size() < rankNum) {
+                            ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, false));
+                        } else {
+                            if (score > ptmFreeQueue.peek().score) {
+                                ptmFreeQueue.poll();
+                                ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, false));
+                            }
+                        }
                     }
-                    float deltaMass = peptideOObj.peptideMass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
 
-                    if (peptideOObj.isTarget) {
-                        if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
-                            // PTM-free
-                            if (ptmFreeQueue.size() < rankNum) {
-                                ptmFreeQueue.add(new ResultEntry(score, peptide, false, false));
-                            } else {
-                                if (score > ptmFreeQueue.peek().score) {
-                                    ptmFreeQueue.poll();
-                                    ptmFreeQueue.add(new ResultEntry(score, peptide, false, false));
-                                }
+                    if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
+                        // PTM-only
+                        if (ptmOnlyQueue.size() < rankNum) {
+                            ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, true));
+                        } else {
+                            if (score > ptmOnlyQueue.peek().score) {
+                                ptmOnlyQueue.poll();
+                                ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, true));
                             }
                         }
-
-                        if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
-                            // PTM-only
-                            if (ptmOnlyQueue.size() < rankNum) {
-                                ptmOnlyQueue.add(new ResultEntry(score, peptide, false, true));
-                            } else {
-                                if (score > ptmOnlyQueue.peek().score) {
-                                    ptmOnlyQueue.poll();
-                                    ptmOnlyQueue.add(new ResultEntry(score, peptide, false, true));
-                                }
+                    }
+                } else {
+                    if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
+                        // PTM-free
+                        if (ptmFreeQueue.size() < rankNum) {
+                            ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, false));
+                        } else {
+                            if (score > ptmFreeQueue.peek().score) {
+                                ptmFreeQueue.poll();
+                                ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, false));
                             }
                         }
-                    } else {
-                        if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
-                            // PTM-free
-                            if (ptmFreeQueue.size() < rankNum) {
-                                ptmFreeQueue.add(new ResultEntry(score, peptide, true, false));
-                            } else {
-                                if (score > ptmFreeQueue.peek().score) {
-                                    ptmFreeQueue.poll();
-                                    ptmFreeQueue.add(new ResultEntry(score, peptide, true, false));
-                                }
-                            }
-                        }
+                    }
 
-                        if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
-                            // PTM-only
-                            if (ptmOnlyQueue.size() < rankNum) {
-                                ptmOnlyQueue.add(new ResultEntry(score, peptide, true, true));
-                            } else {
-                                if (score > ptmOnlyQueue.peek().score) {
-                                    ptmOnlyQueue.poll();
-                                    ptmOnlyQueue.add(new ResultEntry(score, peptide, true, true));
-                                }
+                    if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
+                        // PTM-only
+                        if (ptmOnlyQueue.size() < rankNum) {
+                            ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, true));
+                        } else {
+                            if (score > ptmOnlyQueue.peek().score) {
+                                ptmOnlyQueue.poll();
+                                ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, true));
                             }
                         }
                     }
                 }
             }
+            sqlStatement.close();
+            sqlConnection.close();
+            // (new File(sqlPath)).delete();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            logger.error(ex.getMessage());
+            System.exit(1);
+        }
 
-            ptmFreeResult = convertResult(ptmFreeQueue, peptideProteinMap, proteinSeqMap, massToolObj, maxMs2Charge, spectrumEntry.scanNum);
-            ptmOnlyResult = convertResult(ptmOnlyQueue, peptideProteinMap, proteinSeqMap, massToolObj, maxMs2Charge, spectrumEntry.scanNum);
+        if (!(ptmFreeQueue.isEmpty() && ptmOnlyQueue.isEmpty())) {
+            ptmFreeResult = convertResult(ptmFreeQueue, massToolObj, maxMs2Charge);
+            ptmOnlyResult = convertResult(ptmOnlyQueue, massToolObj, maxMs2Charge);
 
             if (PIPI.DEV) {
                 try {
@@ -167,34 +178,12 @@ public class Search {
         }
     }
 
-    private List<Peptide> convertResult(PriorityQueue<ResultEntry> inputQueue, Map<String, Set<String>> peptideProteinMap, Map<String, String> proteinSeqMap, MassTool massToolObj, int maxMs2Charge, int scanNum) {
+    private List<Peptide> convertResult(PriorityQueue<ResultEntry> inputQueue, MassTool massToolObj, int maxMs2Charge) {
         List<Peptide> peptideList = new LinkedList<>();
         int globalRank = inputQueue.size();
         while (!inputQueue.isEmpty()) {
             ResultEntry temp = inputQueue.poll();
-            String leftFlank = "-";
-            String rightFlank = "-";
-            String peptideString = temp.peptide.substring(1, temp.peptide.length() - 1);
-            if (peptideProteinMap.containsKey(temp.peptide)) {
-                String proSeq = proteinSeqMap.get(peptideProteinMap.get(temp.peptide).iterator().next());
-                int startIdx = proSeq.indexOf(peptideString);
-                if (startIdx == -1) {
-                    logger.warn("Something wrong happened in Search.java (line: 223), scan num = {}, peptide = {}.", scanNum, peptideString);
-                } else if (startIdx == 0) {
-                    int tempIdx = peptideString.length();
-                    if (tempIdx < proSeq.length()) {
-                        rightFlank = proSeq.substring(tempIdx, tempIdx + 1);
-                    } else {
-                        rightFlank = "-";
-                    }
-                } else if (startIdx == proSeq.length() - peptideString.length()) {
-                    leftFlank = proSeq.substring(startIdx - 1, startIdx);
-                } else {
-                    leftFlank = proSeq.substring(startIdx - 1, startIdx);
-                    rightFlank = proSeq.substring(startIdx + peptideString.length(), startIdx + peptideString.length() + 1);
-                }
-            }
-            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, leftFlank, rightFlank, globalRank));
+            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, temp.leftFlank, temp.rightFlank, globalRank));
             --globalRank;
         }
 

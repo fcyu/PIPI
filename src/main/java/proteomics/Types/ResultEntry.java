@@ -4,14 +4,18 @@ public class ResultEntry implements Comparable<ResultEntry> {
 
     public final double score;
     public final String peptide;
+    public final char leftFlank;
+    public final char rightFlank;
     private final String toString;
     private final int hashCode;
     private final boolean isDecoy;
     private final boolean containPtm;
 
-    public ResultEntry(double score, String peptide, boolean isDecoy, boolean containPtm) {
+    public ResultEntry(double score, String peptide, char leftFlank, char rightFlank, boolean isDecoy, boolean containPtm) {
         this.score = score;
         this.peptide = peptide;
+        this.leftFlank = leftFlank;
+        this.rightFlank = rightFlank;
         toString = peptide + "-" + score;
         hashCode = toString.hashCode();
         this.isDecoy = isDecoy;

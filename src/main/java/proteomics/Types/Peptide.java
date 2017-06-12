@@ -16,8 +16,8 @@ public class Peptide implements Comparable<Peptide> {
     private final String normalizedPeptideString;
     private final MassTool massToolObj;
     private final int maxMs2Charge;
-    private final String leftFlank;
-    private final String rightFlank;
+    private final char leftFlank;
+    private final char rightFlank;
     private final int globalRank;
     private final double normalizedCrossXcorr;
     private PositionDeltaMassMap varPTMMap = null;
@@ -32,7 +32,7 @@ public class Peptide implements Comparable<Peptide> {
     private String varPtmContainingSeq = null;
     private String ptmContainingSeq = null;
 
-    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, String leftFlank, String rightFlank, int globalRank) {
+    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, char leftFlank, char rightFlank, int globalRank) {
         this.ptmFreeSeq = ptmFreeSeq;
         this.isDecoy = isDecoy;
         this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
@@ -118,11 +118,11 @@ public class Peptide implements Comparable<Peptide> {
         return ptmFreeSeq.length();
     }
 
-    public String getLeftFlank() {
+    public char getLeftFlank() {
         return leftFlank;
     }
 
-    public String getRightFlank() {
+    public char getRightFlank() {
         return rightFlank;
     }
 

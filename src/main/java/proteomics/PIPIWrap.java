@@ -13,6 +13,7 @@ import proteomics.Spectrum.PreSpectrum;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -24,7 +25,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final MassTool massToolObj;
     private final InferenceSegment inference3SegmentObj;
     private final SpectrumEntry spectrumEntry;
-    private final Map<String, Peptide0> peptideCodeMap;
+    private String sqlPath;
     private final float ms1Tolerance;
     private final int ms1ToleranceUnit;
     private final float ms2Tolerance;
@@ -32,18 +33,18 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final float maxPtmMass;
     private final int maxMs2Charge;
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, InferenceSegment inference3SegmentObj, SpectrumEntry spectrumEntry, Map<String, Peptide0> peptideCodeMap, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, String sqlPath, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
-        this.inference3SegmentObj = inference3SegmentObj;
         this.spectrumEntry = spectrumEntry;
-        this.peptideCodeMap = peptideCodeMap;
+        this.sqlPath = sqlPath;
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.maxMs2Charge = maxMs2Charge;
+        inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);
 
             // Begin search.
-            Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, peptideCodeMap, buildIndexObj.getMassPeptideMap(), massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
+            Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, sqlPath, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
 
             // Infer PTMs based on DP
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, inference3SegmentObj.getModifiedAAMassMap(), inference3SegmentObj.getPepNTermPossibleMod(), inference3SegmentObj.getPepCTermPossibleMod(), inference3SegmentObj.getProNTermPossibleMod(), inference3SegmentObj.getProCTermPossibleMod(), minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);

@@ -3,7 +3,6 @@ package proteomics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.FDR.EstimateFDR;
-import proteomics.Segment.InferenceSegment;
 import proteomics.Types.*;
 import proteomics.Index.BuildIndex;
 import proteomics.Parameter.Parameter;
@@ -17,6 +16,7 @@ import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLParsingException;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -77,24 +77,12 @@ public class PIPI {
         float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
 
+        Class.forName("org.sqlite.JDBC").newInstance();
+        String sqlPath = "jdbc:sqlite:PIPI.temp.db";
+
         logger.info("Indexing protein database...");
-        BuildIndex buildIndexObj = new BuildIndex(parameterMap);
+        BuildIndex buildIndexObj = new BuildIndex(parameterMap, sqlPath);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
-
-        InferenceSegment inference3SegmentObj = new InferenceSegment(buildIndexObj, ms2Tolerance, parameterMap);
-
-        // coding peptide beforehand
-        Map<String, Peptide0> peptideCodeMap = new HashMap<>();
-        Map<String, Float> peptideMassMap = buildIndexObj.returnPepMassMap();
-        for (String peptide : peptideMassMap.keySet()) {
-            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide.substring(1, peptide.length() - 1)));
-            peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), true));
-        }
-        peptideMassMap = buildIndexObj.returnDecoyPepMassMap();
-        for (String peptide : peptideMassMap.keySet()) {
-            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(peptide.substring(1, peptide.length() - 1)));
-            peptideCodeMap.put(peptide, new Peptide0(peptideMassMap.get(peptide), code, code.norm2square(), false));
-        }
 
         float minPtmMass = Float.valueOf(parameterMap.get("min_ptm_mass"));
         float maxPtmMass = Float.valueOf(parameterMap.get("max_ptm_mass"));
@@ -139,13 +127,13 @@ public class PIPI {
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
-                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, spectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
+                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, sqlPath, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
                     if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
                         SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)));
-                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, inference3SegmentObj, fakeSpectrumEntry, peptideCodeMap, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, sqlPath, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
                     }
                 }
             }
@@ -232,9 +220,7 @@ public class PIPI {
         // estimate Percolator FDR
         String percolatorInputFileName = spectraPath + ".input.temp";
         String percolatorOutputFileName = spectraPath + ".output.temp";
-        Map<String, Set<String>> peptideProteinMap = buildIndexObj.returnPepProMap();
-        Map<String, String> decoyPeptideProteinMap = buildIndexObj.returnDecoyPepProMap();
-        writePercolator(finalScoredPsms, peptideProteinMap, decoyPeptideProteinMap, percolatorInputFileName, buildIndexObj.returnFixModMap());
+        writePercolator(finalScoredPsms, sqlPath, percolatorInputFileName, buildIndexObj.returnFixModMap());
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
@@ -247,7 +233,7 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(finalScoredPsms, percolatorResultMap, peptideProteinMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap());
+        writeFinalResult(finalScoredPsms, percolatorResultMap, sqlPath, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap());
 
         logger.info("Done.");
     }
@@ -265,8 +251,11 @@ public class PIPI {
         System.exit(1);
     }
 
-    private static void writePercolator(List<FinalResultEntry> finalScoredResult, Map<String, Set<String>> peptideProteinMap, Map<String, String> decoyPeptideProteinMap, String resultPath, Map<Character, Float> fixModMap) {
+    private static void writePercolator(List<FinalResultEntry> finalScoredResult, String sqlPath, String resultPath, Map<Character, Float> fixModMap) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+
             writer.write("id\tlabel\tscannr\txcorr\tdelta_c\tdelta_L_c\tptm_delta_score\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tIonFrac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\tptm_num\tpeptide\tprotein\n");
             for (FinalResultEntry entry : finalScoredResult) {
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
@@ -275,12 +264,10 @@ public class PIPI {
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                 String proteinIdStr = "";
 
-                if (!entry.isDecoy()) {
-                    for (String temp : peptideProteinMap.get(peptide.getPTMFreeSeq())) {
-                        proteinIdStr += temp + ";";
-                    }
-                } else {
-                    proteinIdStr = decoyPeptideProteinMap.get(peptide.getPTMFreeSeq());
+                ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT proteins FROM peptideTable WHERE sequence = %s", peptide.getPTMFreeSeq()));
+
+                if (sqlResultSet.next()) {
+                    proteinIdStr = sqlResultSet.getString(1);
                 }
 
                 StringBuilder sb = new StringBuilder(20);
@@ -300,7 +287,10 @@ public class PIPI {
                     writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + entry.getScore() + "\t" + entry.getDeltaC() + "\t" + entry.getDeltaLC() + "\t" + entry.getPtmDeltasScore() + "\t" + entry.getNormalizedCrossXcorr() + "\t" + entry.getGlobalSearchRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + entry.getIonFrac() + "\t" + entry.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getVarPTMNum() + "\t" + peptide.getLeftFlank() + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
                 }
             }
-        } catch (IOException ex) {
+
+            sqlStatement.close();
+            sqlConnection.close();
+        } catch (IOException | SQLException ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
             System.exit(1);
@@ -353,9 +343,12 @@ public class PIPI {
         return percolatorResultMap;
     }
 
-    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Set<String>> peptideProteinMap, String outputPath, Map<Character, Float> fixModMap) {
+    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, String sqlPath, String outputPath, Map<Character, Float> fixModMap) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,ppm,delta_C,ptm_delta_score,protein_ID,xcorr,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value\n");
             for (FinalResultEntry entry : finalScoredPsms) {
                 if (!entry.isDecoy()) {
@@ -367,10 +360,10 @@ public class PIPI {
                     float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
-
                     String proteinIdStr = "";
-                    for (String tempStr : peptideProteinMap.get(peptide.getPTMFreeSeq())) {
-                        proteinIdStr += tempStr + ";";
+                    ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT proteins FROM peptideTable WHERE sequence = " + peptide.getPTMFreeSeq());
+                    if (sqlResultSet.next()) {
+                        proteinIdStr = sqlResultSet.getString(1);
                     }
 
                     String str;
@@ -410,7 +403,10 @@ public class PIPI {
                     writer.write(tempStr);
                 }
             }
-        } catch (IOException ex) {
+
+            sqlStatement.close();
+            sqlConnection.close();
+        } catch (IOException | SQLException ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
             System.exit(1);
