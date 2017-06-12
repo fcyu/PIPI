@@ -74,12 +74,13 @@ public class GeneratePtmCandidatesCalculateXcorr {
         // Add all PTM sequence given known variable modifications.
         Set<VarModParam> varModParamSet = inference3SegmentObj.getVarModParamSet();
         Map<Character, Float> fixModMap = buildIndexObj.returnFixModMap();
+        float tolerance = (float) Math.max(ms2Tolerance, 0.1);
         if (!ptmOnlyCandidates.isEmpty()) {
             for (Peptide candidate : ptmOnlyCandidates) {
                 // having only on unknown modification
                 float deltaMass = spectrumEntry.precursorMass - candidate.getPrecursorMass();
-                if (deltaMass > Math.max(ms2Tolerance, 0.1)) {
-                    if (!isKnownPtmMass(varModParamSet, deltaMass, (float) Math.max(ms2Tolerance, 0.1))) {
+                if (deltaMass > tolerance) {
+                    if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
                         for (int i = 0; i < candidate.getPTMFreeSeq().length(); ++i) {
                             if (Math.abs(fixModMap.get(candidate.getPTMFreeSeq().charAt(i))) <= 0.1) {
                                 PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
@@ -100,8 +101,8 @@ public class GeneratePtmCandidatesCalculateXcorr {
                 for (String varSeq : varSeqSet) {
                     float seqMass = massToolObj.calResidueMass(varSeq);
                     deltaMass = spectrumEntry.precursorMass - seqMass;
-                    if (Math.abs(deltaMass) > Math.max(ms2Tolerance, 0.1)) {
-                        if (!isKnownPtmMass(varModParamSet, deltaMass, (float) Math.max(ms2Tolerance, 0.1))) {
+                    if (Math.abs(deltaMass) > tolerance) {
+                        if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
                             // there are one more unknown modification
                             AA[] aaArray = massToolObj.seqToAAList(varSeq);
                             for (int i = 0; i < aaArray.length; ++i) {
@@ -142,25 +143,23 @@ public class GeneratePtmCandidatesCalculateXcorr {
 
             // permutate modification masses inferred from dynamic programming
             for (Peptide candidate : ptmOnlyCandidates) {
-                if (candidate.hasVarPTM()) {
-                    Float[] modMassArray = candidate.getVarPTMs().values().toArray(new Float[candidate.getVarPTMNum()]);
-                    List<Float[]> permutedModMassArray = new LinkedList<>();
-                    permuteModMassArray(modMassArray, 0, permutedModMassArray);
-                    Iterator<int[]> tempIterator = CombinatoricsUtils.combinationsIterator(candidate.getPTMFreeSeq().length(), modMassArray.length);
-                    while (tempIterator.hasNext()) {
-                        int[] idxArray = tempIterator.next();
-                        Arrays.sort(idxArray);
-                        for (Float[] v : permutedModMassArray) {
-                            PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
-                            for (int i = 0; i < idxArray.length; ++i) {
-                                positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), v[i]);
-                            }
-                            Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
-                            peptideObj.setVarPTM(positionDeltaMassMap);
-                            if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
-                                CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
-                                checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
-                            }
+                Float[] modMassArray = candidate.getVarPTMs().values().toArray(new Float[candidate.getVarPTMNum()]);
+                List<Float[]> permutedModMassArray = new LinkedList<>();
+                permuteModMassArray(modMassArray, 0, permutedModMassArray);
+                Iterator<int[]> tempIterator = CombinatoricsUtils.combinationsIterator(candidate.getPTMFreeSeq().length(), modMassArray.length);
+                while (tempIterator.hasNext()) {
+                    int[] idxArray = tempIterator.next();
+                    Arrays.sort(idxArray);
+                    for (Float[] v : permutedModMassArray) {
+                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
+                        for (int i = 0; i < idxArray.length; ++i) {
+                            positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), v[i]);
+                        }
+                        Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
+                        peptideObj.setVarPTM(positionDeltaMassMap);
+                        if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
+                            CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                            checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
                         }
                     }
                 }
