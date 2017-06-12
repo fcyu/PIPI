@@ -5,7 +5,7 @@ import proteomics.TheoSeq.*;
 
 public class BuildIndex {
 
-    private static final int maxLoopTime = 10;
+    private static final Logger logger = LoggerFactory.getLogger(BuildIndex.class);
 
     private float minPrecursorMass = 0;
     private float maxPrecursorMass = 0;
@@ -200,37 +200,29 @@ public class BuildIndex {
         }
     }
 
-    private String shuffleSeq2(String seq) {
-        if ((seq.charAt(seq.length() - 1) == 'K') || (seq.charAt(seq.length() - 1) == 'R')) {
-            char[] tempArray = seq.substring(0, seq.length() - 1).toCharArray();
-            int idx = 0;
-            while (idx < tempArray.length - 1) {
-                char temp = tempArray[idx];
-                tempArray[idx] = tempArray[idx + 1];
-                tempArray[idx + 1] = temp;
-                idx += 2;
+    private String shuffleSeq2(String seq, Set<String> forCheckDuplicate) {
+        Random random = new Random(0);
+        char[] tempArray = seq.substring(0, seq.length() - 1).toCharArray();
+        String decoySeq;
+        int time = 0;
+        do {
+            // the standard Fisher-Yates shuffle
+            for (int i = 0; i < tempArray.length; ++i) {
+                int j = random.nextInt(tempArray.length);
+                while (j == i) {
+                    j = random.nextInt(tempArray.length);
+                }
+                char temp = tempArray[i];
+                tempArray[i] = tempArray[j];
+                tempArray[j] = temp;
             }
-            String decoySeq = String.valueOf(tempArray) + seq.substring(seq.length() - 1, seq.length());
-            if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
-                return "";
-            } else {
-                return decoySeq;
-            }
+            decoySeq = String.valueOf(tempArray) + seq.substring(seq.length() - 1, seq.length());
+            ++time;
+        } while (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c") && (time < 10));
+        if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
+            return "";
         } else {
-            char[] tempArray = seq.toCharArray();
-            int idx = 0;
-            while (idx < tempArray.length - 1) {
-                char temp = tempArray[idx];
-                tempArray[idx] = tempArray[idx + 1];
-                tempArray[idx + 1] = temp;
-                idx += 2;
-            }
-            String decoySeq = String.valueOf(tempArray);
-            if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
-                return "";
-            } else {
-                return decoySeq;
-            }
+            return decoySeq;
         }
     }
 }
