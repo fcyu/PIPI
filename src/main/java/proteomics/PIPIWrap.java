@@ -79,6 +79,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 if (!psm.getPeptide().hasVarPTM()) {
                     // The final peptides doesn't have PTM. Recalculate the PTM delta score.
                     psm.setPtmDeltasScore(psm.getScore());
+                    psm.setSecondBestPtmPattern("-");
                 }
                 return psm;
             } else {

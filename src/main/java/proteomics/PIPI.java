@@ -349,7 +349,7 @@ public class PIPI {
             Connection sqlConnection = DriverManager.getConnection(sqlPath);
             Statement sqlStatement = sqlConnection.createStatement();
 
-            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,ppm,delta_C,ptm_delta_score,protein_ID,xcorr,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value\n");
+            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,ppm,delta_C,ptm_delta_score,second_best_PTM_pattern,protein_ID,xcorr,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value\n");
             for (FinalResultEntry entry : finalScoredPsms) {
                 if (!entry.isDecoy()) {
                     int scanNum = entry.getScanNum();
@@ -370,10 +370,10 @@ public class PIPI {
                     boolean sortedByPercolatorScore = true;
                     if (percolatorResultMap.containsKey(scanNum)) {
                         PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.2f,%.2f,%s,%.4f,%.4f,%.3f,%s,%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), proteinIdStr, entry.getScore(), entry.getQValue(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue);
+                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.2f,%.2f,%s,%s,%.4f,%.4f,%.3f,%s,%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), entry.getSecondBestPtmPattern(), proteinIdStr, entry.getScore(), entry.getQValue(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue);
                     } else {
                         sortedByPercolatorScore = false;
-                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.2f,%.2f,%s,%.4f,%.4f,%s,%s,%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), proteinIdStr, entry.getScore(), entry.getQValue() , "-", "-", "-");
+                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.2f,%.2f,%s,%s,%.4f,%.4f,%s,%s,%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), entry.getSecondBestPtmPattern(), proteinIdStr, entry.getScore(), entry.getQValue() , "-", "-", "-");
                     }
 
                     if (sortedByPercolatorScore) {

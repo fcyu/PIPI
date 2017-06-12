@@ -17,6 +17,7 @@ public class FinalResultEntry {
     private double ionFrac;
     private double matchedHighestIntensityFrac;
     private double ptmDeltasScore;
+    private String secondBestPtmPattern;
 
     private float qValue = -1;
 
@@ -131,5 +132,13 @@ public class FinalResultEntry {
 
     public double getPtmDeltasScore() {
         return ptmDeltasScore;
+    }
+
+    public String getSecondBestPtmPattern() {
+        return secondBestPtmPattern;
+    }
+
+    public void setSecondBestPtmPattern(String secondBestPtmPattern) {
+        this.secondBestPtmPattern = secondBestPtmPattern;
     }
 }

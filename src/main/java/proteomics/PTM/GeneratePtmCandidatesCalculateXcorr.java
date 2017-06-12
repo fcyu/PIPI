@@ -167,7 +167,18 @@ public class GeneratePtmCandidatesCalculateXcorr {
 
             if (psm.getPeptide() != null) {
                 // calculate PTM delta score
-                psm.setPtmDeltasScore(calculatePtmDeltaScore(psm, modSequences));
+                double ptmDeltaScore;
+                String secondBestPtmPattern;
+                LinkedList<PeptideScore> temp = modSequences.get(psm.getPeptide().getPTMFreeSeq());
+                if (temp.size() == 1) {
+                    ptmDeltaScore = temp.peekFirst().score;
+                    secondBestPtmPattern = "-";
+                } else {
+                    ptmDeltaScore = temp.peekFirst().score - temp.get(1).score;
+                    secondBestPtmPattern = temp.get(1).peptide.getPtmContainingSeq(fixModMap);
+                }
+                psm.setPtmDeltasScore(ptmDeltaScore);
+                psm.setSecondBestPtmPattern(secondBestPtmPattern);
             }
         }
 
@@ -328,14 +339,5 @@ public class GeneratePtmCandidatesCalculateXcorr {
             }
         }
         return false;
-    }
-
-    private double calculatePtmDeltaScore(FinalResultEntry psm, Map<String, LinkedList<PeptideScore>> modSequences) {
-        LinkedList<PeptideScore> temp = modSequences.get(psm.getPeptide().getPTMFreeSeq());
-        if (temp.size() == 1) {
-            return temp.peekFirst().score;
-        } else {
-            return temp.peekFirst().score - temp.get(1).score;
-        }
     }
 }
