@@ -264,7 +264,7 @@ public class PIPI {
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                 String proteinIdStr = "";
 
-                ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT proteins FROM peptideTable WHERE sequence = %s", peptide.getPTMFreeSeq()));
+                ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT proteins FROM peptideTable WHERE sequence = \"%s\"", peptide.getPTMFreeSeq()));
 
                 if (sqlResultSet.next()) {
                     proteinIdStr = sqlResultSet.getString(1);
@@ -361,7 +361,7 @@ public class PIPI {
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
                     String proteinIdStr = "";
-                    ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT proteins FROM peptideTable WHERE sequence = " + peptide.getPTMFreeSeq());
+                    ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT proteins FROM peptideTable WHERE sequence = \"%s\"", peptide.getPTMFreeSeq()));
                     if (sqlResultSet.next()) {
                         proteinIdStr = sqlResultSet.getString(1);
                     }
