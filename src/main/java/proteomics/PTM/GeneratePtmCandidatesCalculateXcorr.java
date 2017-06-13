@@ -100,7 +100,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                     // having known modifications and maybe an unknown modification.
                     Set<String> varSeqSet = generateModSeq(candidate.getPTMFreeSeq(), varModParamSet);
                     for (String varSeq : varSeqSet) {
-                        float seqMass = massToolObj.calResidueMass(varSeq);
+                        float seqMass = massToolObj.calResidueMass(varSeq) + MassTool.H2O;
                         deltaMass = spectrumEntry.precursorMass - seqMass;
                         if (Math.abs(deltaMass) > tolerance) {
                             if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
