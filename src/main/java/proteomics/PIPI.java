@@ -80,11 +80,15 @@ public class PIPI {
         int maxPotentialCharge = Integer.valueOf(parameterMap.get("max_potential_charge"));
         float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
+        boolean sqlInMemory = true;
+        if (parameterMap.containsKey("sql_in_memory") && parameterMap.get("sql_in_memory").contentEquals("0")) {
+            sqlInMemory = false;
+        }
 
         Class.forName("org.sqlite.JDBC").newInstance();
         DateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_HH_mm_ss");
         Date date = new Date();
-        String sqlPath = String.format("jdbc:sqlite:PIPI.%s.%s.temp.db", dateFormat.format(date), ManagementFactory.getRuntimeMXBean().getName());
+        String sqlPath = String.format("PIPI.%s.%s.temp.db", dateFormat.format(date), ManagementFactory.getRuntimeMXBean().getName());
 
         logger.info("Indexing protein database...");
         BuildIndex buildIndexObj = new BuildIndex(parameterMap, sqlPath);
@@ -133,13 +137,13 @@ public class PIPI {
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
-                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, sqlPath, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
+                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, sqlPath, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge), sqlInMemory)));
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
                     if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
                         SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)));
-                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, sqlPath, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
+                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, sqlPath, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge, sqlInMemory)));
                     }
                 }
             }
@@ -259,7 +263,7 @@ public class PIPI {
 
     private static void writePercolator(List<FinalResultEntry> finalScoredResult, String sqlPath, String resultPath, Map<Character, Float> fixModMap) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Connection sqlConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlPath);
             Statement sqlStatement = sqlConnection.createStatement();
 
             writer.write("id\tlabel\tscannr\txcorr\tdelta_c\tdelta_L_c\tptm_delta_score\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tIonFrac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\tptm_num\tpeptide\tprotein\n");
@@ -352,7 +356,7 @@ public class PIPI {
     private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, String sqlPath, String outputPath, Map<Character, Float> fixModMap) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Connection sqlConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlPath);
             Statement sqlStatement = sqlConnection.createStatement();
 
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,ppm,delta_C,ptm_delta_score,second_best_PTM_pattern,protein_ID,xcorr,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value\n");

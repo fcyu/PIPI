@@ -67,7 +67,7 @@ public class BuildIndex {
         // build database
         try {
             // prepare SQL database
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Connection sqlConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlPath);
             Statement sqlStatement = sqlConnection.createStatement();
             sqlStatement.executeUpdate("DROP TABLE IF EXISTS peptideTable");
             sqlStatement.executeUpdate("CREATE TABLE peptideTable (peptideIndex INTEGER PRIMARY KEY ASC , peptideMass REAL NOT NULL, sequence TEXT NOT NULL, peptideCode TEXT NOT NULL, codeNormSquare REAL NOT NULL, isTarget INTEGER NOT NULL, proteins TEXT NOT NULL, leftFlank TEXT NOT NULL, rightFlank TEXT NOT NULL);");

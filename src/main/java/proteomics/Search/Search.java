@@ -24,7 +24,7 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge, boolean sql_in_memory) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         try {
@@ -42,8 +42,17 @@ public class Search {
                 return;
             }
 
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
-            Statement sqlStatement = sqlConnection.createStatement();
+            Connection sqlConnection;
+            Statement sqlStatement;
+            if (sql_in_memory) {
+                sqlConnection = DriverManager.getConnection("jdbc:sqlite::memory:");
+                sqlStatement = sqlConnection.createStatement();
+                sqlStatement.executeUpdate("restore from " + sqlPath);
+            } else {
+                sqlConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlPath);
+                sqlStatement = sqlConnection.createStatement();
+            }
+
             ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT peptideMass, sequence, peptideCode, codeNormSquare, isTarget, leftFlank, rightFlank FROM peptideTable WHERE peptideMass BETWEEN %f AND %f", leftMass, rightMass));
             while (sqlResultSet.next()) {
                 float peptideMass = sqlResultSet.getFloat(1);

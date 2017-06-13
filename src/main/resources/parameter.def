@@ -91,3 +91,4 @@ Trypsin        	 1                  	 KR            	 P
 
 # Do not change the following
 output_percolator_input = 1
+sql_in_memory = 1
