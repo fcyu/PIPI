@@ -14,10 +14,14 @@ import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLFile;
 import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLParsingException;
 
 import java.io.*;
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -78,7 +82,9 @@ public class PIPI {
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
 
         Class.forName("org.sqlite.JDBC").newInstance();
-        String sqlPath = "jdbc:sqlite:PIPI.temp.db";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_HH_mm_ss");
+        Date date = new Date();
+        String sqlPath = String.format("jdbc:sqlite:PIPI.%s.%s.temp.db", dateFormat.format(date), ManagementFactory.getRuntimeMXBean().getName());
 
         logger.info("Indexing protein database...");
         BuildIndex buildIndexObj = new BuildIndex(parameterMap, sqlPath);
