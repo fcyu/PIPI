@@ -13,7 +13,6 @@ import proteomics.Spectrum.PreSpectrum;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
-import java.sql.*;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -64,10 +63,10 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
             SparseVector expXcorrPl = preSpectrumObj.prepareXcorr(spectrumEntry.unprocessedPlMap);
 
-            GeneratePtmCandidatesCalculateXcorr generatePtmCandidatesCalculateXcorr = new GeneratePtmCandidatesCalculateXcorr(inference3SegmentObj, spectrumEntry, massToolObj, buildIndexObj, ms2Tolerance, maxMs2Charge);
+            GeneratePtmCandidatesCalculateXcorr generatePtmCandidatesCalculateXcorr = new GeneratePtmCandidatesCalculateXcorr(spectrumEntry, massToolObj, inference3SegmentObj.getVarModParamSet(), buildIndexObj.returnFixModMap(), ms2Tolerance, maxMs2Charge, expXcorrPl, spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz);
 
             // Generate all candidates based on inferred PTMs and known PTMs. Calculate XCorr
-            FinalResultEntry psm = generatePtmCandidatesCalculateXcorr.generateAllPtmCandidatesCalculateXcorr(generatePtmCandidatesCalculateXcorr.eliminateMissedCleavageCausedPtms(searchObj.getPTMFreeResult(), findPtmObj.getPeptidesWithPTMs()), expXcorrPl, spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz);
+            FinalResultEntry psm = generatePtmCandidatesCalculateXcorr.generateAllPtmCandidatesCalculateXcorr(generatePtmCandidatesCalculateXcorr.eliminateMissedCleavageCausedPtms(searchObj.getPTMFreeResult(), findPtmObj.getPeptidesWithPTMs()));
 
             // Calculate XCorr for PTM free peptide
             for (Peptide peptide : searchObj.getPTMFreeResult()) {
