@@ -3,7 +3,6 @@ package proteomics.Segment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import proteomics.Index.BuildIndex;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
@@ -21,9 +20,9 @@ public class InferenceSegment {
 
     private final float ms2Tolerance;
     private TreeMap<Segment, Integer> aaVectorTemplate = new TreeMap<>();
-    private Map<Float, String> modifiedAAMap = new HashMap<>();
+    private Map<Float, String> modifiedAAMap = new HashMap<>(35, 1);
     private final Float[] deltaMassArray;
-    private Map<String, Float> modifiedAAMassMap = new HashMap<>();
+    private Map<String, Float> modifiedAAMassMap = new HashMap<>(35, 1);
     private Set<VarModParam> varModParamSet = new HashSet<>();
     private float[] pepNTermPossibleMod = null;
     private float[] pepCTermPossibleMod = null;
@@ -35,7 +34,7 @@ public class InferenceSegment {
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
 
-        Map<Float, Character> massAaMap = new HashMap<>();
+        Map<Float, Character> massAaMap = new HashMap<>(25, 1);
         for (char aa : standardAaArray) {
             // # = I/L.
             if (aa == 'I' || aa == 'L') {
@@ -138,7 +137,7 @@ public class InferenceSegment {
 
     public Set<Segment> cutTheoSegment(String peptide) {
         String normalizedPeptide = normalizeSequence(peptide);
-        Set<Segment> segmentSet = new HashSet<>();
+        Set<Segment> segmentSet = new HashSet<>(20, 1);
         if (normalizedPeptide.length() == 3) {
             segmentSet.add(new Segment(normalizedPeptide));
         } else if (normalizedPeptide.length() > 3) {

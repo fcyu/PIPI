@@ -231,7 +231,7 @@ public class PIPI {
         String percolatorInputFileName = spectraPath + ".input.temp";
         String percolatorOutputFileName = spectraPath + ".output.temp";
         writePercolator(finalScoredPsms, sqlPath, percolatorInputFileName, buildIndexObj.returnFixModMap());
-        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
+        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, finalScoredPsms.size());
 
         if (percolatorResultMap.isEmpty()) {
             logger.warn("Percolator failed to estimate FDR. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
@@ -307,8 +307,8 @@ public class PIPI {
         }
     }
 
-    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName) {
-        Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
+    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, int resultNum) {
+        Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>(resultNum + 5, 1);
         try {
             if ((new File(percolatorPath)).exists()) {
                 Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 1 --no-terminate --results-psms " + percolatorOutputFileName + " " + percolatorInputFileName);

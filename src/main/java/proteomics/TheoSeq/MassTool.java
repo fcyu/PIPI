@@ -15,7 +15,7 @@ public class MassTool {
     public static final float PROTON = 1.00727646688f;
     public static final float NH3 = 17.026549106f;
 
-    private final Map<Character, Float> massTable = new HashMap<>();
+    private final Map<Character, Float> massTable = new HashMap<>(30, 1);
     private final int missedCleavage;
     private float ms2Tolerance = 1.0005f;
     private float oneMinusBinOffset = 0.4f;

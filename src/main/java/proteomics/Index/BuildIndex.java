@@ -16,7 +16,7 @@ public class BuildIndex {
     private float minPrecursorMass = 0;
     private float maxPrecursorMass = 0;
     private final MassTool massToolObj;
-    private Map<Character, Float> fixModMap = new HashMap<>();
+    private Map<Character, Float> fixModMap = new HashMap<>(25, 1);
     private float minPeptideMass = 9999;
     private float maxPeptideMass = 0;
     private InferenceSegment inference3SegmentObj;
@@ -76,9 +76,9 @@ public class BuildIndex {
 
             inference3SegmentObj = new InferenceSegment(massToolObj.returnMassTable(), ms2Tolerance, parameterMap);
 
-            Set<String> forCheckDuplicate = new HashSet<>();
-            Map<String, Set<String>> targetPeptideProteinMap = new HashMap<>();
-            Map<String, Float> targetPeptideMassMap = new HashMap<>();
+            Set<String> forCheckDuplicate = new HashSet<>(500000);
+            Map<String, Set<String>> targetPeptideProteinMap = new HashMap<>(500000);
+            Map<String, Float> targetPeptideMassMap = new HashMap<>(500000);
             for (String proId : proteinPeptideMap.keySet()) {
                 String proSeq = proteinPeptideMap.get(proId);
                 Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
@@ -106,7 +106,7 @@ public class BuildIndex {
                             proteins.add(proId);
                             targetPeptideProteinMap.put(peptide, proteins);
                         } else {
-                            Set<String> proteins = new HashSet<>();
+                            Set<String> proteins = new HashSet<>(10, 1);
                             proteins.add(proId);
                             targetPeptideProteinMap.put(peptide, proteins);
                         }

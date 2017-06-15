@@ -20,8 +20,8 @@ public class GeneratePtmCandidatesCalculateXcorr {
     private final Map<Character, Float> fixModMap;
     private final SparseVector expXcorrPl;
     private FinalResultEntry psm;
-    private Set<String> checkedSequenceSet = new HashSet<>(); // record checked sequence to avoid recording the same sequence twice
-    private Map<String, LinkedList<PeptideScore>> modSequences = new HashMap<>();
+    private Set<String> checkedSequenceSet = new HashSet<>(maxPermutationNum * 2 + 50, 1); // record checked sequence to avoid recording the same sequence twice
+    private Map<String, LinkedList<PeptideScore>> modSequences = new HashMap<>(15, 1);
 
     public GeneratePtmCandidatesCalculateXcorr(SpectrumEntry spectrumEntry, MassTool massToolObj, Set<VarModParam> varModParamSet, Map<Character, Float> fixModMap, float ms2Tolerance, int maxMs2Charge, SparseVector expXcorrPl, int scanNum, int precursorCharge, float precursorMz) {
         this.spectrumEntry = spectrumEntry;
@@ -40,7 +40,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         tempList.addAll(ptmFreeCandidates);
         tempList.addAll(ptmOnlyCandidates);
         Peptide[] tempArray = tempList.toArray(new Peptide[tempList.size()]);
-        Set<Peptide> candidates = new HashSet<>();
+        Set<Peptide> candidates = new HashSet<>(11, 1);
         for (int i = 0; i < tempArray.length; ++i) {
             boolean keep = true;
             String tempStr1 = tempArray[i].getNormalizedPeptideString();
@@ -75,7 +75,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         if (!candidates.isEmpty()) {
             for (Peptide candidate : candidates) {
                 if (candidate.hasVarPTM()) {
-                    // having only on unknown modification
+                    // having only one unknown modification
                     float deltaMass = spectrumEntry.precursorMass - candidate.getPrecursorMass();
                     if (deltaMass > tolerance) {
                         if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
@@ -249,7 +249,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                     for (int i2 = 0; i2 < idxModMassMap.get(idxArray[2]).size(); ++i2) {
                         for (int i3 = 0; i3 < idxModMassMap.get(idxArray[3]).size(); ++i3) {
                             for (int i4 = 0; i4 < idxModMassMap.get(idxArray[4]).size(); ++i4) {
-                                Map<Integer, Float> localIdxModMassMap = new HashMap<>();
+                                Map<Integer, Float> localIdxModMassMap = new HashMap<>(6, 1);
                                 localIdxModMassMap.put(idxArray[0], idxModMassMap.get(idxArray[0]).get(i0));
                                 localIdxModMassMap.put(idxArray[1], idxModMassMap.get(idxArray[1]).get(i1));
                                 localIdxModMassMap.put(idxArray[2], idxModMassMap.get(idxArray[2]).get(i2));
@@ -266,7 +266,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                 for (int i1 = 0; i1 < idxModMassMap.get(idxArray[1]).size(); ++i1) {
                     for (int i2 = 0; i2 < idxModMassMap.get(idxArray[2]).size(); ++i2) {
                         for (int i3 = 0; i3 < idxModMassMap.get(idxArray[3]).size(); ++i3) {
-                            Map<Integer, Float> localIdxModMassMap = new HashMap<>();
+                            Map<Integer, Float> localIdxModMassMap = new HashMap<>(5, 1);
                             localIdxModMassMap.put(idxArray[0], idxModMassMap.get(idxArray[0]).get(i0));
                             localIdxModMassMap.put(idxArray[1], idxModMassMap.get(idxArray[1]).get(i1));
                             localIdxModMassMap.put(idxArray[2], idxModMassMap.get(idxArray[2]).get(i2));
@@ -280,7 +280,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
             for (int i0 = 0; i0 < idxModMassMap.get(idxArray[0]).size(); ++i0) {
                 for (int i1 = 0; i1 < idxModMassMap.get(idxArray[1]).size(); ++i1) {
                     for (int i2 = 0; i2 < idxModMassMap.get(idxArray[2]).size(); ++i2) {
-                        Map<Integer, Float> localIdxModMassMap = new HashMap<>();
+                        Map<Integer, Float> localIdxModMassMap = new HashMap<>(4, 1);
                         localIdxModMassMap.put(idxArray[0], idxModMassMap.get(idxArray[0]).get(i0));
                         localIdxModMassMap.put(idxArray[1], idxModMassMap.get(idxArray[1]).get(i1));
                         localIdxModMassMap.put(idxArray[2], idxModMassMap.get(idxArray[2]).get(i2));
@@ -291,7 +291,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         } else if (idxArray.length == 2) {
             for (int i0 = 0; i0 < idxModMassMap.get(idxArray[0]).size(); ++i0) {
                 for (int i1 = 0; i1 < idxModMassMap.get(idxArray[1]).size(); ++i1) {
-                    Map<Integer, Float> localIdxModMassMap = new HashMap<>();
+                    Map<Integer, Float> localIdxModMassMap = new HashMap<>(3, 1);
                     localIdxModMassMap.put(idxArray[0], idxModMassMap.get(idxArray[0]).get(i0));
                     localIdxModMassMap.put(idxArray[1], idxModMassMap.get(idxArray[1]).get(i1));
                     outputList.add(localIdxModMassMap);
@@ -299,7 +299,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
             }
         } else if (idxArray.length == 1) {
             for (int i0 = 0; i0 < idxModMassMap.get(idxArray[0]).size(); ++i0) {
-                Map<Integer, Float> localIdxModMassMap = new HashMap<>();
+                Map<Integer, Float> localIdxModMassMap = new HashMap<>(2, 1);
                 localIdxModMassMap.put(idxArray[0], idxModMassMap.get(idxArray[0]).get(i0));
                 outputList.add(localIdxModMassMap);
             }
