@@ -9,7 +9,6 @@ import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
@@ -122,7 +121,6 @@ public class Search {
             }
             sqlStatement.close();
             sqlConnection.close();
-            // (new File(sqlPath)).delete();
         } catch (SQLException ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
