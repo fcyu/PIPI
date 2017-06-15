@@ -23,7 +23,7 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge, boolean sql_in_memory) {
+    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge, boolean sqlInMemory) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         try {
@@ -43,7 +43,7 @@ public class Search {
 
             Connection sqlConnection;
             Statement sqlStatement;
-            if (sql_in_memory) {
+            if (sqlInMemory) {
                 sqlConnection = DriverManager.getConnection("jdbc:sqlite::memory:");
                 sqlStatement = sqlConnection.createStatement();
                 sqlStatement.executeUpdate("restore from " + sqlPath);
