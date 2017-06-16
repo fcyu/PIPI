@@ -86,7 +86,7 @@ public class PIPI {
         }
 
         Class.forName("org.sqlite.JDBC").newInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy_mm_dd_HH_mm_ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         Date date = new Date();
         String sqlPath = String.format("PIPI.%s.%s.temp.db", dateFormat.format(date), ManagementFactory.getRuntimeMXBean().getName());
 
