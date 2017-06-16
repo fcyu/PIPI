@@ -203,12 +203,6 @@ public class PIPI {
             System.exit(1);
         }
 
-        if((new File(sqlPath)).delete()) {
-            logger.info("The temp file {} is deleted.", sqlPath);
-        } else {
-            logger.info("Does not delete the temp file {}.",sqlPath);
-        }
-
         if (resultList.isEmpty()) {
             logger.error("There is no useful results.");
             System.exit(1);
@@ -250,6 +244,12 @@ public class PIPI {
 
         logger.info("Saving results...");
         writeFinalResult(finalScoredPsms, percolatorResultMap, sqlPath, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap());
+
+        if((new File(sqlPath)).delete()) {
+            logger.info("The temp file {} is deleted.", sqlPath);
+        } else {
+            logger.info("Does not delete the temp file {}.",sqlPath);
+        }
 
         logger.info("Done.");
     }
