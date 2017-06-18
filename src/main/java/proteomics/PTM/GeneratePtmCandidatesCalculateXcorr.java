@@ -100,7 +100,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                     int permutationNum = 0;
                     boolean stop = false;
                     String ptmFreeSequence = candidate.getPTMFreeSeq();
-                    Map<Integer, List<Float>> idxVarModMassMap = new HashMap<>(11, 1);
+                    Map<Integer, List<Float>> idxVarModMassMap = new HashMap<>(ptmFreeSequence.length(), 1);
                     for (int i = 0; i < ptmFreeSequence.length(); ++i) {
                         char aa = ptmFreeSequence.charAt(i);
                         for (VarModParam varModParam : varModParamSet) {

@@ -150,7 +150,7 @@ public class InferenceSegment {
 
     public Set<Segment> cutTheoSegment(String peptide) {
         String normalizedPeptide = normalizeSequence(peptide);
-        Set<Segment> segmentSet = new HashSet<>(20, 1);
+        Set<Segment> segmentSet = new HashSet<>(peptide.length() + 1, 1);
         if (normalizedPeptide.length() == 3) {
             segmentSet.add(new Segment(normalizedPeptide));
         } else if (normalizedPeptide.length() > 3) {
