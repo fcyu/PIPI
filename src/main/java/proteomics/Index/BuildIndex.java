@@ -74,7 +74,7 @@ public class BuildIndex {
             sqlStatement.executeUpdate("CREATE INDEX peptideMass ON peptideTable (peptideMass)");
             sqlStatement.executeUpdate("CREATE INDEX sequence ON peptideTable (sequence)");
 
-            inference3SegmentObj = new InferenceSegment(massToolObj.returnMassTable(), ms2Tolerance, parameterMap);
+            inference3SegmentObj = new InferenceSegment(massToolObj.returnMassTable(), ms2Tolerance, parameterMap, fixModMap);
 
             Set<String> forCheckDuplicate = new HashSet<>(500000);
             Map<String, Set<String>> targetPeptideProteinMap = new HashMap<>(500000);

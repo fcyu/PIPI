@@ -29,7 +29,7 @@ public class InferenceSegment {
     private float[] proNTermPossibleMod = null;
     private float[] proCTermPossibleMod = null;
 
-    public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap) throws Exception {
+    public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap, Map<Character, Float> fixModMap) throws Exception {
         this.ms2Tolerance = ms2Tolerance;
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
@@ -81,49 +81,62 @@ public class InferenceSegment {
                             System.exit(1);
                         }
                     }
-                    if ((temp[1].charAt(0) == 'I') || (temp[1].charAt(0) == 'L')) {
-                        modifiedAAMap.put(tempMass, temp[1].replace(temp[1].charAt(0), '#'));
-                        modifiedAAMassMap.put(temp[1].replace(temp[1].charAt(0), '#'), Float.valueOf(temp[0]));
-                    } else {
-                        modifiedAAMap.put(tempMass, temp[1]);
-                        modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
+                    if (Math.abs(fixModMap.get(temp[1].charAt(0))) < 0.1) {
+                        // fix modification and var modification cannot be coexist
+                        if ((temp[1].charAt(0) == 'I') || (temp[1].charAt(0) == 'L')) {
+                            modifiedAAMap.put(tempMass, temp[1].replace(temp[1].charAt(0), '#'));
+                            modifiedAAMassMap.put(temp[1].replace(temp[1].charAt(0), '#'), Float.valueOf(temp[0]));
+                        } else {
+                            modifiedAAMap.put(tempMass, temp[1]);
+                            modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
+                        }
+                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0)));
                     }
-                    varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0)));
                 }
             } else if (k.contentEquals("pepNterm")) {
-                if (!parameterMap.get(k).startsWith("0.0")) {
-                    String[] tempArray = parameterMap.get(k).split(",");
-                    pepNTermPossibleMod = new float[tempArray.length];
-                    for (int i = 0; i < tempArray.length; ++i) {
-                        pepNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n'));
+                if (Math.abs(fixModMap.get('n')) < 0.1) {
+                    // fix modification and var modification cannot be coexist
+                    if (!parameterMap.get(k).startsWith("0.0")) {
+                        String[] tempArray = parameterMap.get(k).split(",");
+                        pepNTermPossibleMod = new float[tempArray.length];
+                        for (int i = 0; i < tempArray.length; ++i) {
+                            pepNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n'));
+                        }
                     }
                 }
             } else if (k.contentEquals("pepCterm")) {
-                if (!parameterMap.get(k).startsWith("0.0")) {
-                    String[] tempArray = parameterMap.get(k).split(",");
-                    pepCTermPossibleMod = new float[tempArray.length];
-                    for (int i = 0; i < tempArray.length; ++i) {
-                        pepCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c'));
+                if (Math.abs(fixModMap.get('c')) < 0.1) {
+                    // fix modification and var modification cannot be coexist
+                    if (!parameterMap.get(k).startsWith("0.0")) {
+                        String[] tempArray = parameterMap.get(k).split(",");
+                        pepCTermPossibleMod = new float[tempArray.length];
+                        for (int i = 0; i < tempArray.length; ++i) {
+                            pepCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c'));
+                        }
                     }
                 }
             } else if (k.contentEquals("proNterm")) {
-                if (!parameterMap.get(k).startsWith("0.0")) {
-                    String[] tempArray = parameterMap.get(k).split(",");
-                    proNTermPossibleMod = new float[tempArray.length];
-                    for (int i = 0; i < tempArray.length; ++i) {
-                        proNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n')); // to be improve: we don't distinguish protein and peptide N-term
+                if (Math.abs(fixModMap.get('n')) < 0.1) {
+                    if (!parameterMap.get(k).startsWith("0.0")) {
+                        String[] tempArray = parameterMap.get(k).split(",");
+                        proNTermPossibleMod = new float[tempArray.length];
+                        for (int i = 0; i < tempArray.length; ++i) {
+                            proNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n')); // to be improve: we don't distinguish protein and peptide N-term
+                        }
                     }
                 }
             } else if (k.contentEquals("proCterm")) {
-                if (!parameterMap.get(k).startsWith("0.0")) {
-                    String[] tempArray = parameterMap.get(k).split(",");
-                    proCTermPossibleMod = new float[tempArray.length];
-                    for (int i = 0; i < tempArray.length; ++i) {
-                        proCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                        varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c')); // to be improve: we don't distinguish protein and peptide C-term
+                if (Math.abs(fixModMap.get('c')) < 0.1) {
+                    if (!parameterMap.get(k).startsWith("0.0")) {
+                        String[] tempArray = parameterMap.get(k).split(",");
+                        proCTermPossibleMod = new float[tempArray.length];
+                        for (int i = 0; i < tempArray.length; ++i) {
+                            proCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c')); // to be improve: we don't distinguish protein and peptide C-term
+                        }
                     }
                 }
             }
