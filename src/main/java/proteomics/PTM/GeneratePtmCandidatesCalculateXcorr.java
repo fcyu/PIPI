@@ -28,7 +28,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         this.spectrumEntry = spectrumEntry;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
-        tolerance = (float) Math.max(ms2Tolerance, 0.1);
+        tolerance = Math.max(ms2Tolerance, 1);
         this.varModParamSet = varModParamSet;
         this.fixModMap = fixModMap;
         this.expXcorrPl = expXcorrPl;
@@ -78,7 +78,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                 if (candidate.hasVarPTM()) {
                     // having only one unknown modification
                     float deltaMass = spectrumEntry.precursorMass - candidate.getPrecursorMass();
-                    if (deltaMass > tolerance) {
+                    if (deltaMass >= tolerance) {
                         if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
                             for (int i = 0; i < candidate.getPTMFreeSeq().length(); ++i) {
                                 if (Math.abs(fixModMap.get(candidate.getPTMFreeSeq().charAt(i))) <= 0.1) {
@@ -134,7 +134,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                                     // Calculate XCorr
                                     float seqMass = massToolObj.calResidueMass(varSeq) + MassTool.H2O;
                                     deltaMass = spectrumEntry.precursorMass - seqMass;
-                                    if (Math.abs(deltaMass) > tolerance) {
+                                    if (Math.abs(deltaMass) >= tolerance) {
                                         if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
                                             // there are one more unknown modification
                                             AA[] aaArray = massToolObj.seqToAAList(varSeq);
@@ -355,7 +355,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
 
     private boolean isKnownPtmMass(Set<VarModParam> varModParamSet, float mass, float tolerance) {
         for (VarModParam varModParam : varModParamSet) {
-            if (Math.abs(varModParam.modMass - mass) <= tolerance) {
+            if (Math.abs(varModParam.modMass - mass) < tolerance) {
                 return true;
             }
         }
