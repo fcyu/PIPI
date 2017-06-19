@@ -99,7 +99,6 @@ public class GeneratePtmCandidatesCalculateXcorr {
 
                     // having known modifications and maybe an unknown modification.
                     int permutationNum = 0;
-                    boolean stop = false;
                     // summarize all possible modified idxes.
                     String ptmFreeSequence = candidate.getPTMFreeSeq();
                     Map<Integer, List<Float>> idxVarModMassMap = new HashMap<>(ptmFreeSequence.length(), 1);
@@ -193,13 +192,9 @@ public class GeneratePtmCandidatesCalculateXcorr {
                                         permutationNum = subFun(candidate, localIdxModMassMap, fixModIdxes, permutationNum);
                                     }
                                 }
-                                //  Don't stop in the middle. Soft threshold.
-                                if (permutationNum > maxPermutationNum) {
-                                    stop = true;
-                                    break;
-                                }
                             }
-                            if (stop) {
+                            //  Don't stop in the middle. Check all permutations for a certain i
+                            if (permutationNum > maxPermutationNum) {
                                 break;
                             }
                         }
