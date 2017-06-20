@@ -81,7 +81,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                     // having only one unknown modification
                     float deltaMass = spectrumEntry.precursorMass - candidate.getPrecursorMass();
                     if (deltaMass >= tolerance) {
-                        if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
+                        if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
                             for (int i = 0; i < candidate.getPTMFreeSeq().length(); ++i) {
                                 if (!fixModIdxes.contains(i)) {
                                     PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
@@ -288,13 +288,22 @@ public class GeneratePtmCandidatesCalculateXcorr {
         }
     }
 
-    private boolean isKnownPtmMass(Set<VarModParam> varModParamSet, float mass, float tolerance) {
+    private boolean isNewPtmMass(Set<VarModParam> varModParamSet, float mass, float tolerance) {
         for (VarModParam varModParam : varModParamSet) {
             if (Math.abs(varModParam.modMass - mass) < tolerance) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
+    }
+
+    private boolean isDeltaMassMeaningful(AA[] aaArray, float deltaMass, float tolerance) {
+        for (AA aa : aaArray) {
+            if (Math.abs(aa.ptmDeltaMass + deltaMass) < tolerance) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Set<Integer> getFixModIdxes(String ptmFreeSeq, Map<Character, Float> fixModMap) {
@@ -323,33 +332,29 @@ public class GeneratePtmCandidatesCalculateXcorr {
         float seqMass = massToolObj.calResidueMass(varSeq) + MassTool.H2O;
         float deltaMass = spectrumEntry.precursorMass - seqMass;
         if (Math.abs(deltaMass) >= tolerance) {
-            if (!isKnownPtmMass(varModParamSet, deltaMass, tolerance)) {
+            if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
                 // there are one more unknown modification
                 AA[] aaArray = massToolObj.seqToAAList(varSeq);
-                for (int k = 0; k < aaArray.length; ++k) {
-                    if (!aaArray[k].hasMod() && !fixModIdxes.contains(k)) {
-                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
-                        for (int l = 0; l < aaArray.length; ++l) {
-                            if (aaArray[l].hasMod()) {
-                                positionDeltaMassMap.put(new Coordinate(l, l + 1), aaArray[l].ptmDeltaMass);
+                if (isDeltaMassMeaningful(aaArray, deltaMass, tolerance)) {
+                    for (int k = 0; k < aaArray.length; ++k) {
+                        if (!aaArray[k].hasMod() && !fixModIdxes.contains(k)) {
+                            PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
+                            for (int l = 0; l < aaArray.length; ++l) {
+                                if (aaArray[l].hasMod()) {
+                                    positionDeltaMassMap.put(new Coordinate(l, l + 1), aaArray[l].ptmDeltaMass);
+                                }
                             }
-                        }
-                        positionDeltaMassMap.put(new Coordinate(k, k + 1), deltaMass);
-                        Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
-                        peptideObj.setVarPTM(positionDeltaMassMap);
-                        if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
-                            CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
-                            checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
-                            ++permutationNum;
-                            if (permutationNum > maxPermutationNum) {
-                                return permutationNum;
+                            positionDeltaMassMap.put(new Coordinate(k, k + 1), deltaMass);
+                            Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
+                            peptideObj.setVarPTM(positionDeltaMassMap);
+                            if (!checkedSequenceSet.contains(peptideObj.getVarPtmContainingSeq())) {
+                                CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
+                                ++permutationNum;
                             }
                         }
                     }
                 }
-                return permutationNum;
-            } else {
-                return permutationNum;
             }
         } else if (!checkedSequenceSet.contains(varSeq)) {
             PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
@@ -364,9 +369,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
             CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
             checkedSequenceSet.add(peptideObj.getVarPtmContainingSeq());
             ++permutationNum;
-            return permutationNum;
-        } else {
-            return permutationNum;
         }
+        return permutationNum;
     }
 }
