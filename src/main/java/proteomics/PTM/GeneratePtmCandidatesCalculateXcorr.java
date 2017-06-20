@@ -28,7 +28,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         this.spectrumEntry = spectrumEntry;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
-        tolerance = Math.max(ms2Tolerance, 1);
+        tolerance = Math.max(ms2Tolerance, 0.5f);
         this.varModParamSet = varModParamSet;
         this.fixModMap = fixModMap;
         this.expXcorrPl = expXcorrPl;
