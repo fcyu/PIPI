@@ -13,8 +13,6 @@ public class BuildIndex {
 
     private static final Logger logger = LoggerFactory.getLogger(BuildIndex.class);
 
-    private float minPrecursorMass = 0;
-    private float maxPrecursorMass = 0;
     private final MassTool massToolObj;
     private Map<Character, Float> fixModMap = new HashMap<>(25, 1);
     private float minPeptideMass = 9999;
@@ -24,8 +22,8 @@ public class BuildIndex {
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
     public BuildIndex(Map<String, String> parameterMap, String sqlPath) {
         // initialize parameters
-        minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
-        maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
+        float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
+        float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
         String dbPath = parameterMap.get("db");
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
