@@ -133,8 +133,8 @@ public class BuildIndex {
                 }
                 sqlPrepareStatement.setString(6, sb.toString());
 
-                String leftFlank = "-";
-                String rightFlank = "-";
+                char leftFlank = '-';
+                char rightFlank = '-';
                 String peptideString = targetPeptide.substring(1, targetPeptide.length() - 1);
                 if (targetPeptideProteinMap.containsKey(targetPeptide)) {
                     String proteinSequence = proteinPeptideMap.get(targetPeptideProteinMap.get(targetPeptide).iterator().next());
@@ -144,13 +144,13 @@ public class BuildIndex {
                     } else if (startIdx == 0) {
                         int tempIdx = peptideString.length();
                         if (tempIdx < proteinSequence.length()) {
-                            rightFlank = proteinSequence.substring(tempIdx, tempIdx + 1);
+                            rightFlank = proteinSequence.charAt(tempIdx);
                         }
                     } else if (startIdx == proteinSequence.length() - peptideString.length()) {
-                        leftFlank = proteinSequence.substring(startIdx - 1, startIdx);
+                        leftFlank = proteinSequence.charAt(startIdx - 1);
                     } else {
-                        leftFlank = proteinSequence.substring(startIdx - 1, startIdx);
-                        rightFlank = proteinSequence.substring(startIdx + peptideString.length(), startIdx + peptideString.length() + 1);
+                        leftFlank = proteinSequence.charAt(startIdx - 1);
+                        rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
                     }
                 }
                 sqlPrepareStatement.setString(7, leftFlank);
