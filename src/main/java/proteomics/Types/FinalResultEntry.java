@@ -17,7 +17,7 @@ public class FinalResultEntry {
     private double ionFrac;
     private double matchedHighestIntensityFrac;
     private double ptmDeltasScore;
-    private String secondBestPtmPattern;
+    private LinkedList<PeptideScore> ptmPatterns;
 
     private float qValue = -1;
 
@@ -134,11 +134,11 @@ public class FinalResultEntry {
         return ptmDeltasScore;
     }
 
-    public String getSecondBestPtmPattern() {
-        return secondBestPtmPattern;
+    public void setPtmPatterns(LinkedList<PeptideScore> ptmPatterns) {
+        this.ptmPatterns = ptmPatterns;
     }
 
-    public void setSecondBestPtmPattern(String secondBestPtmPattern) {
-        this.secondBestPtmPattern = secondBestPtmPattern;
+    public LinkedList<PeptideScore> getPtmPatterns() {
+        return ptmPatterns;
     }
 }

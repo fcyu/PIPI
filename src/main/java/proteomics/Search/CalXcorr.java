@@ -26,7 +26,7 @@ public class CalXcorr {
                 // record scores with different PTM patterns for calculating PTM delta score.
                 if (modSequences.containsKey(peptide.getPTMFreeSeq())) {
                     LinkedList<PeptideScore> temp = modSequences.get(peptide.getPTMFreeSeq());
-                    if (temp.size() < 2) {
+                    if (temp.size() < 5) {
                         temp.add(new PeptideScore(xcorr, peptide));
                         temp.sort(Collections.reverseOrder());
                     } else if (xcorr > temp.peekLast().score) {
