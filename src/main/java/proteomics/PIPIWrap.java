@@ -24,21 +24,17 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final MassTool massToolObj;
     private final InferenceSegment inference3SegmentObj;
     private final SpectrumEntry spectrumEntry;
-    private String sqlPath;
     private final float ms1Tolerance;
     private final int ms1ToleranceUnit;
     private final float ms2Tolerance;
     private final float minPtmMass;
     private final float maxPtmMass;
     private final int maxMs2Charge;
-    private final boolean sqlInMemory;
-    private final int fetchSize;
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, String sqlPath, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, boolean sqlInMemory, int fetchSize) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.spectrumEntry = spectrumEntry;
-        this.sqlPath = sqlPath;
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
@@ -46,8 +42,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.maxPtmMass = maxPtmMass;
         this.maxMs2Charge = maxMs2Charge;
         inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
-        this.sqlInMemory = sqlInMemory;
-        this.fetchSize = fetchSize;
     }
 
     @Override
@@ -58,7 +52,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);
 
             // Begin search.
-            Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, sqlPath, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge, sqlInMemory, fetchSize);
+            Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
 
             // Infer PTMs based on DP
             FindPTM findPtmObj = new FindPTM(searchObj.getPTMOnlyResult(), spectrumEntry, expAaLists, inference3SegmentObj.getModifiedAAMassMap(), inference3SegmentObj.getPepNTermPossibleMod(), inference3SegmentObj.getPepCTermPossibleMod(), inference3SegmentObj.getProNTermPossibleMod(), inference3SegmentObj.getProCTermPossibleMod(), minPtmMass, maxPtmMass, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance);

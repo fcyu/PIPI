@@ -7,16 +7,10 @@ import java.util.Set;
 
 public class SparseBooleanVector {
 
-    private Set<Integer> sparseVector = new HashSet<>();
+    private Set<Integer> sparseVector;
 
     public SparseBooleanVector(Set<Integer> sparseVector) {
-        this.sparseVector = sparseVector;
-    }
-
-    public SparseBooleanVector() {}
-
-    public void put(int idx) {
-        sparseVector.add(idx);
+        this.sparseVector = new HashSet<>(sparseVector);
     }
 
     public double norm2square() {
@@ -25,11 +19,8 @@ public class SparseBooleanVector {
 
     public double dot(SparseVector other) {
         double output = 0;
-        Map<Integer, Float> otherVector = other.getVectorMap();
-        Set<Integer> intersectedKeys = new HashSet<>(sparseVector);
-        intersectedKeys.retainAll(otherVector.keySet());
-        for (int i : intersectedKeys) {
-            output += otherVector.get(i);
+        for (int i : sparseVector) {
+            output += other.get(i);
         }
         return output;
     }
@@ -51,11 +42,7 @@ public class SparseBooleanVector {
     }
 
     public SparseBooleanVector deepCopy() {
-        SparseBooleanVector outputVector = new SparseBooleanVector();
-        for (int idx : this.sparseVector) {
-            outputVector.put(idx);
-        }
-        return outputVector;
+        return new SparseBooleanVector(this.sparseVector);
     }
 
     public boolean isZero(int idx) {
@@ -85,14 +72,5 @@ public class SparseBooleanVector {
             sb.append(";");
         }
         return sb.toString();
-    }
-
-    public static SparseBooleanVector toSparseBooleanVector(String str) {
-        String[] parts = str.split(";");
-        SparseBooleanVector sparseBooleanVector = new SparseBooleanVector();
-        for (String part : parts) {
-            sparseBooleanVector.put(Integer.valueOf(part));
-        }
-        return sparseBooleanVector;
     }
 }

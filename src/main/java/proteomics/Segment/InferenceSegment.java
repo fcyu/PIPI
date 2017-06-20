@@ -177,14 +177,14 @@ public class InferenceSegment {
     }
 
     public SparseBooleanVector generateSegmentBooleanVector(Set<Segment> cutSegmentSet) {
-        SparseBooleanVector finalVector = new SparseBooleanVector();
+        Set<Integer> tempSet = new HashSet<>();
         if (cutSegmentSet.isEmpty()) {
-            return finalVector;
+            return new SparseBooleanVector(tempSet);
         } else {
             for (Segment segment : cutSegmentSet) {
-                finalVector.put(aaVectorTemplate.get(segment));
+                tempSet.add(aaVectorTemplate.get(segment));
             }
-            return finalVector;
+            return new SparseBooleanVector(tempSet);
         }
     }
 

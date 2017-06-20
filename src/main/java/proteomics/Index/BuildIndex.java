@@ -1,12 +1,12 @@
 package proteomics.Index;
 
-import java.sql.*;
 import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Segment.InferenceSegment;
 import proteomics.TheoSeq.*;
+import proteomics.Types.Peptide0;
 import proteomics.Types.SparseBooleanVector;
 
 public class BuildIndex {
@@ -17,11 +17,12 @@ public class BuildIndex {
     private Map<Character, Float> fixModMap = new HashMap<>(25, 1);
     private float minPeptideMass = 9999;
     private float maxPeptideMass = 0;
-    private long sqlRowNum = 0;
     private InferenceSegment inference3SegmentObj;
+    private TreeMap<Float, Set<String>> massPeptideMap = new TreeMap<>();
+    private Map<String, Peptide0> peptide0Map;
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
-    public BuildIndex(Map<String, String> parameterMap, String sqlPath) {
+    public BuildIndex(Map<String, String> parameterMap) {
         // initialize parameters
         float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
@@ -65,14 +66,6 @@ public class BuildIndex {
 
         // build database
         try {
-            // prepare SQL database
-            Connection sqlConnection = DriverManager.getConnection("jdbc:sqlite:" + sqlPath);
-            Statement sqlStatement = sqlConnection.createStatement();
-            sqlStatement.executeUpdate("DROP TABLE IF EXISTS peptideTable");
-            sqlStatement.executeUpdate("CREATE TABLE peptideTable (peptideIndex INTEGER PRIMARY KEY ASC , peptideMass REAL NOT NULL, sequence TEXT NOT NULL, peptideCode TEXT NOT NULL, codeNormSquare REAL NOT NULL, isTarget INTEGER NOT NULL, proteins TEXT NOT NULL, leftFlank TEXT NOT NULL, rightFlank TEXT NOT NULL);");
-            sqlStatement.executeUpdate("CREATE INDEX peptideMass ON peptideTable (peptideMass)");
-            sqlStatement.executeUpdate("CREATE INDEX sequence ON peptideTable (sequence)");
-
             inference3SegmentObj = new InferenceSegment(massToolObj.returnMassTable(), ms2Tolerance, parameterMap, fixModMap);
 
             Set<String> forCheckDuplicate = new HashSet<>(500000);
@@ -113,25 +106,9 @@ public class BuildIndex {
                 }
             }
 
-            PreparedStatement sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO peptideTable (peptideMass, sequence, peptideCode, codeNormSquare, isTarget, proteins, leftFlank, rightFlank) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
-           sqlConnection.setAutoCommit(false);
-
+            Map<String, Peptide0> tempMap = new HashMap<>();
             for (String targetPeptide : targetPeptideMassMap.keySet()) {
-                sqlPrepareStatement.setFloat(1, targetPeptideMassMap.get(targetPeptide));
-                sqlPrepareStatement.setString(2, targetPeptide);
-
-                SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(targetPeptide.substring(1, targetPeptide.length() - 1)));
-                sqlPrepareStatement.setString(3, code.toString());
-                sqlPrepareStatement.setDouble(4, code.norm2square());
-
-                sqlPrepareStatement.setBoolean(5, true);
-
-                StringBuilder sb = new StringBuilder(targetPeptideProteinMap.get(targetPeptide).size() * 10);
-                for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
-                    sb.append(proteinId);
-                    sb.append(";");
-                }
-                sqlPrepareStatement.setString(6, sb.toString());
+                SparseBooleanVector targetCode = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(targetPeptide.substring(1, targetPeptide.length() - 1)));
 
                 char leftFlank = '-';
                 char rightFlank = '-';
@@ -153,41 +130,39 @@ public class BuildIndex {
                         rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
                     }
                 }
-                sqlPrepareStatement.setString(7, leftFlank);
-                sqlPrepareStatement.setString(8, rightFlank);
-                sqlPrepareStatement.executeUpdate();
-                ++sqlRowNum;
 
+                tempMap.put(targetPeptide, new Peptide0(targetPeptide, targetPeptideMassMap.get(targetPeptide), targetCode, true, new HashSet<>(targetPeptideProteinMap.get(targetPeptide)), leftFlank, rightFlank));
+
+                if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
+                    massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
+                } else {
+                    Set<String> tempSet = new HashSet<>();
+                    tempSet.add(targetPeptide);
+                    massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
+                }
+
+                // decoy peptides
                 String decoyPeptide = shuffleSeq2(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
                 if (!decoyPeptide.isEmpty()) {
                     decoyPeptide = "n" + decoyPeptide + "c";
+                    SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(decoyPeptide.substring(1, decoyPeptide.length() - 1)));
 
-                    sqlPrepareStatement.setFloat(1, targetPeptideMassMap.get(targetPeptide));
-                    sqlPrepareStatement.setString(2, decoyPeptide);
-
-                    code = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(decoyPeptide.substring(1, decoyPeptide.length() - 1)));
-                    sqlPrepareStatement.setString(3, code.toString());
-                    sqlPrepareStatement.setDouble(4, code.norm2square());
-
-                    sqlPrepareStatement.setBoolean(5, false);
-                    sb = new StringBuilder(targetPeptideProteinMap.get(targetPeptide).size() * 10);
+                    Set<String> decoyProteins = new HashSet<>(targetPeptideProteinMap.get(targetPeptide).size() + 1, 1);
                     for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
-                        sb.append("DECOY_");
-                        sb.append(proteinId);
-                        sb.append(";");
+                        decoyProteins.add("DECOY_" + proteinId);
                     }
-                    sqlPrepareStatement.setString(6, sb.toString());
-                    sqlPrepareStatement.setString(7, leftFlank);
-                    sqlPrepareStatement.setString(8, rightFlank);
-                    sqlPrepareStatement.executeUpdate();
-                    ++sqlRowNum;
+
+                    tempMap.put(decoyPeptide, new Peptide0(decoyPeptide, targetPeptideMassMap.get(targetPeptide), decoyCode, false, decoyProteins, leftFlank, rightFlank));
+                    if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
+                        massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(decoyPeptide);
+                    } else {
+                        Set<String> tempSet = new HashSet<>();
+                        tempSet.add(decoyPeptide);
+                        massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
+                    }
                 }
             }
-            sqlConnection.commit();
-            sqlConnection.setAutoCommit(true);
-            sqlStatement.close();
-            sqlPrepareStatement.close();
-            sqlConnection.close();
+            peptide0Map = new HashMap<>(tempMap);
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
@@ -208,16 +183,20 @@ public class BuildIndex {
         return maxPeptideMass;
     }
 
-    public long getSqlRowNum() {
-        return sqlRowNum;
-    }
-
     public Map<Character, Float> returnFixModMap() {
         return fixModMap;
     }
 
     public InferenceSegment getInference3SegmentObj() {
         return inference3SegmentObj;
+    }
+
+    public TreeMap<Float, Set<String>> getMassPeptideMap() {
+        return massPeptideMap;
+    }
+
+    public Map<String, Peptide0> getPeptide0Map() {
+        return peptide0Map;
     }
 
     private String shuffleSeq2(String seq, Set<String> forCheckDuplicate) {

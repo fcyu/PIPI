@@ -153,17 +153,17 @@ public class MassTool {
             rowNum = 2;
         }
 
-        SparseBooleanVector theoIonVector = new SparseBooleanVector();
+        Set<Integer> tempSet = new HashSet<>();
         for (int i = 0; i < rowNum; ++i) {
             for (int j = 0; j < colNum; ++j) {
                 if (ionMatrix[i][j] > 1e-6) {
                     int idx = mzToBin(ionMatrix[i][j]);
-                    theoIonVector.put(idx);
+                    tempSet.add(idx);
                 }
             }
         }
 
-        return theoIonVector;
+        return new SparseBooleanVector(tempSet);
     }
 
     public Map<Character, Float> returnMassTable() {
