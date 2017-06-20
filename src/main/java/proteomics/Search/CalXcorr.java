@@ -15,7 +15,7 @@ public class CalXcorr {
     public static void calXcorr(Peptide peptide, SparseVector expXcorrPl, FinalResultEntry psm, MassTool massToolObj, Map<String, LinkedList<PeptideScore>> modSequences) {
         double xcorr = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
         if (xcorr > 0) {
-            if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && psm.isDecoy() && (!peptide.isDecoy()))) {
+            if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && (peptide.getVarPTMNum() < psm.getPeptide().getVarPTMNum()))) {
                 psm.setPeptide(peptide);
                 psm.setGlobalSearchRank(peptide.getGlobalRank());
                 psm.setNormalizedCrossXcorr(peptide.getNormalizedCrossCorr());

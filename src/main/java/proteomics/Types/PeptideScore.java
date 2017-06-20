@@ -29,7 +29,13 @@ public class PeptideScore implements Comparable<PeptideScore> {
         } else if (score < other.score) {
             return -1;
         } else {
-            return 0;
+            if (peptide.getVarPTMNum() < other.peptide.getVarPTMNum()) {
+                return 1;
+            } else if (peptide.getVarPTMNum() > other.peptide.getVarPTMNum()) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
 
