@@ -181,7 +181,7 @@ public class PIPI {
                 if (count == totalCount) {
                     break;
                 }
-                Thread.sleep(60000);
+                Thread.sleep(6000);
             }
         } catch (InterruptedException ex) {
             ex.printStackTrace();
