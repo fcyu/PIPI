@@ -5,7 +5,6 @@ percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please 
 
 # Database
 db = test.fasta
-contain_decoy = 0 # 1: the database contains decoy proteins; 0: doesn't contain. The decoy proteins' headers must start with DECOY_. If 0, PIPI will generate decoy proteins automatically.
 missed_cleavage = 2 # maximum number of missed cleavage
 min_precursor_mass = 600
 max_precursor_mass = 5000 # for benchmarking comet
@@ -91,4 +90,3 @@ Trypsin        	 1                  	 KR            	 P
 
 # Do not change the following
 output_percolator_input = 1
-sql_in_memory = 1
