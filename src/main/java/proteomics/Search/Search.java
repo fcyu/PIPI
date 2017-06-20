@@ -23,7 +23,7 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge, boolean sqlInMemory) {
+    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, String sqlPath, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge, boolean sqlInMemory, int fetchSize) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         try {
@@ -52,32 +52,31 @@ public class Search {
                 sqlStatement = sqlConnection.createStatement();
             }
 
+            sqlStatement.setFetchSize(fetchSize);
             ResultSet sqlResultSet = sqlStatement.executeQuery(String.format("SELECT peptideMass, sequence, peptideCode, codeNormSquare, isTarget, leftFlank, rightFlank FROM peptideTable WHERE peptideMass BETWEEN %f AND %f", leftMass, rightMass));
+            sqlResultSet.setFetchSize(fetchSize);
+            List<SqlEntry> sqlEntryList = new LinkedList<>();
             while (sqlResultSet.next()) {
-                float peptideMass = sqlResultSet.getFloat(1);
-                String peptide = sqlResultSet.getString(2);
-                SparseBooleanVector theoVector = SparseBooleanVector.toSparseBooleanVector(sqlResultSet.getString(3));
-                double theoNormSquare = sqlResultSet.getDouble(4);
-                boolean isTarget = sqlResultSet.getBoolean(5);
-                char leftFlank = sqlResultSet.getString(6).charAt(0);
-                char rightFlank = sqlResultSet.getString(7).charAt(0);
+                sqlEntryList.add(new SqlEntry(sqlResultSet.getFloat(1), sqlResultSet.getString(2), SparseBooleanVector.toSparseBooleanVector(sqlResultSet.getString(3)), sqlResultSet.getDouble(4), sqlResultSet.getBoolean(5), sqlResultSet.getString(6).charAt(0), sqlResultSet.getString(7).charAt(0)));
+            }
 
+            for (SqlEntry sqlEntry : sqlEntryList) {
                 double score = 0;
-                double temp1 = Math.sqrt(theoNormSquare * scanNormSquare);
+                double temp1 = Math.sqrt(sqlEntry.theoNormSquare * scanNormSquare);
                 if (temp1 > 1e-6) {
-                    score = theoVector.dot(scanCode) / temp1;
+                    score = sqlEntry.theoVector.dot(scanCode) / temp1;
                 }
-                float deltaMass = peptideMass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
+                float deltaMass = sqlEntry.peptideMass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
 
-                if (isTarget) {
+                if (sqlEntry.isTarget) {
                     if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
                         // PTM-free
                         if (ptmFreeQueue.size() < rankNum) {
-                            ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, false));
+                            ptmFreeQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, false, false));
                         } else {
                             if (score > ptmFreeQueue.peek().score) {
                                 ptmFreeQueue.poll();
-                                ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, false));
+                                ptmFreeQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, false, false));
                             }
                         }
                     }
@@ -85,11 +84,11 @@ public class Search {
                     if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
                         // PTM-only
                         if (ptmOnlyQueue.size() < rankNum) {
-                            ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, true));
+                            ptmOnlyQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, false, true));
                         } else {
                             if (score > ptmOnlyQueue.peek().score) {
                                 ptmOnlyQueue.poll();
-                                ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, false, true));
+                                ptmOnlyQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, false, true));
                             }
                         }
                     }
@@ -97,11 +96,11 @@ public class Search {
                     if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
                         // PTM-free
                         if (ptmFreeQueue.size() < rankNum) {
-                            ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, false));
+                            ptmFreeQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, true, false));
                         } else {
                             if (score > ptmFreeQueue.peek().score) {
                                 ptmFreeQueue.poll();
-                                ptmFreeQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, false));
+                                ptmFreeQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, true, false));
                             }
                         }
                     }
@@ -109,11 +108,11 @@ public class Search {
                     if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
                         // PTM-only
                         if (ptmOnlyQueue.size() < rankNum) {
-                            ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, true));
+                            ptmOnlyQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, true, true));
                         } else {
                             if (score > ptmOnlyQueue.peek().score) {
                                 ptmOnlyQueue.poll();
-                                ptmOnlyQueue.add(new ResultEntry(score, peptide, leftFlank, rightFlank, true, true));
+                                ptmOnlyQueue.add(new ResultEntry(score, sqlEntry.peptide, sqlEntry.leftFlank, sqlEntry.rightFlank, true, true));
                             }
                         }
                     }
@@ -203,5 +202,27 @@ public class Search {
 
     public List<Peptide> getPTMFreeResult() {
         return ptmFreeResult;
+    }
+
+
+    private class SqlEntry {
+
+        final float peptideMass;
+        final String peptide;
+        final SparseBooleanVector theoVector;
+        final double theoNormSquare;
+        final boolean isTarget;
+        final char leftFlank;
+        final char rightFlank;
+
+        public SqlEntry(float peptideMass, String peptide, SparseBooleanVector theoVector, double theoNormSquare, boolean isTarget, char leftFlank, char rightFlank) {
+            this.peptideMass = peptideMass;
+            this.peptide = peptide;
+            this.theoVector = theoVector;
+            this.theoNormSquare = theoNormSquare;
+            this.isTarget = isTarget;
+            this.leftFlank = leftFlank;
+            this.rightFlank = rightFlank;
+        }
     }
 }

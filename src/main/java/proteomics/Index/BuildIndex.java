@@ -17,6 +17,7 @@ public class BuildIndex {
     private Map<Character, Float> fixModMap = new HashMap<>(25, 1);
     private float minPeptideMass = 9999;
     private float maxPeptideMass = 0;
+    private long sqlRowNum = 0;
     private InferenceSegment inference3SegmentObj;
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
@@ -155,6 +156,7 @@ public class BuildIndex {
                 sqlPrepareStatement.setString(7, leftFlank);
                 sqlPrepareStatement.setString(8, rightFlank);
                 sqlPrepareStatement.executeUpdate();
+                ++sqlRowNum;
 
                 String decoyPeptide = shuffleSeq2(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
                 if (!decoyPeptide.isEmpty()) {
@@ -178,6 +180,7 @@ public class BuildIndex {
                     sqlPrepareStatement.setString(7, leftFlank);
                     sqlPrepareStatement.setString(8, rightFlank);
                     sqlPrepareStatement.executeUpdate();
+                    ++sqlRowNum;
                 }
             }
             sqlConnection.commit();
@@ -203,6 +206,10 @@ public class BuildIndex {
 
     public float getMaxPeptideMass() {
         return maxPeptideMass;
+    }
+
+    public long getSqlRowNum() {
+        return sqlRowNum;
     }
 
     public Map<Character, Float> returnFixModMap() {
