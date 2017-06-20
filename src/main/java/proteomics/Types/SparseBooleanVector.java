@@ -34,6 +34,16 @@ public class SparseBooleanVector {
         return output;
     }
 
+    public double fastDot(SparseVector other) { // Caution: this will change the original SparseBooleanVector
+        double output = 0;
+        Map<Integer, Float> otherVector = other.getVectorMap();
+        sparseVector.retainAll(otherVector.keySet());
+        for (int i : sparseVector) {
+            output += otherVector.get(i);
+        }
+        return output;
+    }
+
     public double dot(SparseBooleanVector other) {
         Set<Integer> intersectedKeys = new HashSet<>(sparseVector);
         intersectedKeys.retainAll(other.sparseVector);

@@ -13,8 +13,7 @@ public class CalXcorr {
     private static final Logger logger = LoggerFactory.getLogger(CalXcorr.class);
 
     public static void calXcorr(Peptide peptide, SparseVector expXcorrPl, FinalResultEntry psm, MassTool massToolObj, Map<String, LinkedList<PeptideScore>> modSequences) {
-        SparseBooleanVector theoIonVector = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge());
-        double xcorr = theoIonVector.dot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
+        double xcorr = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
         if (xcorr > 0) {
             if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && psm.isDecoy() && (!peptide.isDecoy()))) {
                 psm.setPeptide(peptide);
