@@ -95,7 +95,7 @@ public class PIPI {
             ext = temp[temp.length - 1];
             if (ext.contentEquals("mzXML")) {
                 spectraParser = new MzXMLFile(spectraFile);
-            } else if (ext.contentEquals("mgf")) {
+            } else if (ext.toLowerCase().contentEquals("mgf")) {
                 spectraParser = new MgfFile(spectraFile);
             } else {
                 logger.error("Unsupported file format {}.", ext);

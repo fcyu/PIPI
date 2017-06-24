@@ -53,10 +53,10 @@ public class PreSpectra {
 
             int scanNum = Integer.valueOf(spectrum.getId());
             try {
-                if (ext.contentEquals("mgf")) {
                     String title = ((Ms2Query) spectrum).getTitle();
                     String[] temp = title.split("\\.");
                     scanNum = Integer.valueOf(temp[temp.length - 2]);
+                if (ext.toLowerCase().contentEquals("mgf")) {
                 }
             } catch (Exception ex) {}
 
