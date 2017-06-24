@@ -10,6 +10,7 @@ public class FinalResultEntry {
     private final int scanNum;
     private final int charge;
     private final float precursorMz;
+    private final String mgtTitle;
     private LinkedList<Double> scoreList = new LinkedList<>();
     private Peptide peptide;
     private double normalizedCrossXcorr;
@@ -21,10 +22,15 @@ public class FinalResultEntry {
 
     private float qValue = -1;
 
-    public FinalResultEntry(int scanNum, int charge, float precursorMz) {
+    public FinalResultEntry(int scanNum, int charge, float precursorMz, String mgtTitle) {
         this.scanNum = scanNum;
         this.charge = charge;
         this.precursorMz = precursorMz;
+        this.mgtTitle = mgtTitle;
+    }
+
+    public String getMgtTitle() {
+        return mgtTitle;
     }
 
     public double getScore() {

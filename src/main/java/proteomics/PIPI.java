@@ -127,7 +127,7 @@ public class PIPI {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
                     if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
-                        SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)));
+                        SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)),spectrumEntry.mgfTitle);
                         taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
                     }
                 }
@@ -336,7 +336,7 @@ public class PIPI {
     private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<Character, Float> fixModMap, Map<String, Peptide0> peptide0Map) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
-            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,delta_C,ptm_delta_score,protein_ID,xcorr,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value,other_PTM_patterns\n");
+            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,delta_C,ptm_delta_score,protein_ID,xcorr,naive_q_value,percolator_score,posterior_error_prob,percolator_q_value,other_PTM_patterns,MGF_title\n");
             for (FinalResultEntry entry : finalScoredPsms) {
                 if (!entry.isDecoy()) {
                     int scanNum = entry.getScanNum();
@@ -368,10 +368,10 @@ public class PIPI {
                     boolean sortedByPercolatorScore = true;
                     if (percolatorResultMap.containsKey(scanNum)) {
                         PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.4f,%.4f,%s,%.4f,%.4f,%.3f,%s,%s,%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), sb.toString(), entry.getScore(), entry.getQValue(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, otherPtmPatterns.toString());
+                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.4f,%.4f,%s,%.4f,%.4f,%.3f,%s,%s,%s,\"%s\"\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), sb.toString(), entry.getScore(), entry.getQValue(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, otherPtmPatterns.toString(), entry.getMgtTitle());
                     } else {
                         sortedByPercolatorScore = false;
-                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.4f,%.4f,%s,%.4f,%.4f,%s,%s,%s,%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), sb.toString(), entry.getScore(), entry.getQValue() , "-", "-", "-", otherPtmPatterns.toString());
+                        str = String.format("%d,%s,%d,%.4f,%.4f,%.2f,%.4f,%.4f,%s,%.4f,%.4f,%s,%s,%s,%s,\"%s\"\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, entry.getDeltaC(), entry.getPtmDeltasScore(), sb.toString(), entry.getScore(), entry.getQValue() , "-", "-", "-", otherPtmPatterns.toString(), entry.getMgtTitle());
                     }
 
                     if (sortedByPercolatorScore) {

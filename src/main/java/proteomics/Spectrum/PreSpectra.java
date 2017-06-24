@@ -12,10 +12,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PreSpectra {
 
     private static final Logger logger = LoggerFactory.getLogger(PreSpectra.class);
+    private static final Pattern scanNumPattern1 = Pattern.compile("Scan:([0-9]+) ");
+    private static final Pattern scanNumPattern2 = Pattern.compile("^[^.]+\\.([0-9]+)\\.[0-9]+\\.[0-9]");
 
     private Map<Integer, SpectrumEntry> numSpectrumMap = new HashMap<>();
 
@@ -51,14 +55,29 @@ public class PreSpectra {
                 continue;
             }
 
-            int scanNum = Integer.valueOf(spectrum.getId());
+            int scanNum = -1;
+            String mgfTitle = "";
             try {
-                    String title = ((Ms2Query) spectrum).getTitle();
-                    String[] temp = title.split("\\.");
-                    scanNum = Integer.valueOf(temp[temp.length - 2]);
                 if (ext.toLowerCase().contentEquals("mgf")) {
+                    mgfTitle = ((Ms2Query) spectrum).getTitle();
+                    Matcher matcher1 = scanNumPattern1.matcher(mgfTitle);
+                    Matcher matcher2 = scanNumPattern2.matcher(mgfTitle);
+                    if (matcher1.find()) {
+                        scanNum = Integer.valueOf(matcher1.group(1));
+                    } else if (matcher2.find()) {
+                        scanNum = Integer.valueOf(matcher2.group(1));
+                    } else {
+                        logger.error("Cannot get scan number from the MGF title {}. PIPI only support the MGF files converted from ProteoWizard or ReAdw4Mascot4.", mgfTitle);
+                        System.exit(1);
+                    }
+                } else {
+                    scanNum = Integer.valueOf(spectrum.getId());
                 }
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error(ex.getMessage());
+                System.exit(1);
+            }
 
             float precursorMz = spectrum.getPrecursorMZ().floatValue();
 
@@ -79,7 +98,7 @@ public class PreSpectra {
                         unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
                     }
                 }
-                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap);
+                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap, mgfTitle);
             } else {
                 precursorCharge = spectrum.getPrecursorCharge();
                 if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
@@ -99,7 +118,7 @@ public class PreSpectra {
                         unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
                     }
                 }
-                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap);
+                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap, mgfTitle);
             }
 
             numSpectrumMap.put(scanNum, spectrumEntry);
