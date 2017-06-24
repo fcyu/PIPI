@@ -24,7 +24,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
     private Set<String> checkedSequenceSet = new HashSet<>(maxPermutationNum * 2 + 50, 1); // record checked sequence to avoid recording the same sequence twice
     private Map<String, LinkedList<PeptideScore>> modSequences = new HashMap<>(15, 1);
 
-    public GeneratePtmCandidatesCalculateXcorr(SpectrumEntry spectrumEntry, MassTool massToolObj, Set<VarModParam> varModParamSet, Map<Character, Float> fixModMap, float ms2Tolerance, int maxMs2Charge, SparseVector expXcorrPl, int scanNum, int precursorCharge, float precursorMz) {
+    public GeneratePtmCandidatesCalculateXcorr(SpectrumEntry spectrumEntry, MassTool massToolObj, Set<VarModParam> varModParamSet, Map<Character, Float> fixModMap, float ms2Tolerance, int maxMs2Charge, SparseVector expXcorrPl) {
         this.spectrumEntry = spectrumEntry;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
@@ -32,7 +32,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         this.varModParamSet = varModParamSet;
         this.fixModMap = fixModMap;
         this.expXcorrPl = expXcorrPl;
-        psm = new FinalResultEntry(scanNum, precursorCharge, precursorMz);
+        psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle);
     }
 
     public Set<Peptide> eliminateMissedCleavageCausedPtms(List<Peptide> ptmFreeCandidates, List<Peptide> ptmOnlyCandidates) {
