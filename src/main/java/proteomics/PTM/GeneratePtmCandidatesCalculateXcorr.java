@@ -331,7 +331,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         if (Math.abs(deltaMass) >= tolerance) {
             if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
                 // there are one more unknown modification
-                AA[] aaArray = massToolObj.seqToAAList(varSeq);
+                AA[] aaArray = MassTool.seqToAAList(varSeq);
                 if (isDeltaMassMeaningful(aaArray, deltaMass, tolerance)) {
                     for (int k = 0; k < aaArray.length; ++k) {
                         if (!aaArray[k].hasMod() && !fixModIdxes.contains(k)) {
@@ -355,7 +355,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
             }
         } else if (!checkedSequenceSet.contains(varSeq)) {
             PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
-            AA[] aaArray = massToolObj.seqToAAList(varSeq);
+            AA[] aaArray = MassTool.seqToAAList(varSeq);
             for (int k = 0; k < aaArray.length; ++k) {
                 if (aaArray[k].hasMod()) {
                     positionDeltaMassMap.put(new Coordinate(k, k + 1), aaArray[k].ptmDeltaMass);

@@ -78,7 +78,7 @@ public class MassTool {
         return (float) total_mass;
     }
 
-    public AA[] seqToAAList(String seq) {
+    public static AA[] seqToAAList(String seq) {
         Matcher matcher = mod_aa_pattern.matcher(seq);
         List<AA> temp = new LinkedList<>();
         while (matcher.find()) {
