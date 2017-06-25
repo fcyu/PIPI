@@ -358,9 +358,12 @@ public class PIPI {
                     if (entry.getPtmPatterns().size() <= 1) {
                         otherPtmPatterns.append("-");
                     } else {
-                        LinkedList<PeptideScore> tempList = entry.getPtmPatterns();
-                        for (int i = 1; i < tempList.size(); ++i) {
-                            otherPtmPatterns.append(String.format("%s-%.4f;", tempList.get(i).peptide.getPtmContainingSeq(fixModMap), tempList.get(i).score));
+                        TreeSet<PeptideScore> tempList = entry.getPtmPatterns();
+                        Iterator<PeptideScore> it = entry.getPtmPatterns().iterator();
+                        it.next();
+                        while (it.hasNext()) {
+                            PeptideScore temp = it.next();
+                            otherPtmPatterns.append(String.format("%s-%.4f;", temp.peptide.getPtmContainingSeq(fixModMap), temp.score));
                         }
                     }
 

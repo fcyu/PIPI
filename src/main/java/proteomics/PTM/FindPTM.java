@@ -101,7 +101,7 @@ public class FindPTM {
         }
 
         // find gaps
-        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap();
+        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(peptide.getPTMFreeSeq().length());
         float totalDeltaMass = 0;
         for (ExpAA aa : alignedResult) {
             if (aa.getMod() > 0) {
@@ -198,7 +198,7 @@ public class FindPTM {
         }
 
         if (!positionGapMap.isEmpty()) {
-            PositionDeltaMassMap newPositionGapMap = new PositionDeltaMassMap();
+            PositionDeltaMassMap newPositionGapMap = new PositionDeltaMassMap(positionGapMap.peptideLength);
             for (Coordinate coordinate : positionGapMap.keySet()) {
                 if (coordinate.y - coordinate.x == 1) {
                     newPositionGapMap.put(new Coordinate(coordinate.x, coordinate.y), positionGapMap.get(coordinate));

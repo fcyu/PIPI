@@ -11,14 +11,14 @@ public class FinalResultEntry {
     private final int charge;
     private final float precursorMz;
     private final String mgtTitle;
-    private LinkedList<Double> scoreList = new LinkedList<>();
+    private TreeSet<PeptideScore> peptideScoreList = new TreeSet<>(Collections.reverseOrder());
     private Peptide peptide;
     private double normalizedCrossXcorr;
     private int globalSearchRank;
     private double ionFrac;
     private double matchedHighestIntensityFrac;
     private double ptmDeltasScore;
-    private LinkedList<PeptideScore> ptmPatterns;
+    private TreeSet<PeptideScore> ptmPatterns;
 
     private float qValue = -1;
 
@@ -34,11 +34,11 @@ public class FinalResultEntry {
     }
 
     public double getScore() {
-        return scoreList.peekFirst();
+        return peptideScoreList.first().score;
     }
 
     public boolean noScore() {
-        return scoreList.isEmpty();
+        return peptideScoreList.isEmpty();
     }
 
     public Peptide getPeptide() {
@@ -50,18 +50,19 @@ public class FinalResultEntry {
     }
 
     public double getDeltaC() {
-        if (scoreList.size() < 2) {
+        if (peptideScoreList.size() < 2) {
             return 1;
         } else {
-            return (scoreList.peekFirst() - scoreList.get(1)) / scoreList.peekFirst();
+            Iterator<PeptideScore> it = peptideScoreList.iterator();
+            return (it.next().score - it.next().score) / peptideScoreList.first().score;
         }
     }
 
     public double getDeltaLC() {
-        if (scoreList.size() < 2) {
+        if (peptideScoreList.size() < 2) {
             return 1;
         } else {
-            return (scoreList.peekFirst() - scoreList.peekLast()) / scoreList.peekFirst();
+            return (peptideScoreList.first().score - peptideScoreList.last().score) / peptideScoreList.first().score;
         }
     }
 
@@ -77,14 +78,12 @@ public class FinalResultEntry {
         return precursorMz;
     }
 
-    public void addScore(double score) {
-        if (scoreList.size() < scoreNum) {
-            scoreList.add(score);
-            scoreList.sort(Collections.reverseOrder());
-        } else if (score > scoreList.peekLast()) {
-            scoreList.pollLast();
-            scoreList.add(score);
-            scoreList.sort(Collections.reverseOrder());
+    public void addScore(PeptideScore peptideScore) {
+        if (peptideScoreList.size() < scoreNum) {
+            peptideScoreList.add(peptideScore);
+        } else if (peptideScore.score > peptideScoreList.last().score) {
+            peptideScoreList.pollLast();
+            peptideScoreList.add(peptideScore);
         }
     }
 
@@ -140,11 +139,11 @@ public class FinalResultEntry {
         return ptmDeltasScore;
     }
 
-    public void setPtmPatterns(LinkedList<PeptideScore> ptmPatterns) {
+    public void setPtmPatterns(TreeSet<PeptideScore> ptmPatterns) {
         this.ptmPatterns = ptmPatterns;
     }
 
-    public LinkedList<PeptideScore> getPtmPatterns() {
+    public TreeSet<PeptideScore> getPtmPatterns() {
         return ptmPatterns;
     }
 }

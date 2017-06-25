@@ -5,8 +5,11 @@ import java.util.TreeMap;
 
 public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
 
-    public PositionDeltaMassMap() {
+    public final int peptideLength;
+
+    public PositionDeltaMassMap(int peptideLength) {
         super();
+        this.peptideLength = peptideLength;
     }
 
     public String toString() {
@@ -14,7 +17,20 @@ public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
         for (Coordinate co : this.keySet()) {
             sb.append(String.format("%.1f", this.get(co)));
             sb.append("@");
-            sb.append(co.toString());
+            if ((co.x == 0) || (co.x == 1)) {
+                sb.append("([01]-");
+                sb.append(co.y);
+                sb.append(")");
+            } else if ((co.y == peptideLength) || (co.y == peptideLength - 1)){
+                sb.append("(");
+                sb.append(co.x);
+                sb.append("-[");
+                sb.append(peptideLength - 1);
+                sb.append(peptideLength);
+                sb.append("])");
+            } else {
+                sb.append(co.toString());
+            }
             sb.append(";");
         }
         return sb.toString();
@@ -34,7 +50,7 @@ public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
     }
 
     public PositionDeltaMassMap clone() {
-        PositionDeltaMassMap other = new PositionDeltaMassMap();
+        PositionDeltaMassMap other = new PositionDeltaMassMap(peptideLength);
         other.clear();
         for (Coordinate co : this.keySet()) {
             other.put(co, this.get(co));
