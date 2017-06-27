@@ -90,7 +90,7 @@ public class InferenceSegment {
                             modifiedAAMap.put(tempMass, temp[1]);
                             modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
                         }
-                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0)));
+                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0), false));
                     }
                 }
             } else if (k.contentEquals("pepNterm")) {
@@ -101,7 +101,7 @@ public class InferenceSegment {
                         pepNTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             pepNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n'));
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', false));
                         }
                     }
                 }
@@ -113,7 +113,7 @@ public class InferenceSegment {
                         pepCTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             pepCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c'));
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', false));
                         }
                     }
                 }
@@ -124,7 +124,7 @@ public class InferenceSegment {
                         proNTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             proNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n')); // to be improve: we don't distinguish protein and peptide N-term
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', true));
                         }
                     }
                 }
@@ -135,7 +135,7 @@ public class InferenceSegment {
                         proCTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             proCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c')); // to be improve: we don't distinguish protein and peptide C-term
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', true));
                         }
                     }
                 }

@@ -5,12 +5,14 @@ public class VarModParam {
 
     public final float modMass;
     public final char aa;
+    public final boolean proteinTerminal;
     public final String toString;
 
-    public VarModParam(float modMass, char aa) {
+    public VarModParam(float modMass, char aa, boolean proteinTerminal) {
         this.modMass = modMass;
         this.aa = aa;
-        toString = modMass + "@" + aa;
+        this.proteinTerminal = proteinTerminal;
+        toString = modMass + "@" + aa + proteinTerminal;
     }
 
     public String toString() {
@@ -24,7 +26,7 @@ public class VarModParam {
     public boolean equals(Object other) {
         if (other instanceof VarModParam) {
             VarModParam temp = (VarModParam) other;
-            return (Math.abs(temp.modMass - modMass) <= 0.01) && (temp.aa == aa);
+            return (Math.abs(temp.modMass - modMass) <= 0.01) && (temp.aa == aa) && (temp.proteinTerminal == proteinTerminal);
         } else {
             return false;
         }

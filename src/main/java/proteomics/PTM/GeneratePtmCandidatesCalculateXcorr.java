@@ -106,12 +106,21 @@ public class GeneratePtmCandidatesCalculateXcorr {
                         char aa = ptmFreeSequence.charAt(i);
                         for (VarModParam varModParam : varModParamSet) {
                             if (varModParam.aa == aa) {
-                                if (idxVarModMassMap.containsKey(i)) {
-                                    idxVarModMassMap.get(i).add(varModParam.modMass);
-                                } else {
-                                    List<Float> temp = new LinkedList<>();
-                                    temp.add(varModParam.modMass);
-                                    idxVarModMassMap.put(i, temp);
+                                boolean record = true;
+                                if (varModParam.proteinTerminal) {
+                                    // check the protein terminal criteria
+                                    if (((varModParam.aa == 'n') && (candidate.getLeftFlank() != '-')) || ((varModParam.aa == 'c') && (candidate.getRightFlank() != '-'))) {
+                                        record = false;
+                                    }
+                                }
+                                if (record) {
+                                    if (idxVarModMassMap.containsKey(i)) {
+                                        idxVarModMassMap.get(i).add(varModParam.modMass);
+                                    } else {
+                                        List<Float> temp = new LinkedList<>();
+                                        temp.add(varModParam.modMass);
+                                        idxVarModMassMap.put(i, temp);
+                                    }
                                 }
                             }
                         }
