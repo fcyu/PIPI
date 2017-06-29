@@ -214,7 +214,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
 
             // permutate modification masses inferred from dynamic programming
             for (Peptide candidate : candidates) {
-                if (candidate.hasVarPTM()) {
+                if (candidate.hasVarPTM() && (candidate.getVarPTMNum() > 1)) { // One PTM case has already been considered before.
                     Set<Integer> fixModIdxes = getFixModIdxes(candidate.getPTMFreeSeq(), fixModMap);
                     int permutationNum = 0;
                     boolean stop = false;
