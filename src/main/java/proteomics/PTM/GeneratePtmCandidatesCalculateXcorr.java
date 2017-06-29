@@ -81,7 +81,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                     float ptmFreePrecursorMass = massToolObj.calResidueMass(candidate.getPTMFreeSeq()) + MassTool.H2O;
                     // having only one unknown modification
                     float deltaMass = spectrumEntry.precursorMass - ptmFreePrecursorMass;
-                    if (deltaMass >= tolerance) {
+                    if (Math.abs(deltaMass) >= tolerance) {
                         if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
                             for (int i = 1; i < candidate.getPTMFreeSeq().length() - 1; ++i) { // Don't try N-term and C-term because they are the same as the first and the last amino acids in terms of producing spectrum.
                                 if (!fixModIdxes.contains(i)) {
