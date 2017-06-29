@@ -28,6 +28,8 @@ public class PIPI {
     public static final String versionStr = "1.3.0-dev";
 
     public static final boolean DEV = false;
+    public static final boolean debug = false;
+    public static final int[] debugScanNumArray = new int[]{};
 
     public static void main(String args[]) {
         // Process inputs
@@ -120,6 +122,11 @@ public class PIPI {
 
         List<Future<FinalResultEntry>> taskList = new LinkedList<>();
         for (int scanNum : numSpectrumMap.keySet()) {
+            if (debug) {
+                if (Arrays.binarySearch(debugScanNumArray, scanNum) < 0) {
+                    continue;
+                }
+            }
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
                 taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
