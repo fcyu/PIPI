@@ -28,8 +28,7 @@ public class PIPI {
     public static final String versionStr = "1.3.0-dev";
 
     public static final boolean DEV = false;
-    public static final boolean debug = false;
-    public static final int[] debugScanNumArray = new int[]{};
+    private static final int[] debugScanNumArray = new int[]{};
 
     public static void main(String args[]) {
         // Process inputs
@@ -122,7 +121,7 @@ public class PIPI {
 
         List<Future<FinalResultEntry>> taskList = new LinkedList<>();
         for (int scanNum : numSpectrumMap.keySet()) {
-            if (debug) {
+            if (debugScanNumArray.length > 0) {
                 if (Arrays.binarySearch(debugScanNumArray, scanNum) < 0) {
                     continue;
                 }
