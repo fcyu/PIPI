@@ -34,15 +34,20 @@ public class PeptideScore implements Comparable<PeptideScore> {
             } else if (peptide.getVarPTMNum() > other.peptide.getVarPTMNum()) {
                 return -1;
             } else {
-                return 0;
+                if (hashCode > other.hashCode) {
+                    return 1;
+                } else if (hashCode < other.hashCode) {
+                    return -1;
+                } else {
+                    return 0;
+                }
             }
         }
     }
 
     public boolean equals(Object other) {
         if (other instanceof PeptideScore) {
-            PeptideScore temp = (PeptideScore) other;
-            return peptide.equals(temp.peptide) && (score == temp.score);
+            return hashCode == ((PeptideScore) other).hashCode;
         } else {
             return false;
         }
