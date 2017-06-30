@@ -92,6 +92,20 @@ public class PreSpectrum {
         return xcorrPl;
     }
 
+    public SparseVector prepareDigitizedPL(TreeMap<Float, Float> unprocessedPlMap) {
+        float[] plArray = digitizeSpec(normalizeSpec(unprocessedPlMap));
+
+        SparseVector digitizedPL = new SparseVector();
+
+        for (int i = 1; i < plArray.length; ++i) {
+            if (Math.abs(plArray[i]) > 1e-6) {
+                digitizedPL.put(i, plArray[i]);
+            }
+        }
+
+        return digitizedPL;
+    }
+
     private TreeMap<Float, Float> removeCertainPeaks(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         TreeMap<Float, Float> mzIntensityMap = new TreeMap<>();
 
