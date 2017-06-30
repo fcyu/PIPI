@@ -19,7 +19,7 @@ public class Peptide implements Comparable<Peptide> {
     private final char leftFlank;
     private final char rightFlank;
     private final int globalRank;
-    private final double normalizedCrossXcorr;
+    private final double normalizedCrossCorrelationCoefficient;
     private PositionDeltaMassMap varPTMMap = null;
 
     private String toString;
@@ -32,11 +32,11 @@ public class Peptide implements Comparable<Peptide> {
     private String varPtmContainingSeq = null;
     private String ptmContainingSeq = null;
 
-    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossXcorr, char leftFlank, char rightFlank, int globalRank) {
+    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank) {
         this.ptmFreeSeq = ptmFreeSeq;
         this.isDecoy = isDecoy;
         this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
-        this.normalizedCrossXcorr = normalizedCrossXcorr;
+        this.normalizedCrossCorrelationCoefficient = normalizedCrossCorrelationCoefficient;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
         this.leftFlank = leftFlank;
@@ -97,7 +97,7 @@ public class Peptide implements Comparable<Peptide> {
     public Peptide clone() {
         Peptide other = null;
         try {
-            other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossXcorr, leftFlank, rightFlank, globalRank);
+            other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, leftFlank, rightFlank, globalRank);
             if (varPTMMap != null) {
                 other.setVarPTM(varPTMMap.clone());
             }
@@ -230,13 +230,13 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public double getNormalizedCrossCorr() {
-        return normalizedCrossXcorr;
+        return normalizedCrossCorrelationCoefficient;
     }
 
     public int compareTo(Peptide peptide) {
-        if (normalizedCrossXcorr > peptide.getNormalizedCrossCorr()) {
+        if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
             return 1;
-        } else if (normalizedCrossXcorr < peptide.getNormalizedCrossCorr()) {
+        } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
             return -1;
         } else {
             return 0;

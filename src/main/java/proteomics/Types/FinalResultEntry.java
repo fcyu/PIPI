@@ -13,7 +13,7 @@ public class FinalResultEntry {
     private final String mgtTitle;
     private TreeSet<PeptideScore> peptideScoreList = new TreeSet<>(Collections.reverseOrder());
     private Peptide peptide;
-    private double normalizedCrossXcorr;
+    private double normalizedCrossCorrelationCoefficient;
     private int globalSearchRank;
     private double ionFrac;
     private double matchedHighestIntensityFrac;
@@ -99,16 +99,16 @@ public class FinalResultEntry {
         return qValue;
     }
 
-    public void setNormalizedCrossXcorr(double normalizedCrossXcorr) {
-        this.normalizedCrossXcorr = normalizedCrossXcorr;
+    public void setNormalizedCrossCorrelationCoefficient(double normalizedCrossCorrelationCoefficient) {
+        this.normalizedCrossCorrelationCoefficient = normalizedCrossCorrelationCoefficient;
     }
 
     public void setGlobalSearchRank(int rank) {
         globalSearchRank = rank;
     }
 
-    public double getNormalizedCrossXcorr() {
-        return normalizedCrossXcorr;
+    public double getNormalizedCrossCorrelationCoefficient() {
+        return normalizedCrossCorrelationCoefficient;
     }
 
     public int getGlobalSearchRank() {

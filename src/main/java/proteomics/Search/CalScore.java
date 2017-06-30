@@ -8,19 +8,19 @@ import proteomics.Types.*;
 
 import java.util.*;
 
-public class CalXcorr {
+public class CalScore {
 
-    private static final Logger logger = LoggerFactory.getLogger(CalXcorr.class);
+    private static final Logger logger = LoggerFactory.getLogger(CalScore.class);
 
-    public static void calXcorr(Peptide peptide, SparseVector expXcorrPl, FinalResultEntry psm, MassTool massToolObj, Map<String, TreeSet<PeptideScore>> modSequences) {
-        double xcorr = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expXcorrPl) * 0.25; // scaling the xcorr to original SEQUEST type.
-        if (xcorr > 0) {
-            if (psm.noScore() || (xcorr > psm.getScore()) || ((xcorr == psm.getScore()) && (peptide.getVarPTMNum() < psm.getPeptide().getVarPTMNum()))) {
+    public static void calScore(Peptide peptide, SparseVector expProcessedPL, FinalResultEntry psm, MassTool massToolObj, Map<String, TreeSet<PeptideScore>> modSequences) {
+        double score = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.
+        if (score > 0) {
+            if (psm.noScore() || (score > psm.getScore()) || ((score == psm.getScore()) && (peptide.getVarPTMNum() < psm.getPeptide().getVarPTMNum()))) {
                 psm.setPeptide(peptide);
                 psm.setGlobalSearchRank(peptide.getGlobalRank());
-                psm.setNormalizedCrossXcorr(peptide.getNormalizedCrossCorr());
+                psm.setNormalizedCrossCorrelationCoefficient(peptide.getNormalizedCrossCorr());
             }
-            PeptideScore peptideScore = new PeptideScore(xcorr, peptide);
+            PeptideScore peptideScore = new PeptideScore(score, peptide);
             psm.addScore(peptideScore);
 
             if (peptide.hasVarPTM()) {
@@ -29,7 +29,7 @@ public class CalXcorr {
                     TreeSet<PeptideScore> temp = modSequences.get(peptide.getPTMFreeSeq());
                     if (temp.size() < 5) {
                         temp.add(peptideScore);
-                    } else if (xcorr > temp.last().score) {
+                    } else if (score > temp.last().score) {
                         temp.pollLast();
                         temp.add(peptideScore);
                     }

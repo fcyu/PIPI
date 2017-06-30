@@ -2,13 +2,13 @@ package proteomics.PTM;
 
 
 import org.apache.commons.math3.util.CombinatoricsUtils;
-import proteomics.Search.CalXcorr;
+import proteomics.Search.CalScore;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
 import java.util.*;
 
-public class GeneratePtmCandidatesCalculateXcorr {
+public class GeneratePtmCandidatesCalculateScore {
 
     private static final int globalVarModMaxNum = 5; // This value cannot be larger than 5. Otherwise, change generateLocalIdxModMassMap accordingly.
     private static final int maxPermutationNum = 1000;
@@ -19,19 +19,19 @@ public class GeneratePtmCandidatesCalculateXcorr {
     private final float tolerance;
     private final Set<VarModParam> varModParamSet;
     private final Map<Character, Float> fixModMap;
-    private final SparseVector expXcorrPl;
+    private final SparseVector expProcessedPL;
     private FinalResultEntry psm;
     private Set<Peptide> checkedSequenceSet = new HashSet<>(maxPermutationNum * 2 + 50, 1); // record checked sequence to avoid recording the same sequence twice
     private Map<String, TreeSet<PeptideScore>> modSequences = new HashMap<>(15, 1);
 
-    public GeneratePtmCandidatesCalculateXcorr(SpectrumEntry spectrumEntry, MassTool massToolObj, Set<VarModParam> varModParamSet, Map<Character, Float> fixModMap, float ms2Tolerance, int maxMs2Charge, SparseVector expXcorrPl) {
+    public GeneratePtmCandidatesCalculateScore(SpectrumEntry spectrumEntry, MassTool massToolObj, Set<VarModParam> varModParamSet, Map<Character, Float> fixModMap, float ms2Tolerance, int maxMs2Charge, SparseVector expProcessedPL) {
         this.spectrumEntry = spectrumEntry;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
-        tolerance = Math.max(ms2Tolerance, 0.5f);
+        tolerance = Math.max(ms2Tolerance, 0.1f);
         this.varModParamSet = varModParamSet;
         this.fixModMap = fixModMap;
-        this.expXcorrPl = expXcorrPl;
+        this.expProcessedPL = expProcessedPL;
         psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle);
     }
 
@@ -71,7 +71,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         return candidates;
     }
 
-    public FinalResultEntry generateAllPtmCandidatesCalculateXcorr(Set<Peptide> candidates) {
+    public FinalResultEntry generateAllPtmCandidatesCalculateScore(Set<Peptide> candidates) {
         // Add all PTM sequence given known variable modifications.
         if (!candidates.isEmpty()) {
             for (Peptide candidate : candidates) {
@@ -90,7 +90,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                                     Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                                     peptideObj.setVarPTM(positionDeltaMassMap);
                                     if (!checkedSequenceSet.contains(peptideObj)) {
-                                        CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                        CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                                         checkedSequenceSet.add(peptideObj);
                                     }
                                 }
@@ -241,7 +241,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                                 Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                                 peptideObj.setVarPTM(positionDeltaMassMap);
                                 if (!checkedSequenceSet.contains(peptideObj)) {
-                                    CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                    CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                                     checkedSequenceSet.add(peptideObj);
                                     ++permutationNum;
                                     if (permutationNum > maxPermutationNum) {
@@ -336,7 +336,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
         }
         String varSeq = sb.toString();
 
-        // Calculate XCorr
+        // Calculate Score
         float seqMass = massToolObj.calResidueMass(varSeq) + MassTool.H2O;
         float deltaMass = spectrumEntry.precursorMass - seqMass;
         if (Math.abs(deltaMass) >= tolerance) {
@@ -363,7 +363,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
                             Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                             peptideObj.setVarPTM(positionDeltaMassMap);
                             if (!checkedSequenceSet.contains(peptideObj)) {
-                                CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                                CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                                 checkedSequenceSet.add(peptideObj);
                                 ++permutationNum;
                                 if (k == 0) {
@@ -387,7 +387,7 @@ public class GeneratePtmCandidatesCalculateXcorr {
             Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
             peptideObj.setVarPTM(positionDeltaMassMap);
             if (!checkedSequenceSet.contains(peptideObj)) {
-                CalXcorr.calXcorr(peptideObj, expXcorrPl, psm, massToolObj, modSequences);
+                CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                 checkedSequenceSet.add(peptideObj);
                 ++permutationNum;
             }
