@@ -26,7 +26,7 @@ public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
     public static final String versionStr = "1.3.0-dev";
-    public static final boolean useXcorr = false;
+    public static final boolean useXcorr = true;
 
     public static final boolean DEV = false;
     private static final int[] debugScanNumArray = new int[]{};
