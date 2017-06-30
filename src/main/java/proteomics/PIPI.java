@@ -365,7 +365,6 @@ public class PIPI {
                     if (entry.getPtmPatterns().size() <= 1) {
                         otherPtmPatterns.append("-");
                     } else {
-                        TreeSet<PeptideScore> tempList = entry.getPtmPatterns();
                         Iterator<PeptideScore> it = entry.getPtmPatterns().iterator();
                         it.next();
                         while (it.hasNext()) {
