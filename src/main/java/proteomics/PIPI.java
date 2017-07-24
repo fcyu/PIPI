@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
-    public static final String versionStr = "1.3.0-dev";
+    public static final String versionStr = "1.3.0";
     public static final boolean useXcorr = true;
 
     public static final boolean DEV = false;
