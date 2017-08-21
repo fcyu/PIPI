@@ -21,6 +21,7 @@ public class Peptide implements Comparable<Peptide> {
     private final int globalRank;
     private final double normalizedCrossCorrelationCoefficient;
     private PositionDeltaMassMap varPTMMap = null;
+    private int unknownPtmNum = 0;
 
     private String toString;
     private int hashCode;
@@ -100,6 +101,7 @@ public class Peptide implements Comparable<Peptide> {
             other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, leftFlank, rightFlank, globalRank);
             if (varPTMMap != null) {
                 other.setVarPTM(varPTMMap.clone());
+                other.setUnknownPtmNum(unknownPtmNum);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -151,6 +153,14 @@ public class Peptide implements Comparable<Peptide> {
         } else {
             return 0;
         }
+    }
+
+    public void setUnknownPtmNum(int unknownPtmNum) {
+        this.unknownPtmNum = unknownPtmNum;
+    }
+
+    public int getUnknownPtmNum() {
+        return unknownPtmNum;
     }
 
     public String getPTMFreeSeq() {

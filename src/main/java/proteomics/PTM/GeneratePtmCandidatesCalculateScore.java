@@ -89,6 +89,7 @@ public class GeneratePtmCandidatesCalculateScore {
                                     positionDeltaMassMap.put(new Coordinate(i, i + 1), deltaMass);
                                     Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                                     peptideObj.setVarPTM(positionDeltaMassMap);
+                                    peptideObj.setUnknownPtmNum(1);
                                     if (!checkedSequenceSet.contains(peptideObj)) {
                                         CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                                         checkedSequenceSet.add(peptideObj);
@@ -240,6 +241,7 @@ public class GeneratePtmCandidatesCalculateScore {
                                 }
                                 Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                                 peptideObj.setVarPTM(positionDeltaMassMap);
+                                peptideObj.setUnknownPtmNum(candidate.getUnknownPtmNum());
                                 if (!checkedSequenceSet.contains(peptideObj)) {
                                     CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                                     checkedSequenceSet.add(peptideObj);
@@ -296,7 +298,7 @@ public class GeneratePtmCandidatesCalculateScore {
         }
     }
 
-    private boolean isNewPtmMass(Set<VarModParam> varModParamSet, float mass, float tolerance) {
+    static boolean isNewPtmMass(Set<VarModParam> varModParamSet, float mass, float tolerance) {
         for (VarModParam varModParam : varModParamSet) {
             if (Math.abs(varModParam.modMass - mass) < tolerance) {
                 return false;
@@ -362,6 +364,7 @@ public class GeneratePtmCandidatesCalculateScore {
                             positionDeltaMassMap.put(new Coordinate(k, k + 1), deltaMass);
                             Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
                             peptideObj.setVarPTM(positionDeltaMassMap);
+                            peptideObj.setUnknownPtmNum(1);
                             if (!checkedSequenceSet.contains(peptideObj)) {
                                 CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                                 checkedSequenceSet.add(peptideObj);
@@ -386,6 +389,7 @@ public class GeneratePtmCandidatesCalculateScore {
             }
             Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
             peptideObj.setVarPTM(positionDeltaMassMap);
+            peptideObj.setUnknownPtmNum(0);
             if (!checkedSequenceSet.contains(peptideObj)) {
                 CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
                 checkedSequenceSet.add(peptideObj);

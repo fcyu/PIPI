@@ -31,7 +31,7 @@ public class FindPTM {
     private final float[] proCTermPossibleMod;
     private final Set<String> noResultScanPeptide = new HashSet<>();
 
-    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, Map<String, Float> modifiedAAMassMap, float[] pepNTermPossibleMod, float[] pepCTermPossibleMod, float[] proNTermPossibleMod, float[] proCTermPossibleMod, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
+    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, Map<String, Float> modifiedAAMassMap, float[] pepNTermPossibleMod, float[] pepCTermPossibleMod, float[] proNTermPossibleMod, float[] proCTermPossibleMod, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
@@ -51,6 +51,15 @@ public class FindPTM {
                 if (ptms != null) {
                     Peptide peptideWithPtm = peptide.clone();
                     peptideWithPtm.setVarPTM(ptms);
+
+                    int unknownPtmNum = 0;
+                    for (float ptmMass : ptms.values()) {
+                        if (GeneratePtmCandidatesCalculateScore.isNewPtmMass(varModParamSet, ptmMass, Math.max(ms2Tolerance, 0.1f))) {
+                            ++unknownPtmNum;
+                        }
+                    }
+                    peptideWithPtm.setUnknownPtmNum(unknownPtmNum);
+
                     peptideWithPtmList.add(peptideWithPtm);
                 } else if (PIPI.DEV) {
                     noResultScanPeptide.add(peptide.getPTMFreeSeq());

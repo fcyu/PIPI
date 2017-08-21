@@ -29,9 +29,9 @@ public class PeptideScore implements Comparable<PeptideScore> {
         } else if (score < other.score) {
             return -1;
         } else {
-            if (peptide.getVarPTMNum() < other.peptide.getVarPTMNum()) {
+            if (peptide.getUnknownPtmNum() < other.peptide.getUnknownPtmNum()) {
                 return 1;
-            } else if (peptide.getVarPTMNum() > other.peptide.getVarPTMNum()) {
+            } else if (peptide.getUnknownPtmNum() > other.peptide.getUnknownPtmNum()) {
                 return -1;
             } else {
                 if (hashCode > other.hashCode) {

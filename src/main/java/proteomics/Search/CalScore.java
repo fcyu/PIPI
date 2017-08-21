@@ -15,7 +15,7 @@ public class CalScore {
     public static void calScore(Peptide peptide, SparseVector expProcessedPL, FinalResultEntry psm, MassTool massToolObj, Map<String, TreeSet<PeptideScore>> modSequences) {
         double score = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.
         if (score > 0) {
-            if (psm.noScore() || (score > psm.getScore()) || ((score == psm.getScore()) && (peptide.getVarPTMNum() < psm.getPeptide().getVarPTMNum()))) {
+            if (psm.noScore() || (score > psm.getScore()) || ((score == psm.getScore()) && (peptide.getUnknownPtmNum() < psm.getPeptide().getUnknownPtmNum()))) {
                 psm.setPeptide(peptide);
                 psm.setGlobalSearchRank(peptide.getGlobalRank());
                 psm.setNormalizedCrossCorrelationCoefficient(peptide.getNormalizedCrossCorr());
