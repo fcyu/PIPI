@@ -142,7 +142,7 @@ public class BuildIndex {
                 }
 
                 // decoy peptides
-                String decoyPeptide = shuffleSeq2(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
+                String decoyPeptide = shuffleSeq(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
                 if (!decoyPeptide.isEmpty()) {
                     decoyPeptide = "n" + decoyPeptide + "c";
                     SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(decoyPeptide.substring(1, decoyPeptide.length() - 1)));
@@ -218,6 +218,23 @@ public class BuildIndex {
             decoySeq = String.valueOf(tempArray) + seq.substring(seq.length() - 1, seq.length());
             ++time;
         } while (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c") && (time < 10));
+        if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
+            return "";
+        } else {
+            return decoySeq;
+        }
+    }
+
+    private String shuffleSeq(String seq, Set<String> forCheckDuplicate) {
+        char[] tempArray = seq.substring(0, seq.length() - 1).toCharArray();
+        int idx = 0;
+        while (idx < tempArray.length - 1) {
+            char temp = tempArray[idx];
+            tempArray[idx] = tempArray[idx + 1];
+            tempArray[idx + 1] = temp;
+            idx += 2;
+        }
+        String decoySeq = String.valueOf(tempArray) + seq.substring(seq.length() - 1, seq.length());
         if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
             return "";
         } else {
