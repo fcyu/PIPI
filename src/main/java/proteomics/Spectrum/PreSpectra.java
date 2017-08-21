@@ -18,8 +18,9 @@ import java.util.regex.Pattern;
 public class PreSpectra {
 
     private static final Logger logger = LoggerFactory.getLogger(PreSpectra.class);
-    private static final Pattern scanNumPattern1 = Pattern.compile("Scan:([0-9]+) ");
-    private static final Pattern scanNumPattern2 = Pattern.compile("^[^.]+\\.([0-9]+)\\.[0-9]+\\.[0-9]");
+    private static final Pattern scanNumPattern1 = Pattern.compile("Scan:([0-9]+) ", Pattern.CASE_INSENSITIVE);
+    private static final Pattern scanNumPattern2 = Pattern.compile("scan=([0-9]+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern scanNumPattern3 = Pattern.compile("^[^.]+\\.([0-9]+)\\.[0-9]+\\.[0-9]");
 
     private Map<Integer, SpectrumEntry> numSpectrumMap = new HashMap<>();
 
@@ -62,12 +63,15 @@ public class PreSpectra {
                     mgfTitle = ((Ms2Query) spectrum).getTitle();
                     Matcher matcher1 = scanNumPattern1.matcher(mgfTitle);
                     Matcher matcher2 = scanNumPattern2.matcher(mgfTitle);
+                    Matcher matcher3 = scanNumPattern3.matcher(mgfTitle);
                     if (matcher1.find()) {
                         scanNum = Integer.valueOf(matcher1.group(1));
                     } else if (matcher2.find()) {
                         scanNum = Integer.valueOf(matcher2.group(1));
+                    } else if (matcher3.find()) {
+                        scanNum = Integer.valueOf(matcher3.group(1));
                     } else {
-                        logger.error("Cannot get scan number from the MGF title {}. PIPI only support the MGF files converted from ProteoWizard or ReAdw4Mascot4.", mgfTitle);
+                        logger.error("Cannot get scan number from the MGF title {}. Please report your MGF title to the author.", mgfTitle);
                         System.exit(1);
                     }
                 } else {
