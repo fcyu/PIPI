@@ -78,6 +78,12 @@ public class PIPI {
         float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
         float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
 
+        String[] tempArray = parameterMap.get("ms_level").split(",");
+        Set<Integer> msLevelSet = new HashSet<>(tempArray.length + 1, 1);
+        for (String temp : tempArray) {
+            msLevelSet.add(Integer.valueOf(temp));
+        }
+
         logger.info("Indexing protein database...");
         BuildIndex buildIndexObj = new BuildIndex(parameterMap);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
@@ -109,7 +115,7 @@ public class PIPI {
             System.exit(1);
         }
 
-        PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext);
+        PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet);
         Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
         logger.info("Useful MS/MS spectra number: {}", numSpectrumMap.size());
 

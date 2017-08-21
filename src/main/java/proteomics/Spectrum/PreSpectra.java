@@ -23,7 +23,7 @@ public class PreSpectra {
 
     private Map<Integer, SpectrumEntry> numSpectrumMap = new HashMap<>();
 
-    public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext) {
+    public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext, Set<Integer> msLevelSet) {
         int minMs1Charge = Integer.valueOf(parameterMap.get("min_ms1_charge"));
         int maxMs1Charge = Integer.valueOf(parameterMap.get("max_ms1_charge"));
         float minPrecursorMass =  Float.valueOf(parameterMap.get("min_precursor_mass"));
@@ -45,7 +45,7 @@ public class PreSpectra {
         while (spectrumIterator.hasNext()) {
             Spectrum spectrum = spectrumIterator.next();
 
-            if (spectrum.getMsLevel() != 2) {
+            if (!msLevelSet.contains(spectrum.getMsLevel())) {
                 continue;
             }
 

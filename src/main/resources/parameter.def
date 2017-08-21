@@ -16,6 +16,7 @@ max_ms2_charge = 3 # min ms2 charge is set to 1
 min_peak_num = 10
 min_potential_charge = 2 # the min precursor charge tried if there is no charge information for a MS/MS spectrum
 max_potential_charge = 4 # the max precursor charge tried if there is no charge information for a MS/MS spectrum
+ms_level = 2,3 # the searched MS level
 
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
