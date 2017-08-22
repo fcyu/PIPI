@@ -107,9 +107,11 @@ public class PreSpectra {
                     continue;
                 }
                 precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
-                if (precursorMass >= 400) {
+
+                if (precursorMass < 400) {
                     continue;
                 }
+
                 TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
                 if (plMap.size() <= minPeakNum) {
                     continue;
