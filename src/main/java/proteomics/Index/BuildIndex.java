@@ -79,28 +79,29 @@ public class BuildIndex {
                         continue;
                     }
 
-                    float mass = massToolObj.calResidueMass(peptide) + MassTool.H2O;
-                        // Add the sequence to the check set for decoy duplicate check
-                        forCheckDuplicate.add(peptide.replace('L', 'I')); // "L" and "I" have the same mass.
-
-                        // recode min and max peptide mass
-                        if (mass < minPeptideMass) {
-                            minPeptideMass = mass;
-                        }
-                        if (mass > maxPeptideMass) {
-                            maxPeptideMass = mass;
-                        }
-
-                        targetPeptideMassMap.put(peptide, mass);
-                        if (targetPeptideProteinMap.containsKey(peptide)) {
-                            Set<String> proteins = targetPeptideProteinMap.get(peptide);
-                            proteins.add(proId);
-                            targetPeptideProteinMap.put(peptide, proteins);
-                        } else {
                     if ((peptide.length() <= maxPeptideLength) && (peptide.length() >= minPeptideLength)) {
+                        if (!forCheckDuplicate.contains(peptide.replace('L', 'I'))) { // don't record duplicate peptide sequences
+                            // Add the sequence to the check set for duplicate check
+                            forCheckDuplicate.add(peptide.replace('L', 'I'));
+
+                            float mass = massToolObj.calResidueMass(peptide) + MassTool.H2O;
+                            // recode min and max peptide mass
+                            if (mass < minPeptideMass) {
+                                minPeptideMass = mass;
+                            }
+                            if (mass > maxPeptideMass) {
+                                maxPeptideMass = mass;
+                            }
+
+                            targetPeptideMassMap.put(peptide, mass);
                             Set<String> proteins = new HashSet<>(10, 1);
                             proteins.add(proId);
                             targetPeptideProteinMap.put(peptide, proteins);
+                        }
+
+                        // considering the case that the sequence has multiple proteins. In the above if clock, such a protein wasn't recorded.
+                        if (targetPeptideProteinMap.containsKey(peptide)) {
+                            targetPeptideProteinMap.get(peptide).add(proId);
                         }
                     }
                 }
@@ -145,6 +146,7 @@ public class BuildIndex {
                 String decoyPeptide = shuffleSeq(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
                 if (!decoyPeptide.isEmpty()) {
                     decoyPeptide = "n" + decoyPeptide + "c";
+                    forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
                     SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(decoyPeptide.substring(1, decoyPeptide.length() - 1)));
 
                     Set<String> decoyProteins = new HashSet<>(targetPeptideProteinMap.get(targetPeptide).size() + 1, 1);
