@@ -27,8 +27,6 @@ public class PreSpectra {
     public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext, Set<Integer> msLevelSet) {
         int minMs1Charge = Integer.valueOf(parameterMap.get("min_ms1_charge"));
         int maxMs1Charge = Integer.valueOf(parameterMap.get("max_ms1_charge"));
-        float minPrecursorMass =  Float.valueOf(parameterMap.get("min_precursor_mass"));
-        float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
@@ -109,7 +107,7 @@ public class PreSpectra {
                     continue;
                 }
                 precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
-                if ((precursorMass > maxPrecursorMass) || (precursorMass < minPrecursorMass)) {
+                if (precursorMass >= 400) {
                     continue;
                 }
                 TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);

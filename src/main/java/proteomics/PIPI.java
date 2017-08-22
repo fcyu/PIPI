@@ -75,8 +75,6 @@ public class PIPI {
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
         int minPotentialCharge = Integer.valueOf(parameterMap.get("min_potential_charge"));
         int maxPotentialCharge = Integer.valueOf(parameterMap.get("max_potential_charge"));
-        float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
-        float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
 
         String[] tempArray = parameterMap.get("ms_level").split(",");
         Set<Integer> msLevelSet = new HashSet<>(tempArray.length + 1, 1);
@@ -139,7 +137,7 @@ public class PIPI {
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
-                    if ((potentialPrecursorMass >= minPrecursorMass) && (potentialPrecursorMass <= maxPrecursorMass)) {
+                    if (potentialPrecursorMass >= 400) {
                         SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)),spectrumEntry.mgfTitle);
                         taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
                     }

@@ -6,8 +6,8 @@ percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please 
 # Database
 db = test.fasta
 missed_cleavage = 2 # maximum number of missed cleavage
-min_precursor_mass = 600
-max_precursor_mass = 5000 # for benchmarking comet
+min_peptide_length = 7
+max_peptide_length = 50
 
 # Spectrum
 min_ms1_charge = 1

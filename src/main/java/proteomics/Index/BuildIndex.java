@@ -24,8 +24,8 @@ public class BuildIndex {
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
     public BuildIndex(Map<String, String> parameterMap) {
         // initialize parameters
-        float minPrecursorMass = Float.valueOf(parameterMap.get("min_precursor_mass"));
-        float maxPrecursorMass = Float.valueOf(parameterMap.get("max_precursor_mass"));
+        int minPeptideLength = Integer.valueOf(parameterMap.get("min_peptide_length"));
+        int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
         String dbPath = parameterMap.get("db");
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
@@ -80,7 +80,6 @@ public class BuildIndex {
                     }
 
                     float mass = massToolObj.calResidueMass(peptide) + MassTool.H2O;
-                    if ((mass <= maxPrecursorMass) && (mass >= minPrecursorMass)) { // TODO: fix this bug
                         // Add the sequence to the check set for decoy duplicate check
                         forCheckDuplicate.add(peptide.replace('L', 'I')); // "L" and "I" have the same mass.
 
@@ -98,6 +97,7 @@ public class BuildIndex {
                             proteins.add(proId);
                             targetPeptideProteinMap.put(peptide, proteins);
                         } else {
+                    if ((peptide.length() <= maxPeptideLength) && (peptide.length() >= minPeptideLength)) {
                             Set<String> proteins = new HashSet<>(10, 1);
                             proteins.add(proId);
                             targetPeptideProteinMap.put(peptide, proteins);
