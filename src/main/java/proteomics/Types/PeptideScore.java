@@ -34,13 +34,7 @@ public class PeptideScore implements Comparable<PeptideScore> {
             } else if (peptide.getUnknownPtmNum() > other.peptide.getUnknownPtmNum()) {
                 return -1;
             } else {
-                if (hashCode > other.hashCode) {
-                    return 1;
-                } else if (hashCode < other.hashCode) {
-                    return -1;
-                } else {
-                    return 0;
-                }
+                return 0;
             }
         }
     }

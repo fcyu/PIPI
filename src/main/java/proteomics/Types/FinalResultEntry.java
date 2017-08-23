@@ -12,9 +12,6 @@ public class FinalResultEntry {
     private final float precursorMz;
     private final String mgtTitle;
     private TreeSet<PeptideScore> peptideScoreList = new TreeSet<>(Collections.reverseOrder());
-    private Peptide peptide;
-    private double normalizedCrossCorrelationCoefficient;
-    private int globalSearchRank;
     private double ionFrac;
     private double matchedHighestIntensityFrac;
     private double ptmDeltasScore;
@@ -42,11 +39,11 @@ public class FinalResultEntry {
     }
 
     public Peptide getPeptide() {
-        return peptide;
+        return peptideScoreList.first().peptide;
     }
     
     public boolean isDecoy() {
-        return peptide.isDecoy();
+        return peptideScoreList.first().peptide.isDecoy();
     }
 
     public double getDeltaC() {
@@ -87,10 +84,6 @@ public class FinalResultEntry {
         }
     }
 
-    public void setPeptide(Peptide peptide) {
-        this.peptide = peptide;
-    }
-
     public void setQValue(float qValue) {
         this.qValue = qValue;
     }
@@ -99,20 +92,12 @@ public class FinalResultEntry {
         return qValue;
     }
 
-    public void setNormalizedCrossCorrelationCoefficient(double normalizedCrossCorrelationCoefficient) {
-        this.normalizedCrossCorrelationCoefficient = normalizedCrossCorrelationCoefficient;
-    }
-
-    public void setGlobalSearchRank(int rank) {
-        globalSearchRank = rank;
-    }
-
     public double getNormalizedCrossCorrelationCoefficient() {
-        return normalizedCrossCorrelationCoefficient;
+        return peptideScoreList.first().peptide.getNormalizedCrossCorr();
     }
 
     public int getGlobalSearchRank() {
-        return globalSearchRank;
+        return peptideScoreList.first().peptide.getGlobalRank();
     }
 
     public void setIonFrac(double ionFrac) {
