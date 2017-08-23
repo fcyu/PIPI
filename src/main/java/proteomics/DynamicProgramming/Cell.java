@@ -2,6 +2,8 @@ package proteomics.DynamicProgramming;
 
 import proteomics.Types.Coordinate;
 
+import java.util.Locale;
+
 public class Cell implements Comparable<Cell> {
 
     public final float v;
@@ -23,6 +25,6 @@ public class Cell implements Comparable<Cell> {
     }
 
     public String toString() {
-        return String.format("%.1f", v) + "@" + direction;
+        return String.format(Locale.US, "%.1f", v) + "@" + direction;
     }
 }

@@ -73,7 +73,7 @@ public class FindPTM {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("no_result_scans" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"))) {
                 writer.write("total_candidate,no_result_candidate\n");
                 for (String seq : noResultScanPeptide) {
-                    writer.write(String.format("%d,%s\n", peptideList.size(), seq));
+                    writer.write(String.format(Locale.US, "%d,%s\n", peptideList.size(), seq));
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

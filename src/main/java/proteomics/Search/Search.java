@@ -127,7 +127,7 @@ public class Search {
                                 lowScore = temp.score;
                             }
                         }
-                        writer.write(String.format("%f,%f,", lowScore, highScore));
+                        writer.write(String.format(Locale.US, "%f,%f,", lowScore, highScore));
                     } else {
                         writer.write("-,-,");
                     }
@@ -142,7 +142,7 @@ public class Search {
                                 lowScore = temp.score;
                             }
                         }
-                        writer.write(String.format("%f,%f\n", lowScore, highScore));
+                        writer.write(String.format(Locale.US, "%f,%f\n", lowScore, highScore));
                     } else {
                         writer.write("-,-\n");
                     }

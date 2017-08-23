@@ -333,7 +333,7 @@ public class GeneratePtmCandidatesCalculateScore {
         for (int j = 0; j < ptmFreeSequence.length(); ++j) {
             sb.append(ptmFreeSequence.charAt(j));
             if (localIdxModMassMap.containsKey(j)) {
-                sb.append(String.format("(%.1f)", localIdxModMassMap.get(j)));
+                sb.append(String.format(Locale.US, "(%.1f)", localIdxModMassMap.get(j)));
             }
         }
         String varSeq = sb.toString();

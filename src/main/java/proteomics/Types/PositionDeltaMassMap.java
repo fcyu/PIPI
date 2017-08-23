@@ -1,6 +1,7 @@
 package proteomics.Types;
 
 
+import java.util.Locale;
 import java.util.TreeMap;
 
 public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
@@ -15,7 +16,7 @@ public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
     public String toString() {
         StringBuilder sb = new StringBuilder(1000);
         for (Coordinate co : this.keySet()) {
-            sb.append(String.format("%.1f", this.get(co)));
+            sb.append(String.format(Locale.US, "%.1f", this.get(co)));
             sb.append("@");
             if ((co.x == 0) || (co.x == 1)) {
                 sb.append("([01]-");

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import proteomics.Segment.InferenceSegment;
 import proteomics.TheoSeq.MassTool;
 
+import java.util.Locale;
 import java.util.Map;
 
 public class Peptide implements Comparable<Peptide> {
@@ -200,7 +201,7 @@ public class Peptide implements Comparable<Peptide> {
                     if (tempIdx > i) {
                         for (Coordinate co : varPTMMap.keySet()) {
                             if (co.y - 1 == i) {
-                                sb.append(String.format("%c(%.1f)", ptmFreeSeq.charAt(i), varPTMMap.get(co)));
+                                sb.append(String.format(Locale.US, "%c(%.1f)", ptmFreeSeq.charAt(i), varPTMMap.get(co)));
                                 hasMod = true;
                                 ++i;
                                 break;
@@ -231,7 +232,7 @@ public class Peptide implements Comparable<Peptide> {
             ptmContainingSeq = getVarPtmContainingSeq();
             for (char aa : fixModMap.keySet()) {
                 if (Math.abs(fixModMap.get(aa)) > 0.01) {
-                    ptmContainingSeq = ptmContainingSeq.replaceAll(String.valueOf(aa), String.format("%c(%.1f)", aa, fixModMap.get(aa)));
+                    ptmContainingSeq = ptmContainingSeq.replaceAll(String.valueOf(aa), String.format(Locale.US, "%c(%.1f)", aa, fixModMap.get(aa)));
                 }
             }
         }
