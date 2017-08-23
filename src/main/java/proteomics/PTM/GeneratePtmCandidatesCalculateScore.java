@@ -260,7 +260,7 @@ public class GeneratePtmCandidatesCalculateScore {
                 }
             }
 
-            if (psm.getPeptide() != null) {
+            if (psm.hasHit()) {
                 // calculate PTM delta score
                 double ptmDeltaScore;
                 TreeSet<PeptideScore> temp = modSequences.get(psm.getPeptide().getPTMFreeSeq());

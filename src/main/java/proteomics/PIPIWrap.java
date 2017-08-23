@@ -76,7 +76,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 CalScore.calScore(peptide, expPrpcessedPL, psm, massToolObj, null);
             }
 
-            if (psm.getPeptide() != null) {
+            if (psm.hasHit()) {
                 new CalSubscores(psm, spectrumEntry, ms2Tolerance);
                 if (!psm.getPeptide().hasVarPTM()) {
                     // The final peptides doesn't have PTM. Recalculate the PTM delta score.

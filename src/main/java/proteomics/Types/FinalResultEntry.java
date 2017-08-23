@@ -34,8 +34,8 @@ public class FinalResultEntry {
         return peptideScoreList.first().score;
     }
 
-    public boolean noScore() {
-        return peptideScoreList.isEmpty();
+    public boolean hasHit() {
+        return !peptideScoreList.isEmpty();
     }
 
     public Peptide getPeptide() {
