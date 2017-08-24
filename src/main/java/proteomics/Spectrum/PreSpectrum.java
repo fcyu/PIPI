@@ -33,29 +33,25 @@ public class PreSpectrum {
             }
         }
 
-        // reduce noise
-        TreeMap<Float, Float> deionisedPlMap;
         if (precursorMass > 10) {
-            deionisedPlMap = deNoise(new TreeMap<>(temp.subMap(0f, precursorMass)));
-        } else {
-            deionisedPlMap = deNoise(temp);
+            temp = new TreeMap<>(temp.subMap(0f, precursorMass));
         }
 
-        if (deionisedPlMap.size() > 200) {
+        if (temp.size() > 200) {
             // only keep top 200 peaks
-            Float[] intensityArray = deionisedPlMap.values().toArray(new Float[deionisedPlMap.size()]);
+            Float[] intensityArray = temp.values().toArray(new Float[temp.size()]);
             Arrays.sort(intensityArray, Collections.reverseOrder());
             float intensityT = intensityArray[200];
             TreeMap<Float, Float> tempMap = new TreeMap<>();
-            for (float mz : deionisedPlMap.keySet()) {
-                if (deionisedPlMap.get(mz) > intensityT) {
-                    tempMap.put(mz, deionisedPlMap.get(mz));
+            for (float mz : temp.keySet()) {
+                if (temp.get(mz) > intensityT) {
+                    tempMap.put(mz, temp.get(mz));
                 }
             }
             return normalizeSpec(tempMap);
         } else {
             // normalize
-            return normalizeSpec(deionisedPlMap);
+            return normalizeSpec(temp);
         }
     }
 
