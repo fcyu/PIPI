@@ -366,13 +366,10 @@ public class PIPI {
                     }
 
                     StringBuilder otherPtmPatterns = new StringBuilder(300);
-                    if (entry.getPtmPatterns().size() <= 1) {
+                    if (entry.getPtmPatterns().size() == 0) {
                         otherPtmPatterns.append("-");
                     } else {
-                        Iterator<PeptideScore> it = entry.getPtmPatterns().iterator();
-                        it.next();
-                        while (it.hasNext()) {
-                            PeptideScore temp = it.next();
+                        for (PeptideScore temp : entry.getPtmPatterns()) {
                             otherPtmPatterns.append(String.format(Locale.US, "%s-%.4f;", temp.peptide.getPtmContainingSeq(fixModMap), temp.score));
                         }
                     }

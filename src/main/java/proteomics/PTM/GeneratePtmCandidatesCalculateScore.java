@@ -2,6 +2,8 @@ package proteomics.PTM;
 
 
 import org.apache.commons.math3.util.CombinatoricsUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import proteomics.Search.CalScore;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
@@ -10,6 +12,7 @@ import java.util.*;
 
 public class GeneratePtmCandidatesCalculateScore {
 
+    private static final Logger logger = LoggerFactory.getLogger(GeneratePtmCandidatesCalculateScore.class);
     private static final int globalVarModMaxNum = 5; // This value cannot be larger than 5. Otherwise, change generateLocalIdxModMassMap accordingly.
     private static final int maxPermutationNum = 2000;
 
@@ -224,14 +227,20 @@ public class GeneratePtmCandidatesCalculateScore {
             }
 
             if (psm.hasHit()) {
+                // delete the top scored PTM pattern from the pattern list
+                PeptideScore topPeptideScore = new PeptideScore(psm.getScore(), psm.getPeptide());
+                TreeSet<PeptideScore> temp = modSequences.get(psm.getPeptide().getPTMFreeSeq());
+                if (!temp.remove(topPeptideScore)) {
+                    logger.error("Something wrong in the PTM pattern list (scan num: {}).", spectrumEntry.scanNum);
+                    System.exit(1);
+                }
+
                 // calculate PTM delta score
                 double ptmDeltaScore;
-                TreeSet<PeptideScore> temp = modSequences.get(psm.getPeptide().getPTMFreeSeq());
-                if (temp.size() == 1) {
-                    ptmDeltaScore = temp.first().score;
+                if (temp.size() == 0) {
+                    ptmDeltaScore = psm.getScore();
                 } else {
-                    Iterator<PeptideScore> it = temp.iterator();
-                    ptmDeltaScore = it.next().score - it.next().score;
+                    ptmDeltaScore = psm.getScore() - temp.first().score;
                 }
                 psm.setPtmDeltasScore(ptmDeltaScore);
                 psm.setPtmPatterns(temp);
