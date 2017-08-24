@@ -213,49 +213,12 @@ public class GeneratePtmCandidatesCalculateScore {
                 }
             }
 
-            // permutate modification masses inferred from dynamic programming
+            // calculate scores based on the dynamic programming results
             for (Peptide candidate : candidates) {
                 if (candidate.hasVarPTM() && (candidate.getVarPTMNum() > 1)) { // One PTM case has already been considered before.
-                    Set<Integer> fixModIdxes = getFixModIdxes(candidate.getPTMFreeSeq(), fixModMap);
-                    int permutationNum = 0;
-                    boolean stop = false;
-                    Float[] modMassArray = candidate.getVarPTMs().values().toArray(new Float[candidate.getVarPTMNum()]);
-                    List<Float[]> permutedModMassArray = new LinkedList<>();
-                    permuteModMassArray(modMassArray, 0, permutedModMassArray);
-                    Iterator<int[]> tempIterator = CombinatoricsUtils.combinationsIterator(candidate.getPTMFreeSeq().length(), modMassArray.length);
-                    while (tempIterator.hasNext()) {
-                        int[] idxArray = tempIterator.next();
-                        boolean ok = true;
-                        for (int idx : idxArray) {
-                            if (fixModIdxes.contains(idx)) {
-                                ok = false;
-                                break;
-                            }
-                        }
-                        if (ok) {
-                            Arrays.sort(idxArray);
-                            for (Float[] v : permutedModMassArray) {
-                                PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(candidate.getPTMFreeSeq().length());
-                                for (int i = 0; i < idxArray.length; ++i) {
-                                    positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), v[i]);
-                                }
-                                Peptide peptideObj = new Peptide(candidate.getPTMFreeSeq(), candidate.isDecoy(), massToolObj, maxMs2Charge, candidate.getNormalizedCrossCorr(), candidate.getLeftFlank(), candidate.getRightFlank(), candidate.getGlobalRank());
-                                peptideObj.setVarPTM(positionDeltaMassMap);
-                                peptideObj.setUnknownPtmNum(candidate.getUnknownPtmNum());
-                                if (!checkedSequenceSet.contains(peptideObj)) {
-                                    CalScore.calScore(peptideObj, expProcessedPL, psm, massToolObj, modSequences);
-                                    checkedSequenceSet.add(peptideObj);
-                                    ++permutationNum;
-                                    if (permutationNum > maxPermutationNum) {
-                                        stop = true;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                        if (stop) {
-                            break;
-                        }
+                    if (!checkedSequenceSet.contains(candidate)) {
+                        CalScore.calScore(candidate, expProcessedPL, psm, massToolObj, modSequences);
+                        checkedSequenceSet.add(candidate);
                     }
                 }
             }
