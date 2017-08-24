@@ -11,7 +11,7 @@ import java.util.*;
 public class GeneratePtmCandidatesCalculateScore {
 
     private static final int globalVarModMaxNum = 5; // This value cannot be larger than 5. Otherwise, change generateLocalIdxModMassMap accordingly.
-    private static final int maxPermutationNum = 1000;
+    private static final int maxPermutationNum = 2000;
 
     private final SpectrumEntry spectrumEntry;
     private final MassTool massToolObj;
