@@ -78,8 +78,8 @@ public class GeneratePtmCandidatesCalculateScore {
                 if (candidate.hasVarPTM()) {
                     Set<Integer> fixModIdxes = getFixModIdxes(candidate.getPTMFreeSeq(), fixModMap);
 
-                    float ptmFreePrecursorMass = massToolObj.calResidueMass(candidate.getPTMFreeSeq()) + MassTool.H2O;
                     // having only one unknown modification
+                    float ptmFreePrecursorMass = massToolObj.calResidueMass(candidate.getPTMFreeSeq()) + MassTool.H2O;
                     float deltaMass = spectrumEntry.precursorMass - ptmFreePrecursorMass;
                     if (Math.abs(deltaMass) >= tolerance) {
                         if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
