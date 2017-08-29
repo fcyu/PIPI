@@ -1,56 +1,58 @@
-# 1.3.0
+# 1.3.1
 # First line is the parameter file version. Don't change it.
-thread_num = 0
-percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file
+thread_num = 0 # Thread number. Set to 0 to using all the CPU resources in the computer.
+percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file.
 
 # Database
-db = test.fasta
-missed_cleavage = 2 # maximum number of missed cleavage
+db = test.fasta # Protein database.
+missed_cleavage = 2 # Maximum number of allowed missed cleavage.
 min_peptide_length = 7
 max_peptide_length = 50
 
 # Spectrum
 min_ms1_charge = 1
 max_ms1_charge = 7
-max_ms2_charge = 3 # min ms2 charge is set to 1
-min_peak_num = 10
-min_potential_charge = 2 # the min precursor charge tried if there is no charge information for a MS/MS spectrum
-max_potential_charge = 4 # the max precursor charge tried if there is no charge information for a MS/MS spectrum
-ms_level = 2,3 # the searched MS level
+max_ms2_charge = 3 # Min ms2 charge is set to 1.
+min_peak_num = 10 # Min number of peaks a searched spectrum much have.
+min_potential_charge = 2 # The min precursor charge tried if there is no charge information for a MS/MS spectrum.
+max_potential_charge = 4 # The max precursor charge tried if there is no charge information for a MS/MS spectrum.
+ms_level = 2,3 # The searched MS level.
 
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
 ms1_tolerance = 10
-ms2_tolerance = 0.01
-mz_bin_offset = 0
-min_clear_mz = 112.5 # clear out all peaks in the specified m/z range, mainly for iTRAQ/TMT data
+ms2_tolerance = 0.01 # Unit is Da.
+mz_bin_offset = 0 # Offset in digitization the spectrum.
+min_clear_mz = 112.5 # Clear out all peaks in the specified m/z range, mainly for iTRAQ/TMT data.
 max_clear_mz = 121.5
 
 # Modification related
-min_ptm_mass = -250
-max_ptm_mass = 250
+min_ptm_mass = -250 # Min allowed PTM mass.
+max_ptm_mass = 250 # Max allowed PTM mass.
 
-# considered modifications in generating tags
-# specify additional mass and amino acid. DO NOT change the last character.
-# maximum number is 10
-# empty entries must start with 0.0
-mod01 = 79.966331@S~ # Phosphorylation
-mod02 = 79.966331@T! # Phosphorylation
-mod03 = 79.966331@Y% # Phosphorylation
-mod04 = 42.010565@K^ # Acetylation
-mod05 = 15.994915@M& # Oxidation
-mod06 = 14.015650@K* # Methylation
+# Considered modifications in generating tags.
+# Specify additional mass and amino acid. DO NOT change the last character.
+# Maximum number is 10.
+# Empty entries must start with 0.0.
+# Please only specify enriched PTM and chemical labelling PTM.
+mod01 = 15.994915@M~ # Oxidation
+mod02 = 0.0@X!
+mod03 = 0.0@X%
+mod04 = 0.0@X^
+mod05 = 0.0@X&
+mod06 = 0.0@X*
 mod07 = 0.0@X+
 mod08 = 0.0@X<
 mod09 = 0.0@X>
 mod10 = 0.0@X?
 
-# considered peptide/protein N/C-terminal modifications in generating tags
-# empty ones must with value 0.0
-# the maximum number for each terminal is 9
+# Considered peptide/protein N/C-terminal modifications in generating tags.
+# Empty ones must with value 0.0.
+# The maximum number for each terminal is 9.
+# Please only specify enriched PTM and chemical labelling PTM.
 pepNterm = 0.0
 pepCterm = 0.0
-proNterm = 42.010565 # Acetylation
+proNterm = 0.0
 proCterm = 0.0
 
 # Fix modification
