@@ -29,7 +29,7 @@ public class InferenceSegment {
     private float[] proNTermPossibleMod = null;
     private float[] proCTermPossibleMod = null;
 
-    public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap, Map<Character, Float> fixModMap) throws Exception {
+    public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap, Map<Character, Float> fixModMap) {
         this.ms2Tolerance = ms2Tolerance;
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};

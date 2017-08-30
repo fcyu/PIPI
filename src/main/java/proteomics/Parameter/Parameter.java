@@ -17,7 +17,7 @@ public class Parameter {
 
     private Map<String, String> parameterMap = new HashMap<>();
 
-    public Parameter(String parameterFile) throws Exception {
+    public Parameter(String parameterFile) {
         try (BufferedReader parameterReader = new BufferedReader(new FileReader(parameterFile))) {
             String line = parameterReader.readLine().trim();
             if (!line.contentEquals("# " + PIPI.versionStr)) {

@@ -9,6 +9,7 @@ import proteomics.Parameter.Parameter;
 import proteomics.Spectrum.PreSpectra;
 import proteomics.TheoSeq.MassTool;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
+import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
 import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLFile;
 import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLParsingException;
@@ -17,10 +18,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class PIPI {
 
@@ -63,7 +61,7 @@ public class PIPI {
         }
     }
 
-    private PIPI(String parameterPath, String spectraPath) throws Exception {
+    private PIPI(String parameterPath, String spectraPath) {
         // Get the parameter map
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
@@ -107,7 +105,7 @@ public class PIPI {
                 logger.error("Unsupported file format {}.", ext);
                 logger.error("Currently, PIPI only support mzXML and MGF.");
             }
-        } catch (FileNotFoundException | MzXMLParsingException ex) {
+        } catch (FileNotFoundException | MzXMLParsingException | JMzReaderException ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
             System.exit(1);
@@ -178,7 +176,7 @@ public class PIPI {
                 }
                 Thread.sleep(6000);
             }
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException | ExecutionException ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
