@@ -29,7 +29,7 @@ public class PIPI {
     public static final boolean DEV = false;
     private static final int[] debugScanNumArray = new int[]{};
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         // Process inputs
         if (args.length != 2) {
             help();
