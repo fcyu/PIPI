@@ -106,7 +106,7 @@ public class GeneratePtmCandidatesCalculateScore {
                     int permutationNum = 0;
                     // summarize all possible modified idxes.
                     String ptmFreeSequence = candidate.getPTMFreeSeq();
-                    Map<Integer, List<Float>> idxVarModMassMap = new HashMap<>(ptmFreeSequence.length(), 1);
+                    Map<Integer, List<Float>> idxVarModMassMap = new HashMap<>(ptmFreeSequence.length() + 1, 1);
                     for (int i = 0; i < ptmFreeSequence.length(); ++i) {
                         char aa = ptmFreeSequence.charAt(i);
                         for (VarModParam varModParam : varModParamSet) {

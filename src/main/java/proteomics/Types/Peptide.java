@@ -21,17 +21,19 @@ public class Peptide implements Comparable<Peptide> {
     private final char rightFlank;
     private final int globalRank;
     private final double normalizedCrossCorrelationCoefficient;
-    private PositionDeltaMassMap varPTMMap = null;
-    private int unknownPtmNum = 0;
 
     private String toString;
     private int hashCode;
 
+    private int unknownPtmNum = 0;
+
     // these fields need to be changed every time PTM changed.
+    private PositionDeltaMassMap varPTMMap = null;
     private float precursorMass = -1;
     private float[][] ionMatrix = null;
     private float[] chargeOneBIonArray = null;
     private String varPtmContainingSeq = null;
+
     private String ptmContainingSeq = null;
 
     public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank) {
@@ -55,7 +57,10 @@ public class Peptide implements Comparable<Peptide> {
 
     public float[][] getIonMatrix() {
         if (ionMatrix == null) {
-            ionMatrix = massToolObj.buildIonArray(getVarPtmContainingSeq(), maxMs2Charge);
+            varPtmContainingSeq = getVarPtmContainingSeq();
+            ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
+            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq);
+            chargeOneBIonArray = ionMatrix[0];
         }
         return ionMatrix;
     }
@@ -70,15 +75,20 @@ public class Peptide implements Comparable<Peptide> {
 
     public float getPrecursorMass() {
         if (precursorMass < 0) {
-            precursorMass = massToolObj.calResidueMass(getVarPtmContainingSeq()) + MassTool.H2O;
+            varPtmContainingSeq = getVarPtmContainingSeq();
+            ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
+            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq);
+            chargeOneBIonArray = ionMatrix[0];
         }
         return precursorMass;
     }
 
     public float[] getChargeOneBIonArray() {
         if (chargeOneBIonArray == null) {
-            float[][] temp = massToolObj.buildIonArray(getVarPtmContainingSeq(), 1);
-            chargeOneBIonArray = temp[0];
+            varPtmContainingSeq = getVarPtmContainingSeq();
+            ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
+            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq);
+            chargeOneBIonArray = ionMatrix[0];
         }
         return chargeOneBIonArray;
     }
@@ -166,20 +176,6 @@ public class Peptide implements Comparable<Peptide> {
 
     public String getPTMFreeSeq() {
         return ptmFreeSeq;
-    }
-
-    public int getUnexplainedAaNum() {
-        if (varPTMMap == null) {
-            return 0;
-        } else {
-            int total = 0;
-            for (Coordinate co : varPTMMap.keySet()) {
-                if (co.y - co.x > 1) {
-                    total += co.y - co.x;
-                }
-            }
-            return total;
-        }
     }
 
     public PositionDeltaMassMap getVarPTMs() {
