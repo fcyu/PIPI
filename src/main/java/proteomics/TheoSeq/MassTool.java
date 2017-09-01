@@ -64,7 +64,7 @@ public class MassTool {
     }
 
     public float calResidueMass(String seq) { // n and c are also AA.
-        double total_mass = 0;
+        float total_mass = 0;
         Matcher matcher = mod_aa_pattern.matcher(seq);
         while (matcher.find()) {
             char aa = matcher.group(1).charAt(0);
@@ -75,10 +75,10 @@ public class MassTool {
             total_mass += massTable.get(aa) + delta_mass;
         }
 
-        return (float) total_mass;
+        return total_mass;
     }
 
-    public static AA[] seqToAAList(String seq) {
+    public static AA[] seqToAAList(String seq) { // n and c are also AA.
         Matcher matcher = mod_aa_pattern.matcher(seq);
         List<AA> temp = new LinkedList<>();
         while (matcher.find()) {
@@ -108,7 +108,7 @@ public class MassTool {
     public float[][] buildIonArray(String seq, int maxCharge) {
         AA[] aaArray = seqToAAList(seq);
 
-        float[][] peptideIonArray = new float[2 * maxCharge][seq.length() - 2];
+        float[][] peptideIonArray = new float[2 * maxCharge][aaArray.length - 2];
         // traverse the sequence to get b-ion
         float bIonMass = massTable.get(aaArray[0].aa) + aaArray[0].ptmDeltaMass; // add N-term modification
         for (int i = 1; i < aaArray.length - 2; ++i) {
