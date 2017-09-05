@@ -19,7 +19,7 @@ public class GeneratePtmCandidatesCalculateScore {
     private final SpectrumEntry spectrumEntry;
     private final MassTool massToolObj;
     private final int maxMs2Charge;
-    private final float tolerance;
+    private final float ms2Tolerance;
     private final Set<VarModParam> varModParamSet;
     private final Map<Character, Float> fixModMap;
     private final SparseVector expProcessedPL;
@@ -31,7 +31,7 @@ public class GeneratePtmCandidatesCalculateScore {
         this.spectrumEntry = spectrumEntry;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
-        tolerance = Math.max(ms2Tolerance, 0.1f);
+        this.ms2Tolerance = ms2Tolerance;
         this.varModParamSet = varModParamSet;
         this.fixModMap = fixModMap;
         this.expProcessedPL = expProcessedPL;
@@ -84,8 +84,8 @@ public class GeneratePtmCandidatesCalculateScore {
                     // having only one unknown modification
                     float ptmFreePrecursorMass = massToolObj.calResidueMass(candidate.getPTMFreeSeq()) + MassTool.H2O;
                     float deltaMass = spectrumEntry.precursorMass - ptmFreePrecursorMass;
-                    if (Math.abs(deltaMass) >= tolerance) {
-                        if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
+                    if (Math.abs(deltaMass) >= ms2Tolerance) {
+                        if (isNewPtmMass(varModParamSet, deltaMass, ms2Tolerance)) {
                             for (int i = 1; i < candidate.getPTMFreeSeq().length() - 1; ++i) { // Don't try N-term and C-term because they are the same as the first and the last amino acids in terms of producing spectrum.
                                 if (!fixModIdxes.contains(i)) {
                                     PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(candidate.getPTMFreeSeq().length());
@@ -305,7 +305,7 @@ public class GeneratePtmCandidatesCalculateScore {
         for (int j = 0; j < ptmFreeSequence.length(); ++j) {
             sb.append(ptmFreeSequence.charAt(j));
             if (localIdxModMassMap.containsKey(j)) {
-                sb.append(String.format(Locale.US, "(%.1f)", localIdxModMassMap.get(j)));
+                sb.append(String.format(Locale.US, "(%.2f)", localIdxModMassMap.get(j)));
             }
         }
         String varSeq = sb.toString();
@@ -313,11 +313,11 @@ public class GeneratePtmCandidatesCalculateScore {
         // Calculate Score
         float seqMass = massToolObj.calResidueMass(varSeq) + MassTool.H2O;
         float deltaMass = spectrumEntry.precursorMass - seqMass;
-        if (Math.abs(deltaMass) >= tolerance) {
-            if (isNewPtmMass(varModParamSet, deltaMass, tolerance)) {
+        if (Math.abs(deltaMass) >= ms2Tolerance) {
+            if (isNewPtmMass(varModParamSet, deltaMass, ms2Tolerance)) {
                 // there are one more unknown modification
                 AA[] aaArray = MassTool.seqToAAList(varSeq);
-                if (isDeltaMassMeaningful(aaArray, deltaMass, tolerance)) {
+                if (isDeltaMassMeaningful(aaArray, deltaMass, ms2Tolerance)) {
                     boolean triedNTerm = false;
                     boolean triedLastAA = false;
                     for (int k = 0; k < aaArray.length; ++k) {

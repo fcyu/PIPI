@@ -16,7 +16,6 @@ public class TagAlignment {
 
     public TagAlignment(ThreeExpAA[] sortedAasArray, Peptide peptide, float NTermMz, float CTermMz, float ms2Tolerance) {
         float[] ptmFreeBIonMz = peptide.getChargeOneBIonArray();
-        ms2Tolerance = Math.max(ms2Tolerance, 0.02f); // relax the precision in high resolution situation
 
         Cell[][] matrix = new Cell[sortedAasArray.length + 2][peptide.length()];
 

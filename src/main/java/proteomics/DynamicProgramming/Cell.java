@@ -25,6 +25,6 @@ public class Cell implements Comparable<Cell> {
     }
 
     public String toString() {
-        return String.format(Locale.US, "%.1f", v) + "@" + direction;
+        return String.format(Locale.US, "%.2f", v) + "@" + direction;
     }
 }

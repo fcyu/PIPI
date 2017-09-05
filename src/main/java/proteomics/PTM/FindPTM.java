@@ -54,7 +54,7 @@ public class FindPTM {
 
                     int unknownPtmNum = 0;
                     for (float ptmMass : ptms.values()) {
-                        if (GeneratePtmCandidatesCalculateScore.isNewPtmMass(varModParamSet, ptmMass, Math.max(ms2Tolerance, 0.1f))) {
+                        if (GeneratePtmCandidatesCalculateScore.isNewPtmMass(varModParamSet, ptmMass, Math.max(ms2Tolerance, 0.1f))) { // the precision of DP inferred PTM is not very high. Set the tolerance to 0.1 to avoid the messy.
                             ++unknownPtmNum;
                         }
                     }
@@ -169,7 +169,7 @@ public class FindPTM {
         if (ms1ToleranceUnit == 1) {
             tolerance = peptideMass * ms1Tolerance / 1e6f;
         }
-        tolerance = (float) Math.max(tolerance, 0.1);
+        tolerance = (float) Math.max(tolerance, 0.1); // the precision of DP inferred PTM is not very high. Set the tolerance to 0.1 to avoid the messy.
         if (Math.abs(deltaMass - totalDeltaMass) > tolerance) {
             logger.debug("Spectrum {}, peptide {}, the precursor mass difference is not balance. There are {} .", spectrumEntry.scanNum, peptide.getPTMFreeSeq(), deltaMass - totalDeltaMass);
         }
@@ -197,7 +197,7 @@ public class FindPTM {
 
         // delete gaps with abs PTM mass smaller than a threshold
         for (Coordinate coordinate : positionGapMap.keySet()) {
-            if (Math.abs(positionGapMap.get(coordinate)) < Math.max(ms2Tolerance, 0.1)) {
+            if (Math.abs(positionGapMap.get(coordinate)) < Math.max(ms2Tolerance, 0.1)) { // the precision of DP inferred PTM is not very high. Set the tolerance to 0.1 to avoid the messy.
                 delCoordinateSet.add(coordinate);
             }
         }
@@ -217,13 +217,12 @@ public class FindPTM {
                     char[] aaSeqCharArray = aaSeq.toCharArray();
                     boolean ok = false;
                     // try protein-terminal modification first because it's before/important than the peptide-terminal modification in most experiments.
-                    // relax the tolerance in high resolution mode
                     // try one known PTM
                     for (int i = 0; i < aaSeqCharArray.length; ++i) {
                         if (coordinate.x + i == 0) {
                             if ((peptide.getLeftFlank() == '-') && (proNTermPossibleMod != null)) {
                                 for (float nTermMod : proNTermPossibleMod) {
-                                    if (Math.abs(nTermMod - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                    if (Math.abs(nTermMod - deltaMass) <= 4 * ms2Tolerance) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
                                         ok = true;
                                         break;
@@ -232,7 +231,7 @@ public class FindPTM {
                             }
                             if (!ok && (pepNTermPossibleMod != null)) {
                                 for (float nTermMod : pepNTermPossibleMod) {
-                                    if (Math.abs(nTermMod - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                    if (Math.abs(nTermMod - deltaMass) <= 4 * ms2Tolerance) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
                                         ok = true;
                                         break;
@@ -242,7 +241,7 @@ public class FindPTM {
                         } else if (coordinate.x + i == peptideString.length() - 1) {
                             if ((peptide.getRightFlank() == '-') && (proCTermPossibleMod != null)) {
                                 for (float cTermMod : proCTermPossibleMod) {
-                                    if (Math.abs(cTermMod - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                    if (Math.abs(cTermMod - deltaMass) <= 4 * ms2Tolerance) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), cTermMod);
                                         ok = true;
                                         break;
@@ -251,7 +250,7 @@ public class FindPTM {
                             }
                             if (!ok && (pepCTermPossibleMod != null)) {
                                 for (float cTermMod : pepCTermPossibleMod) {
-                                    if (Math.abs(cTermMod - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                    if (Math.abs(cTermMod - deltaMass) <= 4 * ms2Tolerance) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), cTermMod);
                                         ok = true;
                                         break;
@@ -260,7 +259,7 @@ public class FindPTM {
                             }
                         } else {
                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
-                                if ((modifiedAA.charAt(0) == aaSeqCharArray[i]) && (Math.abs(modifiedAAMassMap.get(modifiedAA) - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance))) {
+                                if ((modifiedAA.charAt(0) == aaSeqCharArray[i]) && (Math.abs(modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance)) {
                                     newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), modifiedAAMassMap.get(modifiedAA));
                                     ok = true;
                                     break;
@@ -281,7 +280,7 @@ public class FindPTM {
                                         for (float nTermMod : proNTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[j]) {
-                                                    if (Math.abs(nTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                                    if (Math.abs(nTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), modifiedAAMassMap.get(modifiedAA));
                                                         ok = true;
@@ -298,7 +297,7 @@ public class FindPTM {
                                         for (float nTermMod : pepNTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[j]) {
-                                                    if (Math.abs(nTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                                    if (Math.abs(nTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), modifiedAAMassMap.get(modifiedAA));
                                                         ok = true;
@@ -316,7 +315,7 @@ public class FindPTM {
                                         for (float cTermMod : proCTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[i]) {
-                                                    if (Math.abs(cTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                                    if (Math.abs(cTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), modifiedAAMassMap.get(modifiedAA));
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), cTermMod);
                                                         ok = true;
@@ -333,7 +332,7 @@ public class FindPTM {
                                         for (float cTermMod : pepCTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[i]) {
-                                                    if (Math.abs(cTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= Math.min(1.5, 4 * ms2Tolerance)) {
+                                                    if (Math.abs(cTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), modifiedAAMassMap.get(modifiedAA));
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), cTermMod);
                                                         ok = true;
@@ -351,7 +350,7 @@ public class FindPTM {
                                         if (modifiedAA1.charAt(0) == aaSeqCharArray[i]) {
                                             for (String modifiedAA2 : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA2.charAt(0) == aaSeqCharArray[j]) {
-                                                    if (Math.abs(modifiedAAMassMap.get(modifiedAA1) + modifiedAAMassMap.get(modifiedAA2) - deltaMass) <= Math.min(1.5, 5 * ms2Tolerance)) {
+                                                    if (Math.abs(modifiedAAMassMap.get(modifiedAA1) + modifiedAAMassMap.get(modifiedAA2) - deltaMass) <= 4 * ms2Tolerance) {
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), modifiedAAMassMap.get(modifiedAA1));
                                                         newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), modifiedAAMassMap.get(modifiedAA2));
                                                         ok = true;
