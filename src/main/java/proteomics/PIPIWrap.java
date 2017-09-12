@@ -63,7 +63,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             if (PIPI.useXcorr) {
                 expPrpcessedPL = preSpectrumObj.prepareXcorr(spectrumEntry.unprocessedPlMap);
             } else {
-                expPrpcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.unprocessedPlMap);
+                expPrpcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.unprocessedPlMap, true);
             }
 
             GeneratePtmCandidatesCalculateScore generatePtmCandidatesCalculateScore = new GeneratePtmCandidatesCalculateScore(spectrumEntry, massToolObj, inference3SegmentObj.getVarModParamSet(), buildIndexObj.returnFixModMap(), ms2Tolerance, maxMs2Charge, expPrpcessedPL);

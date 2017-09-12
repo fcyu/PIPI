@@ -90,8 +90,13 @@ public class PreSpectrum {
         return xcorrPl;
     }
 
-    public SparseVector prepareDigitizedPL(TreeMap<Float, Float> unprocessedPlMap) {
-        float[] plArray = digitizeSpec(normalizeSpec(unprocessedPlMap));
+    public SparseVector prepareDigitizedPL(TreeMap<Float, Float> plMap, boolean normalize) {
+        float[] plArray;
+        if (normalize) {
+            plArray = digitizeSpec(normalizeSpec(plMap));
+        } else {
+            plArray = digitizeSpec(plMap);
+        }
 
         SparseVector digitizedPL = new SparseVector();
 
