@@ -37,6 +37,8 @@ public class PreSpectrum {
             temp = new TreeMap<>(temp.subMap(0f, precursorMass));
         }
 
+        temp = normalizeSpec(temp);
+
         if (temp.size() > 200) {
             // only keep top 200 peaks
             Float[] intensityArray = temp.values().toArray(new Float[temp.size()]);
@@ -48,10 +50,10 @@ public class PreSpectrum {
                     tempMap.put(mz, temp.get(mz));
                 }
             }
-            return normalizeSpec(tempMap);
+            return tempMap;
         } else {
             // normalize
-            return normalizeSpec(temp);
+            return temp;
         }
     }
 
@@ -196,15 +198,14 @@ public class PreSpectrum {
             sqrtPlMap.put(mz, sqrtIntensity);
         }
 
-        // divide the spectrum into 10 windows and normalize each windows to defaultIntensity
-        TreeMap<Float, Float> windowedPlMap = new TreeMap<>();
+        // normalize the intensity in each 100 Da.
+        TreeMap<Float, Float> normalizedPL = new TreeMap<>();
         float minMz = sqrtPlMap.firstKey();
         float maxMz = sqrtPlMap.lastKey();
-        float windowSize = (maxMz - minMz) / 10 + 1;
-        for (int i = 0; i < 10; ++i) {
+        float leftMz = minMz;
+        while (leftMz < maxMz) {
             // find the max intensity in each window
-            float leftMz = Math.min(minMz + i * windowSize, maxMz);
-            float rightMz = Math.min(leftMz + windowSize, maxMz);
+            float rightMz = Math.min(leftMz + 100, maxMz);
             NavigableMap<Float, Float> subMap;
             if (rightMz < maxMz) {
                 subMap = sqrtPlMap.subMap(leftMz, true, rightMz, false);
@@ -218,13 +219,14 @@ public class PreSpectrum {
                 float temp2 = (float) 0.05 * intensityArray[intensityArray.length - 1];
                 for (float mz : subMap.keySet()) {
                     if (subMap.get(mz) > temp2) {
-                        windowedPlMap.put(mz, subMap.get(mz) * temp1);
+                        normalizedPL.put(mz, subMap.get(mz) * temp1);
                     }
                 }
             }
+            leftMz = rightMz;
         }
 
-        return windowedPlMap;
+        return normalizedPL;
     }
 
     private float[] digitizeSpec(TreeMap<Float, Float> pl) {
