@@ -3,16 +3,20 @@ package proteomics.Types;
 
 public class VarModParam {
 
-    public final float modMass;
+    public final float mass;
     public final char aa;
-    public final boolean proteinTerminal;
-    public final String toString;
+    public final int priority;
 
-    public VarModParam(float modMass, char aa, boolean proteinTerminal) {
-        this.modMass = modMass;
+    private final String toString;
+    private final int hashCode;
+
+    public VarModParam(float mass, char aa, int priority) {
+        this.mass = mass;
         this.aa = aa;
-        this.proteinTerminal = proteinTerminal;
-        toString = modMass + "@" + aa + proteinTerminal;
+        this.priority = priority;
+
+        toString = Math.round(mass * 100) + "@" + aa;
+        hashCode = toString.hashCode();
     }
 
     public String toString() {
@@ -20,13 +24,13 @@ public class VarModParam {
     }
 
     public int hashCode() {
-        return toString.hashCode();
+        return hashCode;
     }
 
     public boolean equals(Object other) {
         if (other instanceof VarModParam) {
             VarModParam temp = (VarModParam) other;
-            return (Math.abs(temp.modMass - modMass) <= 0.01) && (temp.aa == aa) && (temp.proteinTerminal == proteinTerminal);
+            return temp.hashCode == hashCode;
         } else {
             return false;
         }

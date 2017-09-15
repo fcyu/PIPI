@@ -24,10 +24,8 @@ public class InferenceSegment {
     private final Float[] deltaMassArray;
     private Map<String, Float> modifiedAAMassMap = new HashMap<>(35, 1);
     private Set<VarModParam> varModParamSet = new HashSet<>();
-    private float[] pepNTermPossibleMod = null;
-    private float[] pepCTermPossibleMod = null;
-    private float[] proNTermPossibleMod = null;
-    private float[] proCTermPossibleMod = null;
+    private float[] nTermPossibleMod = null;
+    private float[] cTermPossibleMod = null;
 
     public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap, Map<Character, Float> fixModMap) {
         this.ms2Tolerance = ms2Tolerance;
@@ -90,52 +88,30 @@ public class InferenceSegment {
                             modifiedAAMap.put(tempMass, temp[1]);
                             modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
                         }
-                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0), false));
+                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0), 100)); // var mods from the parameter file have the highest priority
                     }
                 }
-            } else if (k.contentEquals("pepNterm")) {
+            } else if (k.contentEquals("Nterm")) {
                 if (Math.abs(fixModMap.get('n')) < 0.1) {
                     // fix modification and var modification cannot be coexist
                     if (!parameterMap.get(k).startsWith("0.0")) {
                         String[] tempArray = parameterMap.get(k).split(",");
-                        pepNTermPossibleMod = new float[tempArray.length];
+                        nTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
-                            pepNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', false));
+                            nTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', 100)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
-            } else if (k.contentEquals("pepCterm")) {
+            } else if (k.contentEquals("Cterm")) {
                 if (Math.abs(fixModMap.get('c')) < 0.1) {
                     // fix modification and var modification cannot be coexist
                     if (!parameterMap.get(k).startsWith("0.0")) {
                         String[] tempArray = parameterMap.get(k).split(",");
-                        pepCTermPossibleMod = new float[tempArray.length];
+                        cTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
-                            pepCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', false));
-                        }
-                    }
-                }
-            } else if (k.contentEquals("proNterm")) {
-                if (Math.abs(fixModMap.get('n')) < 0.1) {
-                    if (!parameterMap.get(k).startsWith("0.0")) {
-                        String[] tempArray = parameterMap.get(k).split(",");
-                        proNTermPossibleMod = new float[tempArray.length];
-                        for (int i = 0; i < tempArray.length; ++i) {
-                            proNTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', true));
-                        }
-                    }
-                }
-            } else if (k.contentEquals("proCterm")) {
-                if (Math.abs(fixModMap.get('c')) < 0.1) {
-                    if (!parameterMap.get(k).startsWith("0.0")) {
-                        String[] tempArray = parameterMap.get(k).split(",");
-                        proCTermPossibleMod = new float[tempArray.length];
-                        for (int i = 0; i < tempArray.length; ++i) {
-                            proCTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', true));
+                            cTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', 100)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
@@ -196,20 +172,12 @@ public class InferenceSegment {
         return varModParamSet;
     }
 
-    public float[] getPepNTermPossibleMod() {
-        return pepNTermPossibleMod;
+    public float[] getNTermPossibleMod() {
+        return nTermPossibleMod;
     }
 
-    public float[] getPepCTermPossibleMod() {
-        return pepCTermPossibleMod;
-    }
-
-    public float[] getProNTermPossibleMod() {
-        return proNTermPossibleMod;
-    }
-
-    public float[] getProCTermPossibleMod() {
-        return proCTermPossibleMod;
+    public float[] getCTermPossibleMod() {
+        return cTermPossibleMod;
     }
 
     public static String normalizeSequence(String seq) {
@@ -227,7 +195,7 @@ public class InferenceSegment {
             for (int j = i + 1; j < mzArray.length; ++j) {
                 float mz2 = mzArray[j];
                 float intensity2 = intensityArray[j];
-                String aa1 = inferAA(mz1, mz2, Math.abs(mz1 - MassTool.PROTON) <= ms2Tolerance, false, Math.abs(mz1 - MassTool.PROTON) <= ms2Tolerance, false);
+                String aa1 = inferAA(mz1, mz2, Math.abs(mz1 - MassTool.PROTON) <= ms2Tolerance, false);
                 if (aa1 != null) {
                     Matcher matcher = pattern.matcher(aa1);
                     char ptmFreeAA = '\0';
@@ -240,9 +208,7 @@ public class InferenceSegment {
                         ptmFreeAA = matcher.group(2).charAt(0);
                         if (matcher.group(1) != null) {
                             if ((matcher.group(1).charAt(1) - '0' >= 0) && (matcher.group(1).charAt(1) - '0' < 10)) {
-                                nTermMod = pepNTermPossibleMod[matcher.group(1).charAt(1) - '0'];
-                            } else if ((matcher.group(1).charAt(1) - 'a' >= 0) && (matcher.group(1).charAt(1) - 'a' < 10)) {
-                                nTermMod = proNTermPossibleMod[matcher.group(1).charAt(1) - 'a'];
+                                nTermMod = nTermPossibleMod[matcher.group(1).charAt(1) - '0'];
                             } else {
                                 logger.error("Something is wrong in inferring tags.");
                                 System.exit(1);
@@ -257,7 +223,7 @@ public class InferenceSegment {
                     for (int k = j + 1; k < mzArray.length; ++k) {
                         float mz3 = mzArray[k];
                         float intensity3 = intensityArray[k];
-                        String aa2 = inferAA(mz2, mz3, false, false, false, false);
+                        String aa2 = inferAA(mz2, mz3, false, false);
                         if (aa2 != null) {
                             mod = 0;
                             if (modifiedAAMassMap.containsKey(aa2)) {
@@ -268,7 +234,7 @@ public class InferenceSegment {
                             for (int l = k + 1; l < mzArray.length; ++l) {
                                 float mz4 = mzArray[l];
                                 float intensity4 = intensityArray[l];
-                                String aa3 = inferAA(mz3, mz4, false, Math.abs(mz4 - cTermMz) <= ms2Tolerance, false, Math.abs(mz4 - cTermMz) <= ms2Tolerance);
+                                String aa3 = inferAA(mz3, mz4, false, Math.abs(mz4 - cTermMz) <= ms2Tolerance);
                                 if (aa3 != null) {
                                     matcher = pattern.matcher(aa3);
                                     ptmFreeAA = '\0';
@@ -281,9 +247,7 @@ public class InferenceSegment {
                                         ptmFreeAA = matcher.group(2).charAt(0);
                                         if (matcher.group(1) != null) {
                                             if ((matcher.group(1).charAt(1) - '0' >= 0) && (matcher.group(1).charAt(1) - '0' < 10)) {
-                                                cTermMod = pepCTermPossibleMod[matcher.group(1).charAt(1) - '0'];
-                                            } else if ((matcher.group(1).charAt(1) - 'a' >= 0) && (matcher.group(1).charAt(1) - 'a' < 10)) {
-                                                cTermMod = proCTermPossibleMod[matcher.group(1).charAt(1) - 'a'];
+                                                cTermMod = cTermPossibleMod[matcher.group(1).charAt(1) - '0'];
                                             } else {
                                                 logger.error("Something is wrong in inferring tags.");
                                                 System.exit(1);
@@ -365,7 +329,7 @@ public class InferenceSegment {
         }
     }
 
-    private String inferAA(float mz1, float mz2, boolean pepNTerm, boolean pepCTerm, boolean proNTerm, boolean proCTerm) {
+    private String inferAA(float mz1, float mz2, boolean nTerm, boolean cTerm) {
         float mzDiff = mz2 - mz1;
         for (float mass : deltaMassArray) {
             if (Math.abs(mzDiff - mass) <= 2 * ms2Tolerance) {
@@ -373,41 +337,21 @@ public class InferenceSegment {
             }
         }
 
-        if (pepNTerm && (pepNTermPossibleMod != null)) {
+        if (nTerm && (nTermPossibleMod != null)) {
             for (float mass : deltaMassArray) {
-                for (int i = 0; i < pepNTermPossibleMod.length; ++i) {
-                    if (Math.abs(mzDiff - mass - pepNTermPossibleMod[i]) <= 2 * ms2Tolerance) {
+                for (int i = 0; i < nTermPossibleMod.length; ++i) {
+                    if (Math.abs(mzDiff - mass - nTermPossibleMod[i]) <= 2 * ms2Tolerance) {
                         return "n" + i + modifiedAAMap.get(mass);
                     }
                 }
             }
         }
 
-        if (pepCTerm && (pepCTermPossibleMod != null)) {
+        if (cTerm && (cTermPossibleMod != null)) {
             for (float mass : deltaMassArray) {
-                for (int i = 0; i < pepCTermPossibleMod.length; ++i) {
-                    if (Math.abs(mzDiff - mass - pepCTermPossibleMod[i]) <= 2 * ms2Tolerance) {
+                for (int i = 0; i < cTermPossibleMod.length; ++i) {
+                    if (Math.abs(mzDiff - mass - cTermPossibleMod[i]) <= 2 * ms2Tolerance) {
                         return "c" + i + modifiedAAMap.get(mass);
-                    }
-                }
-            }
-        }
-
-        if (proNTerm && (proNTermPossibleMod != null)) {
-            for (float mass : deltaMassArray) {
-                for (int i = 0; i < proNTermPossibleMod.length; ++i) {
-                    if (Math.abs(mzDiff - mass - proNTermPossibleMod[i]) <= 2 * ms2Tolerance) {
-                        return "n" + (char) (i + 'a') + modifiedAAMap.get(mass);
-                    }
-                }
-            }
-        }
-
-        if (proCTerm && (proCTermPossibleMod != null)) {
-            for (float mass : deltaMassArray) {
-                for (int i = 0; i < proCTermPossibleMod.length; ++i) {
-                    if (Math.abs(mzDiff - mass - proCTermPossibleMod[i]) <= 2 * ms2Tolerance) {
-                        return "c" + (char) (i + 'a') + modifiedAAMap.get(mass);
                     }
                 }
             }

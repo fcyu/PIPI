@@ -25,23 +25,19 @@ public class FindPTM {
     private List<Peptide> peptideWithPtmList = new LinkedList<>();
     private float totalResidueMz;
     private final Map<String, Float> modifiedAAMassMap;
-    private final float[] pepNTermPossibleMod;
-    private final float[] pepCTermPossibleMod;
-    private final float[] proNTermPossibleMod;
-    private final float[] proCTermPossibleMod;
+    private final float[] nTermPossibleMod;
+    private final float[] cTermPossibleMod;
     private final Set<String> noResultScanPeptide = new HashSet<>();
 
-    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, Map<String, Float> modifiedAAMassMap, float[] pepNTermPossibleMod, float[] pepCTermPossibleMod, float[] proNTermPossibleMod, float[] proCTermPossibleMod, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
+    public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, Map<String, Float> modifiedAAMassMap, float[] nTermPossibleMod, float[] cTermPossibleMod, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
         this.ms1Tolerance = ms1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.modifiedAAMassMap = modifiedAAMassMap;
-        this.pepNTermPossibleMod = pepNTermPossibleMod;
-        this.pepCTermPossibleMod = pepCTermPossibleMod;
-        this.proNTermPossibleMod = proNTermPossibleMod;
-        this.proCTermPossibleMod = proCTermPossibleMod;
+        this.nTermPossibleMod = nTermPossibleMod;
+        this.cTermPossibleMod = cTermPossibleMod;
 
         totalResidueMz = spectrumEntry.precursorMass - MassTool.H2O + MassTool.PROTON;
         for (Peptide peptide : peptideList) {
@@ -216,21 +212,11 @@ public class FindPTM {
                     float deltaMass = positionGapMap.get(coordinate);
                     char[] aaSeqCharArray = aaSeq.toCharArray();
                     boolean ok = false;
-                    // try protein-terminal modification first because it's before/important than the peptide-terminal modification in most experiments.
                     // try one known PTM
                     for (int i = 0; i < aaSeqCharArray.length; ++i) {
                         if (coordinate.x + i == 0) {
-                            if ((peptide.getLeftFlank() == '-') && (proNTermPossibleMod != null)) {
-                                for (float nTermMod : proNTermPossibleMod) {
-                                    if (Math.abs(nTermMod - deltaMass) <= 4 * ms2Tolerance) {
-                                        newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
-                                        ok = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!ok && (pepNTermPossibleMod != null)) {
-                                for (float nTermMod : pepNTermPossibleMod) {
+                            if (nTermPossibleMod != null) {
+                                for (float nTermMod : nTermPossibleMod) {
                                     if (Math.abs(nTermMod - deltaMass) <= 4 * ms2Tolerance) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
                                         ok = true;
@@ -239,17 +225,8 @@ public class FindPTM {
                                 }
                             }
                         } else if (coordinate.x + i == peptideString.length() - 1) {
-                            if ((peptide.getRightFlank() == '-') && (proCTermPossibleMod != null)) {
-                                for (float cTermMod : proCTermPossibleMod) {
-                                    if (Math.abs(cTermMod - deltaMass) <= 4 * ms2Tolerance) {
-                                        newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), cTermMod);
-                                        ok = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!ok && (pepCTermPossibleMod != null)) {
-                                for (float cTermMod : pepCTermPossibleMod) {
+                            if (cTermPossibleMod != null) {
+                                for (float cTermMod : cTermPossibleMod) {
                                     if (Math.abs(cTermMod - deltaMass) <= 4 * ms2Tolerance) {
                                         newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), cTermMod);
                                         ok = true;
@@ -276,25 +253,8 @@ public class FindPTM {
                         for (int i = 0; i < aaSeqCharArray.length - 1; ++i) {
                             for (int j = i + 1; j < aaSeqCharArray.length; ++j) {
                                 if (coordinate.x + i == 0) {
-                                    if ((peptide.getLeftFlank() == '-') && (proNTermPossibleMod != null)) {
-                                        for (float nTermMod : proNTermPossibleMod) {
-                                            for (String modifiedAA : modifiedAAMassMap.keySet()) {
-                                                if (modifiedAA.charAt(0) == aaSeqCharArray[j]) {
-                                                    if (Math.abs(nTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
-                                                        newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), nTermMod);
-                                                        newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), modifiedAAMassMap.get(modifiedAA));
-                                                        ok = true;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            if (ok) {
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (!ok && (pepNTermPossibleMod != null)) {
-                                        for (float nTermMod : pepNTermPossibleMod) {
+                                    if (nTermPossibleMod != null) {
+                                        for (float nTermMod : nTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[j]) {
                                                     if (Math.abs(nTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
@@ -311,25 +271,8 @@ public class FindPTM {
                                         }
                                     }
                                 } else if (coordinate.x + j == peptideString.length() - 1) {
-                                    if ((peptide.getRightFlank() == '-') && (proCTermPossibleMod != null)) {
-                                        for (float cTermMod : proCTermPossibleMod) {
-                                            for (String modifiedAA : modifiedAAMassMap.keySet()) {
-                                                if (modifiedAA.charAt(0) == aaSeqCharArray[i]) {
-                                                    if (Math.abs(cTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {
-                                                        newPositionGapMap.put(new Coordinate(coordinate.x + i, coordinate.x + i + 1), modifiedAAMassMap.get(modifiedAA));
-                                                        newPositionGapMap.put(new Coordinate(coordinate.x + j, coordinate.x + j + 1), cTermMod);
-                                                        ok = true;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            if (ok) {
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    if (!ok && (pepCTermPossibleMod != null)) {
-                                        for (float cTermMod : pepCTermPossibleMod) {
+                                    if (cTermPossibleMod != null) {
+                                        for (float cTermMod : cTermPossibleMod) {
                                             for (String modifiedAA : modifiedAAMassMap.keySet()) {
                                                 if (modifiedAA.charAt(0) == aaSeqCharArray[i]) {
                                                     if (Math.abs(cTermMod + modifiedAAMassMap.get(modifiedAA) - deltaMass) <= 4 * ms2Tolerance) {

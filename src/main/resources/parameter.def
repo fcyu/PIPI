@@ -46,14 +46,12 @@ mod08 = 0.0@X<
 mod09 = 0.0@X>
 mod10 = 0.0@X?
 
-# Considered peptide/protein N/C-terminal modifications in generating tags.
+# Considered N/C-terminal modifications in generating tags.
 # Empty ones must with value 0.0.
 # The maximum number for each terminal is 9.
 # Please only specify enriched PTM and chemical labelling PTM.
-pepNterm = 0.0
-pepCterm = 0.0
-proNterm = 0.0
-proCterm = 0.0
+Nterm = 0.0
+Cterm = 0.0
 
 # Fix modification
 G = 0

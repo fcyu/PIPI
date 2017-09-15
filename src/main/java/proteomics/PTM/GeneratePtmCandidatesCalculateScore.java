@@ -111,21 +111,12 @@ public class GeneratePtmCandidatesCalculateScore {
                         char aa = ptmFreeSequence.charAt(i);
                         for (VarModParam varModParam : varModParamSet) {
                             if (varModParam.aa == aa) {
-                                boolean record = true;
-                                if (varModParam.proteinTerminal) {
-                                    // check the protein terminal criteria
-                                    if (((varModParam.aa == 'n') && (candidate.getLeftFlank() != '-')) || ((varModParam.aa == 'c') && (candidate.getRightFlank() != '-'))) {
-                                        record = false;
-                                    }
-                                }
-                                if (record) {
-                                    if (idxVarModMassMap.containsKey(i)) {
-                                        idxVarModMassMap.get(i).add(varModParam.modMass);
-                                    } else {
-                                        List<Float> temp = new LinkedList<>();
-                                        temp.add(varModParam.modMass);
-                                        idxVarModMassMap.put(i, temp);
-                                    }
+                                if (idxVarModMassMap.containsKey(i)) {
+                                    idxVarModMassMap.get(i).add(varModParam.mass);
+                                } else {
+                                    List<Float> temp = new LinkedList<>();
+                                    temp.add(varModParam.mass);
+                                    idxVarModMassMap.put(i, temp);
                                 }
                             }
                         }
@@ -272,7 +263,7 @@ public class GeneratePtmCandidatesCalculateScore {
 
     static boolean isNewPtmMass(Set<VarModParam> varModParamSet, float mass, float tolerance) {
         for (VarModParam varModParam : varModParamSet) {
-            if (Math.abs(varModParam.modMass - mass) < tolerance) {
+            if (Math.abs(varModParam.mass - mass) < tolerance) {
                 return false;
             }
         }
