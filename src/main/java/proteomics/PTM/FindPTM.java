@@ -4,13 +4,9 @@ package proteomics.PTM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.DynamicProgramming.TagAlignment;
-import proteomics.PIPI;
 import proteomics.Types.*;
 import proteomics.TheoSeq.MassTool;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class FindPTM {
@@ -27,7 +23,6 @@ public class FindPTM {
     private final Map<String, Float> modifiedAAMassMap;
     private final float[] nTermPossibleMod;
     private final float[] cTermPossibleMod;
-    private final Set<String> noResultScanPeptide = new HashSet<>();
 
     public FindPTM(List<Peptide> peptideList, SpectrumEntry spectrumEntry, List<ThreeExpAA> exp3aaLists, Map<String, Float> modifiedAAMassMap, float[] nTermPossibleMod, float[] cTermPossibleMod, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance) {
         this.ms1Tolerance = ms1Tolerance;
@@ -57,24 +52,7 @@ public class FindPTM {
                     peptideWithPtm.setUnknownPtmNum(unknownPtmNum);
 
                     peptideWithPtmList.add(peptideWithPtm);
-                } else if (PIPI.DEV) {
-                    noResultScanPeptide.add(peptide.getPTMFreeSeq());
                 }
-            } else if (PIPI.DEV) {
-                noResultScanPeptide.add(peptide.getPTMFreeSeq());
-            }
-        }
-
-        if (PIPI.DEV) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("no_result_scans" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"))) {
-                writer.write("total_candidate,no_result_candidate\n");
-                for (String seq : noResultScanPeptide) {
-                    writer.write(String.format(Locale.US, "%d,%s\n", peptideList.size(), seq));
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                logger.error(ex.getMessage());
-                System.exit(1);
             }
         }
     }

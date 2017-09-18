@@ -114,41 +114,7 @@ public class Search {
 
             if (PIPI.DEV) {
                 try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("PTMFreeContainingGlobalScoreBound" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
-                    writer.write("PTM_free_low,PTM_free_high,PTM_containing_low,PTM_containing_high\n");
-                    if (!ptmFreeQueue.isEmpty()) {
-                        double highScore = 0;
-                        double lowScore = 1;
-                        for (ResultEntry temp : ptmFreeQueue) {
-                            if (temp.score > highScore) {
-                                highScore = temp.score;
-                            }
-                            if (temp.score < lowScore) {
-                                lowScore = temp.score;
-                            }
-                        }
-                        writer.write(String.format(Locale.US, "%f,%f,", lowScore, highScore));
-                    } else {
-                        writer.write("-,-,");
-                    }
-                    if (!ptmOnlyQueue.isEmpty()) {
-                        double highScore = 0;
-                        double lowScore = 1;
-                        for (ResultEntry temp : ptmOnlyQueue) {
-                            if (temp.score > highScore) {
-                                highScore = temp.score;
-                            }
-                            if (temp.score < lowScore) {
-                                lowScore = temp.score;
-                            }
-                        }
-                        writer.write(String.format(Locale.US, "%f,%f\n", lowScore, highScore));
-                    } else {
-                        writer.write("-,-\n");
-                    }
-                    writer.close();
-
-                    writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
                     writer.write("peptide,globalRank,is_decoy\n");
                     for (Peptide peptide : ptmOnlyResult) {
                         if (peptide.isDecoy()) {
