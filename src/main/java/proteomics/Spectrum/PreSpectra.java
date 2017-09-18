@@ -2,6 +2,7 @@ package proteomics.Spectrum;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import proteomics.PIPI;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.SpectrumEntry;
 import uk.ac.ebi.pride.tools.jmzreader.*;
@@ -79,6 +80,12 @@ public class PreSpectra {
                 ex.printStackTrace();
                 logger.error(ex.getMessage());
                 System.exit(1);
+            }
+
+            if (PIPI.debugScanNumArray.length > 0) {
+                if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                    continue;
+                }
             }
 
             float precursorMz = spectrum.getPrecursorMZ().floatValue();
