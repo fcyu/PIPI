@@ -112,7 +112,7 @@ public class Search {
             ptmFreeResult = convertResult(ptmFreeQueue, massToolObj, maxMs2Charge);
             ptmOnlyResult = convertResult(ptmOnlyQueue, massToolObj, maxMs2Charge);
 
-            if (PIPI.DEV) {
+            if (PIPI.DEBUG) {
                 try {
                     BufferedWriter writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
                     writer.write("peptide,globalRank,is_decoy\n");
