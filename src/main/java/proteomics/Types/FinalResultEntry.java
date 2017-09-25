@@ -16,6 +16,7 @@ public class FinalResultEntry {
     private double matchedHighestIntensityFrac;
     private double ptmDeltasScore;
     private TreeSet<PeptideScore> ptmPatterns;
+    private int explainedAaNum;
 
     private float qValue = -1;
 
@@ -130,5 +131,13 @@ public class FinalResultEntry {
 
     public TreeSet<PeptideScore> getPtmPatterns() {
         return ptmPatterns;
+    }
+
+    public void setExplainedAaNum(int explainedAaNum) {
+        this.explainedAaNum = explainedAaNum;
+    }
+
+    public int getExplainedAaNum() {
+        return explainedAaNum;
     }
 }

@@ -16,6 +16,7 @@ public class CalSubscores {
         int precursorCharge = spectrum.precursorCharge;
 
         int matchedPeakNum = 0;
+        Set<Integer> matchedIdxSet = new HashSet<>();
         int maxRow = Math.min(ionMatrix.length, 2 * (precursorCharge - 1));
         if (precursorCharge == 1) {
             maxRow = 2;
@@ -36,6 +37,15 @@ public class CalSubscores {
                             ++matchedHighestPeakNum;
                         }
                         ++matchedPeakNum;
+                        if (i % 2 == 0) {
+                            matchedIdxSet.add(j);
+                        } else {
+                            if (j > 0) {
+                                matchedIdxSet.add(j - 1);
+                            } else {
+                                matchedIdxSet.add(ionMatrix[0].length - 1);
+                            }
+                        }
                         break;
                     }
                 }
@@ -48,5 +58,17 @@ public class CalSubscores {
         } else {
             psm.setMatchedHighestIntensityFrac(0);
         }
+
+        Integer[] matchedIdxArray = matchedIdxSet.toArray(new Integer[matchedIdxSet.size()]);
+        Arrays.sort(matchedIdxArray);
+        int explainedAaNum = 0;
+        if (matchedIdxArray.length > 1) {
+            for (int i = 0; i < matchedIdxArray.length - 1; ++i) {
+                if (matchedIdxArray[i + 1] - matchedIdxArray[i] == 1) {
+                    ++explainedAaNum;
+                }
+            }
+        }
+        psm.setExplainedAaNum(explainedAaNum);
     }
 }
