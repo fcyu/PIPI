@@ -60,9 +60,7 @@ public class SparseBooleanVector {
     }
 
     public Integer[] getNonZeroIdxes() {
-        Integer[] outputArray = sparseVector.toArray(new Integer[sparseVector.size()]);
-        Arrays.sort(outputArray);
-        return outputArray;
+        return sparseVector.toArray(new Integer[sparseVector.size()]);
     }
 
     public String toString() {
