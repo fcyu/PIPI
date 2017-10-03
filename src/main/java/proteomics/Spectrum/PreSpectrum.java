@@ -10,6 +10,8 @@ public class PreSpectrum {
     private static final float defaultIntensity = 1; // DO NOT change. Otherwise, change the whole project accordingly.
     private static final float floatZero = 1e-6f;
     private static final int xcorrOffset = 75;
+    private static final int topN = 10;
+    private static final float removePrecursorPeakTolerance = 1.5f; // this equals the isolation window.
 
     private final MassTool massToolObj;
 
@@ -37,29 +39,16 @@ public class PreSpectrum {
             temp = new TreeMap<>(temp.subMap(0f, precursorMass));
         }
 
-        temp = normalizeSpec(temp);
-
-        if (temp.size() > 200) {
-            // only keep top 200 peaks
-            Float[] intensityArray = temp.values().toArray(new Float[temp.size()]);
-            Arrays.sort(intensityArray, Collections.reverseOrder());
-            float intensityT = intensityArray[200];
-            TreeMap<Float, Float> tempMap = new TreeMap<>();
-            for (float mz : temp.keySet()) {
-                if (temp.get(mz) > intensityT) {
-                    tempMap.put(mz, temp.get(mz));
-                }
-            }
-            return tempMap;
-        } else {
-            // normalize
-            return temp;
-        }
+        return preprocess(temp);
     }
 
-    public SparseVector prepareXcorr(TreeMap<Float, Float> unprocessedPlMap) {
-        // start from the unnormalized and undenoised spectrum
-        float[] plArray = digitizeSpec(normalizeSpec(unprocessedPlMap));
+    public SparseVector prepareXcorr(TreeMap<Float, Float> unprocessedPlMap, boolean preprocess) {
+        float[] plArray;
+        if (preprocess) {
+            plArray = digitizeSpec(preprocess(unprocessedPlMap));
+        } else {
+            plArray = digitizeSpec(unprocessedPlMap);
+        }
 
         SparseVector xcorrPl = new SparseVector();
         int offsetRange = 2 * xcorrOffset + 1;
@@ -90,10 +79,10 @@ public class PreSpectrum {
         return xcorrPl;
     }
 
-    public SparseVector prepareDigitizedPL(TreeMap<Float, Float> plMap, boolean normalize) {
+    public SparseVector prepareDigitizedPL(TreeMap<Float, Float> plMap, boolean preprocess) {
         float[] plArray;
-        if (normalize) {
-            plArray = digitizeSpec(normalizeSpec(plMap));
+        if (preprocess) {
+            plArray = digitizeSpec(preprocess(plMap));
         } else {
             plArray = digitizeSpec(plMap);
         }
@@ -111,13 +100,10 @@ public class PreSpectrum {
 
     private TreeMap<Float, Float> removeCertainPeaks(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         TreeMap<Float, Float> mzIntensityMap = new TreeMap<>();
-
         float precursorMz = precursorMass / precursorCharge + MassTool.PROTON;
-        float precursorMzWaterLoss = precursorMz - MassTool.H2O / precursorCharge;
-        float precursorMzAmmoniaLoss = precursorMz - MassTool.NH3 / precursorCharge;
         for (double mz : peakMap.keySet()) {
             if (((mz < minClear) || (mz > maxClear)) && (mz > 50)) {
-                if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - precursorMz) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzWaterLoss) > ms2Tolerance) && (Math.abs(peakMap.get(mz) - precursorMzAmmoniaLoss) > ms2Tolerance)) {
+                if ((peakMap.get(mz) > floatZero) && (Math.abs(peakMap.get(mz) - precursorMz) > removePrecursorPeakTolerance)) {
                     mzIntensityMap.put((float) mz, peakMap.get(mz).floatValue());
                 }
             }
@@ -195,7 +181,7 @@ public class PreSpectrum {
         return uniqueIntensityVector[maxIdx];
     }
 
-    private TreeMap<Float, Float> normalizeSpec(TreeMap<Float, Float> plMap) {
+    private TreeMap<Float, Float> preprocess(TreeMap<Float, Float> plMap) {
         // sqrt the intensity and find the highest intensity.
         TreeMap<Float, Float> sqrtPlMap = new TreeMap<>();
         for (float mz : plMap.keySet()) {
@@ -204,7 +190,7 @@ public class PreSpectrum {
         }
 
         // normalize the intensity in each 100 Da.
-        TreeMap<Float, Float> normalizedPL = new TreeMap<>();
+        TreeMap<Float, Float> preprocessedPL = new TreeMap<>();
         float minMz = sqrtPlMap.firstKey();
         float maxMz = sqrtPlMap.lastKey();
         float leftMz = minMz;
@@ -219,19 +205,19 @@ public class PreSpectrum {
             }
             if (!subMap.isEmpty()) {
                 Float[] intensityArray = subMap.values().toArray(new Float[subMap.size()]);
-                Arrays.sort(intensityArray);
-                float temp1 = defaultIntensity / intensityArray[intensityArray.length - 1];
-                float temp2 = (float) 0.05 * intensityArray[intensityArray.length - 1];
+                Arrays.sort(intensityArray, Comparator.reverseOrder());
+                float temp1 = defaultIntensity / intensityArray[0];
+                float temp2 = subMap.size() > topN ? intensityArray[topN] : 0;
                 for (float mz : subMap.keySet()) {
                     if (subMap.get(mz) > temp2) {
-                        normalizedPL.put(mz, subMap.get(mz) * temp1);
+                        preprocessedPL.put(mz, subMap.get(mz) * temp1);
                     }
                 }
             }
             leftMz = rightMz;
         }
 
-        return normalizedPL;
+        return preprocessedPL;
     }
 
     private float[] digitizeSpec(TreeMap<Float, Float> pl) {

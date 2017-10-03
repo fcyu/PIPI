@@ -59,11 +59,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
 
             // prepare the spectrum
             PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
-            SparseVector expPrpcessedPL;
+            SparseVector expProcessedPL;
             if (PIPI.useXcorr) {
-                expPrpcessedPL = preSpectrumObj.prepareXcorr(spectrumEntry.unprocessedPlMap);
+                expProcessedPL = preSpectrumObj.prepareXcorr(spectrumEntry.plMap, false);
             } else {
-                expPrpcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.unprocessedPlMap, true);
+                expProcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.plMap, false);
             }
 
             GeneratePtmCandidatesCalculateScore generatePtmCandidatesCalculateScore = new GeneratePtmCandidatesCalculateScore(spectrumEntry, massToolObj, inference3SegmentObj.getVarModParamSet(), buildIndexObj.returnFixModMap(), ms2Tolerance, maxMs2Charge, expPrpcessedPL);
@@ -73,7 +73,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
 
             // Calculate Score for PTM free peptide
             for (Peptide peptide : searchObj.getPTMFreeResult()) {
-                CalScore.calScore(peptide, expPrpcessedPL, psm, massToolObj, null);
+                CalScore.calScore(peptide, expProcessedPL, psm, massToolObj, null);
             }
 
             if (psm.hasHit()) {
