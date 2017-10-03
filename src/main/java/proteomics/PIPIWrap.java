@@ -66,7 +66,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 expProcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.plMap, false);
             }
 
-            GeneratePtmCandidatesCalculateScore generatePtmCandidatesCalculateScore = new GeneratePtmCandidatesCalculateScore(spectrumEntry, massToolObj, inference3SegmentObj.getVarModParamSet(), buildIndexObj.returnFixModMap(), ms2Tolerance, maxMs2Charge, expPrpcessedPL);
+            GeneratePtmCandidatesCalculateScore generatePtmCandidatesCalculateScore = new GeneratePtmCandidatesCalculateScore(spectrumEntry, massToolObj, inference3SegmentObj.getVarModParamSet(), buildIndexObj.returnFixModMap(), ms2Tolerance, maxMs2Charge, expProcessedPL);
 
             // Generate all candidates based on inferred PTMs and known PTMs. Calculate Score
             FinalResultEntry psm = generatePtmCandidatesCalculateScore.generateAllPtmCandidatesCalculateScore(generatePtmCandidatesCalculateScore.eliminateMissedCleavageCausedPtms(searchObj.getPTMFreeResult(), findPtmObj.getPeptidesWithPTMs()));
