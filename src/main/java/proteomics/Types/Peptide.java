@@ -59,7 +59,7 @@ public class Peptide implements Comparable<Peptide> {
         if (ionMatrix == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq);
+            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq) + MassTool.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return ionMatrix;
@@ -77,7 +77,7 @@ public class Peptide implements Comparable<Peptide> {
         if (precursorMass < 0) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq);
+            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq) + MassTool.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return precursorMass;
@@ -87,7 +87,7 @@ public class Peptide implements Comparable<Peptide> {
         if (chargeOneBIonArray == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq);
+            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq) + MassTool.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return chargeOneBIonArray;
