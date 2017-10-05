@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
-    public static final String versionStr = "1.3.2";
+    public static final String versionStr = "1.3.3";
     public static final boolean useXcorr = true;
 
     public static final boolean DEBUG = false;
