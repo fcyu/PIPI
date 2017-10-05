@@ -22,10 +22,9 @@ import java.util.concurrent.*;
 public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
-    public static final String versionStr = "1.3.3";
+    public static final String versionStr = "1.4.0";
     public static final boolean useXcorr = true;
 
-    public static final boolean DEV = true;
     public static final boolean DEBUG = false;
     public static final int[] debugScanNumArray = new int[]{};
 
@@ -46,10 +45,6 @@ public class PIPI {
             logger.info("Computer: {}", hostName);
 
             logger.info("Spectra: {}, parameter: {}", spectraPath, parameterPath);
-
-            if (DEV) {
-                logger.info("In DEV mode.");
-            }
 
             if (DEBUG) {
                 logger.info("In DEBUG mode.");
@@ -127,17 +122,16 @@ public class PIPI {
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
         List<Future<FinalResultEntry>> taskList = new LinkedList<>();
-        Map<Integer, List<PIPIWrap.DevEntry>> scanDevMap = new HashMap<>();
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
             if (spectrumEntry.precursorCharge > 0) {
-                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge), scanDevMap)));
+                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
             } else {
                 for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
                     float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
                     if (potentialPrecursorMass >= 400) {
                         SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)),spectrumEntry.mgfTitle);
-                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge, scanDevMap)));
+                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
                     }
                 }
             }
@@ -200,21 +194,6 @@ public class PIPI {
         if (resultList.isEmpty()) {
             logger.error("There is no useful results.");
             System.exit(1);
-        }
-
-        if (PIPI.DEV) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("pipi.dev.csv"))) {
-                writer.write("scanNum,totalCheckedNum,stopped,ptmFreeSequence,peptide,isFinalResult\n");
-                for (int scanNum : scanDevMap.keySet()) {
-                    for (PIPIWrap.DevEntry devEntry : scanDevMap.get(scanNum)) {
-                        writer.write(scanNum + "," + devEntry.totalCheckedNum + "," + devEntry.stopped + "," + devEntry.ptmFreePeptide + "," + devEntry.peptide + "," + devEntry.isFinalResult + "\n");
-                    }
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                logger.error(ex.getMessage());
-                System.exit(1);
-            }
         }
 
         logger.info("Estimating FDR...");
