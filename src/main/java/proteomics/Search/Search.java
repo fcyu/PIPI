@@ -16,7 +16,7 @@ import java.util.*;
 public class Search {
 
     private static final Logger logger = LoggerFactory.getLogger(Search.class);
-    private static final int rankNum = 10;
+    private static final int rankNum = 5;
 
     private List<Peptide> ptmOnlyResult = new LinkedList<>();
     private List<Peptide> ptmFreeResult = new LinkedList<>();

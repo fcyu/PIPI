@@ -5,20 +5,15 @@ import java.util.*;
 
 public class FinalResultEntry {
 
-    private static final int scoreNum = 5;
+    private static final int scoreNum = 3;
 
     private final int scanNum;
     private final int charge;
     private final float precursorMz;
     private final String mgtTitle;
-    private TreeSet<PeptideScore> peptideScoreList = new TreeSet<>(Collections.reverseOrder());
-    private double ionFrac;
-    private double matchedHighestIntensityFrac;
-    private double ptmDeltasScore;
-    private TreeSet<PeptideScore> ptmPatterns;
-    private int explainedAaNum;
 
-    private float qValue = -1;
+    private TreeSet<Peptide> peptideSet = new TreeSet<>(Collections.reverseOrder());
+    private Map<String, TreeSet<Peptide>> ptmPatterns;
 
     public FinalResultEntry(int scanNum, int charge, float precursorMz, String mgtTitle) {
         this.scanNum = scanNum;
@@ -31,37 +26,8 @@ public class FinalResultEntry {
         return mgtTitle;
     }
 
-    public double getScore() {
-        return peptideScoreList.first().score;
-    }
-
     public boolean hasHit() {
-        return !peptideScoreList.isEmpty();
-    }
-
-    public Peptide getPeptide() {
-        return peptideScoreList.first().peptide;
-    }
-    
-    public boolean isDecoy() {
-        return peptideScoreList.first().peptide.isDecoy();
-    }
-
-    public double getDeltaC() {
-        if (peptideScoreList.size() < 2) {
-            return 1;
-        } else {
-            Iterator<PeptideScore> it = peptideScoreList.iterator();
-            return (it.next().score - it.next().score) / peptideScoreList.first().score;
-        }
-    }
-
-    public double getDeltaLC() {
-        if (peptideScoreList.size() < 2) {
-            return 1;
-        } else {
-            return (peptideScoreList.first().score - peptideScoreList.last().score) / peptideScoreList.first().score;
-        }
+        return !peptideSet.isEmpty();
     }
 
     public int getScanNum() {
@@ -76,68 +42,24 @@ public class FinalResultEntry {
         return precursorMz;
     }
 
-    public void addScore(PeptideScore peptideScore) {
-        if (peptideScoreList.size() < scoreNum) {
-            peptideScoreList.add(peptideScore);
-        } else if (peptideScore.score > peptideScoreList.last().score) {
-            peptideScoreList.pollLast();
-            peptideScoreList.add(peptideScore);
+    public void addScore(Peptide peptide) {
+        if (peptideSet.size() < scoreNum) {
+            peptideSet.add(peptide);
+        } else if (peptide.getScore() > peptideSet.last().getScore()) {
+            peptideSet.pollLast();
+            peptideSet.add(peptide);
         }
     }
 
-    public void setQValue(float qValue) {
-        this.qValue = qValue;
+    public TreeSet<Peptide> getPeptideSet() {
+        return peptideSet;
     }
 
-    public float getQValue() {
-        return qValue;
-    }
-
-    public double getNormalizedCrossCorrelationCoefficient() {
-        return peptideScoreList.first().peptide.getNormalizedCrossCorr();
-    }
-
-    public int getGlobalSearchRank() {
-        return peptideScoreList.first().peptide.getGlobalRank();
-    }
-
-    public void setIonFrac(double ionFrac) {
-        this.ionFrac = ionFrac;
-    }
-
-    public void setMatchedHighestIntensityFrac(double matchedHighestIntensityFrac) {
-        this.matchedHighestIntensityFrac = matchedHighestIntensityFrac;
-    }
-
-    public double getIonFrac() {
-        return ionFrac;
-    }
-
-    public double getMatchedHighestIntensityFrac() {
-        return matchedHighestIntensityFrac;
-    }
-
-    public void setPtmDeltasScore(double ptmDeltasScore) {
-        this.ptmDeltasScore = ptmDeltasScore;
-    }
-
-    public double getPtmDeltasScore() {
-        return ptmDeltasScore;
-    }
-
-    public void setPtmPatterns(TreeSet<PeptideScore> ptmPatterns) {
+    public void setPtmPatterns(Map<String, TreeSet<Peptide>> ptmPatterns) {
         this.ptmPatterns = ptmPatterns;
     }
 
-    public TreeSet<PeptideScore> getPtmPatterns() {
+    public Map<String, TreeSet<Peptide>> getPtmPatterns() {
         return ptmPatterns;
-    }
-
-    public void setExplainedAaNum(int explainedAaNum) {
-        this.explainedAaNum = explainedAaNum;
-    }
-
-    public int getExplainedAaNum() {
-        return explainedAaNum;
     }
 }

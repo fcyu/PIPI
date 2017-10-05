@@ -25,8 +25,6 @@ public class Peptide implements Comparable<Peptide> {
     private String toString;
     private int hashCode;
 
-    private int unknownPtmNum = 0;
-
     // these fields need to be changed every time PTM changed.
     private PositionDeltaMassMap varPTMMap = null;
     private float precursorMass = -1;
@@ -35,6 +33,13 @@ public class Peptide implements Comparable<Peptide> {
     private String varPtmContainingSeq = null;
 
     private String ptmContainingSeq = null;
+
+    // score part
+    private double score = -1;
+    private double ionFrac = -1;
+    private double matchedHighestIntensityFrac = -1;
+    private int explainedAaNum = -1;
+    private double qValue = -1;
 
     public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank) {
         this.ptmFreeSeq = ptmFreeSeq;
@@ -112,7 +117,11 @@ public class Peptide implements Comparable<Peptide> {
             other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, leftFlank, rightFlank, globalRank);
             if (varPTMMap != null) {
                 other.setVarPTM(varPTMMap.clone());
-                other.setUnknownPtmNum(unknownPtmNum);
+                other.setScore(score);
+                other.setMatchedHighestIntensityFrac(matchedHighestIntensityFrac);
+                other.setExplainedAaNum(explainedAaNum);
+                other.setIonFrac(ionFrac);
+                other.setQValue(qValue);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -166,14 +175,6 @@ public class Peptide implements Comparable<Peptide> {
         }
     }
 
-    public void setUnknownPtmNum(int unknownPtmNum) {
-        this.unknownPtmNum = unknownPtmNum;
-    }
-
-    public int getUnknownPtmNum() {
-        return unknownPtmNum;
-    }
-
     public String getPTMFreeSeq() {
         return ptmFreeSeq;
     }
@@ -197,7 +198,7 @@ public class Peptide implements Comparable<Peptide> {
                     if (tempIdx > i) {
                         for (Coordinate co : varPTMMap.keySet()) {
                             if (co.y - 1 == i) {
-                                sb.append(String.format(Locale.US, "%c(%.2f)", ptmFreeSeq.charAt(i), varPTMMap.get(co)));
+                                sb.append(String.format(Locale.US, "%c(%.3f)", ptmFreeSeq.charAt(i), varPTMMap.get(co)));
                                 hasMod = true;
                                 ++i;
                                 break;
@@ -228,7 +229,7 @@ public class Peptide implements Comparable<Peptide> {
             ptmContainingSeq = getVarPtmContainingSeq();
             for (char aa : fixModMap.keySet()) {
                 if (Math.abs(fixModMap.get(aa)) > 0.01) {
-                    ptmContainingSeq = ptmContainingSeq.replaceAll(String.valueOf(aa), String.format(Locale.US, "%c(%.2f)", aa, fixModMap.get(aa)));
+                    ptmContainingSeq = ptmContainingSeq.replaceAll(String.valueOf(aa), String.format(Locale.US, "%c(%.3f)", aa, fixModMap.get(aa)));
                 }
             }
         }
@@ -240,13 +241,71 @@ public class Peptide implements Comparable<Peptide> {
         return normalizedCrossCorrelationCoefficient;
     }
 
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public void setIonFrac(double ionFrac) {
+        this.ionFrac = ionFrac;
+    }
+
+    public void setMatchedHighestIntensityFrac(double matchedHighestIntensityFrac) {
+        this.matchedHighestIntensityFrac = matchedHighestIntensityFrac;
+    }
+
+    public void setExplainedAaNum(int explainedAaNum) {
+        this.explainedAaNum = explainedAaNum;
+    }
+
+    public void setQValue(double qValue) {
+        this.qValue = qValue;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public double getIonFrac() {
+        return ionFrac;
+    }
+
+    public double getMatchedHighestIntensityFrac() {
+        return matchedHighestIntensityFrac;
+    }
+
+    public int getExplainedAaNum() {
+        return explainedAaNum;
+    }
+
+    public double getQValue() {
+        return qValue;
+    }
+
     public int compareTo(Peptide peptide) {
-        if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
+        if (score > peptide.getScore()) {
             return 1;
-        } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
+        } else if (score < peptide.getScore()) {
             return -1;
         } else {
-            return 0;
+            if (explainedAaNum > peptide.getExplainedAaNum()) {
+                return 1;
+            } else if (explainedAaNum < peptide.getExplainedAaNum()) {
+                return -1;
+            } else {
+                if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
+                    return 1;
+                } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
+                    return -1;
+                } else {
+                    if (!isDecoy && peptide.isDecoy()) {
+                        return 1;
+                    } else if (isDecoy && !peptide.isDecoy()) {
+                        return -1;
+                    } else{
+                        return 0;
+                    }
+                }
+            }
         }
     }
 }

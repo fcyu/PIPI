@@ -12,25 +12,25 @@ public class CalScore {
 
     private static final Logger logger = LoggerFactory.getLogger(CalScore.class);
 
-    public static void calScore(Peptide peptide, SparseVector expProcessedPL, FinalResultEntry psm, MassTool massToolObj, Map<String, TreeSet<PeptideScore>> modSequences) {
+    public static void calScore(Peptide peptide, SparseVector expProcessedPL, FinalResultEntry psm, MassTool massToolObj, Map<String, TreeSet<Peptide>> modSequences) {
         double score = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.
         if (score > 0) {
-            PeptideScore peptideScore = new PeptideScore(score, peptide);
-            psm.addScore(peptideScore);
+            peptide.setScore(score);
+            psm.addScore(peptide);
 
             if (peptide.hasVarPTM()) {
                 // record scores with different PTM patterns for calculating PTM delta score.
                 if (modSequences.containsKey(peptide.getPTMFreeSeq())) {
-                    TreeSet<PeptideScore> temp = modSequences.get(peptide.getPTMFreeSeq());
+                    TreeSet<Peptide> temp = modSequences.get(peptide.getPTMFreeSeq());
                     if (temp.size() < 5) {
-                        temp.add(peptideScore);
-                    } else if (score > temp.last().score) {
+                        temp.add(peptide);
+                    } else if (score > temp.last().getScore()) {
                         temp.pollLast();
-                        temp.add(peptideScore);
+                        temp.add(peptide);
                     }
                 } else {
-                    TreeSet<PeptideScore> temp = new TreeSet<>(Collections.reverseOrder());
-                    temp.add(peptideScore);
+                    TreeSet<Peptide> temp = new TreeSet<>(Collections.reverseOrder());
+                    temp.add(peptide);
                     modSequences.put(peptide.getPTMFreeSeq(), temp);
                 }
             }

@@ -1,7 +1,6 @@
 package proteomics.Search;
 
 
-import proteomics.Types.FinalResultEntry;
 import proteomics.Types.Peptide;
 import proteomics.Types.SpectrumEntry;
 
@@ -9,9 +8,8 @@ import java.util.*;
 
 public class CalSubscores {
 
-    public CalSubscores(FinalResultEntry psm, SpectrumEntry spectrum, float ms2Tolerance) {
-        TreeMap<Float, Float> expPl = spectrum.unprocessedPlMap;
-        Peptide peptide = psm.getPeptide();
+    public CalSubscores(Peptide peptide, SpectrumEntry spectrum, float ms2Tolerance) {
+        TreeMap<Float, Float> expPl = spectrum.plMap;
         float[][] ionMatrix = peptide.getIonMatrix();
         int precursorCharge = spectrum.precursorCharge;
 
@@ -52,11 +50,11 @@ public class CalSubscores {
             }
         }
 
-        psm.setIonFrac((double) matchedPeakNum / (double) totalIonNum);
+        peptide.setIonFrac((double) matchedPeakNum / (double) totalIonNum);
         if (matchedPeakNum > 0) {
-            psm.setMatchedHighestIntensityFrac((double) matchedHighestPeakNum / (double) matchedPeakNum);
+            peptide.setMatchedHighestIntensityFrac((double) matchedHighestPeakNum / (double) matchedPeakNum);
         } else {
-            psm.setMatchedHighestIntensityFrac(0);
+            peptide.setMatchedHighestIntensityFrac(0);
         }
 
         Integer[] matchedIdxArray = matchedIdxSet.toArray(new Integer[matchedIdxSet.size()]);
@@ -69,6 +67,6 @@ public class CalSubscores {
                 }
             }
         }
-        psm.setExplainedAaNum(explainedAaNum);
+        peptide.setExplainedAaNum(explainedAaNum);
     }
 }
