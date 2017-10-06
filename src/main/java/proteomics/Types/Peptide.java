@@ -38,7 +38,7 @@ public class Peptide implements Comparable<Peptide> {
     private double score = -1;
     private double ionFrac = -1;
     private double matchedHighestIntensityFrac = -1;
-    private int explainedAaNum = -1;
+    private double explainedAaFrac = -1;
     private double qValue = -1;
 
     public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank) {
@@ -119,7 +119,7 @@ public class Peptide implements Comparable<Peptide> {
                 other.setVarPTM(varPTMMap.clone());
                 other.setScore(score);
                 other.setMatchedHighestIntensityFrac(matchedHighestIntensityFrac);
-                other.setExplainedAaNum(explainedAaNum);
+                other.setExplainedAaFrac(explainedAaFrac);
                 other.setIonFrac(ionFrac);
                 other.setQValue(qValue);
             }
@@ -253,8 +253,8 @@ public class Peptide implements Comparable<Peptide> {
         this.matchedHighestIntensityFrac = matchedHighestIntensityFrac;
     }
 
-    public void setExplainedAaNum(int explainedAaNum) {
-        this.explainedAaNum = explainedAaNum;
+    public void setExplainedAaFrac(double explainedAaFrac) {
+        this.explainedAaFrac = explainedAaFrac;
     }
 
     public void setQValue(double qValue) {
@@ -273,8 +273,8 @@ public class Peptide implements Comparable<Peptide> {
         return matchedHighestIntensityFrac;
     }
 
-    public int getExplainedAaNum() {
-        return explainedAaNum;
+    public double getExplainedAaFrac() {
+        return explainedAaFrac;
     }
 
     public double getQValue() {
@@ -287,9 +287,9 @@ public class Peptide implements Comparable<Peptide> {
         } else if (score < peptide.getScore()) {
             return -1;
         } else {
-            if (explainedAaNum > peptide.getExplainedAaNum()) {
+            if (explainedAaFrac > peptide.getExplainedAaFrac()) {
                 return 1;
-            } else if (explainedAaNum < peptide.getExplainedAaNum()) {
+            } else if (explainedAaFrac < peptide.getExplainedAaFrac()) {
                 return -1;
             } else {
                 if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
