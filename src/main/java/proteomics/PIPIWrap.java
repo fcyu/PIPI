@@ -43,7 +43,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.maxPtmMass = maxPtmMass;
         this.maxMs2Charge = maxMs2Charge;
         inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
-        inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), inference3SegmentObj.getVarModParamSet(), minPtmMass, maxPtmMass);
+        inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), inference3SegmentObj.getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
     }
 
     @Override
@@ -74,13 +74,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 localMS1ToleranceL = (precursorMass / (1 + ms1Tolerance * 1e-6f)) - precursorMass;
                 localMS1ToleranceR = (precursorMass / (1 - ms1Tolerance * 1e-6f)) - precursorMass;
             }
-            // TreeMap<Float, Float> expPL = preSpectrumObj.selectTopN(plMap, topN, range);
-            double p = (double) spectrumEntry.plMap.size() / (double) ((int) precursorMass + 1);
 
             // infer PTM using the new approach
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
-                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide.getLeftFlank(), peptide.getRightFlank(), peptide.getGlobalRank(), maxMs2Charge, p, localMS1ToleranceL, localMS1ToleranceR);
+                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, spectrumEntry.plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide.getLeftFlank(), peptide.getRightFlank(), peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (peptidePTMPattern.getTopEntry() != null) {
                     psm.addScore(peptidePTMPattern.getTopEntry().peptide);
                     // record scores with different PTM patterns for calculating PTM delta score.
