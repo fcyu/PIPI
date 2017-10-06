@@ -40,6 +40,7 @@ public class Peptide implements Comparable<Peptide> {
     private double matchedHighestIntensityFrac = -1;
     private double explainedAaFrac = -1;
     private double qValue = -1;
+    private double ptmSupportingPeakFrac = -1;
 
     public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank) {
         this.ptmFreeSeq = ptmFreeSeq;
@@ -261,6 +262,10 @@ public class Peptide implements Comparable<Peptide> {
         this.qValue = qValue;
     }
 
+    public void setPtmSupportingPeakFrac(double ptmSupportingPeakFrac) {
+        this.ptmSupportingPeakFrac = ptmSupportingPeakFrac;
+    }
+
     public double getScore() {
         return score;
     }
@@ -279,6 +284,10 @@ public class Peptide implements Comparable<Peptide> {
 
     public double getQValue() {
         return qValue;
+    }
+
+    public double getPtmSupportingPeakFrac() {
+        return ptmSupportingPeakFrac;
     }
 
     public int compareTo(Peptide peptide) {
