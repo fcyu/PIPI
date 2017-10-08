@@ -109,7 +109,7 @@ public class CalSubscores {
                     }
                 }
             }
-            peptide.setPtmSupportingPeakFrac((double) matchedPtmSupportingPeakSet.size() / (double) totalPtmSupportingPeakSet.size());
+            peptide.setPtmSupportingPeakFrac(totalPtmSupportingPeakSet.isEmpty() ? 0 : (double) matchedPtmSupportingPeakSet.size() / (double) totalPtmSupportingPeakSet.size());
         } else {
             peptide.setPtmSupportingPeakFrac(1);
         }
