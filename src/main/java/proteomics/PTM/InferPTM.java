@@ -18,6 +18,7 @@ public class InferPTM {
     private final float minPtmMass;
     private final float maxPtmMass;
     private final float ms2Tolerance;
+    private final float ptmMassTolerance;
 
     private int highestAasPriority = 0;
     private int matchedPeakNum;
@@ -32,6 +33,7 @@ public class InferPTM {
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.ms2Tolerance = ms2Tolerance;
+        ptmMassTolerance = Math.min(2 * ms2Tolerance, 0.02f);
 
         Map<Character, Float> massTable = massTool.returnMassTable();
 
@@ -375,10 +377,10 @@ public class InferPTM {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i]).keySet()) {
                 for (int j = i + 1; j < idxArray.length - 1; ++j) {
                     for (VarModParam modEntry2 : idxVarModMap.get(idxArray[j]).keySet()) {
-                        if (Math.abs(modEntry1.mass + modEntry2.mass) >= 0.01) { // two self cancelled PTM masses are not allowed.
+                        if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) { // two self cancelled PTM masses are not allowed.
                             for (int k = j + 1; k < idxArray.length; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k]).keySet()) {
-                                    if (Math.abs(modEntry1.mass + modEntry3.mass) >= 0.01 && Math.abs(modEntry2.mass + modEntry3.mass) >= 0.01) {
+                                    if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                         if (modEntry1.mass + modEntry2.mass + modEntry3.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass >= leftMassBound) {
                                             if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000))) {
                                                 checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000));
@@ -419,13 +421,13 @@ public class InferPTM {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i]).keySet()) {
                 for (int j = i + 1; j < idxArray.length - 2; ++j) {
                     for (VarModParam modEntry2 : idxVarModMap.get(idxArray[j]).keySet()) {
-                        if (Math.abs(modEntry1.mass + modEntry2.mass) >= 0.01) {
+                        if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) {
                             for (int k = j + 1; k < idxArray.length - 1; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k]).keySet()) {
-                                    if (Math.abs(modEntry1.mass + modEntry3.mass) >= 0.01 && Math.abs(modEntry2.mass + modEntry3.mass) >= 0.01) {
+                                    if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                         for (int l = k + 1; l < idxArray.length; ++l) {
                                             for (VarModParam modEntry4 : idxVarModMap.get(idxArray[l]).keySet()) {
-                                                if (Math.abs(modEntry1.mass + modEntry4.mass) >= 0.01 && Math.abs(modEntry2.mass + modEntry4.mass) >= 0.01 && Math.abs(modEntry3.mass + modEntry4.mass) >= 0.01) {
+                                                if (Math.abs(modEntry1.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry3.mass + modEntry4.mass) >= ptmMassTolerance) {
                                                     if (modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass >= leftMassBound) {
                                                         if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000))) {
                                                             checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000));
@@ -470,16 +472,16 @@ public class InferPTM {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i]).keySet()) {
                 for (int j = i + 1; j < idxArray.length - 3; ++j) {
                     for (VarModParam modEntry2 : idxVarModMap.get(idxArray[j]).keySet()) {
-                        if (Math.abs(modEntry1.mass + modEntry2.mass) >= 0.01) {
+                        if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) {
                             for (int k = j + 1; k < idxArray.length - 2; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k]).keySet()) {
-                                    if (Math.abs(modEntry1.mass + modEntry3.mass) >= 0.01 && Math.abs(modEntry2.mass + modEntry3.mass) >= 0.01) {
+                                    if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                         for (int l = k + 1; l < idxArray.length - 1; ++l) {
                                             for (VarModParam modEntry4 : idxVarModMap.get(idxArray[l]).keySet()) {
-                                                if (Math.abs(modEntry1.mass + modEntry4.mass) >= 0.01 && Math.abs(modEntry2.mass + modEntry4.mass) >= 0.01 && Math.abs(modEntry3.mass + modEntry4.mass) >= 0.01) {
+                                                if (Math.abs(modEntry1.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry3.mass + modEntry4.mass) >= ptmMassTolerance) {
                                                     for (int m = l + 1; m < idxArray.length; ++m) {
                                                         for (VarModParam modEntry5 : idxVarModMap.get(idxArray[m]).keySet()) {
-                                                            if (Math.abs(modEntry1.mass + modEntry5.mass) >= 0.01 && Math.abs(modEntry2.mass + modEntry5.mass) >= 0.01 && Math.abs(modEntry3.mass + modEntry5.mass) >= 0.01 && Math.abs(modEntry4.mass + modEntry5.mass) >= 0.01) {
+                                                            if (Math.abs(modEntry1.mass + modEntry5.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry5.mass) >= ptmMassTolerance && Math.abs(modEntry3.mass + modEntry5.mass) >= ptmMassTolerance && Math.abs(modEntry4.mass + modEntry5.mass) >= ptmMassTolerance) {
                                                                 if (modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass + modEntry5.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass + modEntry5.mass + modEntry5.mass >= leftMassBound) {
                                                                     if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000) + "-" + idxArray[m] + "-" + Math.round(modEntry5.mass * 1000))) {
                                                                         checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000) + "-" + idxArray[m] + "-" + Math.round(modEntry5.mass * 1000));
