@@ -36,6 +36,7 @@ public class Peptide implements Comparable<Peptide> {
 
     // score part
     private double score = -1;
+    private int matchedPeakNum = -1;
     private double ionFrac = -1;
     private double matchedHighestIntensityFrac = -1;
     private double explainedAaFrac = -1;
@@ -246,6 +247,10 @@ public class Peptide implements Comparable<Peptide> {
         this.score = score;
     }
 
+    public void setMatchedPeakNum(int matchedPeakNum) {
+        this.matchedPeakNum = matchedPeakNum;
+    }
+
     public void setIonFrac(double ionFrac) {
         this.ionFrac = ionFrac;
     }
@@ -268,6 +273,10 @@ public class Peptide implements Comparable<Peptide> {
 
     public double getScore() {
         return score;
+    }
+
+    public int getMatchedPeakNum() {
+        return matchedPeakNum;
     }
 
     public double getIonFrac() {
@@ -296,22 +305,28 @@ public class Peptide implements Comparable<Peptide> {
         } else if (score < peptide.getScore()) {
             return -1;
         } else {
-            if (explainedAaFrac > peptide.getExplainedAaFrac()) {
+            if (matchedPeakNum > peptide.getMatchedPeakNum()) {
                 return 1;
-            } else if (explainedAaFrac < peptide.getExplainedAaFrac()) {
+            } else if (matchedPeakNum < peptide.getMatchedPeakNum()) {
                 return -1;
             } else {
-                if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
+                if (explainedAaFrac > peptide.getExplainedAaFrac()) {
                     return 1;
-                } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
+                } else if (explainedAaFrac < peptide.getExplainedAaFrac()) {
                     return -1;
                 } else {
-                    if (!isDecoy && peptide.isDecoy()) {
+                    if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
                         return 1;
-                    } else if (isDecoy && !peptide.isDecoy()) {
+                    } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
                         return -1;
-                    } else{
-                        return 0;
+                    } else {
+                        if (!isDecoy && peptide.isDecoy()) {
+                            return 1;
+                        } else if (isDecoy && !peptide.isDecoy()) {
+                            return -1;
+                        } else{
+                            return 0;
+                        }
                     }
                 }
             }

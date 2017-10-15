@@ -79,22 +79,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
                 PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, spectrumEntry.plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide.getLeftFlank(), peptide.getRightFlank(), peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
-                if (peptidePTMPattern.getTopEntry() != null) {
-                    psm.addScore(peptidePTMPattern.getTopEntry().peptide);
+                if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
+                    Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
+                    psm.addScore(topPeptide);
                     // record scores with different PTM patterns for calculating PTM delta score.
-                    if (modSequences.containsKey(peptidePTMPattern.getTopEntry().peptide.getPTMFreeSeq())) {
-                        TreeSet<Peptide> temp = modSequences.get(peptidePTMPattern.getTopEntry().peptide.getPTMFreeSeq());
-                        if (temp.size() < 5) {
-                            temp.add(peptidePTMPattern.getTopEntry().peptide);
-                        } else if (peptidePTMPattern.getTopEntry().peptide.getScore() > temp.last().getScore()) {
-                            temp.pollLast();
-                            temp.add(peptidePTMPattern.getTopEntry().peptide);
-                        }
-                    } else {
-                        TreeSet<Peptide> temp = new TreeSet<>(Collections.reverseOrder());
-                        temp.add(peptidePTMPattern.getTopEntry().peptide);
-                        modSequences.put(peptidePTMPattern.getTopEntry().peptide.getPTMFreeSeq(), temp);
-                    }
+                    modSequences.put(topPeptide.getPTMFreeSeq(), peptidePTMPattern.getPeptideTreeSet());
                 }
             }
 

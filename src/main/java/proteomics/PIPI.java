@@ -350,8 +350,11 @@ public class PIPI {
                     String ptmDeltaScore;
                     if (entry.getPtmPatterns().containsKey(peptide.getPTMFreeSeq())) {
                         TreeSet<Peptide> tempTreeSet = entry.getPtmPatterns().get(peptide.getPTMFreeSeq());
-                        for (Peptide temp : tempTreeSet) {
-                            otherPtmPatterns.append(String.format(Locale.US, "%s-%.4f;", peptide.getPtmContainingSeq(fixModMap), temp.getScore()));
+                        Iterator<Peptide> tempTreeSetIterator = tempTreeSet.iterator();
+                        tempTreeSetIterator.next();
+                        while (tempTreeSetIterator.hasNext()) {
+                            Peptide temp = tempTreeSetIterator.next();
+                            otherPtmPatterns.append(String.format(Locale.US, "%s-%.4f;", temp.getPtmContainingSeq(fixModMap), temp.getScore()));
                         }
                         if (tempTreeSet.size() > 1) {
                             Iterator<Peptide> temp = tempTreeSet.iterator();
