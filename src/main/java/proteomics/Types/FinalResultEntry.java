@@ -5,8 +5,6 @@ import java.util.*;
 
 public class FinalResultEntry {
 
-    private static final int scoreNum = 3;
-
     private final int scanNum;
     private final int charge;
     private final float precursorMz;
@@ -43,7 +41,7 @@ public class FinalResultEntry {
     }
 
     public void addScore(Peptide peptide) {
-        if (peptideSet.size() < scoreNum) {
+        if (peptideSet.size() < 5) {
             peptideSet.add(peptide);
         } else if (peptide.getScore() > peptideSet.last().getScore()) {
             peptideSet.pollLast();
