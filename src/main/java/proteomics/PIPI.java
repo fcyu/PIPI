@@ -355,8 +355,7 @@ public class PIPI {
                         }
                         if (tempTreeSet.size() > 1) {
                             Iterator<Peptide> temp = tempTreeSet.iterator();
-                            temp.next();
-                            ptmDeltaScore = String.valueOf(tempTreeSet.first().getScore() - temp.next().getScore());
+                            ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
                         } else {
                             ptmDeltaScore = String.valueOf(tempTreeSet.first().getScore());
                         }
