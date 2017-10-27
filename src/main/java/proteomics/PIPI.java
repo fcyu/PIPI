@@ -222,10 +222,10 @@ public class PIPI {
                 + "A tool identifying peptides with unlimited PTM.\r\n"
                 + "Author: Fengchao Yu\r\n"
                 + "Email: fyuab@connect.ust.hk\r\n"
-                + "ECL usage: java -Xmx25g -jar /path/to/PIPI.jar <parameter_file> <data_file>\r\n"
+                + "PIPI usage: java -Xmx25g -jar /path/to/PIPI.jar <parameter_file> <data_file>\r\n"
                 + "\t<parameter_file>: parameter file. Can be download along with PIPI.\r\n"
                 + "\t<data_file>: spectra data file (mzXML)\r\n"
-                + "\texample: java -Xmx32g -jar ECL.jar parameter.def data.mzxml\r\n";
+                + "\texample: java -Xmx32g -jar PIPI.jar parameter.def data.mzxml\r\n";
         System.out.print(helpStr);
         System.exit(1);
     }
