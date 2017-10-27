@@ -319,6 +319,10 @@ public class Peptide implements Comparable<Peptide> {
                         return 1;
                     } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
                         return -1;
+                    } else if (varPTMMap.size() < peptide.getVarPTMNum()) {
+                        return 1;
+                    } else if (varPTMMap.size() > peptide.getVarPTMNum()) {
+                        return -1;
                     } else {
                         if (!isDecoy && peptide.isDecoy()) {
                             return 1;
