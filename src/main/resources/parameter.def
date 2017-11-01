@@ -14,8 +14,6 @@ min_ms1_charge = 1
 max_ms1_charge = 7
 max_ms2_charge = 3 # Min ms2 charge is set to 1.
 min_peak_num = 10 # Min number of peaks a searched spectrum much have.
-min_potential_charge = 2 # The min precursor charge tried if there is no charge information for a MS/MS spectrum.
-max_potential_charge = 4 # The max precursor charge tried if there is no charge information for a MS/MS spectrum.
 ms_level = 2,3 # The searched MS level.
 
 # Tolerance

@@ -22,6 +22,11 @@ public class PreSpectra {
     private static final Pattern scanNumPattern1 = Pattern.compile("Scan:([0-9]+) ", Pattern.CASE_INSENSITIVE);
     private static final Pattern scanNumPattern2 = Pattern.compile("scan=([0-9]+)", Pattern.CASE_INSENSITIVE);
     private static final Pattern scanNumPattern3 = Pattern.compile("^[^.]+\\.([0-9]+)\\.[0-9]+\\.[0-9]");
+    private static final int[] isotopeCorrectionArray = new int[]{-2, -1, 0}; // do not change it
+
+    private final float ms1Tolerance;
+    private final int ms1ToleranceUnit;
+    private final IsotopeDistribution isotopeDistribution;
 
     private Map<Integer, SpectrumEntry> numSpectrumMap = new HashMap<>();
 
@@ -32,6 +37,9 @@ public class PreSpectra {
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
         float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
+        ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
+        ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
+        isotopeDistribution = new IsotopeDistribution(0);
 
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         PrintStream originalStream = System.out;
@@ -42,10 +50,12 @@ public class PreSpectra {
         System.setOut(nullStream);
 
         Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
+        String parentId = null;
         while (spectrumIterator.hasNext()) {
             Spectrum spectrum = spectrumIterator.next();
 
             if (!msLevelSet.contains(spectrum.getMsLevel())) {
+                parentId = spectrum.getId();
                 continue;
             }
 
@@ -56,7 +66,12 @@ public class PreSpectra {
             }
 
             int scanNum = -1;
+            float precursorMz = spectrum.getPrecursorMZ().floatValue();
+            int precursorCharge = -1;
+            float precursorMass = -1;
+            int isotopeCorrectionNum = 0;
             String mgfTitle = "";
+            TreeMap<Integer, TreeSet<SpectrumEntry.DevEntry>> chargeDevEntryMap = new TreeMap<>();
             try {
                 if (ext.toLowerCase().contentEquals("mgf")) {
                     mgfTitle = ((Ms2Query) spectrum).getTitle();
@@ -70,11 +85,57 @@ public class PreSpectra {
                     } else if (matcher3.find()) {
                         scanNum = Integer.valueOf(matcher3.group(1));
                     } else {
-                        logger.error("Cannot get scan number from the MGF title {}. Please report your MGF title to the author.", mgfTitle);
-                        System.exit(1);
+                        throw new Exception("Cannot get scan number from the MGF title " + mgfTitle + ". Please report your MGF title to fyuab@connect.ust.hk.");
+                    }
+
+                    if (PIPI.debugScanNumArray.length > 0) {
+                        if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                            continue;
+                        }
+                    }
+
+                    if (spectrum.getPrecursorCharge() == null) {
+                        throw new Exception("MGF file does not contain charge information.");
+                    } else {
+                        precursorCharge = spectrum.getPrecursorCharge();
+                        precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
                     }
                 } else {
                     scanNum = Integer.valueOf(spectrum.getId());
+
+                    if (PIPI.debugScanNumArray.length > 0) {
+                        if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                            continue;
+                        }
+                    }
+
+                    TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
+                    if (spectrum.getPrecursorCharge() == null) {
+                        // We have to infer the precursor charge.
+                        double maxPearsonCorrelationCoefficient = -1;
+                        for (int charge = minMs1Charge; charge <= maxMs1Charge; ++charge) {
+                            Entry entry = getIsotopeCorrectionNum(precursorMz, charge, parentPeakList, chargeDevEntryMap);
+                            if (entry.pearsonCorrelationCoefficient > maxPearsonCorrelationCoefficient) {
+                                maxPearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
+                                isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                                precursorCharge = charge;
+                            }
+                        }
+                        if (precursorCharge > 0) {
+                            precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
+                        } else {
+                            logger.warn("Cannot infer the precursor charge for scan {}.", scanNum);
+                            continue;
+                        }
+                    } else {
+                        // We do not try to correct the precursor charge if there is one.
+                        precursorCharge = spectrum.getPrecursorCharge();
+                        Entry entry = getIsotopeCorrectionNum(precursorMz, precursorCharge, parentPeakList, chargeDevEntryMap);
+                        if (entry.pearsonCorrelationCoefficient >= 0.7) { // If the Pearson correlation coefficient is smaller than 0.7, there is not enough evidence to change the original precursor mz.
+                            isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                        }
+                        precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
+                    }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -82,54 +143,24 @@ public class PreSpectra {
                 System.exit(1);
             }
 
-            if (PIPI.debugScanNumArray.length > 0) {
-                if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
-                    continue;
-                }
+            if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge) || (precursorMass < 400)) {
+                continue;
             }
 
-            float precursorMz = spectrum.getPrecursorMZ().floatValue();
+            TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
+            if (plMap.size() <= minPeakNum) {
+                continue;
+            }
+            TreeMap<Float, Float> unprocessedPlMap = new TreeMap<>();
+            for (double mz : rawMzIntensityMap.keySet()) {
+                if ((mz >= 50) && (mz <= precursorMass)) {
+                    unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
+                }
+            }
+            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap, mgfTitle, isotopeCorrectionNum);
 
-            SpectrumEntry spectrumEntry;
-            int precursorCharge;
-            float precursorMass;
-            if (spectrum.getPrecursorCharge() == null) {
-                logger.debug("Scan {} doesn't have charge information.", spectrum.getId());
-                precursorCharge = 0;
-                precursorMass = 0;
-                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
-                if (plMap.size() <= minPeakNum) {
-                    continue;
-                }
-                TreeMap<Float, Float> unprocessedPlMap = new TreeMap<>();
-                for (double mz : rawMzIntensityMap.keySet()) {
-                    if (mz >= 50) {
-                        unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
-                    }
-                }
-                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap, mgfTitle);
-            } else {
-                precursorCharge = spectrum.getPrecursorCharge();
-                if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge)) {
-                    continue;
-                }
-                precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
-
-                if (precursorMass < 400) {
-                    continue;
-                }
-
-                TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
-                if (plMap.size() <= minPeakNum) {
-                    continue;
-                }
-                TreeMap<Float, Float> unprocessedPlMap = new TreeMap<>();
-                for (double mz : rawMzIntensityMap.keySet()) {
-                    if ((mz >= 50) && (mz <= precursorMass)) {
-                        unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
-                    }
-                }
-                spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap, mgfTitle);
+            if (PIPI.DEV) {
+                spectrumEntry.chargeDevEntryMap = chargeDevEntryMap;
             }
 
             numSpectrumMap.put(scanNum, spectrumEntry);
@@ -140,5 +171,101 @@ public class PreSpectra {
 
     public Map<Integer, SpectrumEntry> returnNumSpectrumMap() {
         return numSpectrumMap;
+    }
+
+    private Entry getIsotopeCorrectionNum(double precursorMz, int charge, TreeMap<Double, Double> parentPeakList, TreeMap<Integer, TreeSet<SpectrumEntry.DevEntry>> chargeDevEntryMap) throws Exception {
+        Entry entry = new Entry(0, 0);
+        double leftTol = ms1Tolerance * 2;
+        double rightTol = ms1Tolerance * 2;
+        if (ms1ToleranceUnit == 1) {
+            leftTol = (precursorMz - precursorMz / (1 + ms1Tolerance * 1e-6)) * 2;
+            rightTol = (precursorMz / (1 - ms1Tolerance * 1e-6) - precursorMz) * 2;
+        }
+        for (int isotopeCorrectionNum : isotopeCorrectionArray) {
+            double[][] expMatrix = new double[3][2];
+            for (int i = 0; i < 3; ++i) {
+                expMatrix[i][0] = precursorMz + (isotopeCorrectionNum + i) * MassTool.C13_DIFF / charge;
+                NavigableMap<Double, Double> subMap = parentPeakList.subMap(expMatrix[i][0] - leftTol, true, expMatrix[i][0] + rightTol, true);
+                for (double intensity : subMap.values()) {
+                    expMatrix[i][1] = Math.max(expMatrix[i][1], intensity);
+                }
+            }
+
+            if (Math.abs(expMatrix[0][1]) > 1) { // In bottom-up proteomics, the precursor mass won't be so large that we cannot observe the monoisotopic peak.
+                Map<String, Integer> elementMap = isotopeDistribution.getElementMapFromMonoMass((expMatrix[0][0] - MassTool.PROTON) * charge);
+                List<IsotopeDistribution.Peak> theoIsotopeDistribution = isotopeDistribution.calculate(elementMap);
+                double pearsonCorrelationCoefficient = scaleAndCalPearsonCorrelationCoefficient(expMatrix, theoIsotopeDistribution, charge, isotopeCorrectionNum);
+                if (pearsonCorrelationCoefficient > entry.pearsonCorrelationCoefficient) {
+                    entry.pearsonCorrelationCoefficient = pearsonCorrelationCoefficient;
+                    entry.isotopeCorrectionNum = isotopeCorrectionNum;
+                }
+                if (PIPI.DEV) {
+                    double[][] theoMatrix = new double[expMatrix.length][2];
+                    for (int i = 0; i < expMatrix.length; ++i) {
+                        IsotopeDistribution.Peak peak = theoIsotopeDistribution.get(i);
+                        theoMatrix[i][0] = peak.mass / charge + MassTool.PROTON;
+                        theoMatrix[i][1] = peak.realArea;
+                    }
+                    if (chargeDevEntryMap.containsKey(charge)) {
+                        chargeDevEntryMap.get(charge).add(new SpectrumEntry.DevEntry(isotopeCorrectionNum, pearsonCorrelationCoefficient, expMatrix, theoMatrix));
+                    } else {
+                        TreeSet<SpectrumEntry.DevEntry> tempSet = new TreeSet<>();
+                        tempSet.add(new SpectrumEntry.DevEntry(isotopeCorrectionNum, pearsonCorrelationCoefficient, expMatrix, theoMatrix));
+                        chargeDevEntryMap.put(charge, tempSet);
+                    }
+                }
+            }
+        }
+        return entry;
+    }
+
+    private double scaleAndCalPearsonCorrelationCoefficient(double[][] expMatrix, List<IsotopeDistribution.Peak> theoIsotopeDistribution, int precursorCharge, int isotopeCorrection) { // TODO: check
+        // get theo peaks.
+        int peakNum = Math.min(expMatrix.length, theoIsotopeDistribution.size());
+        double[][] theoMatrix = new double[peakNum][2];
+        for (int i = 0; i < peakNum; ++i) {
+            IsotopeDistribution.Peak peak = theoIsotopeDistribution.get(i);
+            theoMatrix[i][0] = peak.mass / precursorCharge + MassTool.PROTON;
+            theoMatrix[i][1] = peak.realArea;
+        }
+
+        // scale theo peaks
+        double scale = expMatrix[-1 * isotopeCorrection][1] / theoMatrix[-1 * isotopeCorrection][1];
+        if (Math.abs(scale) > 1e-6) {
+            for (int i = 0; i < peakNum; ++i) {
+                theoMatrix[i][1] *= scale;
+            }
+            // calculate Pearson correlation coefficient.
+            double theoIntensityMean = 0;
+            double expIntensityMean = 0;
+            for (int i = 0; i < peakNum; ++i) {
+                theoIntensityMean += theoMatrix[i][1];
+                expIntensityMean += expMatrix[i][1];
+            }
+            theoIntensityMean /= peakNum;
+            expIntensityMean /= peakNum;
+            double temp1 = 0;
+            double temp2 = 0;
+            double temp3 = 0;
+            for (int i = 0; i < peakNum; ++i) {
+                temp1 += (theoMatrix[i][1] - theoIntensityMean) * (expMatrix[i][1] - expIntensityMean);
+                temp2 += Math.pow(theoMatrix[i][1] - theoIntensityMean, 2);
+                temp3 += Math.pow(expMatrix[i][1] - expIntensityMean, 2);
+            }
+            return (temp1 == 0 || temp2 == 0) ? 0 : temp1 / (Math.sqrt(temp2 * temp3));
+        } else {
+            return 0;
+        }
+    }
+
+    private class Entry {
+
+        double pearsonCorrelationCoefficient;
+        int isotopeCorrectionNum;
+
+        Entry(double pearsonCorrelationCoefficient, int isotopeCorrectionNum) {
+            this.pearsonCorrelationCoefficient = pearsonCorrelationCoefficient;
+            this.isotopeCorrectionNum = isotopeCorrectionNum;
+        }
     }
 }

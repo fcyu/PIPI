@@ -21,23 +21,9 @@ public class PreSpectrum {
 
     public TreeMap<Float, Float> preSpectrum (Map<Double, Double> peaksMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         // remove precursor peak from spectrum
-        TreeMap<Float, Float> temp;
-        if (precursorMass > 10) {
-            temp = removeCertainPeaks(peaksMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
-        } else {
-            temp = new TreeMap<>();
-            for (double mz : peaksMap.keySet()) {
-                if (((mz < minClear) || (mz > maxClear)) && (mz > 50)) {
-                    if (peaksMap.get(mz) > floatZero) {
-                        temp.put((float) mz, peaksMap.get(mz).floatValue());
-                    }
-                }
-            }
-        }
+        TreeMap<Float, Float> temp = removeCertainPeaks(peaksMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
 
-        if (precursorMass > 10) {
-            temp = new TreeMap<>(temp.subMap(0f, precursorMass));
-        }
+        temp = new TreeMap<>(temp.subMap(0f, precursorMass));
 
         return preprocess(temp);
     }

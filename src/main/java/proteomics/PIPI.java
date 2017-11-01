@@ -70,8 +70,6 @@ public class PIPI {
         int maxMs2Charge = Integer.valueOf(parameterMap.get("max_ms2_charge"));
         String percolatorPath = parameterMap.get("percolator_path");
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
-        int minPotentialCharge = Integer.valueOf(parameterMap.get("min_potential_charge"));
-        int maxPotentialCharge = Integer.valueOf(parameterMap.get("max_potential_charge"));
 
         String[] tempArray = parameterMap.get("ms_level").split(",");
         Set<Integer> msLevelSet = new HashSet<>(tempArray.length + 1, 1);
@@ -114,6 +112,23 @@ public class PIPI {
         Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
         logger.info("Useful MS/MS spectra number: {}", numSpectrumMap.size());
 
+        if (DEV) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"))) {
+                writer.write("scanNum,charge,finalIsotopeCorrectionNum,isotopeCorrectionNum,pearsonCorrelationCoefficient,expMz1,expMz2,expMz3,expInt1,expInt2,expInt3,theoMz1,theoMz2,theoMz3,theoInt1,theoInt2,theoInt3\n");
+                for (SpectrumEntry spectrumEntry : numSpectrumMap.values()) {
+                    for (int charge : spectrumEntry.chargeDevEntryMap.keySet()) {
+                        for (SpectrumEntry.DevEntry devEntry : spectrumEntry.chargeDevEntryMap.get(charge)) {
+                            writer.write(String.format(Locale.US, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", spectrumEntry.scanNum, charge, spectrumEntry.isotopeCorrectionNum, devEntry.isotopeCorrectionNum, devEntry.pearsonCorrelationCoefficient, devEntry.expMatrix[0][0], devEntry.expMatrix[1][0], devEntry.expMatrix[2][0], devEntry.expMatrix[0][1], devEntry.expMatrix[1][1], devEntry.expMatrix[2][1], devEntry.theoMatrix[0][0], devEntry.theoMatrix[1][0], devEntry.theoMatrix[2][0], devEntry.theoMatrix[0][1], devEntry.theoMatrix[1][1], devEntry.theoMatrix[2][1]));
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                logger.error(ex.getMessage());
+                ex.printStackTrace();
+                System.exit(1);
+            }
+        }
+
         logger.info("Start searching...");
         int threadNum = Integer.valueOf(parameterMap.get("thread_num"));
         if (threadNum == 0) {
@@ -124,17 +139,7 @@ public class PIPI {
         List<Future<FinalResultEntry>> taskList = new LinkedList<>();
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
-            if (spectrumEntry.precursorCharge > 0) {
                 taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
-            } else {
-                for (int potentialCharge = minPotentialCharge; potentialCharge <= maxPotentialCharge; ++potentialCharge) {
-                    float potentialPrecursorMass = potentialCharge * (spectrumEntry.precursorMz - 1.00727646688f);
-                    if (potentialPrecursorMass >= 400) {
-                        SpectrumEntry fakeSpectrumEntry = new SpectrumEntry(scanNum, spectrumEntry.precursorMz, potentialPrecursorMass, potentialCharge, new TreeMap<>(spectrumEntry.plMap.subMap(0f, true, potentialPrecursorMass, true)), new TreeMap<>(spectrumEntry.unprocessedPlMap.subMap(0f, true, potentialPrecursorMass, true)),spectrumEntry.mgfTitle);
-                        taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, fakeSpectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, maxMs2Charge)));
-                    }
-                }
-            }
         }
 
         // check progress every minute, record results,and delete finished tasks.
