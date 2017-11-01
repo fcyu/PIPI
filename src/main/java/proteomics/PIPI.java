@@ -25,7 +25,7 @@ public class PIPI {
     public static final String versionStr = "1.4.1";
     public static final boolean useXcorr = true;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEV = false;
     public static final int[] debugScanNumArray = new int[]{};
 
     public static void main(String[] args) {
@@ -46,8 +46,8 @@ public class PIPI {
 
             logger.info("Spectra: {}, parameter: {}", spectraPath, parameterPath);
 
-            if (DEBUG) {
-                logger.info("In DEBUG mode.");
+            if (DEV) {
+                logger.info("In DEV mode.");
             }
 
             new PIPI(parameterPath, spectraPath);
@@ -69,7 +69,7 @@ public class PIPI {
         int ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         int maxMs2Charge = Integer.valueOf(parameterMap.get("max_ms2_charge"));
         String percolatorPath = parameterMap.get("percolator_path");
-        boolean outputPercolatorInput = (DEBUG || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
+        boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
         int minPotentialCharge = Integer.valueOf(parameterMap.get("min_potential_charge"));
         int maxPotentialCharge = Integer.valueOf(parameterMap.get("max_potential_charge"));
 

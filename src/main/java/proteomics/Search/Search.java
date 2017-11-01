@@ -111,24 +111,6 @@ public class Search {
         if (!(ptmFreeQueue.isEmpty() && ptmOnlyQueue.isEmpty())) {
             ptmFreeResult = convertResult(ptmFreeQueue, massToolObj, maxMs2Charge);
             ptmOnlyResult = convertResult(ptmOnlyQueue, massToolObj, maxMs2Charge);
-
-            if (PIPI.DEBUG) {
-                try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("ptm_only_candidates" + "." + spectrumEntry.scanNum + "." + spectrumEntry.precursorCharge + ".csv"));
-                    writer.write("peptide,globalRank,is_decoy\n");
-                    for (Peptide peptide : ptmOnlyResult) {
-                        if (peptide.isDecoy()) {
-                            writer.write(peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",1\n");
-                        } else {
-                            writer.write(peptide.getPTMFreeSeq() + "," + peptide.getGlobalRank() + ",0\n");
-                        }
-                    }
-                    writer.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    System.exit(1);
-                }
-            }
         }
     }
 
