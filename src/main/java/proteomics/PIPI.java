@@ -217,7 +217,7 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(resultList, percolatorResultMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap(), buildIndexObj.getPeptide0Map());
+        writeFinalResult(resultList, percolatorResultMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap(), buildIndexObj.getPeptide0Map(), numSpectrumMap);
 
         logger.info("Done.");
     }
@@ -330,7 +330,7 @@ public class PIPI {
         return percolatorResultMap;
     }
 
-    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<Character, Float> fixModMap, Map<String, Peptide0> peptide0Map) {
+    private static void writeFinalResult(List<FinalResultEntry> finalScoredPsms, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<Character, Float> fixModMap, Map<String, Peptide0> peptide0Map, Map<Integer, SpectrumEntry> numSpectrumMap) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title\n");
@@ -341,7 +341,7 @@ public class PIPI {
                     float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                     int charge = entry.getCharge();
                     float theoMass = peptide.getPrecursorMass();
-                    float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+                    float massDiff = expMass + numSpectrumMap.get(entry.getScanNum()).isotopeCorrectionNum * MassTool.C13_DIFF - theoMass;
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
                     Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
