@@ -7,12 +7,16 @@ import proteomics.Types.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InferPTM {
 
     private static final Logger logger = LoggerFactory.getLogger(InferPTM.class);
+    private static final Pattern pattern = Pattern.compile("([0-9A-Za-z]+)(\\(([0-9\\-]+)\\))?");
 
     private final MassTool massTool;
+    private final Map<String, Double> elementTable;
     private final Map<Character, Float> massTable;
     private final int maxMs2Charge;
     private final Map<Character, Float> fixModMap;
@@ -29,6 +33,7 @@ public class InferPTM {
 
     public InferPTM(MassTool massTool, int maxMs2Charge, Map<Character, Float> fixModMap, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms2Tolerance) {
         this.massTool = massTool;
+        elementTable = massTool.getElementTable();
         massTable = massTool.returnMassTable();
         this.maxMs2Charge = maxMs2Charge;
         this.fixModMap = fixModMap;
@@ -152,7 +157,7 @@ public class InferPTM {
                     } else if (parts[0].trim().contentEquals("C-term")) {
                         site = 'c';
                     }
-                    float mass = Float.valueOf(parts[2]);
+                    float mass = calculateMassFromComposition(parts[2].trim()); // TODO: check
                     if (mass >= minPtmMass && mass <= maxPtmMass) {
                         if (site == 'n' || site == 'c' || massTable.get(site) + mass > ms2Tolerance) { // The mass of a modified amino acid cannot be 0 or negative.
                             int priority = Integer.valueOf(parts[3]);
@@ -175,12 +180,31 @@ public class InferPTM {
                     }
                 }
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.getMessage());
             System.exit(1);
         }
         return siteModMap;
+    }
+
+    private float calculateMassFromComposition(String composition) throws Exception { // TODO: check
+        String[] parts = composition.split(" ");
+        float mass = 0;
+        for (String part : parts) {
+            Matcher matcher = pattern.matcher(part.trim());
+            if (matcher.matches()) {
+                String element = matcher.group(1);
+                int num = 1;
+                if (matcher.group(2) != null) {
+                    num = Integer.valueOf(matcher.group(3));
+                }
+                mass += num * elementTable.get(element);
+            } else {
+                throw new Exception("The composition " + part + " cannot be recognized.");
+            }
+        }
+        return mass;
     }
 
     private Map<Character, Map<VarModParam, Integer>> buildAASMap(Map<Character, Float> massTable) {
