@@ -42,9 +42,9 @@ public class PIPI {
             logger.info("Running PIPI version {}.", versionStr);
 
             String hostName = InetAddress.getLocalHost().getHostName();
-            logger.info("Computer: {}", hostName);
+            logger.info("Computer: {}.", hostName);
 
-            logger.info("Spectra: {}, parameter: {}", spectraPath, parameterPath);
+            logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
 
             if (DEV) {
                 logger.info("In DEV mode.");
@@ -110,7 +110,7 @@ public class PIPI {
 
         PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet);
         Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
-        logger.info("Useful MS/MS spectra number: {}", numSpectrumMap.size());
+        logger.info("Useful MS/MS spectra number: {}.", numSpectrumMap.size());
 
         if (DEV) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"))) {
