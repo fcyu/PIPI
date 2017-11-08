@@ -26,6 +26,14 @@ public class AA {
         return hashCode;
     }
 
+    public boolean equals(Object other) {
+        if (other instanceof AA) {
+            return ((AA) other).hashCode == hashCode;
+        } else {
+            return false;
+        }
+    }
+
     public AA clone() {
         return new AA(aa, ptmDeltaMass);
     }
