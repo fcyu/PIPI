@@ -139,7 +139,7 @@ public class PreSpectra {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
-                logger.error(ex.getMessage());
+                logger.error(ex.toString());
                 System.exit(1);
             }
 

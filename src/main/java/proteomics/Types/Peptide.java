@@ -127,7 +127,7 @@ public class Peptide implements Comparable<Peptide> {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
 

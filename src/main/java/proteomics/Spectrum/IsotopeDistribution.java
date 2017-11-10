@@ -657,7 +657,7 @@ public class IsotopeDistribution {
             int i = 0;
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }

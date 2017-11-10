@@ -167,7 +167,7 @@ public class BuildIndex {
             peptide0Map = new HashMap<>(tempMap);
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }

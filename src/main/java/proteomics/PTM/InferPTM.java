@@ -182,7 +182,7 @@ public class InferPTM {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
         return siteModMap;

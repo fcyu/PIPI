@@ -47,7 +47,7 @@ public class Parameter {
             }
         } catch (IOException | IllegalStateException ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }

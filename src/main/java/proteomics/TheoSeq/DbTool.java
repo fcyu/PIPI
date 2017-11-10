@@ -53,7 +53,7 @@ public class DbTool {
             proSeqMap.put(id, seq.toString());
         } catch (IOException | PatternSyntaxException ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }
