@@ -102,7 +102,7 @@ public class MassTool {
         elementTable.put("Rn", 222.0);
         elementTable.put("Fr", 223.0);
         elementTable.put("Ra", 226.025);
-        // elementTable.put("Ac", 227.028); // confilce with Unimod bricks
+        // elementTable.put("Ac", 227.028); // conflict with Unimod bricks
         elementTable.put("Th", 232.038054);
         elementTable.put("Pa", 231.0359);
         elementTable.put("U", 234.040946);

@@ -157,7 +157,7 @@ public class InferPTM {
                     } else if (parts[0].trim().contentEquals("C-term")) {
                         site = 'c';
                     }
-                    float mass = calculateMassFromComposition(parts[2].trim()); // TODO: check
+                    float mass = calculateMassFromComposition(parts[2].trim());
                     if (mass >= minPtmMass && mass <= maxPtmMass) {
                         if (site == 'n' || site == 'c' || massTable.get(site) + mass > ms2Tolerance) { // The mass of a modified amino acid cannot be 0 or negative.
                             int priority = Integer.valueOf(parts[3]);
@@ -188,7 +188,7 @@ public class InferPTM {
         return siteModMap;
     }
 
-    private float calculateMassFromComposition(String composition) throws Exception { // TODO: check
+    private float calculateMassFromComposition(String composition) throws Exception {
         String[] parts = composition.split(" ");
         float mass = 0;
         for (String part : parts) {

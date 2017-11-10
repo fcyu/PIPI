@@ -219,7 +219,7 @@ public class PreSpectra {
         return entry;
     }
 
-    private double scaleAndCalPearsonCorrelationCoefficient(double[][] expMatrix, List<IsotopeDistribution.Peak> theoIsotopeDistribution, int precursorCharge, int isotopeCorrection) { // TODO: check
+    private double scaleAndCalPearsonCorrelationCoefficient(double[][] expMatrix, List<IsotopeDistribution.Peak> theoIsotopeDistribution, int precursorCharge, int isotopeCorrection) {
         // get theo peaks.
         int peakNum = Math.min(expMatrix.length, theoIsotopeDistribution.size());
         double[][] theoMatrix = new double[peakNum][2];
