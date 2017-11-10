@@ -2,6 +2,7 @@ package proteomics;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import proteomics.Output.WritePepXml;
 import proteomics.Types.*;
 import proteomics.Index.BuildIndex;
 import proteomics.Parameter.Parameter;
@@ -218,6 +219,7 @@ public class PIPI {
 
         logger.info("Saving results...");
         writeFinalResult(resultList, percolatorResultMap, spectraPath + ".pipi.csv", buildIndexObj.returnFixModMap(), buildIndexObj.getPeptide0Map(), numSpectrumMap);
+        new WritePepXml(resultList, spectraPath + "pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), numSpectrumMap, buildIndexObj.getPeptide0Map(), percolatorResultMap);
 
         logger.info("Done.");
     }
