@@ -55,7 +55,7 @@ public class PIPI {
             logger.warn("Cannot get the computer's name.");
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }
@@ -104,7 +104,7 @@ public class PIPI {
             }
         } catch (FileNotFoundException | MzXMLParsingException | JMzReaderException ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
 
@@ -123,7 +123,7 @@ public class PIPI {
                     }
                 }
             } catch (IOException ex) {
-                logger.error(ex.getMessage());
+                logger.error(ex.toString());
                 ex.printStackTrace();
                 System.exit(1);
             }
@@ -279,7 +279,7 @@ public class PIPI {
             }
         } catch (IOException | NullPointerException ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }
@@ -323,7 +323,7 @@ public class PIPI {
             }
         } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             return percolatorResultMap;
         }
 
@@ -394,7 +394,7 @@ public class PIPI {
             }
         } catch (IOException | NullPointerException ex) {
             ex.printStackTrace();
-            logger.error(ex.getMessage());
+            logger.error(ex.toString());
             System.exit(1);
         }
     }
