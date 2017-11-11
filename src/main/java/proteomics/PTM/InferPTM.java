@@ -92,7 +92,7 @@ public class InferPTM {
     }
 
     public PeptidePTMPattern tryPTM(SparseVector expProcessedPL, TreeMap<Float, Float> plMap, float precursorMass, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, char leftFlank, char rightFlank, int globalRank, int localMaxMS2Charge, float localMS1ToleranceL, float localMS1ToleranceR) {
-        float ptmFreeMass = massTool.calResidueMass(ptmFreeSequence) + MassTool.H2O;
+        float ptmFreeMass = massTool.calResidueMass(ptmFreeSequence) + massTool.H2O;
         float deltaMass = precursorMass - ptmFreeMass;
         float leftMassBound = deltaMass + localMS1ToleranceL;
         float rightMassBound = deltaMass + localMS1ToleranceR;

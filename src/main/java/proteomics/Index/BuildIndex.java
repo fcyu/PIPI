@@ -66,7 +66,7 @@ public class BuildIndex {
 
         // build database
         try {
-            inference3SegmentObj = new InferenceSegment(massToolObj.returnMassTable(), ms2Tolerance, parameterMap, fixModMap);
+            inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
 
             Set<String> forCheckDuplicate = new HashSet<>(500000);
             Map<String, Set<String>> targetPeptideProteinMap = new HashMap<>(500000);
@@ -84,7 +84,7 @@ public class BuildIndex {
                             // Add the sequence to the check set for duplicate check
                             forCheckDuplicate.add(peptide.replace('L', 'I'));
 
-                            float mass = massToolObj.calResidueMass(peptide) + MassTool.H2O;
+                            float mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
                             // recode min and max peptide mass
                             if (mass < minPeptideMass) {
                                 minPeptideMass = mass;

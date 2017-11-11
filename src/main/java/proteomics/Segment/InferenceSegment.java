@@ -26,9 +26,12 @@ public class InferenceSegment {
     private Set<VarModParam> varModParamSet = new HashSet<>();
     private float[] nTermPossibleMod = null;
     private float[] cTermPossibleMod = null;
+    private MassTool massTool;
 
-    public InferenceSegment(Map<Character, Float> massTable, float ms2Tolerance, Map<String, String> parameterMap, Map<Character, Float> fixModMap) {
+    public InferenceSegment(MassTool massTool, float ms2Tolerance, Map<String, String> parameterMap, Map<Character, Float> fixModMap) {
+        this.massTool = massTool;
         this.ms2Tolerance = ms2Tolerance;
+        Map<Character, Float> massTable = massTool.returnMassTable();
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
 
@@ -121,7 +124,7 @@ public class InferenceSegment {
     }
 
     public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry) {
-        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry), spectrumEntry.precursorMass - MassTool.H2O + MassTool.PROTON);
+        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry), spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON);
     }
 
     public Set<Segment> cutTheoSegment(String peptide) {
@@ -383,7 +386,7 @@ public class InferenceSegment {
 
         // Add two virtual peak. Because we have convert all y-ions to b-ions.
         finalPlMap.put(MassTool.PROTON, 1f);
-        float cTermMz = spectrumEntry.precursorMass - MassTool.H2O + MassTool.PROTON;
+        float cTermMz = spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON;
         float leftMz = cTermMz - ms2Tolerance;
         float rightMz = cTermMz + ms2Tolerance;
         NavigableMap<Float, Float> temp = null;

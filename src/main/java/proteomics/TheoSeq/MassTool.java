@@ -11,8 +11,18 @@ public class MassTool {
     private static final Pattern mod_aa_pattern = Pattern.compile("([A-Znc])(\\(([0-9\\.\\-]+)\\))?");
     public static final float PROTON = 1.00727646688f;
     public static final float C13_DIFF = 1.00335483f;
-    private static final Map<String, Double> elementTable = new HashMap<>();
-    static {
+
+    public final float H2O;
+    public Map<String, Double> elementTable = new HashMap<>();
+
+    private final Map<Character, Float> massTable = new HashMap<>(30, 1);
+    private final int missedCleavage;
+    private float ms2Tolerance = 1.0005f;
+    private float oneMinusBinOffset = 0.4f;
+    private Pattern digestSitePattern;
+    private final boolean cleavageFromCTerm;
+
+    public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset, boolean N15) {
         elementTable.put("-", 0d);
         elementTable.put("H", 1.0078246);
         elementTable.put("He", 3.01603);
@@ -20,7 +30,11 @@ public class MassTool {
         elementTable.put("Be", 9.012182);
         elementTable.put("B", 10.012937);
         elementTable.put("C", 12.0000000);
-        elementTable.put("N", 14.0030732);
+        if (N15) {
+            elementTable.put("N", 15.0001088);
+        } else {
+            elementTable.put("N", 14.0030732);
+        }
         elementTable.put("O", 15.9949141);
         elementTable.put("F", 18.9984032);
         elementTable.put("Ne", 19.992435);
@@ -137,17 +151,7 @@ public class MassTool {
         elementTable.put("Water", elementTable.get("H") * 2 + elementTable.get("O"));
         elementTable.put("Me", elementTable.get("C") + elementTable.get("H") * 2);
         elementTable.put("Ac", elementTable.get("C") * 2 + elementTable.get("H") * 2 + elementTable.get("O")); // Caution! This is not Actinium
-    }
-    public static final float H2O = (float) (elementTable.get("H") * 2 + elementTable.get("O"));
 
-    private final Map<Character, Float> massTable = new HashMap<>(30, 1);
-    private final int missedCleavage;
-    private float ms2Tolerance = 1.0005f;
-    private float oneMinusBinOffset = 0.4f;
-    private Pattern digestSitePattern;
-    private final boolean cleavageFromCTerm;
-
-    public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset) {
         this.missedCleavage = missedCleavage;
         this.ms2Tolerance = ms2Tolerance;
         this.oneMinusBinOffset = oneMinusBinOffset;
@@ -178,6 +182,7 @@ public class MassTool {
         massTable.put('c', fixModMap.get('c'));
         massTable.put('#', massTable.get('I')); // for I and L.
         massTable.put('$', (massTable.get('Q') + massTable.get('K')) / 2); // for Q and K.
+        H2O = (float) (elementTable.get("H") * 2 + elementTable.get("O"));
 
         if (protectionSite.contentEquals("-")) {
             digestSitePattern = Pattern.compile("[" + cleavageSite + "]");
