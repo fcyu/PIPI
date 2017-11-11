@@ -35,7 +35,7 @@ public class WritePepXml {
                     SpectrumEntry spectrumEntry = numSpectrumMap.get(finalResultEntry.getScanNum());
                     Peptide peptide = finalResultEntry.getPeptideSet().first();
                     StringBuilder proteinIdStr = new StringBuilder();
-                    for (String proteinId : peptide0Map.get(peptide.getPTMFreeSeq()).proteins) {
+                    for (String proteinId : peptide.getProteinIdSet()) {
                         proteinIdStr.append(proteinId);
                         proteinIdStr.append(";");
                     }

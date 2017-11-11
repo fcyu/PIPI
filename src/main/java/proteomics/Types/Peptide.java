@@ -7,6 +7,7 @@ import proteomics.TheoSeq.MassTool;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 public class Peptide implements Comparable<Peptide> {
 
@@ -21,6 +22,7 @@ public class Peptide implements Comparable<Peptide> {
     private final char rightFlank;
     private final int globalRank;
     private final double normalizedCrossCorrelationCoefficient;
+    private final Set<String> proteinIdSet;
 
     private String toString;
     private int hashCode;
@@ -43,7 +45,7 @@ public class Peptide implements Comparable<Peptide> {
     private double qValue = -1;
     private double ptmSupportingPeakFrac = -1;
 
-    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank) {
+    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, char leftFlank, char rightFlank, int globalRank, Set<String> proteinIdSet) {
         this.ptmFreeSeq = ptmFreeSeq;
         this.isDecoy = isDecoy;
         this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
@@ -53,6 +55,7 @@ public class Peptide implements Comparable<Peptide> {
         this.leftFlank = leftFlank;
         this.rightFlank = rightFlank;
         this.globalRank = globalRank;
+        this.proteinIdSet = proteinIdSet;
 
         toString = leftFlank + "." + ptmFreeSeq + "." + rightFlank;
         hashCode = toString.hashCode();
@@ -116,7 +119,7 @@ public class Peptide implements Comparable<Peptide> {
     public Peptide clone() {
         Peptide other = null;
         try {
-            other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, leftFlank, rightFlank, globalRank);
+            other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, leftFlank, rightFlank, globalRank, proteinIdSet);
             if (varPTMMap != null) {
                 other.setVarPTM(varPTMMap.clone());
                 other.setScore(score);
@@ -297,6 +300,10 @@ public class Peptide implements Comparable<Peptide> {
 
     public double getPtmSupportingPeakFrac() {
         return ptmSupportingPeakFrac;
+    }
+
+    public Set<String> getProteinIdSet() {
+        return proteinIdSet;
     }
 
     public int compareTo(Peptide peptide) {

@@ -16,6 +16,7 @@ public class Search {
 
     private List<Peptide> ptmOnlyResult = new LinkedList<>();
     private List<Peptide> ptmFreeResult = new LinkedList<>();
+    private Map<String, Peptide0> peptide0Map;
 
 
     public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
@@ -35,7 +36,7 @@ public class Search {
             return;
         }
 
-        Map<String, Peptide0> peptide0Map = buildIndexObj.getPeptide0Map();
+        peptide0Map = buildIndexObj.getPeptide0Map();
         TreeMap<Float, Set<String>> massPeptideMap = buildIndexObj.getMassPeptideMap();
 
         NavigableMap<Float, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
@@ -115,7 +116,7 @@ public class Search {
         int globalRank = inputQueue.size();
         while (!inputQueue.isEmpty()) {
             ResultEntry temp = inputQueue.poll();
-            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, temp.leftFlank, temp.rightFlank, globalRank));
+            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, temp.leftFlank, temp.rightFlank, globalRank, peptide0Map.get(temp.peptide).proteins));
             --globalRank;
         }
 

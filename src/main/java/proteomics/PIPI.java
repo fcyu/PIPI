@@ -246,9 +246,8 @@ public class PIPI {
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
-                Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                StringBuilder sb = new StringBuilder(peptide0.proteins.size() * 10);
-                for (String protein : peptide0.proteins) {
+                StringBuilder sb = new StringBuilder(peptide.getProteinIdSet().size()* 10);
+                for (String protein : peptide.getProteinIdSet()) {
                     sb.append(protein);
                     sb.append(";");
                 }
@@ -346,9 +345,8 @@ public class PIPI {
                     float massDiff = expMass + numSpectrumMap.get(entry.getScanNum()).isotopeCorrectionNum * MassTool.C13_DIFF - theoMass;
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
-                    Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                    StringBuilder sb = new StringBuilder(peptide0.proteins.size() * 10);
-                    for (String protein : peptide0.proteins) {
+                    StringBuilder sb = new StringBuilder(peptide.getProteinIdSet().size() * 10);
+                    for (String protein : peptide.getProteinIdSet()) {
                         sb.append(protein);
                         sb.append(";");
                     }
