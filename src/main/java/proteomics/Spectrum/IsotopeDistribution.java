@@ -9,22 +9,16 @@ class IsotopeDistribution {
 
     private static final Logger logger = LoggerFactory.getLogger(IsotopeDistribution.class);
 
-    private static final double averagineAverageMass = 111.1254;
-    private static final double averagineMonoMass = 111.05429999675;
     private static final double averagineC = 4.9384;
     private static final double averagineH = 7.7583;
     private static final double averagineN = 1.3577;
     private static final double averagineO = 1.4773;
     private static final double averagineS = 0.0417;
 
-    private static final double CMono = 12;
-    private static final double HMono = 1.0078246;
-    private static final double NMono = 14.0030732;
-    private static final double OMono = 15.9949141;
-    private static final double SMono = 31.972070;
-
     private static final Map<String, Peak[]> elementIsotopeMap = new HashMap<>();
     private final double limit;
+    private final double averagineMonoMass;
+    private final Map<String, Double> elementTable;
 
     static {
         Peak[] peakArray = new Peak[2];
@@ -645,7 +639,9 @@ class IsotopeDistribution {
     }
 
     public IsotopeDistribution(double limit) {
+        this.elementTable = elementTable;
         this.limit = limit;
+        averagineMonoMass = averagineC * elementTable.get("C") + averagineH * elementTable.get("H") + averagineN * elementTable.get("N") + averagineO * elementTable.get("O") + averagineS * elementTable.get("S");
     }
 
     Map<String, Integer> getElementMapFromMonoMass(double mass) {
@@ -654,7 +650,7 @@ class IsotopeDistribution {
         int N = (int) Math.round(averagineN * unit);
         int O = (int) Math.round(averagineO * unit);
         int S = (int) Math.round(averagineS * unit);
-        int H = (int) Math.round((mass - C * CMono - N * NMono - O * OMono - S * SMono) / HMono);
+        int H = (int) Math.round((mass - C * elementTable.get("C") - N * elementTable.get("N") - O * elementTable.get("O") - S * elementTable.get("S")) / elementTable.get("H"));
 
         Map<String, Integer> elementMap = new HashMap<>();
         if (C > 0) {
