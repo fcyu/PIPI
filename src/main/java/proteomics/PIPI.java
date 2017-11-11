@@ -242,7 +242,7 @@ public class PIPI {
             writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
             for (FinalResultEntry entry : finalScoredResult) {
                 Peptide peptide = entry.getPeptideSet().first();
-                float theoMass = peptide.getPrecursorMass();
+                float theoMass = peptide.getTheoMass();
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
@@ -341,8 +341,8 @@ public class PIPI {
                     int scanNum = entry.getScanNum();
                     float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                     int charge = entry.getCharge();
-                    float theoMass = peptide.getPrecursorMass();
                     float massDiff = expMass + numSpectrumMap.get(entry.getScanNum()).isotopeCorrectionNum * MassTool.C13_DIFF - theoMass;
+                    float theoMass = peptide.getTheoMass();
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
                     StringBuilder sb = new StringBuilder(peptide.getProteinIdSet().size() * 10);
