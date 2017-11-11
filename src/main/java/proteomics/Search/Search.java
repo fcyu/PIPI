@@ -4,13 +4,9 @@ package proteomics.Search;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
-import proteomics.PIPI;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class Search {

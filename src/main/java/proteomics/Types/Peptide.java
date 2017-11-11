@@ -27,7 +27,7 @@ public class Peptide implements Comparable<Peptide> {
 
     // these fields need to be changed every time PTM changed.
     private PositionDeltaMassMap varPTMMap = null;
-    private float precursorMass = -1;
+    private float theoMass = -1;
     private float[][] ionMatrix = null;
     private float[] chargeOneBIonArray = null;
     private String varPtmContainingSeq = null;
@@ -66,7 +66,7 @@ public class Peptide implements Comparable<Peptide> {
         if (ionMatrix == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
+            theoMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return ionMatrix;
@@ -80,21 +80,21 @@ public class Peptide implements Comparable<Peptide> {
         return isDecoy;
     }
 
-    public float getPrecursorMass() {
-        if (precursorMass < 0) {
+    public float getTheoMass() {
+        if (theoMass < 0) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
+            theoMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
-        return precursorMass;
+        return theoMass;
     }
 
     public float[] getChargeOneBIonArray() {
         if (chargeOneBIonArray == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            precursorMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
+            theoMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return chargeOneBIonArray;
@@ -154,7 +154,7 @@ public class Peptide implements Comparable<Peptide> {
         this.varPTMMap = ptmMap;
         if (ptmMap != null) {
             // reset these fields to make them being regenerated again.
-            precursorMass = -1;
+            theoMass = -1;
             ionMatrix = null;
             chargeOneBIonArray = null;
             varPtmContainingSeq = null;
