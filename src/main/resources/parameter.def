@@ -18,7 +18,7 @@ ms_level = 2,3 # The searched MS level.
 
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
-ms1_tolerance = 10
+ms1_tolerance = 20
 ms2_tolerance = 0.01 # Unit is Da.
 mz_bin_offset = 0 # Offset in digitization the spectrum.
 min_clear_mz = 112.5 # Clear out all peaks in the specified m/z range, mainly for iTRAQ/TMT data.
@@ -27,6 +27,9 @@ max_clear_mz = 121.5
 # Modification related
 min_ptm_mass = -250 # Min allowed PTM mass.
 max_ptm_mass = 250 # Max allowed PTM mass.
+
+# Isotopic labeling strategy
+15N = 1 # 1: 15N. 0: 14N.
 
 # Considered modifications in generating tags.
 # Specify additional mass and amino acid. DO NOT change the last character.

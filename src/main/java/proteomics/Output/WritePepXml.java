@@ -19,27 +19,24 @@ public class WritePepXml {
     private final String baseName;
     private final String rawDataType;
     private final Map<String, String> parameterMap;
-    private final Map<Character, Float> massTable;
 
-    public WritePepXml(List<FinalResultEntry> resultEntryList, String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, SpectrumEntry> numSpectrumMap, Map<String, Peptide0> peptide0Map, Map<Integer, PercolatorEntry> percolatorResultMap) {
+    public WritePepXml(Map<Integer, FinalResultEntry> scanFinalResultMap, String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, PercolatorEntry> percolatorResultMap) {
         this.outputPath = outputPath;
         int tempIdx = spectraName.lastIndexOf('.');
         baseName = spectraName.substring(0, tempIdx);
         rawDataType = spectraName.substring(tempIdx);
         this.parameterMap = parameterMap;
-        this.massTable = massTable;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))){
-            writer.write(pepxmlHeader());
-            for (FinalResultEntry finalResultEntry : resultEntryList) {
+            writer.write(pepxmlHeader(massTable));
+            for (FinalResultEntry finalResultEntry : scanFinalResultMap.values()) {
                 if (percolatorResultMap.containsKey(finalResultEntry.getScanNum())) {
-                    SpectrumEntry spectrumEntry = numSpectrumMap.get(finalResultEntry.getScanNum());
                     Peptide peptide = finalResultEntry.getPeptideSet().first();
                     StringBuilder proteinIdStr = new StringBuilder();
                     for (String proteinId : peptide.getProteinIdSet()) {
                         proteinIdStr.append(proteinId);
                         proteinIdStr.append(";");
                     }
-                    float expMass = spectrumEntry.precursorMass + spectrumEntry.isotopeCorrectionNum * MassTool.C13_DIFF;
+                    float expMass = finalResultEntry.getCharge() * (finalResultEntry.getPrecursorMz() - 1.00727646688f);
                     String ptmDeltaScore;
                     if (finalResultEntry.getPtmPatterns().containsKey(peptide.getPTMFreeSeq())) {
                         TreeSet<Peptide> tempTreeSet = finalResultEntry.getPtmPatterns().get(peptide.getPTMFreeSeq());
@@ -63,7 +60,8 @@ public class WritePepXml {
                                     "\t\t\t\t\t<search_score name=\"ptm_supporting_peak_frac\" value=\"%f\"/>\r\n" +
                                     "\t\t\t\t\t<search_score name=\"percolator_score\" value=\"%f\"/>\r\n" +
                                     "\t\t\t\t\t<search_score name=\"percolator_error_prob\" value=\"%s\"/>\r\n" +
-                                    "\t\t\t\t\t<search_score name=\"q_value\" value=\"%s\"/>\r\n", finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), expMass, spectrumEntry.precursorCharge, finalResultEntry.getScanNum(), peptide.getPTMFreeSeq().replaceAll("[nc]", ""), peptide.getLeftFlank(), peptide.getRightFlank(), proteinIdStr.toString(), peptide0Map.get(peptide.getPTMFreeSeq()).proteins.size(), peptide.getMatchedPeakNum(), (peptide.length() - 2) * 2 * Math.max(1, spectrumEntry.precursorCharge - 1), peptide.getTheoMass(), expMass - peptide.getTheoMass(), peptide.getScore(), ptmDeltaScore, peptide.getPtmSupportingPeakFrac(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue));
+                                    "\t\t\t\t\t<search_score name=\"q_value\" value=\"%s\"/>\r\n" +
+                                    "\t\t\t\t\t<search_score name=\"labeling\" value=\"%s\"/>\r\n", finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), expMass, finalResultEntry.getCharge(), finalResultEntry.getScanNum(), peptide.getPTMFreeSeq().replaceAll("[nc]", ""), peptide.getLeftFlank(), peptide.getRightFlank(), proteinIdStr.toString(), peptide.getProteinIdSet().size(), peptide.getMatchedPeakNum(), (peptide.length() - 2) * 2 * Math.max(1, finalResultEntry.getCharge() - 1), peptide.getTheoMass(), PIPI.getMassDiff(expMass, peptide.getTheoMass(), MassTool.C13_DIFF), peptide.getScore(), ptmDeltaScore, peptide.getPtmSupportingPeakFrac(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, finalResultEntry.getLabeling()));
 
                     if (peptide.hasVarPTM()) {
                         PositionDeltaMassMap ptmMap = peptide.getVarPTMs();
@@ -97,7 +95,7 @@ public class WritePepXml {
         }
     }
 
-    private String pepxmlHeader() {
+    private String pepxmlHeader(Map<Character, Float> massTable) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         StringBuilder header = new StringBuilder();

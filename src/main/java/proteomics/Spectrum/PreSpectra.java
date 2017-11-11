@@ -39,7 +39,7 @@ public class PreSpectra {
         float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
         ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
-        isotopeDistribution = new IsotopeDistribution(0);
+        isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabeling());
 
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         PrintStream originalStream = System.out;

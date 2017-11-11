@@ -9,15 +9,17 @@ public class FinalResultEntry {
     private final int charge;
     private final float precursorMz;
     private final String mgtTitle;
+    private final String labeling; // N14, N15;
 
     private TreeSet<Peptide> peptideSet = new TreeSet<>(Collections.reverseOrder());
     private Map<String, TreeSet<Peptide>> ptmPatterns;
 
-    public FinalResultEntry(int scanNum, int charge, float precursorMz, String mgtTitle) {
+    public FinalResultEntry(int scanNum, int charge, float precursorMz, String mgtTitle, String labeling) {
         this.scanNum = scanNum;
         this.charge = charge;
         this.precursorMz = precursorMz;
         this.mgtTitle = mgtTitle;
+        this.labeling = labeling;
     }
 
     public String getMgtTitle() {
@@ -38,6 +40,10 @@ public class FinalResultEntry {
 
     public float getPrecursorMz() {
         return precursorMz;
+    }
+
+    public String getLabeling() {
+        return labeling;
     }
 
     public void addScore(Peptide peptide) {

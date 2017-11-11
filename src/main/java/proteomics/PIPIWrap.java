@@ -65,7 +65,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 expProcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.plMap, false);
             }
 
-            FinalResultEntry psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle);
+            FinalResultEntry psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle, buildIndexObj.getLabeling());
 
             float precursorMass = spectrumEntry.precursorMass;
             float localMS1ToleranceL = -1 * ms1Tolerance;

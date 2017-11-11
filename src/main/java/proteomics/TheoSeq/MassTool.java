@@ -21,8 +21,10 @@ public class MassTool {
     private float oneMinusBinOffset = 0.4f;
     private Pattern digestSitePattern;
     private final boolean cleavageFromCTerm;
+    private final String labeling;
 
-    public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset, boolean N15) {
+    public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset, String labeling) {
+        this.labeling = labeling;
         elementTable.put("-", 0d);
         elementTable.put("H", 1.0078246);
         elementTable.put("He", 3.01603);
@@ -30,10 +32,9 @@ public class MassTool {
         elementTable.put("Be", 9.012182);
         elementTable.put("B", 10.012937);
         elementTable.put("C", 12.0000000);
-        if (N15) {
+        elementTable.put("N", 14.0030732);
+        if (labeling.contentEquals("N15")) {
             elementTable.put("N", 15.0001088);
-        } else {
-            elementTable.put("N", 14.0030732);
         }
         elementTable.put("O", 15.9949141);
         elementTable.put("F", 18.9984032);
@@ -310,6 +311,10 @@ public class MassTool {
 
     public float binToMz(int idx) {
         return (idx - oneMinusBinOffset) * 2 * ms2Tolerance;
+    }
+
+    public String getLabeling() {
+        return labeling;
     }
 
     private Map<Integer, List<int[]>> digestTrypsin(String proSeq) {
