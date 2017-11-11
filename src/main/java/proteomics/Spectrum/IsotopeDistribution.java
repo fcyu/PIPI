@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class IsotopeDistribution {
+class IsotopeDistribution {
 
     private static final Logger logger = LoggerFactory.getLogger(IsotopeDistribution.class);
 
@@ -642,24 +642,6 @@ public class IsotopeDistribution {
         peakArray = new Peak[1];
         peakArray[0] = new Peak(260.0, 1.0);
         elementIsotopeMap.put("Lr", peakArray);
-    }
-
-    public static void main(String[] args) {
-        IsotopeDistribution isotopeDistribution = new IsotopeDistribution(0);
-
-        try {
-            Map<String, Integer> formMap = new HashMap<>();
-            formMap.put("H", 1);
-            formMap.put("C", 2);
-            formMap.put("O", 3);
-            formMap.put("N", 4);
-            List<Peak> result = isotopeDistribution.calculate(formMap);
-            int i = 0;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
-        }
     }
 
     public IsotopeDistribution(double limit) {
