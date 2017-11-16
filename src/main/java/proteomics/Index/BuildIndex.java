@@ -81,7 +81,7 @@ public class BuildIndex {
                         continue;
                     }
 
-                    if ((peptide.length() <= maxPeptideLength) && (peptide.length() >= minPeptideLength)) {
+                    if ((peptide.length() - 2 <= maxPeptideLength) && (peptide.length() - 2 >= minPeptideLength)) { // caution: there are n and c in the sequence
                         if (!forCheckDuplicate.contains(peptide.replace('L', 'I'))) { // don't record duplicate peptide sequences
                             // Add the sequence to the check set for duplicate check
                             forCheckDuplicate.add(peptide.replace('L', 'I'));
