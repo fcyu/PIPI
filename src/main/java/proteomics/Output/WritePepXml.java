@@ -20,7 +20,7 @@ public class WritePepXml {
     private final String rawDataType;
     private final Map<String, String> parameterMap;
 
-    public WritePepXml(Map<Integer, FinalResultEntry> scanFinalResultMap, String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, PercolatorEntry> percolatorResultMap) {
+    public WritePepXml(Map<Integer, FinalResultEntry> scanFinalResultMap, String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Peptide0> peptide0Map) {
         this.outputPath = outputPath;
         int tempIdx = spectraName.lastIndexOf('.');
         baseName = spectraName.substring(0, tempIdx);
@@ -31,8 +31,9 @@ public class WritePepXml {
             for (FinalResultEntry finalResultEntry : scanFinalResultMap.values()) {
                 if (percolatorResultMap.containsKey(finalResultEntry.getScanNum())) {
                     Peptide peptide = finalResultEntry.getPeptideSet().first();
+                    Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
                     StringBuilder proteinIdStr = new StringBuilder();
-                    for (String proteinId : peptide.getProteinIdSet()) {
+                    for (String proteinId : peptide0.proteins) {
                         proteinIdStr.append(proteinId);
                         proteinIdStr.append(";");
                     }
@@ -61,7 +62,7 @@ public class WritePepXml {
                                     "\t\t\t\t\t<search_score name=\"percolator_score\" value=\"%f\"/>\r\n" +
                                     "\t\t\t\t\t<search_score name=\"percolator_error_prob\" value=\"%s\"/>\r\n" +
                                     "\t\t\t\t\t<search_score name=\"q_value\" value=\"%s\"/>\r\n" +
-                                    "\t\t\t\t\t<search_score name=\"labeling\" value=\"%s\"/>\r\n", finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), expMass, finalResultEntry.getCharge(), finalResultEntry.getScanNum(), peptide.getPTMFreeSeq().replaceAll("[nc]", ""), peptide.getLeftFlank(), peptide.getRightFlank(), proteinIdStr.toString(), peptide.getProteinIdSet().size(), peptide.getMatchedPeakNum(), (peptide.length() - 2) * 2 * Math.max(1, finalResultEntry.getCharge() - 1), peptide.getTheoMass(), PIPI.getMassDiff(expMass, peptide.getTheoMass(), MassTool.C13_DIFF), peptide.getScore(), ptmDeltaScore, peptide.getPtmSupportingPeakFrac(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, finalResultEntry.getLabeling()));
+                                    "\t\t\t\t\t<search_score name=\"labeling\" value=\"%s\"/>\r\n", finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), expMass, finalResultEntry.getCharge(), finalResultEntry.getScanNum(), peptide.getPTMFreeSeq().replaceAll("[nc]", ""), peptide0.leftFlank, peptide0.rightFlank, proteinIdStr.toString(), peptide0.proteins.size(), peptide.getMatchedPeakNum(), (peptide.length() - 2) * 2 * Math.max(1, finalResultEntry.getCharge() - 1), peptide.getTheoMass(), PIPI.getMassDiff(expMass, peptide.getTheoMass(), MassTool.C13_DIFF), peptide.getScore(), ptmDeltaScore, peptide.getPtmSupportingPeakFrac(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, finalResultEntry.getLabeling()));
 
                     if (peptide.hasVarPTM()) {
                         PositionDeltaMassMap ptmMap = peptide.getVarPTMs();

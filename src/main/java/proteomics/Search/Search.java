@@ -116,7 +116,7 @@ public class Search {
         int globalRank = inputQueue.size();
         while (!inputQueue.isEmpty()) {
             ResultEntry temp = inputQueue.poll();
-            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, temp.leftFlank, temp.rightFlank, globalRank, peptide0Map.get(temp.peptide).proteins));
+            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, globalRank));
             --globalRank;
         }
 

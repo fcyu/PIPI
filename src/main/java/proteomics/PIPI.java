@@ -216,7 +216,7 @@ public class PIPI {
         logger.info("Estimating FDR...");
         String percolatorInputFileName = spectraPath + "." + labeling + ".input.temp";
         String percolatorOutputFileName = spectraPath + "." + labeling + ".output.temp";
-        writePercolator(scanFinalResultMap, percolatorInputFileName);
+        writePercolator(scanFinalResultMap, percolatorInputFileName, buildIndexObj.getPeptide0Map());
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
@@ -229,8 +229,8 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(scanFinalResultMap, percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv");
-        new WritePepXml(scanFinalResultMap, spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap);
+        writeFinalResult(scanFinalResultMap, percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv", buildIndexObj.getPeptide0Map());
+        new WritePepXml(scanFinalResultMap, spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map());
 
         logger.info("Done.");
     }
@@ -248,7 +248,7 @@ public class PIPI {
         System.exit(1);
     }
 
-    private void writePercolator(Map<Integer, FinalResultEntry> scanFinalResultMap, String resultPath) {
+    private void writePercolator(Map<Integer, FinalResultEntry> scanFinalResultMap, String resultPath, Map<String, Peptide0> peptide0Map) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
             writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
             for (FinalResultEntry entry : scanFinalResultMap.values()) {
@@ -257,8 +257,9 @@ public class PIPI {
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
-                StringBuilder sb = new StringBuilder(peptide.getProteinIdSet().size()* 10);
-                for (String protein : peptide.getProteinIdSet()) {
+                Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
+                StringBuilder sb = new StringBuilder(peptide0.proteins.size()* 10);
+                for (String protein : peptide0.proteins) {
                     sb.append(protein);
                     sb.append(";");
                 }
@@ -284,9 +285,9 @@ public class PIPI {
                 }
 
                 if (peptide.isDecoy()) {
-                    writer.write(entry.getScanNum() + "\t-1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide.getLeftFlank() + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
+                    writer.write(entry.getScanNum() + "\t-1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide0.leftFlank + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide0.rightFlank + "\t" + proteinIdStr + "\n");
                 } else {
-                    writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide.getLeftFlank() + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide.getRightFlank() + "\t" + proteinIdStr + "\n");
+                    writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide0.leftFlank + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide0.rightFlank + "\t" + proteinIdStr + "\n");
                 }
             }
         } catch (IOException | NullPointerException ex) {
@@ -342,10 +343,10 @@ public class PIPI {
         return percolatorResultMap;
     }
 
-    private void writeFinalResult(Map<Integer, FinalResultEntry> scanFinalResultMap, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath) {
+    private void writeFinalResult(Map<Integer, FinalResultEntry> scanFinalResultMap, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
-            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling\n");
+            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
             for (FinalResultEntry entry : scanFinalResultMap.values()) {
                 Peptide peptide = entry.getPeptideSet().first();
                 if (!peptide.isDecoy()) {
@@ -356,8 +357,9 @@ public class PIPI {
                     float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
-                    StringBuilder sb = new StringBuilder(peptide.getProteinIdSet().size() * 10);
-                    for (String protein : peptide.getProteinIdSet()) {
+                    Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
+                    StringBuilder sb = new StringBuilder(peptide0.proteins.size()* 10);
+                    for (String protein : peptide0.proteins) {
                         sb.append(protein);
                         sb.append(";");
                     }
@@ -384,7 +386,7 @@ public class PIPI {
                     }
 
                     PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                    String str = String.format(Locale.US, "%d,%s,%d,%.4f,%.4f,%.2f,%s,%s,%s,%.4f,%.4f,%s,%s,%s,\"%s\",%s\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, ptmDeltaScore, ptmDeltaScore.contentEquals("-") ? "-" : String.format("%.4f", peptide.getPtmSupportingPeakFrac()), sb.toString(), peptide.getScore(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, otherPtmPatterns.toString(), entry.getMgtTitle(), entry.getLabeling());
+                    String str = String.format(Locale.US, "%d,%s,%d,%.4f,%.4f,%.2f,%s,%s,%s,%.4f,%.4f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, ptmDeltaScore, ptmDeltaScore.contentEquals("-") ? "-" : String.format("%.4f", peptide.getPtmSupportingPeakFrac()), sb.toString(), peptide.getScore(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, otherPtmPatterns.toString(), entry.getMgtTitle(), entry.getLabeling(), entry.getIsotopeCorrectionNum(), entry.getMs1PearsonCorrelationCoefficient());
 
                     if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
                         tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);

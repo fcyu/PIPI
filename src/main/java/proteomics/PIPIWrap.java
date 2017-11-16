@@ -30,6 +30,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final float maxPtmMass;
     private final int maxMs2Charge;
     private final InferPTM inferPTM;
+    private final Map<String, Peptide0> peptide0Map;
 
 
     public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
@@ -42,6 +43,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.maxMs2Charge = maxMs2Charge;
+        peptide0Map = buildIndexObj.getPeptide0Map();
         inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
         inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), inference3SegmentObj.getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
     }
@@ -65,7 +67,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 expProcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.plMap, false);
             }
 
-            FinalResultEntry psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle, buildIndexObj.getLabeling());
+            FinalResultEntry psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle, buildIndexObj.getLabeling(), spectrumEntry.isotopeCorrectionNum, spectrumEntry.ms1PearsonCorrelationCoefficient);
 
             float precursorMass = spectrumEntry.precursorMass;
             float localMS1ToleranceL = -1 * ms1Tolerance;
@@ -78,7 +80,8 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             // infer PTM using the new approach
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
-                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, spectrumEntry.plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide.getLeftFlank(), peptide.getRightFlank(), peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR, peptide.getProteinIdSet());
+                Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
+                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, spectrumEntry.plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
                     Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
                     psm.addScore(topPeptide);
