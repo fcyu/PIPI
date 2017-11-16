@@ -70,6 +70,7 @@ public class PreSpectra {
             int precursorCharge = -1;
             float precursorMass = -1;
             int isotopeCorrectionNum = 0;
+            double pearsonCorrelationCoefficient = -1;
             String mgfTitle = "";
             TreeMap<Integer, TreeSet<SpectrumEntry.DevEntry>> chargeDevEntryMap = new TreeMap<>();
             try {
@@ -112,11 +113,10 @@ public class PreSpectra {
                     TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
                     if (spectrum.getPrecursorCharge() == null) {
                         // We have to infer the precursor charge.
-                        double maxPearsonCorrelationCoefficient = -1;
                         for (int charge = minMs1Charge; charge <= maxMs1Charge; ++charge) {
                             Entry entry = getIsotopeCorrectionNum(precursorMz, charge, parentPeakList, chargeDevEntryMap);
-                            if (entry.pearsonCorrelationCoefficient > maxPearsonCorrelationCoefficient) {
-                                maxPearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
+                            if (entry.pearsonCorrelationCoefficient > pearsonCorrelationCoefficient) {
+                                pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
                                 isotopeCorrectionNum = entry.isotopeCorrectionNum;
                                 precursorCharge = charge;
                             }
@@ -133,6 +133,7 @@ public class PreSpectra {
                         Entry entry = getIsotopeCorrectionNum(precursorMz, precursorCharge, parentPeakList, chargeDevEntryMap);
                         if (entry.pearsonCorrelationCoefficient >= 0.7) { // If the Pearson correlation coefficient is smaller than 0.7, there is not enough evidence to change the original precursor mz.
                             isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                            pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
                         }
                         precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
                     }
