@@ -113,21 +113,21 @@ public class WritePepXml {
             if (k.startsWith("mod") && !parameterMap.get(k).trim().startsWith("0.0")) {
                 String[] parts = parameterMap.get(k).trim().split("@");
                 header.append(String.format(Locale.US, "\t\t\t<aminoacid_modification aminoacid=\"%c\" massdiff=\"%s\" mass=\"%f\" variable=\"Y\"/>\r\n", parts[1].charAt(0), parts[0].trim(), massTable.get(parts[1].charAt(0)) + Float.valueOf(parts[0])));
-            } else if (k.startsWith("Nterm") && !parameterMap.get(k).trim().contentEquals("0.0")) {
+            } else if (k.startsWith("Nterm") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 String[] parts = parameterMap.get(k).trim().split(",");
                 for (String part : parts) {
                     header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"N\" massdiff=\"%s\" mass=\"%f\" variable=\"Y\" protein_terminus=\"N\"/>\r\n", part.trim(), MassTool.PROTON + Float.valueOf(parts[0])));
                 }
-            } else if (k.startsWith("Cterm") && !parameterMap.get(k).trim().contentEquals("0.0")) {
+            } else if (k.startsWith("Cterm") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 String[] parts = parameterMap.get(k).trim().split(",");
                 for (String part : parts) {
                     header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"C\" massdiff=\"%s\" mass=\"%s\" variable=\"Y\" protein_terminus=\"N\"/>\r\n", part.trim(), part.trim()));
                 }
-            } else if (k.matches("[A-Z]") && !parameterMap.get(k).trim().contentEquals("0")) {
+            } else if (k.matches("[A-Z]") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 header.append(String.format(Locale.US, "\t\t\t<aminoacid_modification aminoacid=\"%c\" massdiff=\"%s\" mass=\"%f\" variable=\"N\"/>\r\n", k.charAt(0), parameterMap.get(k).trim(), massTable.get(k.charAt(0)) + Float.valueOf(parameterMap.get(k))));
-            } else if (k.contentEquals("n") && !parameterMap.get(k).trim().contentEquals("0.0")) {
+            } else if (k.contentEquals("n") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"N\" massdiff=\"%s\" mass=\"%s\" variable=\"N\" protein_terminus=\"N\"/>\r\n", parameterMap.get(k).trim(), MassTool.PROTON + Float.valueOf(parameterMap.get(k).trim())));
-            } else if (k.contentEquals("c") && !parameterMap.get(k).trim().contentEquals("0.0")) {
+            } else if (k.contentEquals("c") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"C\" massdiff=\"%s\" mass=\"%s\" variable=\"N\" protein_terminus=\"N\"/>\r\n", parameterMap.get(k).trim(), Float.valueOf(parameterMap.get(k).trim())));
             }
         }
