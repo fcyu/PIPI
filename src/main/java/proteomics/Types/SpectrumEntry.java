@@ -8,7 +8,6 @@ public class SpectrumEntry {
     public final float precursorMass;
     public final int precursorCharge;
     public final TreeMap<Float, Float> plMap;
-    public final TreeMap<Float, Float> unprocessedPlMap;
     public final String mgfTitle;
     public final int isotopeCorrectionNum;
     public TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap;
@@ -20,7 +19,6 @@ public class SpectrumEntry {
         this.precursorMass = precursorMass;
         this.precursorCharge = precursorCharge;
         this.plMap = plMap;
-        this.unprocessedPlMap = unprocessedPlMap;
         this.mgfTitle = mgfTitle;
         this.isotopeCorrectionNum = isotopeCorrectionNum;
         toString = this.scanNum + " (charge = " + this.precursorCharge + ", mass = " + this.precursorMass + ", peak_num = " + this.plMap.size() + ")";

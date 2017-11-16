@@ -28,12 +28,12 @@ public class PreSpectrum {
         return preprocess(temp);
     }
 
-    public SparseVector prepareXcorr(TreeMap<Float, Float> unprocessedPlMap, boolean preprocess) {
+    public SparseVector prepareXcorr(TreeMap<Float, Float> plMap, boolean preprocess) {
         float[] plArray;
         if (preprocess) {
-            plArray = digitizeSpec(preprocess(unprocessedPlMap));
+            plArray = digitizeSpec(preprocess(plMap));
         } else {
-            plArray = digitizeSpec(unprocessedPlMap);
+            plArray = digitizeSpec(plMap);
         }
 
         SparseVector xcorrPl = new SparseVector();

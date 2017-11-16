@@ -151,13 +151,7 @@ public class PreSpectra {
             if (plMap.size() <= minPeakNum) {
                 continue;
             }
-            TreeMap<Float, Float> unprocessedPlMap = new TreeMap<>();
-            for (double mz : rawMzIntensityMap.keySet()) {
-                if ((mz >= 50) && (mz <= precursorMass)) {
-                    unprocessedPlMap.put((float) mz, rawMzIntensityMap.get(mz).floatValue());
-                }
-            }
-            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, unprocessedPlMap, mgfTitle, isotopeCorrectionNum);
+            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, mgfTitle, isotopeCorrectionNum, pearsonCorrelationCoefficient);
 
             if (PIPI.DEV) {
                 spectrumEntry.chargeDevEntryMap = chargeDevEntryMap;
