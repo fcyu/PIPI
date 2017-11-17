@@ -165,7 +165,7 @@ public class PIPI {
                     if (task.isDone()) {
                         if (task.get() != null) {
                             FinalResultEntry finalResultEntry = task.get();
-                            if (!scanFinalResultMap.containsKey(finalResultEntry.getScanNum()) || (scanFinalResultMap.get(finalResultEntry.getScanNum()).getPeptideSet().first().getScore() < finalResultEntry.getPeptideSet().first().getScore()) || (scanFinalResultMap.get(finalResultEntry.getScanNum()).getPeptideSet().first().getScore() == finalResultEntry.getPeptideSet().first().getScore() && !finalResultEntry.getPeptideSet().first().isDecoy()))
+                            if (!scanFinalResultMap.containsKey(finalResultEntry.getScanNum()) || (scanFinalResultMap.get(finalResultEntry.getScanNum()).getTopPeptide().getScore() < finalResultEntry.getTopPeptide().getScore()) || (scanFinalResultMap.get(finalResultEntry.getScanNum()).getTopPeptide().getScore() == finalResultEntry.getTopPeptide().getScore() && !finalResultEntry.getTopPeptide().isDecoy()))
                             scanFinalResultMap.put(finalResultEntry.getScanNum(), finalResultEntry);
                         }
                         toBeDeleteTaskList.add(task);
@@ -252,7 +252,7 @@ public class PIPI {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
             writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
             for (FinalResultEntry entry : scanFinalResultMap.values()) {
-                Peptide peptide = entry.getPeptideSet().first();
+                Peptide peptide = entry.getTopPeptide();
                 float theoMass = peptide.getTheoMass();
                 float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
@@ -348,7 +348,7 @@ public class PIPI {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
             for (FinalResultEntry entry : scanFinalResultMap.values()) {
-                Peptide peptide = entry.getPeptideSet().first();
+                Peptide peptide = entry.getTopPeptide();
                 if (!peptide.isDecoy()) {
                     int scanNum = entry.getScanNum();
                     float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);

@@ -30,7 +30,7 @@ public class WritePepXml {
             writer.write(pepxmlHeader(massTable));
             for (FinalResultEntry finalResultEntry : scanFinalResultMap.values()) {
                 if (percolatorResultMap.containsKey(finalResultEntry.getScanNum())) {
-                    Peptide peptide = finalResultEntry.getPeptideSet().first();
+                    Peptide peptide = finalResultEntry.getTopPeptide();
                     Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
                     StringBuilder proteinIdStr = new StringBuilder();
                     for (String proteinId : peptide0.proteins) {

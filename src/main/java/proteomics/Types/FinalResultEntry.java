@@ -72,6 +72,9 @@ public class FinalResultEntry {
     }
 
     public void setPtmPatterns(Map<String, TreeSet<Peptide>> ptmPatterns) {
+    public Peptide getTopPeptide() {
+        return peptideSet.first();
+    }
         this.ptmPatterns = ptmPatterns;
     }
 
