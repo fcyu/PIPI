@@ -61,13 +61,4 @@ public class SparseBooleanVector {
     public Integer[] getNonZeroIdxes() {
         return sparseVector.toArray(new Integer[sparseVector.size()]);
     }
-
-    public String toString() {
-        StringBuilder sb = new StringBuilder(sparseVector.size() * 6);
-        for (int idx : sparseVector) {
-            sb.append(idx);
-            sb.append(";");
-        }
-        return sb.toString();
-    }
 }

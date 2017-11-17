@@ -12,7 +12,6 @@ public class SpectrumEntry {
     public final int isotopeCorrectionNum;
     public final double ms1PearsonCorrelationCoefficient;
     public TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap;
-    private final String toString;
 
     public SpectrumEntry(int scanNum, float precursorMz, float precursorMass, int precursorCharge, TreeMap<Float, Float> plMap, String mgfTitle, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient) {
         this.scanNum = scanNum;
@@ -23,11 +22,6 @@ public class SpectrumEntry {
         this.mgfTitle = mgfTitle;
         this.isotopeCorrectionNum = isotopeCorrectionNum;
         this.ms1PearsonCorrelationCoefficient = ms1PearsonCorrelationCoefficient;
-        toString = this.scanNum + " (charge = " + this.precursorCharge + ", mass = " + this.precursorMass + ", peak_num = " + this.plMap.size() + ")";
-    }
-
-    public String toString() {
-        return toString;
     }
 
     public static class DevEntry implements Comparable<DevEntry> {
