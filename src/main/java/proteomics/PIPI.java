@@ -366,8 +366,8 @@ public class PIPI {
 
                     StringBuilder otherPtmPatterns = new StringBuilder(300);
                     String ptmDeltaScore;
-                    if (entry.getPtmPatterns().containsKey(peptide.getPTMFreeSeq())) {
-                        TreeSet<Peptide> tempTreeSet = entry.getPtmPatterns().get(peptide.getPTMFreeSeq());
+                    if (entry.getPtmPatterns() != null) {
+                        TreeSet<Peptide> tempTreeSet = entry.getPtmPatterns();
                         Iterator<Peptide> tempTreeSetIterator = tempTreeSet.iterator();
                         tempTreeSetIterator.next();
                         while (tempTreeSetIterator.hasNext()) {

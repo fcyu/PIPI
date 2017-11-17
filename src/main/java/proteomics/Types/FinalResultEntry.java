@@ -14,7 +14,7 @@ public class FinalResultEntry {
     private final double ms1PearsonCorrelationCoefficient;
 
     private TreeSet<Peptide> peptideSet = new TreeSet<>(Collections.reverseOrder());
-    private Map<String, TreeSet<Peptide>> ptmPatterns;
+    private TreeSet<Peptide> ptmPatterns = null;
 
     public FinalResultEntry(int scanNum, int charge, float precursorMz, String mgtTitle, String labeling, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient) {
         this.scanNum = scanNum;
@@ -71,14 +71,14 @@ public class FinalResultEntry {
         return peptideSet;
     }
 
-    public void setPtmPatterns(Map<String, TreeSet<Peptide>> ptmPatterns) {
     public Peptide getTopPeptide() {
         return peptideSet.first();
     }
+    public void setPtmPatterns(TreeSet<Peptide> ptmPatterns) {
         this.ptmPatterns = ptmPatterns;
     }
 
-    public Map<String, TreeSet<Peptide>> getPtmPatterns() {
+    public TreeSet<Peptide> getPtmPatterns() {
         return ptmPatterns;
     }
 }

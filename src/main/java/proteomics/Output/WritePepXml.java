@@ -39,8 +39,8 @@ public class WritePepXml {
                     }
                     float expMass = finalResultEntry.getCharge() * (finalResultEntry.getPrecursorMz() - 1.00727646688f);
                     String ptmDeltaScore;
-                    if (finalResultEntry.getPtmPatterns().containsKey(peptide.getPTMFreeSeq())) {
-                        TreeSet<Peptide> tempTreeSet = finalResultEntry.getPtmPatterns().get(peptide.getPTMFreeSeq());
+                    if (finalResultEntry.getPtmPatterns() != null) {
+                        TreeSet<Peptide> tempTreeSet = finalResultEntry.getPtmPatterns();
                         if (tempTreeSet.size() > 1) {
                             Iterator<Peptide> temp = tempTreeSet.iterator();
                             ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
