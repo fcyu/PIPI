@@ -733,9 +733,9 @@ class IsotopeDistribution {
 
     private void prune(List<Peak> f, double limit) {
         List<Peak> toBeDeleteList = new LinkedList<>();
-        for (int i = 0; i < f.size(); ++i) {
-            if (f.get(i).realArea <= limit) {
-                toBeDeleteList.add(f.get(i));
+        for (Peak peak : f) {
+            if (peak.realArea <= limit) {
+                toBeDeleteList.add(peak);
             }
         }
         f.removeAll(toBeDeleteList);
