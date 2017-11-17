@@ -99,6 +99,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
                 if (psm.getTopPeptide().hasVarPTM()) {
                     psm.setPtmPatterns(modSequences.get(psm.getTopPeptide().getPTMFreeSeq()));
                 }
+                new CalSubscores(psm.getTopPeptide(), spectrumEntry, ms2Tolerance, plMap);
                 return psm;
             } else {
                 return null;
