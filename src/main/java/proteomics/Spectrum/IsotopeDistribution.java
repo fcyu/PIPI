@@ -15,12 +15,16 @@ class IsotopeDistribution {
     private static final double averagineO = 1.4773;
     private static final double averagineS = 0.0417;
 
-    private static final Map<String, Peak[]> elementIsotopeMap = new HashMap<>();
+    private Map<String, Peak[]> elementIsotopeMap = new HashMap<>();
     private final double limit;
     private final double averagineMonoMass;
     private final Map<String, Double> elementTable;
 
-    static {
+    IsotopeDistribution(Map<String, Double> elementTable, double limit, String labeling) {
+        this.elementTable = elementTable;
+        this.limit = limit;
+        averagineMonoMass = averagineC * elementTable.get("C") + averagineH * elementTable.get("H") + averagineN * elementTable.get("N") + averagineO * elementTable.get("O") + averagineS * elementTable.get("S");
+
         Peak[] peakArray = new Peak[2];
         peakArray[0] = new Peak(1.0078246, 0.99985);
         peakArray[1] = new Peak(2.0141021, 0.00015);
@@ -50,10 +54,16 @@ class IsotopeDistribution {
         peakArray[1] = new Peak(13.0033554, 0.011070);
         elementIsotopeMap.put("C", peakArray);
 
-        peakArray = new Peak[2];
-        peakArray[0] = new Peak(14.0030732, 0.996337);
-        peakArray[1] = new Peak(15.0001088, 0.003663);
-        elementIsotopeMap.put("N", peakArray);
+        if (labeling.contentEquals("N15")) {
+            peakArray = new Peak[1];
+            peakArray[0] = new Peak(15.0001088, 1);
+            elementIsotopeMap.put("N", peakArray);
+        } else {
+            peakArray = new Peak[2];
+            peakArray[0] = new Peak(14.0030732, 0.996337);
+            peakArray[1] = new Peak(15.0001088, 0.003663);
+            elementIsotopeMap.put("N", peakArray);
+        }
 
         peakArray = new Peak[3];
         peakArray[0] = new Peak(15.9949141, 0.997590);
@@ -636,18 +646,6 @@ class IsotopeDistribution {
         peakArray = new Peak[1];
         peakArray[0] = new Peak(260.0, 1.0);
         elementIsotopeMap.put("Lr", peakArray);
-    }
-
-    IsotopeDistribution(Map<String, Double> elementTable, double limit, String labeling) {
-        this.elementTable = elementTable;
-        this.limit = limit;
-        averagineMonoMass = averagineC * elementTable.get("C") + averagineH * elementTable.get("H") + averagineN * elementTable.get("N") + averagineO * elementTable.get("O") + averagineS * elementTable.get("S");
-        if (labeling.contentEquals("N15")) {
-            Peak[] peakArray = new Peak[2];
-            peakArray[0] = new Peak(15.0001088, 0.95);
-            peakArray[1] = new Peak(14.0030732, 0.05);
-            elementIsotopeMap.put("N", peakArray);
-        }
     }
 
     Map<String, Integer> getElementMapFromMonoMass(double mass) {
