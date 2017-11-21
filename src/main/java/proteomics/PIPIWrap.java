@@ -11,9 +11,14 @@ import proteomics.Segment.InferenceSegment;
 import proteomics.Spectrum.PreSpectrum;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
+import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class PIPIWrap implements Callable<FinalResultEntry> {
 
@@ -29,11 +34,14 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final float minPtmMass;
     private final float maxPtmMass;
     private final int maxMs2Charge;
-    private final InferPTM inferPTM;
     private final Map<String, Peptide0> peptide0Map;
+    private final JMzReader spectraParser;
+    private final float minClear;
+    private final float maxClear;
+    private final ReentrantLock lock;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.spectrumEntry = spectrumEntry;
@@ -43,15 +51,41 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.maxMs2Charge = maxMs2Charge;
+        this.spectraParser = spectraParser;
+        this.minClear = minClear;
+        this.maxClear = maxClear;
+        this.lock = lock;
         peptide0Map = buildIndexObj.getPeptide0Map();
         inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
-        inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), inference3SegmentObj.getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
     }
 
     @Override
-    public FinalResultEntry call() {
+    public FinalResultEntry call() throws Exception {
+        Map<Double, Double> rawPLMap;
+        lock.lock();
+        try {
+            PrintStream originalStream = System.out;
+            PrintStream nullStream = new PrintStream(new OutputStream() {
+                @Override
+                public void write(int b) throws IOException {
+                }
+            });
+            System.setOut(nullStream);
+
+            // Reading peak list.
+            rawPLMap = spectraParser.getSpectrumById(spectrumEntry.scanId).getPeakList();
+
+            System.setOut(originalStream);
+        } finally {
+            lock.unlock();
+        }
+
+        // preprocess peak list
+        PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
+        TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawPLMap, spectrumEntry.precursorMass, spectrumEntry.precursorCharge, ms2Tolerance, minClear, maxClear);
+
         // Coding
-        List<ThreeExpAA> expAaLists = inference3SegmentObj.inferSegmentLocationFromSpectrum(spectrumEntry);
+        List<ThreeExpAA> expAaLists = inference3SegmentObj.inferSegmentLocationFromSpectrum(spectrumEntry, plMap);
         if (!expAaLists.isEmpty()) {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);
 
@@ -59,12 +93,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
 
             // prepare the spectrum
-            PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
             SparseVector expProcessedPL;
             if (PIPI.useXcorr) {
-                expProcessedPL = preSpectrumObj.prepareXcorr(spectrumEntry.plMap, false);
+                expProcessedPL = preSpectrumObj.prepareXcorr(plMap, false);
             } else {
-                expProcessedPL = preSpectrumObj.prepareDigitizedPL(spectrumEntry.plMap, false);
+                expProcessedPL = preSpectrumObj.prepareDigitizedPL(plMap, false);
             }
 
             FinalResultEntry psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle, buildIndexObj.getLabeling(), spectrumEntry.isotopeCorrectionNum, spectrumEntry.ms1PearsonCorrelationCoefficient);
@@ -78,10 +111,11 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             }
 
             // infer PTM using the new approach
+            InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), inference3SegmentObj.getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, spectrumEntry.plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
+                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
                     Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
                     psm.addScore(topPeptide);

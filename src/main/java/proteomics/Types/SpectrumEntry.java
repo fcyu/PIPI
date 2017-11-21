@@ -3,22 +3,23 @@ package proteomics.Types;
 import java.util.*;
 
 public class SpectrumEntry {
+
     public final int scanNum;
+    public final String scanId;
     public final float precursorMz;
     public final float precursorMass;
     public final int precursorCharge;
-    public final TreeMap<Float, Float> plMap;
     public final String mgfTitle;
     public final int isotopeCorrectionNum;
     public final double ms1PearsonCorrelationCoefficient;
     public TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap;
 
-    public SpectrumEntry(int scanNum, float precursorMz, float precursorMass, int precursorCharge, TreeMap<Float, Float> plMap, String mgfTitle, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient) {
+    public SpectrumEntry(int scanNum, String scanId, float precursorMz, float precursorMass, int precursorCharge, String mgfTitle, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient) {
         this.scanNum = scanNum;
+        this.scanId = scanId;
         this.precursorMz = precursorMz;
         this.precursorMass = precursorMass;
         this.precursorCharge = precursorCharge;
-        this.plMap = plMap;
         this.mgfTitle = mgfTitle;
         this.isotopeCorrectionNum = isotopeCorrectionNum;
         this.ms1PearsonCorrelationCoefficient = ms1PearsonCorrelationCoefficient;

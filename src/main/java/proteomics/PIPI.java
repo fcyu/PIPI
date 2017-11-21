@@ -19,6 +19,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class PIPI {
 
@@ -71,6 +72,8 @@ public class PIPI {
         float ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         int ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         int maxMs2Charge = Integer.valueOf(parameterMap.get("max_ms2_charge"));
+        float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
+        float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
         String percolatorPath = parameterMap.get("percolator_path");
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
 
@@ -147,9 +150,10 @@ public class PIPI {
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
         List<Future<FinalResultEntry>> taskList = new LinkedList<>();
+        ReentrantLock lock = new ReentrantLock();
         for (int scanNum : numSpectrumMap.keySet()) {
             SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
-            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge))));
+            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock)));
         }
 
         // check progress every minute, record results,and delete finished tasks.

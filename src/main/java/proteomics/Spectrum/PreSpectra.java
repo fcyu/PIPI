@@ -34,14 +34,10 @@ public class PreSpectra {
         int minMs1Charge = Integer.valueOf(parameterMap.get("min_ms1_charge"));
         int maxMs1Charge = Integer.valueOf(parameterMap.get("max_ms1_charge"));
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
-        float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
-        float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
-        float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
         ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabeling());
 
-        PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         PrintStream originalStream = System.out;
         PrintStream nullStream = new PrintStream(new OutputStream() {
             @Override
@@ -59,8 +55,7 @@ public class PreSpectra {
                 continue;
             }
 
-            Map<Double, Double> rawMzIntensityMap = spectrum.getPeakList();
-            if (rawMzIntensityMap.size() < minPeakNum) {
+            if (spectrum.getPeakList().size() < minPeakNum) {
                 logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
                 continue;
             }
@@ -148,11 +143,7 @@ public class PreSpectra {
                 continue;
             }
 
-            TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawMzIntensityMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
-            if (plMap.size() <= minPeakNum) {
-                continue;
-            }
-            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, precursorMz, precursorMass, precursorCharge, plMap, mgfTitle, isotopeCorrectionNum, pearsonCorrelationCoefficient);
+            SpectrumEntry spectrumEntry = new SpectrumEntry(scanNum, spectrum.getId(), precursorMz, precursorMass, precursorCharge, mgfTitle, isotopeCorrectionNum, pearsonCorrelationCoefficient);
 
             if (PIPI.DEV) {
                 spectrumEntry.chargeDevEntryMap = chargeDevEntryMap;

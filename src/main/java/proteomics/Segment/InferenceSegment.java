@@ -123,8 +123,8 @@ public class InferenceSegment {
         deltaMassArray = modifiedAAMap.keySet().toArray(new Float[modifiedAAMap.size()]);
     }
 
-    public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry) {
-        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry), spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON);
+    public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry, TreeMap<Float, Float> plMap) {
+        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry, plMap), spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON);
     }
 
     public Set<Segment> cutTheoSegment(String peptide) {
@@ -363,9 +363,8 @@ public class InferenceSegment {
         return null;
     }
 
-    private TreeMap<Float, Float> addVirtualPeaks(SpectrumEntry spectrumEntry) {
+    private TreeMap<Float, Float> addVirtualPeaks(SpectrumEntry spectrumEntry, TreeMap<Float, Float> plMap) {
         float totalMass = spectrumEntry.precursorMass + 2 * MassTool.PROTON;
-        TreeMap<Float, Float> plMap = spectrumEntry.plMap;
         TreeMap<Float, Float> finalPlMap = new TreeMap<>();
         for (float mz : plMap.keySet()) {
             finalPlMap.put(mz, plMap.get(mz));

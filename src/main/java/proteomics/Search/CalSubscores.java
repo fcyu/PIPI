@@ -9,8 +9,7 @@ import java.util.*;
 
 public class CalSubscores {
 
-    public CalSubscores(Peptide peptide, SpectrumEntry spectrum, float ms2Tolerance) {
-        TreeMap<Float, Float> expPl = spectrum.plMap;
+    public CalSubscores(Peptide peptide, SpectrumEntry spectrum, float ms2Tolerance, TreeMap<Float, Float> expPl) {
         float[][] ionMatrix = peptide.getIonMatrix();
         int precursorCharge = spectrum.precursorCharge;
 
