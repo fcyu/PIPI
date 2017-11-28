@@ -60,7 +60,11 @@ public class BuildIndex {
         fixModMap.put('c', Float.valueOf(parameterMap.get("c")));
 
         // read protein database
-        DbTool dbToolObj = new DbTool(dbPath);
+        String databaseType = "UniProt";
+        if (parameterMap.containsKey("database_type")) {
+            databaseType = parameterMap.get("database_type");
+        }
+        DbTool dbToolObj = new DbTool(dbPath, databaseType);
         Map<String, String> proteinPeptideMap = dbToolObj.returnSeqMap();
 
         // define a new MassTool object

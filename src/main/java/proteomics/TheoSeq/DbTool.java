@@ -14,14 +14,19 @@ public class DbTool {
     private Map<String, String> proSeqMap = new HashMap<>();
     private Map<String, String> proAnnotateMap = new HashMap<>();
 
-    public DbTool(String dbName) {
+    public DbTool(String dbName, String databaseType) {
         String id = "";
         String annotate;
         StringBuilder seq = new StringBuilder(99999);
 
         boolean newPro = true;
 
-        Pattern headerPattern = Pattern.compile(">([^\\s]*)(.*)");
+        Pattern headerPattern = Pattern.compile("^>([^\\s]+)[\\s|]+(.+)");;
+        if (databaseType.contentEquals("TAIR")) {
+            headerPattern = Pattern.compile("^>([^\\s]+)[\\s|]+(.+)$");
+        } else if (databaseType.contentEquals("UniProt") || databaseType.contentEquals("SwissProt")) {
+            headerPattern = Pattern.compile("^>[^|]+\\|(.+)\\|(.+)$");
+        }
 
         try (BufferedReader dbReader = new BufferedReader(new FileReader(dbName))) {
             String line;
@@ -64,5 +69,43 @@ public class DbTool {
 
     public Map<String, String> returnAnnotateMap() {
         return proAnnotateMap;
+    }
+
+    public Set<Integer> findPeptideLocation(String proteinId, String peptide) throws NullPointerException {
+        peptide = peptide.trim().replaceAll("[^A-Z]+", "");
+        Set<Integer> output = new HashSet<>();
+        int idx = proSeqMap.get(proteinId).indexOf(peptide);
+        while (idx >= 0) {
+            output.add(idx);
+            idx = proSeqMap.get(proteinId).indexOf(peptide, idx + 1);
+        }
+        if (!output.isEmpty()) {
+            return output;
+        } else {
+            throw new NullPointerException(String.format(Locale.US, "Cannot find the peptide %s from the protein %s.", peptide, proteinId));
+        }
+    }
+
+    public static Set<String> reduceProteinIdSet(Set<String> input) {
+        if (input.size() == 1) {
+            return input;
+        } else {
+            Map<String, Integer> tempMap = new HashMap<>();
+            for (String s : input) {
+                String[] tempArray = s.split("\\.");
+                if (tempMap.containsKey(tempArray[0])) {
+                    if (tempMap.get(tempArray[0]) > Integer.valueOf(tempArray[1])) {
+                        tempMap.put(tempArray[0], Integer.valueOf(tempArray[1]));
+                    }
+                } else {
+                    tempMap.put(tempArray[0], Integer.valueOf(tempArray[1]));
+                }
+            }
+            Set<String> output = new HashSet<>();
+            for (String s : tempMap.keySet()) {
+                output.add(s + "." + tempMap.get(s));
+            }
+            return output;
+        }
     }
 }
