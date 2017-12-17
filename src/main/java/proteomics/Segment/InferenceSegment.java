@@ -127,19 +127,6 @@ public class InferenceSegment {
         return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry, plMap), spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON);
     }
 
-    public Set<Segment> cutTheoSegment(String peptide) {
-        String normalizedPeptide = normalizeSequence(peptide);
-        Set<Segment> segmentSet = new HashSet<>(peptide.length() + 1, 1);
-        if (normalizedPeptide.length() == 3) {
-            segmentSet.add(new Segment(normalizedPeptide));
-        } else if (normalizedPeptide.length() > 3) {
-            for (int i = 0; i <= normalizedPeptide.length() - 3; ++i) {
-                segmentSet.add(new Segment(normalizedPeptide.substring(i, i + 3)));
-            }
-        }
-        return segmentSet;
-    }
-
     public SparseVector generateSegmentIntensityVector(List<ThreeExpAA> inputList) {
         SparseVector finalVector = new SparseVector();
         if (inputList.isEmpty()) {
@@ -155,16 +142,13 @@ public class InferenceSegment {
         }
     }
 
-    public SparseBooleanVector generateSegmentBooleanVector(Set<Segment> cutSegmentSet) {
-        Set<Integer> tempSet = new HashSet<>();
-        if (cutSegmentSet.isEmpty()) {
-            return new SparseBooleanVector(tempSet);
-        } else {
-            for (Segment segment : cutSegmentSet) {
-                tempSet.add(aaVectorTemplate.get(segment));
-            }
-            return new SparseBooleanVector(tempSet);
+    public SparseBooleanVector generateSegmentBooleanVector(String peptide) {
+        String normalizedPeptide = normalizeSequence(peptide);
+        Set<Integer> tempSet = new HashSet<>(peptide.length() + 1, 1);
+        for (int i = 0; i <= normalizedPeptide.length() - 3; ++i) {
+            tempSet.add(aaVectorTemplate.get(new Segment(normalizedPeptide.substring(i, i + 3))));
         }
+        return new SparseBooleanVector(tempSet);
     }
 
     public Map<String, Float> getModifiedAAMassMap() {

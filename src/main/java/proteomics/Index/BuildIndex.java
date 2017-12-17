@@ -111,7 +111,7 @@ public class BuildIndex {
 
             Map<String, Peptide0> tempMap = new HashMap<>();
             for (String targetPeptide : targetPeptideMassMap.keySet()) {
-                SparseBooleanVector targetCode = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(targetPeptide.substring(1, targetPeptide.length() - 1)));
+                SparseBooleanVector targetCode = inference3SegmentObj.generateSegmentBooleanVector(targetPeptide.substring(1, targetPeptide.length() - 1));
 
                 char leftFlank = '-';
                 char rightFlank = '-';
@@ -149,7 +149,7 @@ public class BuildIndex {
                 if (!decoyPeptide.isEmpty()) {
                     decoyPeptide = "n" + decoyPeptide + "c";
                     forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
-                    SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(inference3SegmentObj.cutTheoSegment(decoyPeptide.substring(1, decoyPeptide.length() - 1)));
+                    SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(decoyPeptide.substring(1, decoyPeptide.length() - 1));
 
                     Set<String> decoyProteins = new HashSet<>(targetPeptideProteinMap.get(targetPeptide).size() + 1, 1);
                     for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
