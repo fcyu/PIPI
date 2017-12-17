@@ -25,7 +25,7 @@ public class BuildIndex {
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
     public BuildIndex(Map<String, String> parameterMap, String labeling) {
         // initialize parameters
-        int minPeptideLength = Integer.valueOf(parameterMap.get("min_peptide_length"));
+        int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
         String dbPath = parameterMap.get("db");
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
