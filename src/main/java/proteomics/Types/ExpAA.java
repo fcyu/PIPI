@@ -12,7 +12,6 @@ public class ExpAA implements Comparable<ExpAA> {
     private final float nTermMod;
     private final float cTermMod;
     private int theoLocation; // starts from 0, include N/C-terminal
-    private String toString;
     private int hashCode;
 
     public ExpAA(String aa, char ptmFreeAA, float headLocation, float tailLocation, float headIntensity, float tailIntensity, int theoLocation, float mod, float nTermMod, float cTermMod) {
@@ -27,7 +26,7 @@ public class ExpAA implements Comparable<ExpAA> {
         this.nTermMod = nTermMod;
         this.cTermMod = cTermMod;
         this.theoLocation = -1;
-        toString = headLocation + "." + aa + "." + theoLocation + "." + tailLocation;
+        String toString = headLocation + "." + aa + "." + theoLocation + "." + tailLocation;
         hashCode = toString.hashCode();
     }
 
@@ -54,7 +53,7 @@ public class ExpAA implements Comparable<ExpAA> {
     void setTheoLocation(int theo) {
         theoLocation = theo;
         // update toString and hashCode
-        toString = headLocation + "." + aa + "." + theoLocation + "." + tailLocation;
+        String toString = headLocation + "." + aa + "." + theoLocation + "." + tailLocation;
         hashCode = toString.hashCode();
     }
 
@@ -70,10 +69,6 @@ public class ExpAA implements Comparable<ExpAA> {
         } else {
             return 0;
         }
-    }
-
-    public String toString() {
-        return toString;
     }
 
     public int hashCode() {

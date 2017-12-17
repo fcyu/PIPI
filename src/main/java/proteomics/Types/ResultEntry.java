@@ -6,7 +6,6 @@ public class ResultEntry implements Comparable<ResultEntry> {
     public final String peptide;
     public final char leftFlank;
     public final char rightFlank;
-    private final String toString;
     private final int hashCode;
     private final boolean isDecoy;
     private final boolean containPtm;
@@ -16,7 +15,7 @@ public class ResultEntry implements Comparable<ResultEntry> {
         this.peptide = peptide;
         this.leftFlank = leftFlank;
         this.rightFlank = rightFlank;
-        toString = peptide + "-" + score;
+        String toString = peptide + "-" + score;
         hashCode = toString.hashCode();
         this.isDecoy = isDecoy;
         this.containPtm = containPtm;
@@ -38,10 +37,6 @@ public class ResultEntry implements Comparable<ResultEntry> {
 
     public boolean containPTM() {
         return containPtm;
-    }
-
-    public String toString() {
-        return toString;
     }
 
     public int hashCode() {

@@ -4,13 +4,12 @@ public class Coordinate implements Comparable<Coordinate> {
 
     public final int x;
     public final int y;
-    private final String toString;
     private final int hashCode;
 
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
-        toString = "(" + x + "-" + y + ")";
+        String toString = "(" + x + "-" + y + ")";
         hashCode = toString.hashCode();
     }
 
@@ -41,9 +40,5 @@ public class Coordinate implements Comparable<Coordinate> {
         } else {
             return false;
         }
-    }
-
-    public String toString() {
-        return toString;
     }
 }

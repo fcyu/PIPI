@@ -20,7 +20,6 @@ public class Peptide implements Comparable<Peptide> {
     private final int globalRank;
     private final double normalizedCrossCorrelationCoefficient;
 
-    private String toString;
     private int hashCode;
 
     // these fields need to be changed every time PTM changed.
@@ -50,8 +49,7 @@ public class Peptide implements Comparable<Peptide> {
         this.maxMs2Charge = maxMs2Charge;
         this.globalRank = globalRank;
 
-        toString =  ptmFreeSeq;
-        hashCode = toString.hashCode();
+        hashCode = ptmFreeSeq.hashCode();
     }
 
     public int getGlobalRank() {
@@ -94,10 +92,6 @@ public class Peptide implements Comparable<Peptide> {
             chargeOneBIonArray = ionMatrix[0];
         }
         return chargeOneBIonArray;
-    }
-
-    public String toString() {
-        return toString;
     }
 
     public boolean equals(Object other) {
@@ -148,7 +142,7 @@ public class Peptide implements Comparable<Peptide> {
             varPtmContainingSeq = null;
             ptmContainingSeq = null;
 
-            toString = ptmFreeSeq + "." + ptmMap.toString();
+            String toString = ptmFreeSeq + "." + ptmMap.toString();
             hashCode = toString.hashCode();
         }
     }
