@@ -17,8 +17,8 @@ public class MassTool {
 
     private final Map<Character, Float> massTable = new HashMap<>(30, 1);
     private final int missedCleavage;
-    private float ms2Tolerance = 1.0005f;
-    private float oneMinusBinOffset = 0.4f;
+    private float ms2Tolerance;
+    private float oneMinusBinOffset;
     private Pattern digestSitePattern;
     private final boolean cleavageFromCTerm;
     private final String labeling;
