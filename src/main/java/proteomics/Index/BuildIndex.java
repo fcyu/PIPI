@@ -71,7 +71,7 @@ public class BuildIndex {
             inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
 
             Set<String> forCheckDuplicate = new HashSet<>(500000);
-            Map<String, Set<String>> targetPeptideProteinMap = new HashMap<>(500000);
+            Map<String, TreeSet<String>> targetPeptideProteinMap = new HashMap<>(500000);
             Map<String, Float> targetPeptideMassMap = new HashMap<>(500000);
             for (String proId : proteinPeptideMap.keySet()) {
                 String proSeq = proteinPeptideMap.get(proId);
@@ -96,7 +96,7 @@ public class BuildIndex {
                             }
 
                             targetPeptideMassMap.put(peptide, mass);
-                            Set<String> proteins = new HashSet<>(10, 1);
+                            TreeSet<String> proteins = new TreeSet<>();
                             proteins.add(proId);
                             targetPeptideProteinMap.put(peptide, proteins);
                         }
@@ -134,7 +134,7 @@ public class BuildIndex {
                     }
                 }
 
-                tempMap.put(targetPeptide, new Peptide0(targetCode, true, new HashSet<>(targetPeptideProteinMap.get(targetPeptide)), leftFlank, rightFlank));
+                tempMap.put(targetPeptide, new Peptide0(targetCode, true, targetPeptideProteinMap.get(targetPeptide).toArray(new String[targetPeptideProteinMap.get(targetPeptide).size()]), leftFlank, rightFlank));
 
                 if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
                     massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
@@ -151,9 +151,11 @@ public class BuildIndex {
                     forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
                     SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(decoyPeptide.substring(1, decoyPeptide.length() - 1));
 
-                    Set<String> decoyProteins = new HashSet<>(targetPeptideProteinMap.get(targetPeptide).size() + 1, 1);
+                    String[] decoyProteins = new String[targetPeptideProteinMap.get(targetPeptide).size()];
+                    int idx = 0;
                     for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
-                        decoyProteins.add("DECOY_" + proteinId);
+                        decoyProteins[idx] = "DECOY_" + proteinId;
+                        ++idx;
                     }
 
                     tempMap.put(decoyPeptide, new Peptide0(decoyCode, false, decoyProteins, leftFlank, rightFlank));

@@ -26,7 +26,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
 
     private final BuildIndex buildIndexObj;
     private final MassTool massToolObj;
-    private final InferenceSegment inference3SegmentObj;
     private final SpectrumEntry spectrumEntry;
     private final float ms1Tolerance;
     private final int ms1ToleranceUnit;
@@ -56,7 +55,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.maxClear = maxClear;
         this.lock = lock;
         peptide0Map = buildIndexObj.getPeptide0Map();
-        inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
     }
 
     @Override
@@ -85,6 +83,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawPLMap, spectrumEntry.precursorMass, spectrumEntry.precursorCharge, ms2Tolerance, minClear, maxClear);
 
         // Coding
+        InferenceSegment inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
         List<ThreeExpAA> expAaLists = inference3SegmentObj.inferSegmentLocationFromSpectrum(spectrumEntry, plMap);
         if (!expAaLists.isEmpty()) {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);

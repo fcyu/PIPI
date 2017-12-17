@@ -262,7 +262,7 @@ public class PIPI {
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                StringBuilder sb = new StringBuilder(peptide0.proteins.size()* 10);
+                StringBuilder sb = new StringBuilder(peptide0.proteins.length * 10);
                 for (String protein : peptide0.proteins) {
                     sb.append(protein);
                     sb.append(";");
@@ -362,7 +362,7 @@ public class PIPI {
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
                     Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                    StringBuilder sb = new StringBuilder(peptide0.proteins.size()* 10);
+                    StringBuilder sb = new StringBuilder(peptide0.proteins.length * 10);
                     for (String protein : peptide0.proteins) {
                         sb.append(protein);
                         sb.append(";");

@@ -16,7 +16,6 @@ public class Search {
 
     private List<Peptide> ptmOnlyResult = new LinkedList<>();
     private List<Peptide> ptmFreeResult = new LinkedList<>();
-    private Map<String, Peptide0> peptide0Map;
 
 
     public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
@@ -36,7 +35,7 @@ public class Search {
             return;
         }
 
-        peptide0Map = buildIndexObj.getPeptide0Map();
+        Map<String, Peptide0> peptide0Map = buildIndexObj.getPeptide0Map();
         TreeMap<Float, Set<String>> massPeptideMap = buildIndexObj.getMassPeptideMap();
 
         NavigableMap<Float, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
