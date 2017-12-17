@@ -50,17 +50,17 @@ public class Search {
                     if (temp1 > 1e-6) {
                         score = peptide0.code.dot(scanCode) / temp1;
                     }
-                    float deltaMass = peptide0.mass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
+                    float deltaMass = mass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
 
                     if (peptide0.isTarget) {
                         if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
                             // PTM-free
                             if (ptmFreeQueue.size() < rankNum) {
-                                ptmFreeQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, false, false));
+                                ptmFreeQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, false, false));
                             } else {
                                 if (score > ptmFreeQueue.peek().score) {
                                     ptmFreeQueue.poll();
-                                    ptmFreeQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, false, false));
+                                    ptmFreeQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, false, false));
                                 }
                             }
                         }
@@ -68,11 +68,11 @@ public class Search {
                         if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
                             // PTM-only
                             if (ptmOnlyQueue.size() < rankNum) {
-                                ptmOnlyQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, false, true));
+                                ptmOnlyQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, false, true));
                             } else {
                                 if (score > ptmOnlyQueue.peek().score) {
                                     ptmOnlyQueue.poll();
-                                    ptmOnlyQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, false, true));
+                                    ptmOnlyQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, false, true));
                                 }
                             }
                         }
@@ -80,11 +80,11 @@ public class Search {
                         if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {
                             // PTM-free
                             if (ptmFreeQueue.size() < rankNum) {
-                                ptmFreeQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, true, false));
+                                ptmFreeQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, true, false));
                             } else {
                                 if (score > ptmFreeQueue.peek().score) {
                                     ptmFreeQueue.poll();
-                                    ptmFreeQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, true, false));
+                                    ptmFreeQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, true, false));
                                 }
                             }
                         }
@@ -92,11 +92,11 @@ public class Search {
                         if ((deltaMass > rightTol) || (deltaMass < -1 * leftTol)) {
                             // PTM-only
                             if (ptmOnlyQueue.size() < rankNum) {
-                                ptmOnlyQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, true, true));
+                                ptmOnlyQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, true, true));
                             } else {
                                 if (score > ptmOnlyQueue.peek().score) {
                                     ptmOnlyQueue.poll();
-                                    ptmOnlyQueue.add(new ResultEntry(score, peptide0.sequence, peptide0.leftFlank, peptide0.rightFlank, true, true));
+                                    ptmOnlyQueue.add(new ResultEntry(score, sequence, peptide0.leftFlank, peptide0.rightFlank, true, true));
                                 }
                             }
                         }

@@ -134,7 +134,7 @@ public class BuildIndex {
                     }
                 }
 
-                tempMap.put(targetPeptide, new Peptide0(targetPeptide, targetPeptideMassMap.get(targetPeptide), targetCode, true, new HashSet<>(targetPeptideProteinMap.get(targetPeptide)), leftFlank, rightFlank));
+                tempMap.put(targetPeptide, new Peptide0(targetCode, true, new HashSet<>(targetPeptideProteinMap.get(targetPeptide)), leftFlank, rightFlank));
 
                 if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
                     massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
@@ -156,7 +156,7 @@ public class BuildIndex {
                         decoyProteins.add("DECOY_" + proteinId);
                     }
 
-                    tempMap.put(decoyPeptide, new Peptide0(decoyPeptide, targetPeptideMassMap.get(targetPeptide), decoyCode, false, decoyProteins, leftFlank, rightFlank));
+                    tempMap.put(decoyPeptide, new Peptide0(decoyCode, false, decoyProteins, leftFlank, rightFlank));
                     if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
                         massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(decoyPeptide);
                     } else {
