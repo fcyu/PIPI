@@ -30,7 +30,7 @@ public class PIPI {
     public static final boolean DEV = false;
     public static final int[] debugScanNumArray = new int[]{};
 
-    private Map<Character, Float> fixModMap = null;
+    private Map<Character, Float> fixModMap;
 
     public static void main(String[] args) {
         // Process inputs
