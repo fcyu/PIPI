@@ -74,13 +74,12 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             // Reading peak list.
             rawPLMap = spectraParser.getSpectrumById(spectrumEntry.scanId).getPeakList();
 
+            lock.unlock();
             System.setOut(originalStream);
         } catch (JMzReaderException ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
-        } finally {
-            lock.unlock();
         }
 
         // preprocess peak list
