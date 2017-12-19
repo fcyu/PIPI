@@ -41,7 +41,7 @@ public class PreSpectra {
         PrintStream originalStream = System.out;
         PrintStream nullStream = new PrintStream(new OutputStream() {
             @Override
-            public void write(int b) throws IOException {}
+            public void write(int b) {}
         });
         System.setOut(nullStream);
 
@@ -159,7 +159,7 @@ public class PreSpectra {
         return numSpectrumMap;
     }
 
-    private Entry getIsotopeCorrectionNum(double precursorMz, int charge, TreeMap<Double, Double> parentPeakList, TreeMap<Integer, TreeSet<SpectrumEntry.DevEntry>> chargeDevEntryMap) throws Exception {
+    private Entry getIsotopeCorrectionNum(double precursorMz, int charge, TreeMap<Double, Double> parentPeakList, TreeMap<Integer, TreeSet<SpectrumEntry.DevEntry>> chargeDevEntryMap) {
         Entry entry = new Entry(0, 0);
         double leftTol = ms1Tolerance * 2;
         double rightTol = ms1Tolerance * 2;

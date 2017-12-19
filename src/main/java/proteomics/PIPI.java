@@ -57,10 +57,6 @@ public class PIPI {
             new PIPI(parameterPath, spectraPath);
         } catch (UnknownHostException ex) {
             logger.warn("Cannot get the computer's name.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
         }
     }
 
@@ -112,10 +108,9 @@ public class PIPI {
             } else if (ext.toLowerCase().contentEquals("mgf")) {
                 spectraParser = new MgfFile(spectraFile);
             } else {
-                logger.error("Unsupported file format {}.", ext);
-                logger.error("Currently, PIPI only support mzXML and MGF.");
+                throw new Exception(String.format(Locale.US, "Unsupported file format %s. Currently, PIPI only support mzXML and MGF.", ext));
             }
-        } catch (FileNotFoundException | MzXMLParsingException | JMzReaderException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);

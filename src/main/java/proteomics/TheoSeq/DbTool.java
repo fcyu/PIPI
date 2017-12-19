@@ -75,7 +75,7 @@ public class DbTool {
         return proAnnotateMap;
     }
 
-    public Set<Integer> findPeptideLocation(String proteinId, String peptide) throws NullPointerException {
+    public Set<Integer> findPeptideLocation(String proteinId, String peptide) {
         peptide = peptide.trim().replaceAll("[^A-Z]+", "");
         Set<Integer> output = new HashSet<>();
         int idx = proSeqMap.get(proteinId).indexOf(peptide);

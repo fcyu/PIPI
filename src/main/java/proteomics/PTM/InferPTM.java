@@ -188,7 +188,7 @@ public class InferPTM {
         return siteModMap;
     }
 
-    private float calculateMassFromComposition(String composition) throws Exception {
+    private float calculateMassFromComposition(String composition) {
         String[] parts = composition.split(" ");
         float mass = 0;
         for (String part : parts) {
@@ -201,7 +201,7 @@ public class InferPTM {
                 }
                 mass += num * elementTable.get(element);
             } else {
-                throw new Exception("The composition " + part + " cannot be recognized.");
+                logger.error("The composition {} cannot be recognized.", part);
             }
         }
         return mass;

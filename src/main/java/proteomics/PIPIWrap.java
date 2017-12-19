@@ -12,6 +12,7 @@ import proteomics.Spectrum.PreSpectrum;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
+import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -58,14 +59,14 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     }
 
     @Override
-    public FinalResultEntry call() throws Exception {
-        Map<Double, Double> rawPLMap;
+    public FinalResultEntry call() {
+        Map<Double, Double> rawPLMap = null;
         lock.lock();
         try {
             PrintStream originalStream = System.out;
             PrintStream nullStream = new PrintStream(new OutputStream() {
                 @Override
-                public void write(int b) throws IOException {
+                public void write(int b) {
                 }
             });
             System.setOut(nullStream);
@@ -74,6 +75,10 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             rawPLMap = spectraParser.getSpectrumById(spectrumEntry.scanId).getPeakList();
 
             System.setOut(originalStream);
+        } catch (JMzReaderException ex) {
+            ex.printStackTrace();
+            logger.error(ex.toString());
+            System.exit(1);
         } finally {
             lock.unlock();
         }

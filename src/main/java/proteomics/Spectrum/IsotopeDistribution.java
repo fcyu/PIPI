@@ -675,7 +675,7 @@ class IsotopeDistribution {
         return elementMap;
     }
 
-    List<Peak> calculate(Map<String, Integer> formMap) throws Exception {
+    List<Peak> calculate(Map<String, Integer> formMap) {
         List<Peak> result = new ArrayList<>();
         result.add(new Peak(0, 1));
         for (String element : formMap.keySet()) {
