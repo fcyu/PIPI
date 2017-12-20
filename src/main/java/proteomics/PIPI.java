@@ -142,7 +142,7 @@ public class PIPI {
         logger.info("Start searching...");
         int threadNum = Integer.valueOf(parameterMap.get("thread_num"));
         if (threadNum == 0) {
-            threadNum = 1 + Runtime.getRuntime().availableProcessors();
+            threadNum = 3 + Runtime.getRuntime().availableProcessors();
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
