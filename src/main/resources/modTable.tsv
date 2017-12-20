@@ -11,7 +11,7 @@ N-term	SPITC:13C(6)	H(5) C 13C(6) N O(3) S(2)	0
 N-term	Guanidinyl	H(2) C N(2)	0
 N-term	Arg	H(12) C(6) N(4) O	0
 N-term	Diisopropylphosphate	H(13) C(6) O(3) P	0
-N-term	Acetyl	H(2) C(2) O	99
+N-term	Acetyl	H(2) C(2) O	1
 N-term	Xlink:DMP-s	H(14) C(8) N(2) O	0
 N-term	BDMAPP	H(12) C(11) N O Br	0
 N-term	SMA	H(9) C(6) N O(2)	0
@@ -59,7 +59,7 @@ N-term	Xlink:DTBPc	H(5) C(3) N S	0
 N-term	Xlink:DST	H(4) C(4) O(5)	0
 N-term	Carbamidomethyl	H(3) C(2) N O	0
 N-term	Phenylisocyanate	H(5) C(7) N O	0
-K	Acetyl	H(2) C(2) O	99
+K	Acetyl	H(2) C(2) O	1
 N-term	Iodoacetanilide:13C(6)	H(7) C(2) 13C(6) N O	0
 N-term	Delta:H(2)C(2)	H(2) C(2)	0
 N-term	Iodoacetanilide	H(7) C(8) N O	0
@@ -527,7 +527,7 @@ K	Delta:H(2)C(2)	H(2) C(2)	0
 K	Biotin:Thermo-21325	H(45) C(34) N(7) O(7) S	0
 K	Trimethyl	H(6) C(3)	0
 K	Acetylhypusine	H(11) C(6) N O	0
-C-term	Amidated	H N O(-1)	99
+C-term	Amidated	H N O(-1)	1
 K	CAMthiopropanoyl	H(7) C(5) N O(2) S	0
 K	Xlink:SSD	H(15) C(12) N O(5)	0
 K	SPITC:13C(6)	H(5) C 13C(6) N O(3) S(2)	0
@@ -637,7 +637,7 @@ M	BMP-piperidinol	H(17) C(18) N O	0
 M	Dioxidation	O(2)	0
 M	Met->Hsl	H(-4) C(-1) S(-1)	0
 M	AHA-SS	H(9) C(7) N(5) O(2)	0
-N-term	Methyl	H(2) C	99
+N-term	Methyl	H(2) C	1
 M	Homocysteic_acid	H(-2) C(-1) O(3)	0
 M	Biotin-PEG-PRA	H(42) C(26) N(8) O(7)	0
 M	Carbamyl	H C N O	0
@@ -1190,7 +1190,7 @@ S	Hex(2)HexA(1)HexNAc(1)Sulf(1)	O(3) S Hex(2) HexA HexNAc	0
 S	Hex(1)HexNAc(3)Sulf(1)	O(3) S Hex HexNAc(3)	0
 S	dHex(4)HexNAc(3)Kdn(1)	dHex(4) HexNAc(3) Kdn	0
 S	dHex(1)Hex(1)HexNAc(2)Sulf(1)	O(3) S dHex Hex HexNAc(2)	0
-M	Oxidation	O	99
+M	Oxidation	O	1
 S	dHex(4)Hex(1)HexNAc(1)Kdn(2)	dHex(4) Hex HexNAc Kdn(2)	0
 S	dHex(1)Hex(3)HexNAc(1)	dHex(1) Hex(3) HexNAc(1)	0
 S	dHex(1)Hex(4)HexNAc(4)NeuAc(1)	dHex(1) Hex(4) HexNAc(4) NeuAc(1)	0
@@ -1285,7 +1285,7 @@ C-term	Cation:Mg[II]	H(-2) Mg	0
 C-term	Biotin:Thermo-21360	H(37) C(21) N(5) O(6) S	0
 C-term	MicrocinC7	H(19) C(13) N(6) O(6) P	0
 C-term	Methyl	H(2) C	0
-S	Phospho	H O(3) P	99
+S	Phospho	H O(3) P	1
 C-term	Triton	H(20) C(14)	0
 C-term	Ahx2+Hsl	H(27) C(16) N(3) O(3)	0
 T	Hex(1)HexNAc(1)	Hex HexNAc	0
@@ -1578,7 +1578,7 @@ T	dHex(4)HexNAc(3)Kdn(1)	dHex(4) HexNAc(3) Kdn	0
 T	dHex(2)Hex(2)HexA(1)HexNAc(1)	dHex(2) Hex(2) HexA(1) HexNAc(1)	0
 T	dHex(2)Hex(2)HexA(1)	dHex(2) Hex(2) HexA(1)	0
 T	dHex(1)Hex(2)HexNAc(3)	dHex(1) Hex(2) HexNAc(3)	0
-T	Phospho	H O(3) P	99
+T	Phospho	H O(3) P	1
 T	dHex(2)Hex(3)HexNAc(2)Sulf(1)	O(3) S dHex(2) Hex(3) HexNAc(2)	0
 T	Dehydrated	H(-2) O(-1)	0
 T	Formyl	C O	0
@@ -1658,7 +1658,7 @@ Y	Phosphopropargyl	H(4) C(3) N O(2) P	0
 Y	Phosphoadenosine	H(12) C(10) N(5) O(6) P	0
 Y	Biotin-tyramide	H(23) C(18) N(3) O(3) S	0
 Y	Tyr->Dha	H(-6) C(-6) O(-1)	0
-Y	Phospho	H O(3) P	99
+Y	Phospho	H O(3) P	1
 Y	Fluorescein-tyramine	H(19) C(29) N O(7)	0
 Y	BDMAPP	H(12) C(11) N O Br	0
 Y	Carbamidomethyl	H(3) C(2) N O	0

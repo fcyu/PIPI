@@ -5,7 +5,7 @@ public class VarModParam {
 
     public final float mass;
     public final char aa;
-    public final int priority;
+    public final int priority; // 1 = high; 0 = low.
 
     private final int hashCode;
 

@@ -91,7 +91,7 @@ public class InferenceSegment {
                             modifiedAAMap.put(tempMass, temp[1]);
                             modifiedAAMassMap.put(temp[1], Float.valueOf(temp[0]));
                         }
-                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0), 100)); // var mods from the parameter file have the highest priority
+                        varModParamSet.add(new VarModParam(Float.valueOf(temp[0]), temp[1].charAt(0), 1)); // var mods from the parameter file have the highest priority
                     }
                 }
             } else if (k.contentEquals("Nterm")) {
@@ -102,7 +102,7 @@ public class InferenceSegment {
                         nTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             nTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', 100)); // var mods from the parameter file have the highest priority
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'n', 1)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
@@ -114,7 +114,7 @@ public class InferenceSegment {
                         cTermPossibleMod = new float[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             cTermPossibleMod[i] = Float.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', 100)); // var mods from the parameter file have the highest priority
+                            varModParamSet.add(new VarModParam(Float.valueOf(tempArray[i].trim()), 'c', 1)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
