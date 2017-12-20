@@ -65,8 +65,12 @@ public class InferPTM {
         for (char aa : aasMap.keySet()) {
             for (VarModParam modEntry : aasMap.get(aa)) {
                 if (finalPtmMap.containsKey(aa)) {
-                    if (modEntry.priority == 1) {
-                        finalPtmMap.get(aa).add(modEntry); // temp is a high priority PTM, it is safe to overwrite the original PTM.
+                    if (finalPtmMap.get(aa).contains(modEntry)) {
+                        if (modEntry.priority == 1) {
+                            finalPtmMap.get(aa).add(modEntry); // temp is a high priority PTM, it is safe to overwrite the original PTM.
+                        }
+                    } else {
+                        finalPtmMap.get(aa).add(modEntry);
                     }
                 } else {
                     Set<VarModParam> tempSet = new HashSet<>();
@@ -78,8 +82,12 @@ public class InferPTM {
         for (char aa : ptmMap.keySet()) {
             for (VarModParam modEntry : ptmMap.get(aa)) {
                 if (finalPtmMap.containsKey(aa)) {
-                    if (modEntry.priority == 1) {
-                        finalPtmMap.get(aa).add(modEntry); // temp is a high priority PTM, it is safe to overwrite the original PTM.
+                    if (finalPtmMap.get(aa).contains(modEntry)) {
+                        if (modEntry.priority == 1) {
+                            finalPtmMap.get(aa).add(modEntry); // temp is a high priority PTM, it is safe to overwrite the original PTM.
+                        }
+                    } else {
+                        finalPtmMap.get(aa).add(modEntry);
                     }
                 } else {
                     Set<VarModParam> tempSet = new HashSet<>();
@@ -385,18 +393,14 @@ public class InferPTM {
     private void try3PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
-        int lowPriorityNum;
         for (int i = 0; i < idxArray.length - 2; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
-                lowPriorityNum = 1 - modEntry1.priority;
                 for (int j = i + 1; j < idxArray.length - 1; ++j) {
                     for (VarModParam modEntry2 : idxVarModMap.get(idxArray[j])) {
-                        lowPriorityNum += 1 - modEntry2.priority;
                         if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) { // two self cancelled PTM masses are not allowed.
                             for (int k = j + 1; k < idxArray.length; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k])) {
-                                    lowPriorityNum += 1 - modEntry3.priority;
-                                    if (lowPriorityNum < 3) {
+                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority > 0) {
                                         if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                             if (modEntry1.mass + modEntry2.mass + modEntry3.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass >= leftMassBound) {
                                                 if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000))) {
@@ -437,23 +441,18 @@ public class InferPTM {
     private void try4PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
-        int lowPriorityNum;
         for (int i = 0; i < idxArray.length - 3; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
-                lowPriorityNum = 1 - modEntry1.priority;
                 for (int j = i + 1; j < idxArray.length - 2; ++j) {
                     for (VarModParam modEntry2 : idxVarModMap.get(idxArray[j])) {
-                        lowPriorityNum += 1 - modEntry2.priority;
                         if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) {
                             for (int k = j + 1; k < idxArray.length - 1; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k])) {
-                                    lowPriorityNum += 1 - modEntry3.priority;
-                                    if (lowPriorityNum < 3) {
+                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority > 0) {
                                         if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                             for (int l = k + 1; l < idxArray.length; ++l) {
                                                 for (VarModParam modEntry4 : idxVarModMap.get(idxArray[l])) {
-                                                    lowPriorityNum += 1 - modEntry4.priority;
-                                                    if (lowPriorityNum < 3) {
+                                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority + modEntry4.priority > 1) {
                                                         if (Math.abs(modEntry1.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry3.mass + modEntry4.mass) >= ptmMassTolerance) {
                                                             if (modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass >= leftMassBound) {
                                                                 if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000))) {
@@ -499,28 +498,22 @@ public class InferPTM {
     private void try5PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
-        int lowPriorityNum;
         for (int i = 0; i < idxArray.length - 4; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
-                lowPriorityNum = 1 - modEntry1.priority;
                 for (int j = i + 1; j < idxArray.length - 3; ++j) {
                     for (VarModParam modEntry2 : idxVarModMap.get(idxArray[j])) {
-                        lowPriorityNum += 1 - modEntry2.priority;
                         if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) {
                             for (int k = j + 1; k < idxArray.length - 2; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k])) {
-                                    lowPriorityNum += 1 - modEntry3.priority;
-                                    if (lowPriorityNum < 3) {
+                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority > 0) {
                                         if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                             for (int l = k + 1; l < idxArray.length - 1; ++l) {
                                                 for (VarModParam modEntry4 : idxVarModMap.get(idxArray[l])) {
-                                                    lowPriorityNum += 1 - modEntry4.priority;
-                                                    if (lowPriorityNum < 3) {
+                                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority + modEntry4.priority > 1) {
                                                         if (Math.abs(modEntry1.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry4.mass) >= ptmMassTolerance && Math.abs(modEntry3.mass + modEntry4.mass) >= ptmMassTolerance) {
                                                             for (int m = l + 1; m < idxArray.length; ++m) {
                                                                 for (VarModParam modEntry5 : idxVarModMap.get(idxArray[m])) {
-                                                                    lowPriorityNum += 1 - modEntry5.priority;
-                                                                    if (lowPriorityNum < 3) {
+                                                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority + modEntry4.priority + modEntry5.priority > 2) {
                                                                         if (Math.abs(modEntry1.mass + modEntry5.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry5.mass) >= ptmMassTolerance && Math.abs(modEntry3.mass + modEntry5.mass) >= ptmMassTolerance && Math.abs(modEntry4.mass + modEntry5.mass) >= ptmMassTolerance) {
                                                                             if (modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass + modEntry5.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass + modEntry5.mass >= leftMassBound) {
                                                                                 if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000) + "-" + idxArray[m] + "-" + Math.round(modEntry5.mass * 1000))) {
