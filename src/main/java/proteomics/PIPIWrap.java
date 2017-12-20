@@ -41,7 +41,7 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final ReentrantLock lock;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, SpectrumEntry spectrumEntry, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.spectrumEntry = spectrumEntry;
@@ -55,6 +55,8 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.minClear = minClear;
         this.maxClear = maxClear;
         this.lock = lock;
+        this.inferPTM = inferPTM;
+        this.preSpectrum = preSpectrum;
         peptide0Map = buildIndexObj.getPeptide0Map();
     }
 
@@ -83,7 +85,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         }
 
         // preprocess peak list
-        PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawPLMap, spectrumEntry.precursorMass, spectrumEntry.precursorCharge, ms2Tolerance, minClear, maxClear);
 
         // Coding
@@ -114,7 +115,6 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             }
 
             // infer PTM using the new approach
-            InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), inference3SegmentObj.getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());

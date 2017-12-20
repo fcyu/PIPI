@@ -3,6 +3,8 @@ package proteomics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Output.WritePepXml;
+import proteomics.PTM.InferPTM;
+import proteomics.Spectrum.PreSpectrum;
 import proteomics.Types.*;
 import proteomics.Index.BuildIndex;
 import proteomics.Parameter.Parameter;
@@ -154,7 +156,10 @@ public class PIPI {
         // check progress every minute, record results,and delete finished tasks.
         Map<Integer, FinalResultEntry> scanFinalResultMap = new HashMap<>();
         int lastProgress = 0;
+        InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
+        PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         try {
+                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection)));
             int totalCount = taskList.size();
             int count = 0;
             while (count < totalCount) {
