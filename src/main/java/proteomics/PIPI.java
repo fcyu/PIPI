@@ -44,22 +44,22 @@ public class PIPI {
         String parameterPath = args[0].trim();
         String spectraPath = args[1].trim();
 
-        try {
-            logger.info("Running PIPI version {}.", versionStr);
+        logger.info("Running PIPI version {}.", versionStr);
 
+        try {
             String hostName = InetAddress.getLocalHost().getHostName();
             logger.info("Computer: {}.", hostName);
-
-            logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
-
-            if (DEV) {
-                logger.info("In DEV mode.");
-            }
-
-            new PIPI(parameterPath, spectraPath);
         } catch (UnknownHostException ex) {
             logger.warn("Cannot get the computer's name.");
         }
+
+        logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
+
+        if (DEV) {
+            logger.info("In DEV mode.");
+        }
+
+        new PIPI(parameterPath, spectraPath);
     }
 
     private PIPI(String parameterPath, String spectraPath) {
