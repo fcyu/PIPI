@@ -268,20 +268,16 @@ public class PIPI {
                 float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                StringBuilder sb = new StringBuilder(peptide0.proteins.length * 10);
-                for (String protein : peptide0.proteins) {
-                    sb.append(protein);
-                    sb.append(";");
-                }
-                String proteinIdStr = sb.toString();
 
-                sb = new StringBuilder(20);
                 int charge = entry.getCharge();
                 for (int i = 0; i < 6; ++i) {
                     if (i == charge - 1) {
                         sb.append(1);
                     } else {
                         sb.append(0);
+                    TreeSet<String> proteinIdSet = new TreeSet<>();
+                    for (String protein : peptide0.proteins) {
+                        proteinIdSet.add(protein.trim());
                     }
                     sb.append("\t");
                 }
@@ -293,6 +289,7 @@ public class PIPI {
                     temp.next();
                     deltaC = (peptide.getScore() - temp.next().getScore()) / peptide.getScore();
                 }
+                    StringBuilder sb = new StringBuilder(20);
 
                 if (peptide.isDecoy()) {
                     writer.write(entry.getScanNum() + "\t-1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide0.leftFlank + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide0.rightFlank + "\t" + proteinIdStr + "\n");
@@ -376,13 +373,12 @@ public class PIPI {
                     float theoMass = peptide.getTheoMass();
                     float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
                     float ppm = Math.abs(massDiff * 1e6f / theoMass);
+                        TreeSet<String> proteinIdSet = new TreeSet<>();
+                        for (String protein : peptide0.proteins) {
+                            proteinIdSet.add(protein.trim());
+                        }
 
                     Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                    StringBuilder sb = new StringBuilder(peptide0.proteins.length * 10);
-                    for (String protein : peptide0.proteins) {
-                        sb.append(protein);
-                        sb.append(";");
-                    }
 
                     StringBuilder otherPtmPatterns = new StringBuilder(300);
                     String ptmDeltaScore;

@@ -32,11 +32,6 @@ public class WritePepXml {
                 if (percolatorResultMap.containsKey(finalResultEntry.getScanNum())) {
                     Peptide peptide = finalResultEntry.getTopPeptide();
                     Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                    StringBuilder proteinIdStr = new StringBuilder();
-                    for (String proteinId : peptide0.proteins) {
-                        proteinIdStr.append(proteinId);
-                        proteinIdStr.append(";");
-                    }
                     float expMass = finalResultEntry.getCharge() * (finalResultEntry.getPrecursorMz() - 1.00727646688f);
                     String ptmDeltaScore;
                     if (finalResultEntry.getPtmPatterns() != null) {
@@ -49,6 +44,9 @@ public class WritePepXml {
                         }
                     } else {
                         ptmDeltaScore = "-";
+                    TreeSet<String> proteinIdSet = new TreeSet<>();
+                    for (String protein : peptide0.proteins) {
+                        proteinIdSet.add(protein.trim());
                     }
                     PercolatorEntry percolatorEntry = percolatorResultMap.get(finalResultEntry.getScanNum());
 
