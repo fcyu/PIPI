@@ -238,7 +238,7 @@ public class PIPI {
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
-            logger.warn("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
+            logger.error("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
             (new File("PIPI.temp.db")).delete();
             System.exit(1);
         }
@@ -350,19 +350,31 @@ public class PIPI {
                 ps.waitFor();
 
                 if (!(new File(percolatorOutputFileName).exists())) {
-                    logger.warn("Error in running Percolator. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.");
+                    logger.error("There is no Percolator output file.");
                     BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        logger.error("[Percolator info]: {}", line);
+                        logger.info("[Percolator info]: {}", line);
                     }
                     reader.close();
                     reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
                     while ((line = reader.readLine()) != null) {
-                        logger.error("[Percolator info]: {}", line);
+                        logger.error("[Percolator error]: {}", line);
                     }
                     reader.close();
                     return percolatorResultMap;
+                } else {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        logger.info("[Percolator info]: {}", line);
+                    }
+                    reader.close();
+                    reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+                    while ((line = reader.readLine()) != null) {
+                        logger.error("[Percolator error]: {}", line);
+                    }
+                    reader.close();
                 }
 
                 BufferedReader reader = new BufferedReader(new FileReader(percolatorOutputFileName));
@@ -376,7 +388,7 @@ public class PIPI {
                 }
                 reader.close();
             } else {
-                logger.error("Cannot find Percolator (from {}) for estimating Percolator Q-Value. The results won't contain percolator_score, posterior_error_prob, and percolator_q_value.", percolatorPath);
+                logger.error("Cannot find Percolator (from {}) for estimating Percolator Q-Value.", percolatorPath);
                 return percolatorResultMap;
             }
         } catch (IOException | InterruptedException ex) {
