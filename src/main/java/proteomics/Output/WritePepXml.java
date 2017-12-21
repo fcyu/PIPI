@@ -31,16 +31,12 @@ public class WritePepXml {
         rawDataType = spectraName.substring(tempIdx);
         this.parameterMap = parameterMap;
 
-        BufferedWriter writer = null;
-        Connection sqlConnection = null;
-        Statement sqlStatement = null;
-        ResultSet sqlResultSet = null;
         try {
-            writer = new BufferedWriter(new FileWriter(outputPath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
             writer.write(pepxmlHeader(massTable));
-            sqlConnection = DriverManager.getConnection(sqlPath);
-            sqlStatement = sqlConnection.createStatement();
-            sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
             while (sqlResultSet.next()) {
                 int scanNum = sqlResultSet.getInt("scanNum");
                 if (percolatorResultMap.containsKey(scanNum)) {
@@ -104,21 +100,14 @@ public class WritePepXml {
             }
             writer.write("\t</msms_run_summary>\r\n" +
                             "</msms_pipeline_analysis>\r\n");
+            writer.close();
+            sqlResultSet.close();
+            sqlStatement.close();
+            sqlConnection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
-        } finally {
-            try {
-                if (writer != null) writer.close();
-                if (sqlResultSet != null) sqlResultSet.close();
-                if (sqlStatement != null) sqlStatement.close();
-                if (sqlConnection != null) sqlConnection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                logger.error(ex.toString());
-                System.exit(1);
-            }
         }
     }
 

@@ -140,11 +140,9 @@ public class PIPIWrap implements Callable<Boolean> {
                 }
                 new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge);
 
-                Statement sqlStatement = null;
-                ResultSet sqlResultSet = null;
                 try {
-                    sqlStatement = sqlConnection.createStatement();
-                    sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId)); // todo: check
+                    Statement sqlStatement = sqlConnection.createStatement();
+                    ResultSet sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId)); // todo: check
                     if (sqlResultSet.next()) {
                         boolean needUpdate = false;
                         int isDecoyOld = sqlResultSet.getInt("isDecoy");
@@ -198,19 +196,13 @@ public class PIPIWrap implements Callable<Boolean> {
                     } else {
                         throw new NullPointerException(String.format(Locale.US, "There is no record %s in the spectraTable.", scanId));
                     }
+
+                    sqlResultSet.close();
+                    sqlStatement.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                     logger.error(ex.toString());
                     System.exit(1);
-                } finally {
-                    try {
-                        if (sqlResultSet != null) sqlResultSet.close();
-                        if (sqlStatement != null) sqlStatement.close();
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        logger.error(ex.toString());
-                        System.exit(1);
-                    }
                 }
                 return true;
             } else {

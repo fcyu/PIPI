@@ -148,15 +148,11 @@ public class PIPI {
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         List<Future<Boolean>> taskList = new LinkedList<>();
 
-        Connection sqlConnection = null;
-        Statement sqlStatement = null;
-        ResultSet sqlResultSet = null;
-        ReentrantLock lock = null;
         try {
-            sqlConnection = DriverManager.getConnection(sqlPath);
-            sqlStatement = sqlConnection.createStatement();
-            sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
-            lock = new ReentrantLock();
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
+            ReentrantLock lock = new ReentrantLock();
             while (sqlResultSet.next()) {
                 String scanId = sqlResultSet.getString("scanId");
                 int precursorCharge = sqlResultSet.getInt("precursorCharge");
@@ -206,6 +202,13 @@ public class PIPI {
                 if (!threadPool.awaitTermination(60, TimeUnit.SECONDS))
                     System.err.println("Pool did not terminate");
             }
+            threadPool.shutdownNow();
+            Thread.currentThread().interrupt();
+
+            sqlConnection.close();
+            if (lock.isLocked()) {
+                lock.unlock();
+            }
 
             if (resultCount == 0) {
                 logger.error("There is no useful results.");
@@ -215,21 +218,7 @@ public class PIPI {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
-        } finally {
-            threadPool.shutdownNow();
-            Thread.currentThread().interrupt();
-            try {
-                if (lock != null && lock.isLocked()) lock.unlock();
-                if (sqlResultSet != null) sqlResultSet.close();
-                if (sqlStatement != null) sqlStatement.close();
-                if (sqlConnection != null) sqlConnection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                logger.error(ex.toString());
-                System.exit(1);
-            }
         }
-
 
         logger.info("Estimating FDR...");
         String percolatorInputFileName = spectraPath + "." + labeling + ".input.temp";
@@ -271,16 +260,12 @@ public class PIPI {
     }
 
     private void writePercolator(String resultPath, Map<String, Peptide0> peptide0Map, String sqlPath) {
-        BufferedWriter writer = null;
-        Connection sqlConnection = null;
-        Statement sqlStatement = null;
-        ResultSet sqlResultSet = null;
         try {
-            writer = new BufferedWriter(new FileWriter(resultPath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath));
             writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
-            sqlConnection = DriverManager.getConnection(sqlPath);
-            sqlStatement = sqlConnection.createStatement();
-            sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac FROM spectraTable");
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac FROM spectraTable");
             while (sqlResultSet.next()) {
                 String peptide = sqlResultSet.getString("peptide");
                 if (!sqlResultSet.wasNull()) {
@@ -324,21 +309,14 @@ public class PIPI {
                     }
                 }
             }
+            writer.close();
+            sqlResultSet.close();
+            sqlStatement.close();
+            sqlConnection.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
-        } finally {
-            try {
-                if (writer != null) writer.close();
-                if (sqlResultSet != null) sqlResultSet.close();
-                if (sqlStatement != null) sqlStatement.close();
-                if (sqlConnection != null) sqlConnection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                logger.error(ex.toString());
-                System.exit(1);
-            }
         }
     }
 
@@ -402,16 +380,12 @@ public class PIPI {
 
     private void writeFinalResult(Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map, String sqlPath) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
-        BufferedWriter writer = null;
-        Connection sqlConnection = null;
-        Statement sqlStatement = null;
-        ResultSet sqlResultSet = null;
         try {
-            writer = new BufferedWriter(new FileWriter(outputPath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
-            sqlConnection = DriverManager.getConnection(sqlPath);
-            sqlStatement = sqlConnection.createStatement();
-            sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
+            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
             while (sqlResultSet.next()) {
                 int isDecoy = sqlResultSet.getInt("isDecoy");
                 if (!sqlResultSet.wasNull()) {
@@ -445,6 +419,10 @@ public class PIPI {
                 }
             }
 
+            sqlResultSet.close();
+            sqlStatement.close();
+            sqlConnection.close();
+
             Double[] tempArray = tempMap.keySet().toArray(new Double[tempMap.size()]);
             for (int i = tempArray.length - 1; i >= 0; --i) {
                 List<String> tempList = tempMap.get(tempArray[i]);
@@ -452,21 +430,11 @@ public class PIPI {
                     writer.write(tempStr);
                 }
             }
+            writer.close();
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
-        } finally {
-            try {
-                if (writer != null) writer.close();
-                if (sqlResultSet != null) sqlResultSet.close();
-                if (sqlStatement != null) sqlStatement.close();
-                if (sqlConnection != null) sqlConnection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                logger.error(ex.toString());
-                System.exit(1);
-            }
         }
     }
 

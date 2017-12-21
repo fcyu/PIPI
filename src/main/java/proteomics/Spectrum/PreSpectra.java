@@ -38,17 +38,15 @@ public class PreSpectra {
         ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabeling());
 
-        Connection sqlConnection = null;
-        Statement sqlStatement = null;
-        PreparedStatement sqlPrepareStatement = null;
         try {
             // prepare SQL database
-            sqlConnection = DriverManager.getConnection(sqlPath);
-            sqlStatement = sqlConnection.createStatement();
+            Connection sqlConnection = DriverManager.getConnection(sqlPath);
+            Statement sqlStatement = sqlConnection.createStatement();
             sqlStatement.executeUpdate("DROP TABLE IF EXISTS spectraTable");
             sqlStatement.executeUpdate("CREATE TABLE spectraTable (scanNum INTEGER NOT NULL, scanId TEXT PRIMARY KEY, precursorCharge INTEGER NOT NULL, precursorMass REAL NOT NULL, mgfTitle TEXT NOT NULL, isotopeCorrectionNum INTEGER NOT NULL, ms1PearsonCorrelationCoefficient REAL NOT NULL, labelling TEXT, peptide TEXT, theoMass REAL, isDecoy INTEGER, globalRank INTEGER, normalizedCorrelationCoefficient REAL, score REAL, deltaLC REAL, deltaC REAL, matchedPeakNum INTEGER, ionFrac REAL, matchedHighestIntensityFrac REAL, explainedAaFrac REAL, ptmSupportingPeakFrac REAL, otherPtmPatterns TEXT, ptmDeltaScore TEXT)");
+            sqlStatement.close();
 
-            sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            PreparedStatement sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient) VALUES (?, ?, ?, ?, ?, ?, ?)");
             sqlConnection.setAutoCommit(false);
             int usefulSpectraNum = 0;
 
@@ -160,21 +158,13 @@ public class PreSpectra {
             }
             sqlConnection.commit();
             sqlConnection.setAutoCommit(true);
+            sqlPrepareStatement.close();
+            sqlConnection.close();
             logger.info("Useful MS/MS spectra number: {}.", usefulSpectraNum);
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
-        } finally {
-            try {
-                if (sqlStatement != null) sqlStatement.close();
-                if (sqlPrepareStatement != null) sqlPrepareStatement.close();
-                if (sqlConnection != null) sqlConnection.close();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                logger.error(ex.toString());
-                System.exit(1);
-            }
         }
     }
 
