@@ -74,6 +74,7 @@ public class PIPIWrap implements Callable<Boolean> {
             // Reading peak list.
             rawPLMap = spectraParser.getSpectrumById(scanId).getPeakList();
         } catch (JMzReaderException ex) {
+            lock.unlock();
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);

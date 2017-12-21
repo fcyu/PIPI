@@ -237,11 +237,11 @@ public class PIPI {
             (new File(percolatorOutputFileName)).delete();
         }
 
-        (new File("PIPI.temp.db")).delete();
-
         logger.info("Saving results...");
         writeFinalResult(percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
         new WritePepXml(spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
+
+        (new File("PIPI.temp.db")).delete();
 
         logger.info("Done.");
     }
