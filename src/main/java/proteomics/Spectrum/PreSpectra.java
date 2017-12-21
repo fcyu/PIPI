@@ -177,8 +177,6 @@ public class PreSpectra {
         } finally {
             System.setOut(originalStream);
             try {
-                sqlConnection.commit();
-                sqlConnection.setAutoCommit(true);
                 if (sqlStatement != null) sqlStatement.close();
                 if (sqlPrepareStatement != null) sqlPrepareStatement.close();
                 if (sqlConnection != null) sqlConnection.close();
