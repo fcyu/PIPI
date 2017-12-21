@@ -219,7 +219,7 @@ public class PIPI {
             threadPool.shutdownNow();
             Thread.currentThread().interrupt();
             try {
-                if (lock != null) lock.unlock();
+                if (lock != null && lock.isLocked()) lock.unlock();
                 if (sqlResultSet != null) sqlResultSet.close();
                 if (sqlStatement != null) sqlStatement.close();
                 if (sqlConnection != null) sqlConnection.close();
