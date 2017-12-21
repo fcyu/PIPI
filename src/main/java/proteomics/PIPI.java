@@ -11,14 +11,13 @@ import proteomics.Parameter.Parameter;
 import proteomics.Spectrum.PreSpectra;
 import proteomics.TheoSeq.MassTool;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
-import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
 import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLFile;
-import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLParsingException;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.*;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
@@ -31,8 +30,6 @@ public class PIPI {
 
     public static final boolean DEV = false;
     public static final int[] debugScanNumArray = new int[]{};
-
-    private Map<Character, Float> fixModMap;
 
     public static void main(String[] args) {
         // Process inputs
@@ -90,7 +87,6 @@ public class PIPI {
         logger.info("Indexing protein database...");
         BuildIndex buildIndexObj = new BuildIndex(parameterMap, labeling);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
-        fixModMap = buildIndexObj.returnFixModMap();
 
         float minPtmMass = Float.valueOf(parameterMap.get("min_ptm_mass"));
         float maxPtmMass = Float.valueOf(parameterMap.get("max_ptm_mass"));
@@ -98,6 +94,7 @@ public class PIPI {
         logger.info("Reading spectra...");
         JMzReader spectraParser = null;
         String ext = "";
+        String sqlPath = "jdbc:sqlite:PIPI.temp.db";
         try {
             File spectraFile = new File(spectraPath);
             if ((!spectraFile.exists() || (spectraFile.isDirectory()))) {
@@ -112,23 +109,24 @@ public class PIPI {
             } else {
                 throw new Exception(String.format(Locale.US, "Unsupported file format %s. Currently, PIPI only support mzXML and MGF.", ext));
             }
+            Class.forName("org.sqlite.JDBC").newInstance();
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
         }
 
-        PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet);
-        Map<Integer, SpectrumEntry> numSpectrumMap = preSpectraObj.returnNumSpectrumMap();
-        logger.info("Useful MS/MS spectra number: {}.", numSpectrumMap.size());
+        PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet, sqlPath);
 
         if (DEV) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"))) {
                 writer.write("scanNum,charge,finalIsotopeCorrectionNum,isotopeCorrectionNum,pearsonCorrelationCoefficient,expMz1,expMz2,expMz3,expInt1,expInt2,expInt3,theoMz1,theoMz2,theoMz3,theoInt1,theoInt2,theoInt3\n");
-                for (SpectrumEntry spectrumEntry : numSpectrumMap.values()) {
-                    for (int charge : spectrumEntry.chargeDevEntryMap.keySet()) {
-                        for (SpectrumEntry.DevEntry devEntry : spectrumEntry.chargeDevEntryMap.get(charge)) {
-                            writer.write(String.format(Locale.US, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", spectrumEntry.scanNum, charge, spectrumEntry.isotopeCorrectionNum, devEntry.isotopeCorrectionNum, devEntry.pearsonCorrelationCoefficient, devEntry.expMatrix[0][0], devEntry.expMatrix[1][0], devEntry.expMatrix[2][0], devEntry.expMatrix[0][1], devEntry.expMatrix[1][1], devEntry.expMatrix[2][1], devEntry.theoMatrix[0][0], devEntry.theoMatrix[1][0], devEntry.theoMatrix[2][0], devEntry.theoMatrix[0][1], devEntry.theoMatrix[1][1], devEntry.theoMatrix[2][1]));
+                Map<Integer, TreeMap<Integer, TreeSet<PreSpectra.DevEntry>>> scanDevEntryMap = preSpectraObj.getScanDevEntryMap();
+                for (int scanNum : scanDevEntryMap.keySet()) {
+                    TreeMap<Integer, TreeSet<PreSpectra.DevEntry>> chargeDevEntryMap = scanDevEntryMap.get(scanNum);
+                    for (int charge : chargeDevEntryMap.keySet()) {
+                        for (PreSpectra.DevEntry devEntry : chargeDevEntryMap.get(charge)) {
+                            writer.write(String.format(Locale.US, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", scanNum, charge, devEntry.isotopeCorrectionNum, devEntry.isotopeCorrectionNum, devEntry.pearsonCorrelationCoefficient, devEntry.expMatrix[0][0], devEntry.expMatrix[1][0], devEntry.expMatrix[2][0], devEntry.expMatrix[0][1], devEntry.expMatrix[1][1], devEntry.expMatrix[2][1], devEntry.theoMatrix[0][0], devEntry.theoMatrix[1][0], devEntry.theoMatrix[2][0], devEntry.theoMatrix[0][1], devEntry.theoMatrix[1][1], devEntry.theoMatrix[2][1]));
                         }
                     }
                 }
@@ -146,31 +144,40 @@ public class PIPI {
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
-        List<Future<FinalResultEntry>> taskList = new LinkedList<>();
-        ReentrantLock lock = new ReentrantLock();
-        for (int scanNum : numSpectrumMap.keySet()) {
-            SpectrumEntry spectrumEntry = numSpectrumMap.get(scanNum);
-            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, spectrumEntry, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(spectrumEntry.precursorCharge > 1 ? spectrumEntry.precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock)));
-        }
-
-        // check progress every minute, record results,and delete finished tasks.
-        Map<Integer, FinalResultEntry> scanFinalResultMap = new HashMap<>();
-        int lastProgress = 0;
         InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
+        List<Future<Boolean>> taskList = new LinkedList<>();
+
+        Connection sqlConnection = null;
+        Statement sqlStatement = null;
+        ResultSet sqlResultSet = null;
+        ReentrantLock lock = null;
         try {
+            sqlConnection = DriverManager.getConnection(sqlPath);
+            sqlStatement = sqlConnection.createStatement();
+            sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
+            lock = new ReentrantLock();
+            while (sqlResultSet.next()) {
+                String scanId = sqlResultSet.getString("scanId");
+                int precursorCharge = sqlResultSet.getInt("precursorCharge");
+                float precursorMass = sqlResultSet.getFloat("precursorMass");
                 taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection)));
+            }
+            sqlResultSet.close();
+            sqlStatement.close();
+
+            // check progress every minute, record results,and delete finished tasks.
+            int lastProgress = 0;
+            int resultCount = 0;
             int totalCount = taskList.size();
             int count = 0;
             while (count < totalCount) {
                 // record search results and delete finished ones.
-                List<Future<FinalResultEntry>> toBeDeleteTaskList = new LinkedList<>();
-                for (Future<FinalResultEntry> task : taskList) {
+                List<Future<Boolean>> toBeDeleteTaskList = new LinkedList<>();
+                for (Future<Boolean> task : taskList) {
                     if (task.isDone()) {
-                        if (task.get() != null) {
-                            FinalResultEntry finalResultEntry = task.get();
-                            if (!scanFinalResultMap.containsKey(finalResultEntry.getScanNum()) || (scanFinalResultMap.get(finalResultEntry.getScanNum()).getTopPeptide().getScore() < finalResultEntry.getTopPeptide().getScore()) || (scanFinalResultMap.get(finalResultEntry.getScanNum()).getTopPeptide().getScore() == finalResultEntry.getTopPeptide().getScore() && !finalResultEntry.getTopPeptide().isDecoy()))
-                            scanFinalResultMap.put(finalResultEntry.getScanNum(), finalResultEntry);
+                        if (task.get()) {
+                            ++resultCount;
                         }
                         toBeDeleteTaskList.add(task);
                     } else if (task.isCancelled()) {
@@ -213,6 +220,9 @@ public class PIPI {
             Thread.currentThread().interrupt();
             try {
                 if (lock != null) lock.unlock();
+                if (sqlResultSet != null) sqlResultSet.close();
+                if (sqlStatement != null) sqlStatement.close();
+                if (sqlConnection != null) sqlConnection.close();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.error(ex.toString());
@@ -224,11 +234,12 @@ public class PIPI {
         logger.info("Estimating FDR...");
         String percolatorInputFileName = spectraPath + "." + labeling + ".input.temp";
         String percolatorOutputFileName = spectraPath + "." + labeling + ".output.temp";
-        writePercolator(scanFinalResultMap, percolatorInputFileName, buildIndexObj.getPeptide0Map());
+        writePercolator(percolatorInputFileName, buildIndexObj.getPeptide0Map(), sqlPath);
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
             logger.warn("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
+            (new File("PIPI.temp.db")).delete();
             System.exit(1);
         }
 
@@ -237,9 +248,11 @@ public class PIPI {
             (new File(percolatorOutputFileName)).delete();
         }
 
+        (new File("PIPI.temp.db")).delete();
+
         logger.info("Saving results...");
-        writeFinalResult(scanFinalResultMap, percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv", buildIndexObj.getPeptide0Map());
-        new WritePepXml(scanFinalResultMap, spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map());
+        writeFinalResult(percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
+        new WritePepXml(spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
 
         logger.info("Done.");
     }
@@ -257,45 +270,58 @@ public class PIPI {
         System.exit(1);
     }
 
-    private void writePercolator(Map<Integer, FinalResultEntry> scanFinalResultMap, String resultPath, Map<String, Peptide0> peptide0Map) {
+    private void writePercolator(String resultPath, Map<String, Peptide0> peptide0Map, String sqlPath) {
         BufferedWriter writer = null;
+        Connection sqlConnection = null;
+        Statement sqlStatement = null;
+        ResultSet sqlResultSet = null;
         try {
             writer = new BufferedWriter(new FileWriter(resultPath));
             writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
-            for (FinalResultEntry entry : scanFinalResultMap.values()) {
-                Peptide peptide = entry.getTopPeptide();
-                float theoMass = peptide.getTheoMass();
-                float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
-                float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+            sqlConnection = DriverManager.getConnection(sqlPath);
+            sqlStatement = sqlConnection.createStatement();
+            sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac FROM spectraTable");
+            while (sqlResultSet.next()) {
+                String peptide = sqlResultSet.getString("peptide");
+                if (!sqlResultSet.wasNull()) {
+                    int charge = sqlResultSet.getInt("precursorCharge");
+                    float theoMass = sqlResultSet.getFloat("theoMass");
+                    float expMass = sqlResultSet.getFloat("precursorMass");
+                    float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
-                Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-
-                int charge = entry.getCharge();
-                for (int i = 0; i < 6; ++i) {
-                    if (i == charge - 1) {
-                        sb.append(1);
-                    } else {
-                        sb.append(0);
+                    Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
                     TreeSet<String> proteinIdSet = new TreeSet<>();
                     for (String protein : peptide0.proteins) {
                         proteinIdSet.add(protein.trim());
                     }
-                    sb.append("\t");
-                }
 
-                double deltaLC = (peptide.getScore() - entry.getPeptideSet().last().getScore()) / peptide.getScore();
-                double deltaC = 0;
-                if (entry.getPeptideSet().size() > 1) {
-                    Iterator<Peptide> temp = entry.getPeptideSet().iterator();
-                    temp.next();
-                    deltaC = (peptide.getScore() - temp.next().getScore()) / peptide.getScore();
-                }
                     StringBuilder sb = new StringBuilder(20);
+                    for (int i = 0; i < 6; ++i) {
+                        if (i == charge - 1) {
+                            sb.append(1);
+                        } else {
+                            sb.append(0);
+                        }
+                        sb.append("\t");
+                    }
 
-                if (peptide.isDecoy()) {
-                    writer.write(entry.getScanNum() + "\t-1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide0.leftFlank + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide0.rightFlank + "\t" + proteinIdStr + "\n");
-                } else {
-                    writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide0.leftFlank + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide0.rightFlank + "\t" + proteinIdStr + "\n");
+                    int scanNum = sqlResultSet.getInt("scanNum");
+                    int isDecoy = sqlResultSet.getInt("isDecoy");
+                    int globalRank = sqlResultSet.getInt("globalRank");
+                    double normalizedCorrelationCoefficient = sqlResultSet.getDouble("normalizedCorrelationCoefficient");
+                    double score = sqlResultSet.getDouble("score");
+                    double deltaLC = sqlResultSet.getDouble("deltaLC");
+                    double deltaC = sqlResultSet.getDouble("deltaC");
+                    double ionFrac = sqlResultSet.getDouble("ionFrac");
+                    double matchedHighestIntensityFrac = sqlResultSet.getDouble("matchedHighestIntensityFrac");
+                    double explainedAaFrac = sqlResultSet.getDouble("explainedAaFrac");
+                    double ptmSupportingPeakFrac = sqlResultSet.getDouble("ptmSupportingPeakFrac");
+
+                    if (isDecoy == 1) {
+                        writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + ptmSupportingPeakFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    } else {
+                        writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + ptmSupportingPeakFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -305,6 +331,9 @@ public class PIPI {
         } finally {
             try {
                 if (writer != null) writer.close();
+                if (sqlResultSet != null) sqlResultSet.close();
+                if (sqlStatement != null) sqlStatement.close();
+                if (sqlConnection != null) sqlConnection.close();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.error(ex.toString());
@@ -359,58 +388,47 @@ public class PIPI {
         return percolatorResultMap;
     }
 
-    private void writeFinalResult(Map<Integer, FinalResultEntry> scanFinalResultMap, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map) {
+    private void writeFinalResult(Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map, String sqlPath) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         BufferedWriter writer = null;
+        Connection sqlConnection = null;
+        Statement sqlStatement = null;
+        ResultSet sqlResultSet = null;
         try {
             writer = new BufferedWriter(new FileWriter(outputPath));
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
-            for (FinalResultEntry entry : scanFinalResultMap.values()) {
-                Peptide peptide = entry.getTopPeptide();
-                if (!peptide.isDecoy()) {
-                    int scanNum = entry.getScanNum();
-                    float expMass = entry.getCharge() * (entry.getPrecursorMz() - 1.00727646688f);
-                    int charge = entry.getCharge();
-                    float theoMass = peptide.getTheoMass();
-                    float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
-                    float ppm = Math.abs(massDiff * 1e6f / theoMass);
+            sqlConnection = DriverManager.getConnection(sqlPath);
+            sqlStatement = sqlConnection.createStatement();
+            sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
+            while (sqlResultSet.next()) {
+                int isDecoy = sqlResultSet.getInt("isDecoy");
+                if (!sqlResultSet.wasNull()) {
+                    if (isDecoy == 0) {
+                        int scanNum = sqlResultSet.getInt("scanNum");
+                        float expMass = sqlResultSet.getFloat("precursorMass");
+                        String peptide = sqlResultSet.getString("peptide");
+                        float theoMass = sqlResultSet.getFloat("theoMass");
+                        float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+                        float ppm = Math.abs(massDiff * 1e6f / theoMass);
+
+                        Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
                         TreeSet<String> proteinIdSet = new TreeSet<>();
                         for (String protein : peptide0.proteins) {
                             proteinIdSet.add(protein.trim());
                         }
 
-                    Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
+                        String ptmDeltaScore = sqlResultSet.getString("ptmDeltaScore");
 
-                    StringBuilder otherPtmPatterns = new StringBuilder(300);
-                    String ptmDeltaScore;
-                    if (entry.getPtmPatterns() != null) {
-                        TreeSet<Peptide> tempTreeSet = entry.getPtmPatterns();
-                        Iterator<Peptide> tempTreeSetIterator = tempTreeSet.iterator();
-                        tempTreeSetIterator.next();
-                        while (tempTreeSetIterator.hasNext()) {
-                            Peptide temp = tempTreeSetIterator.next();
-                            otherPtmPatterns.append(String.format(Locale.US, "%s-%.4f;", temp.getPtmContainingSeq(fixModMap), temp.getScore()));
-                        }
-                        if (tempTreeSet.size() > 1) {
-                            Iterator<Peptide> temp = tempTreeSet.iterator();
-                            ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
+                        PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
+                        String str = String.format(Locale.US, "%d,%s,%d,%.4f,%.4f,%.2f,%s,%s,%s,%.4f,%.4f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, ptmDeltaScore, ptmDeltaScore.contentEquals("-") ? "-" : String.format(Locale.US, "%.4f", sqlResultSet.getDouble("ptmSupportingPeakFrac")), String.join(";", proteinIdSet), sqlResultSet.getDouble("score"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
+
+                        if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
+                            tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
                         } else {
-                            ptmDeltaScore = String.valueOf(tempTreeSet.first().getScore());
+                            List<String> tempList = new LinkedList<>();
+                            tempList.add(str);
+                            tempMap.put(percolatorResultMap.get(scanNum).percolatorScore, tempList);
                         }
-                    } else {
-                        otherPtmPatterns.append("-");
-                        ptmDeltaScore = "-";
-                    }
-
-                    PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                    String str = String.format(Locale.US, "%d,%s,%d,%.4f,%.4f,%.2f,%s,%s,%s,%.4f,%.4f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide.getPtmContainingSeq(fixModMap), charge, theoMass, expMass, ppm, ptmDeltaScore, ptmDeltaScore.contentEquals("-") ? "-" : String.format("%.4f", peptide.getPtmSupportingPeakFrac()), sb.toString(), peptide.getScore(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, otherPtmPatterns.toString(), entry.getMgtTitle(), entry.getLabeling(), entry.getIsotopeCorrectionNum(), entry.getMs1PearsonCorrelationCoefficient());
-
-                    if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
-                        tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
-                    } else {
-                        List<String> tempList = new LinkedList<>();
-                        tempList.add(str);
-                        tempMap.put(percolatorResultMap.get(scanNum).percolatorScore, tempList);
                     }
                 }
             }
@@ -429,6 +447,9 @@ public class PIPI {
         } finally {
             try {
                 if (writer != null) writer.close();
+                if (sqlResultSet != null) sqlResultSet.close();
+                if (sqlStatement != null) sqlStatement.close();
+                if (sqlConnection != null) sqlConnection.close();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.error(ex.toString());
@@ -452,24 +473,5 @@ public class PIPI {
         } else {
             return massDiff3;
         }
-    }
-
-    private static int finishedFutureNum(List<Future<FinalResultEntry>> futureList) {
-        int count = 0;
-        for (Future<FinalResultEntry> future : futureList) {
-            if (future.isDone()) {
-                ++count;
-            }
-        }
-        return count;
-    }
-
-    private static boolean hasUnfinishedFuture(List<Future<FinalResultEntry>> futureList) {
-        for (Future<FinalResultEntry> future : futureList) {
-            if (!future.isDone()) {
-                return true;
-            }
-        }
-        return false;
     }
 }

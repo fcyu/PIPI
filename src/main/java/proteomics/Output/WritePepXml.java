@@ -7,6 +7,10 @@ import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -20,35 +24,38 @@ public class WritePepXml {
     private final String rawDataType;
     private final Map<String, String> parameterMap;
 
-    public WritePepXml(Map<Integer, FinalResultEntry> scanFinalResultMap, String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Peptide0> peptide0Map) {
+    public WritePepXml(String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Peptide0> peptide0Map, Map<Character, Float> fixModMap, String sqlPath) {
         this.outputPath = outputPath;
         int tempIdx = spectraName.lastIndexOf('.');
         baseName = spectraName.substring(0, tempIdx);
         rawDataType = spectraName.substring(tempIdx);
         this.parameterMap = parameterMap;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))){
+
+        BufferedWriter writer = null;
+        Connection sqlConnection = null;
+        Statement sqlStatement = null;
+        ResultSet sqlResultSet = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(outputPath));
             writer.write(pepxmlHeader(massTable));
-            for (FinalResultEntry finalResultEntry : scanFinalResultMap.values()) {
-                if (percolatorResultMap.containsKey(finalResultEntry.getScanNum())) {
-                    Peptide peptide = finalResultEntry.getTopPeptide();
-                    Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                    float expMass = finalResultEntry.getCharge() * (finalResultEntry.getPrecursorMz() - 1.00727646688f);
-                    String ptmDeltaScore;
-                    if (finalResultEntry.getPtmPatterns() != null) {
-                        TreeSet<Peptide> tempTreeSet = finalResultEntry.getPtmPatterns();
-                        if (tempTreeSet.size() > 1) {
-                            Iterator<Peptide> temp = tempTreeSet.iterator();
-                            ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
-                        } else {
-                            ptmDeltaScore = String.valueOf(tempTreeSet.first().getScore());
-                        }
-                    } else {
-                        ptmDeltaScore = "-";
+            sqlConnection = DriverManager.getConnection(sqlPath);
+            sqlStatement = sqlConnection.createStatement();
+            sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
+            while (sqlResultSet.next()) {
+                int scanNum = sqlResultSet.getInt("scanNum");
+                if (percolatorResultMap.containsKey(scanNum)) {
+                    String peptide = sqlResultSet.getString("peptide");
+                    String ptmFreePeptide = peptide.replaceAll("[^ncA-Z]+", "");
+                    Peptide0 peptide0 = peptide0Map.get(ptmFreePeptide);
                     TreeSet<String> proteinIdSet = new TreeSet<>();
                     for (String protein : peptide0.proteins) {
                         proteinIdSet.add(protein.trim());
                     }
-                    PercolatorEntry percolatorEntry = percolatorResultMap.get(finalResultEntry.getScanNum());
+                    float expMass = sqlResultSet.getFloat("precursorMass");
+                    String ptmDeltaScore = sqlResultSet.getString("ptmDeltaScore");
+                    PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
+                    int precursorCharge = sqlResultSet.getInt("precursorCharge");
+                    float theoMass = sqlResultSet.getFloat("theoMass");
 
                     writer.write(String.format(Locale.US,
                             "\t\t<spectrum_query spectrum=\"%d\" start_scan=\"%d\" end_scan=\"%d\" precursor_neutral_mass=\"%f\" assumed_charge=\"%d\" index=\"%d\">\r\n" +
@@ -60,22 +67,32 @@ public class WritePepXml {
                                     "\t\t\t\t\t<search_score name=\"percolator_score\" value=\"%f\"/>\r\n" +
                                     "\t\t\t\t\t<search_score name=\"percolator_error_prob\" value=\"%s\"/>\r\n" +
                                     "\t\t\t\t\t<search_score name=\"q_value\" value=\"%s\"/>\r\n" +
-                                    "\t\t\t\t\t<search_score name=\"labeling\" value=\"%s\"/>\r\n", finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), finalResultEntry.getScanNum(), expMass, finalResultEntry.getCharge(), finalResultEntry.getScanNum(), peptide.getPTMFreeSeq().replaceAll("[nc]", ""), peptide0.leftFlank, peptide0.rightFlank, proteinIdStr.toString(), peptide0.proteins.length, peptide.getMatchedPeakNum(), (peptide.length() - 2) * 2 * Math.max(1, finalResultEntry.getCharge() - 1), peptide.getTheoMass(), PIPI.getMassDiff(expMass, peptide.getTheoMass(), MassTool.C13_DIFF), peptide.getScore(), ptmDeltaScore, peptide.getPtmSupportingPeakFrac(), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, finalResultEntry.getLabeling()));
+                                    "\t\t\t\t\t<search_score name=\"labeling\" value=\"%s\"/>\r\n", scanNum, scanNum, scanNum, expMass, precursorCharge, scanNum, ptmFreePeptide.replaceAll("[nc]+", ""), peptide0.leftFlank, peptide0.rightFlank, String.join(";", proteinIdSet), peptide0.proteins.length, sqlResultSet.getInt("matchedPeakNum"), (ptmFreePeptide.length() - 2) * 2 * Math.max(1, precursorCharge - 1), theoMass, PIPI.getMassDiff(expMass, theoMass, MassTool.C13_DIFF), sqlResultSet.getDouble("score"), ptmDeltaScore, sqlResultSet.getDouble("ptmSupportingPeakFrac"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("labelling")));
 
-                    if (peptide.hasVarPTM()) {
-                        PositionDeltaMassMap ptmMap = peptide.getVarPTMs();
+                    if (!ptmDeltaScore.contentEquals("-")) {
+                        PositionDeltaMassMap ptmMap = new PositionDeltaMassMap(ptmFreePeptide.length());
+                        AA[] aaArray = MassTool.seqToAAList(peptide);
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < aaArray.length; ++i) {
+                            if (Math.abs(aaArray[i].ptmDeltaMass) > 0.5 && Math.abs(fixModMap.get(aaArray[i].aa) - aaArray[i].ptmDeltaMass) > 0.1) {
+                                ptmMap.put(new Coordinate(i, i + 1), aaArray[i].ptmDeltaMass);
+                                sb.append(String.format(Locale.US, "%c(%.3f)", aaArray[i].aa, aaArray[i].ptmDeltaMass));
+                            } else {
+                                sb.append(aaArray[i].aa);
+                            }
+                        }
                         if (ptmMap.containsKey(new Coordinate(0, 1)) && ptmMap.containsKey(new Coordinate(ptmMap.peptideLength - 1, ptmMap.peptideLength))) {
-                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\" mod_nterm_mass=\"%f\" mod_cterm_mass=\"%f\">\r\n", peptide.getVarPtmContainingSeq(), ptmMap.get(new Coordinate(0, 1)) + MassTool.PROTON, ptmMap.get(new Coordinate(ptmMap.peptideLength - 1, ptmMap.peptideLength))));
+                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\" mod_nterm_mass=\"%f\" mod_cterm_mass=\"%f\">\r\n", sb.toString(), ptmMap.get(new Coordinate(0, 1)) + MassTool.PROTON, ptmMap.get(new Coordinate(ptmMap.peptideLength - 1, ptmMap.peptideLength))));
                         } else if (ptmMap.containsKey(new Coordinate(0, 1))) {
-                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\" mod_nterm_mass=\"%f\">\r\n", peptide.getVarPtmContainingSeq(), ptmMap.get(new Coordinate(0, 1)) + MassTool.PROTON));
+                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\" mod_nterm_mass=\"%f\">\r\n", sb.toString(), ptmMap.get(new Coordinate(0, 1)) + MassTool.PROTON));
                         } else if (ptmMap.containsKey(new Coordinate(ptmMap.peptideLength - 1, ptmMap.peptideLength))) {
-                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\" mod_cterm_mass=\"%f\">\r\n", peptide.getVarPtmContainingSeq(), ptmMap.get(new Coordinate(ptmMap.peptideLength - 1, ptmMap.peptideLength))));
+                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\" mod_cterm_mass=\"%f\">\r\n", sb.toString(), ptmMap.get(new Coordinate(ptmMap.peptideLength - 1, ptmMap.peptideLength))));
                         } else {
-                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\">\r\n", peptide.getVarPtmContainingSeq()));
+                            writer.write(String.format(Locale.US, "\t\t\t\t\t<modification_info modified_peptide=\"%s\">\r\n", sb.toString()));
                         }
                         for (Coordinate co : ptmMap.keySet()) {
                             if (co.x != 0 && co.x != ptmMap.peptideLength - 1) {
-                                writer.write(String.format(Locale.US, "\t\t\t\t\t\t<mod_aminoacid_mass position=\"%d\" mass=\"%f\"/>\r\n", co.x, massTable.get(peptide.getPTMFreeSeq().charAt(co.x)) + ptmMap.get(co)));
+                                writer.write(String.format(Locale.US, "\t\t\t\t\t\t<mod_aminoacid_mass position=\"%d\" mass=\"%f\"/>\r\n", co.x, massTable.get(ptmFreePeptide.charAt(co.x)) + ptmMap.get(co)));
                             }
                         }
                         writer.write("\t\t\t\t\t</modification_info>\r\n");
@@ -87,10 +104,21 @@ public class WritePepXml {
             }
             writer.write("\t</msms_run_summary>\r\n" +
                             "</msms_pipeline_analysis>\r\n");
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
+        } finally {
+            try {
+                if (writer != null) writer.close();
+                if (sqlResultSet != null) sqlResultSet.close();
+                if (sqlStatement != null) sqlStatement.close();
+                if (sqlConnection != null) sqlConnection.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error(ex.toString());
+                System.exit(1);
+            }
         }
     }
 
