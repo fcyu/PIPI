@@ -18,6 +18,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
@@ -43,8 +44,9 @@ public class PIPI {
 
         logger.info("Running PIPI version {}.", versionStr);
 
+        String hostName = "";
         try {
-            String hostName = InetAddress.getLocalHost().getHostName();
+            hostName = InetAddress.getLocalHost().getHostName();
             logger.info("Computer: {}.", hostName);
         } catch (UnknownHostException ex) {
             logger.warn("Cannot get the computer's name.");
@@ -56,10 +58,10 @@ public class PIPI {
             logger.info("In DEV mode.");
         }
 
-        new PIPI(parameterPath, spectraPath);
+        new PIPI(parameterPath, spectraPath, hostName);
     }
 
-    private PIPI(String parameterPath, String spectraPath) {
+    private PIPI(String parameterPath, String spectraPath, String hostName) {
         // Get the parameter map
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
@@ -94,7 +96,8 @@ public class PIPI {
         logger.info("Reading spectra...");
         JMzReader spectraParser = null;
         String ext = "";
-        String sqlPath = "jdbc:sqlite:PIPI.temp.db";
+        String dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
+        String sqlPath = "jdbc:sqlite:" + dbName;
         try {
             File spectraFile = new File(spectraPath);
             if ((!spectraFile.exists() || (spectraFile.isDirectory()))) {
@@ -228,7 +231,7 @@ public class PIPI {
 
         if (percolatorResultMap.isEmpty()) {
             logger.error("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
-            (new File("PIPI.temp.db")).delete();
+            (new File(dbName)).delete();
             System.exit(1);
         }
 
@@ -241,7 +244,7 @@ public class PIPI {
         writeFinalResult(percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
         new WritePepXml(spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
 
-        (new File("PIPI.temp.db")).delete();
+        (new File(dbName)).delete();
 
         logger.info("Done.");
     }
