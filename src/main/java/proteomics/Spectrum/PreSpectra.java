@@ -8,8 +8,6 @@ import uk.ac.ebi.pride.tools.jmzreader.*;
 import uk.ac.ebi.pride.tools.jmzreader.model.*;
 import uk.ac.ebi.pride.tools.mgf_parser.model.Ms2Query;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -43,19 +41,12 @@ public class PreSpectra {
         Connection sqlConnection = null;
         Statement sqlStatement = null;
         PreparedStatement sqlPrepareStatement = null;
-        PrintStream originalStream = System.out;
         try {
             // prepare SQL database
             sqlConnection = DriverManager.getConnection(sqlPath);
             sqlStatement = sqlConnection.createStatement();
             sqlStatement.executeUpdate("DROP TABLE IF EXISTS spectraTable");
             sqlStatement.executeUpdate("CREATE TABLE spectraTable (scanNum INTEGER NOT NULL, scanId TEXT PRIMARY KEY, precursorCharge INTEGER NOT NULL, precursorMass REAL NOT NULL, mgfTitle TEXT NOT NULL, isotopeCorrectionNum INTEGER NOT NULL, ms1PearsonCorrelationCoefficient REAL NOT NULL, labelling TEXT, peptide TEXT, theoMass REAL, isDecoy INTEGER, globalRank INTEGER, normalizedCorrelationCoefficient REAL, score REAL, deltaLC REAL, deltaC REAL, matchedPeakNum INTEGER, ionFrac REAL, matchedHighestIntensityFrac REAL, explainedAaFrac REAL, ptmSupportingPeakFrac REAL, otherPtmPatterns TEXT, ptmDeltaScore TEXT)");
-
-            PrintStream nullStream = new PrintStream(new OutputStream() {
-                @Override
-                public void write(int b) { }
-            });
-            System.setOut(nullStream);
 
             sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient) VALUES (?, ?, ?, ?, ?, ?, ?)");
             sqlConnection.setAutoCommit(false);
@@ -175,7 +166,6 @@ public class PreSpectra {
             logger.error(ex.toString());
             System.exit(1);
         } finally {
-            System.setOut(originalStream);
             try {
                 if (sqlStatement != null) sqlStatement.close();
                 if (sqlPrepareStatement != null) sqlPrepareStatement.close();
