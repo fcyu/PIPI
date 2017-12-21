@@ -123,8 +123,8 @@ public class InferenceSegment {
         deltaMassArray = modifiedAAMap.keySet().toArray(new Float[modifiedAAMap.size()]);
     }
 
-    public List<ThreeExpAA> inferSegmentLocationFromSpectrum(SpectrumEntry spectrumEntry, TreeMap<Float, Float> plMap) {
-        return inferThreeAAFromSpectrum(addVirtualPeaks(spectrumEntry, plMap), spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON);
+    public List<ThreeExpAA> inferSegmentLocationFromSpectrum(float precursorMass, TreeMap<Float, Float> plMap) {
+        return inferThreeAAFromSpectrum(addVirtualPeaks(precursorMass, plMap), precursorMass - massTool.H2O + MassTool.PROTON);
     }
 
     public SparseVector generateSegmentIntensityVector(List<ThreeExpAA> inputList) {
@@ -347,8 +347,8 @@ public class InferenceSegment {
         return null;
     }
 
-    private TreeMap<Float, Float> addVirtualPeaks(SpectrumEntry spectrumEntry, TreeMap<Float, Float> plMap) {
-        float totalMass = spectrumEntry.precursorMass + 2 * MassTool.PROTON;
+    private TreeMap<Float, Float> addVirtualPeaks(float precursorMass, TreeMap<Float, Float> plMap) {
+        float totalMass = precursorMass + 2 * MassTool.PROTON;
         TreeMap<Float, Float> finalPlMap = new TreeMap<>();
         for (float mz : plMap.keySet()) {
             finalPlMap.put(mz, plMap.get(mz));
@@ -369,7 +369,7 @@ public class InferenceSegment {
 
         // Add two virtual peak. Because we have convert all y-ions to b-ions.
         finalPlMap.put(MassTool.PROTON, 1f);
-        float cTermMz = spectrumEntry.precursorMass - massTool.H2O + MassTool.PROTON;
+        float cTermMz = precursorMass - massTool.H2O + MassTool.PROTON;
         float leftMz = cTermMz - ms2Tolerance;
         float rightMz = cTermMz + ms2Tolerance;
         NavigableMap<Float, Float> temp = null;

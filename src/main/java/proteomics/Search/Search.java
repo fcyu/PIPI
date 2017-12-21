@@ -18,18 +18,18 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, SpectrumEntry spectrumEntry, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+    public Search(BuildIndex buildIndexObj, float precursorMass, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         double scanNormSquare = scanCode.norm2square();
         float leftTol = ms1Tolerance;
         float rightTol = ms1Tolerance;
         if (ms1ToleranceUnit == 1) {
-            leftTol = spectrumEntry.precursorMass - (spectrumEntry.precursorMass / (1 + ms1Tolerance * 1e-6f));
-            rightTol = (spectrumEntry.precursorMass / (1 - ms1Tolerance * 1e-6f)) - spectrumEntry.precursorMass;
+            leftTol = precursorMass - (precursorMass / (1 + ms1Tolerance * 1e-6f));
+            rightTol = (precursorMass / (1 - ms1Tolerance * 1e-6f)) - precursorMass;
         }
-        float leftMass = Math.max(spectrumEntry.precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
-        float rightMass = Math.min(spectrumEntry.precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());
+        float leftMass = Math.max(precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
+        float rightMass = Math.min(precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());
 
         if (leftMass >= rightMass) {
             return;
@@ -49,7 +49,7 @@ public class Search {
                     if (temp1 > 1e-6) {
                         score = peptide0.code.dot(scanCode) / temp1;
                     }
-                    float deltaMass = mass - spectrumEntry.precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
+                    float deltaMass = mass - precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
 
                     if (peptide0.isTarget) {
                         if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {

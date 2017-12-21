@@ -12,11 +12,16 @@ public class CalScore {
 
     private static final Logger logger = LoggerFactory.getLogger(CalScore.class);
 
-    public static void calScore(Peptide peptide, SparseVector expProcessedPL, FinalResultEntry psm, MassTool massToolObj, Map<String, TreeSet<Peptide>> modSequences) {
-        double score = massToolObj.buildVector(peptide.getIonMatrix(), psm.getCharge()).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.
+    public static void calScore(Peptide peptide, SparseVector expProcessedPL, int precursorCharge, MassTool massToolObj, TreeSet<Peptide> peptideSet, Map<String, TreeSet<Peptide>> modSequences) {
+        double score = massToolObj.buildVector(peptide.getIonMatrix(), precursorCharge).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.
         if (score > 0) {
             peptide.setScore(score);
-            psm.addScore(peptide);
+            if (peptideSet.size() < 5) {
+                peptideSet.add(peptide);
+            } else if (peptide.getScore() > peptideSet.last().getScore()) {
+                peptideSet.pollLast();
+                peptideSet.add(peptide);
+            }
 
             if (peptide.hasVarPTM()) {
                 // record scores with different PTM patterns for calculating PTM delta score.

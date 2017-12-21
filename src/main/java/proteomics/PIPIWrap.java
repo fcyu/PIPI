@@ -38,6 +38,9 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     private final float minClear;
     private final float maxClear;
     private final ReentrantLock lock;
+    private final String scanId;
+    private final int precursorCharge;
+    private final float precursorMass;
 
 
     public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection) {
@@ -54,6 +57,9 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         this.minClear = minClear;
         this.maxClear = maxClear;
         this.lock = lock;
+        this.scanId = scanId;
+        this.precursorCharge = precursorCharge;
+        this.precursorMass = precursorMass;
         this.inferPTM = inferPTM;
         this.preSpectrum = preSpectrum;
         peptide0Map = buildIndexObj.getPeptide0Map();
@@ -83,28 +89,27 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
         }
 
         // preprocess peak list
-        TreeMap<Float, Float> plMap = preSpectrumObj.preSpectrum(rawPLMap, spectrumEntry.precursorMass, spectrumEntry.precursorCharge, ms2Tolerance, minClear, maxClear);
+        TreeMap<Float, Float> plMap = preSpectrum.preSpectrum(rawPLMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
 
         // Coding
         InferenceSegment inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
-        List<ThreeExpAA> expAaLists = inference3SegmentObj.inferSegmentLocationFromSpectrum(spectrumEntry, plMap);
+        List<ThreeExpAA> expAaLists = inference3SegmentObj.inferSegmentLocationFromSpectrum(precursorMass, plMap);
         if (!expAaLists.isEmpty()) {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);
 
             // Begin search.
-            Search searchObj = new Search(buildIndexObj, spectrumEntry, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
+            Search searchObj = new Search(buildIndexObj, precursorMass, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
 
             // prepare the spectrum
             SparseVector expProcessedPL;
             if (PIPI.useXcorr) {
-                expProcessedPL = preSpectrumObj.prepareXcorr(plMap, false);
+                expProcessedPL = preSpectrum.prepareXcorr(plMap, false);
             } else {
-                expProcessedPL = preSpectrumObj.prepareDigitizedPL(plMap, false);
+                expProcessedPL = preSpectrum.prepareDigitizedPL(plMap, false);
             }
 
             FinalResultEntry psm = new FinalResultEntry(spectrumEntry.scanNum, spectrumEntry.precursorCharge, spectrumEntry.precursorMz, spectrumEntry.mgfTitle, buildIndexObj.getLabeling(), spectrumEntry.isotopeCorrectionNum, spectrumEntry.ms1PearsonCorrelationCoefficient);
 
-            float precursorMass = spectrumEntry.precursorMass;
             float localMS1ToleranceL = -1 * ms1Tolerance;
             float localMS1ToleranceR = ms1Tolerance;
             if (ms1ToleranceUnit == 1) {
@@ -113,13 +118,19 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
             }
 
             // infer PTM using the new approach
+            TreeSet<Peptide> peptideSet = new TreeSet<>(Collections.reverseOrder());
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
                 PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
                     Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
-                    psm.addScore(topPeptide);
+                    if (peptideSet.size() < 5) {
+                        peptideSet.add(topPeptide);
+                    } else if (topPeptide.getScore() > peptideSet.last().getScore()) {
+                        peptideSet.pollLast();
+                        peptideSet.add(topPeptide);
+                    }
                     // record scores with different PTM patterns for calculating PTM delta score.
                     modSequences.put(topPeptide.getPTMFreeSeq(), peptidePTMPattern.getPeptideTreeSet());
                 }
@@ -127,14 +138,14 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
 
             // Calculate Score for PTM free peptide
             for (Peptide peptide : searchObj.getPTMFreeResult()) {
-                CalScore.calScore(peptide, expProcessedPL, psm, massToolObj, null);
+                CalScore.calScore(peptide, expProcessedPL, precursorCharge, massToolObj, peptideSet, null);
             }
 
-            if (psm.hasHit()) {
                 if (psm.getTopPeptide().hasVarPTM()) {
                     psm.setPtmPatterns(modSequences.get(psm.getTopPeptide().getPTMFreeSeq()));
+            if (!peptideSet.isEmpty()) {
+                new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge);
                 }
-                new CalSubscores(psm.getTopPeptide(), spectrumEntry, ms2Tolerance, plMap);
                 return psm;
             } else {
                 return null;
