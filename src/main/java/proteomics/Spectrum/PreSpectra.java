@@ -39,16 +39,17 @@ public class PreSpectra {
         isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabeling());
 
         PrintStream originalStream = System.out;
-        PrintStream nullStream = new PrintStream(new OutputStream() {
-            @Override
-            public void write(int b) {}
-        });
-        System.setOut(nullStream);
+        try {
 
         Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
         String parentId = null;
         while (spectrumIterator.hasNext()) {
             Spectrum spectrum = spectrumIterator.next();
+            PrintStream nullStream = new PrintStream(new OutputStream() {
+                @Override
+                public void write(int b) { }
+            });
+            System.setOut(nullStream);
 
             if (!msLevelSet.contains(spectrum.getMsLevel())) {
                 parentId = spectrum.getId();
@@ -133,6 +134,12 @@ public class PreSpectra {
                         precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
                     }
                 }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(ex.toString());
+            System.exit(1);
+        } finally {
+            System.setOut(originalStream);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.error(ex.toString());
@@ -152,7 +159,6 @@ public class PreSpectra {
             numSpectrumMap.put(scanNum, spectrumEntry);
         }
 
-        System.setOut(originalStream);
     }
 
     public Map<Integer, SpectrumEntry> returnNumSpectrumMap() {

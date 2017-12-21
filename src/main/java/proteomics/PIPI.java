@@ -191,31 +191,35 @@ public class PIPI {
                 }
                 Thread.sleep(6000);
             }
-        } catch (InterruptedException | ExecutionException ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
-        }
 
-        // shutdown threads.
-        threadPool.shutdown();
-        try {
+            // shutdown threads.
+            threadPool.shutdown();
             if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
                 threadPool.shutdownNow();
                 if (!threadPool.awaitTermination(60, TimeUnit.SECONDS))
                     System.err.println("Pool did not terminate");
             }
-        } catch (InterruptedException ie) {
+
+            if (resultCount == 0) {
+                logger.error("There is no useful results.");
+                System.exit(1);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(ex.toString());
+            System.exit(1);
+        } finally {
             threadPool.shutdownNow();
             Thread.currentThread().interrupt();
-            logger.error("Threads were not finished normally.");
-            System.exit(1);
+            try {
+                if (lock != null) lock.unlock();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error(ex.toString());
+                System.exit(1);
+            }
         }
 
-        if (scanFinalResultMap.isEmpty()) {
-            logger.error("There is no useful results.");
-            System.exit(1);
-        }
 
         logger.info("Estimating FDR...");
         String percolatorInputFileName = spectraPath + "." + labeling + ".input.temp";
@@ -253,7 +257,9 @@ public class PIPI {
     }
 
     private void writePercolator(Map<Integer, FinalResultEntry> scanFinalResultMap, String resultPath, Map<String, Peptide0> peptide0Map) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath))) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(resultPath));
             writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
             for (FinalResultEntry entry : scanFinalResultMap.values()) {
                 Peptide peptide = entry.getTopPeptide();
@@ -294,10 +300,18 @@ public class PIPI {
                     writer.write(entry.getScanNum() + "\t1\t" + entry.getScanNum() + "\t" + peptide.getScore() + "\t" + deltaC + "\t" + deltaLC + "\t" + peptide.getNormalizedCrossCorr() + "\t" + peptide.getGlobalRank() + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + peptide.getIonFrac() + "\t" + peptide.getMatchedHighestIntensityFrac() + "\t" + sb.toString() + peptide.getExplainedAaFrac() + "\t" + peptide.getPtmSupportingPeakFrac() + "\t" + peptide0.leftFlank + "." + peptide.getPtmContainingSeq(fixModMap) + "." + peptide0.rightFlank + "\t" + proteinIdStr + "\n");
                 }
             }
-        } catch (IOException | NullPointerException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
+        } finally {
+            try {
+                if (writer != null) writer.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error(ex.toString());
+                System.exit(1);
+            }
         }
     }
 
@@ -349,7 +363,9 @@ public class PIPI {
 
     private void writeFinalResult(Map<Integer, FinalResultEntry> scanFinalResultMap, Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map) {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath))) {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(outputPath));
             writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
             for (FinalResultEntry entry : scanFinalResultMap.values()) {
                 Peptide peptide = entry.getTopPeptide();
@@ -409,10 +425,18 @@ public class PIPI {
                     writer.write(tempStr);
                 }
             }
-        } catch (IOException | NullPointerException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
+        } finally {
+            try {
+                if (writer != null) writer.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                logger.error(ex.toString());
+                System.exit(1);
+            }
         }
     }
 

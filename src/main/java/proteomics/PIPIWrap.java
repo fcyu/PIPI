@@ -14,7 +14,6 @@ import proteomics.Types.*;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.*;
@@ -63,25 +62,23 @@ public class PIPIWrap implements Callable<FinalResultEntry> {
     @Override
     public FinalResultEntry call() {
         Map<Double, Double> rawPLMap = null;
-        lock.lock();
+        PrintStream originalStream = System.out;
         try {
-            PrintStream originalStream = System.out;
+            lock.lock();
             PrintStream nullStream = new PrintStream(new OutputStream() {
                 @Override
-                public void write(int b) {
-                }
+                public void write(int b) { }
             });
             System.setOut(nullStream);
 
             // Reading peak list.
-            rawPLMap = spectraParser.getSpectrumById(spectrumEntry.scanId).getPeakList();
-            
-            System.setOut(originalStream);
+            rawPLMap = spectraParser.getSpectrumById(scanId).getPeakList();
         } catch (JMzReaderException ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
         } finally {
+            System.setOut(originalStream);
             lock.unlock();
         }
 
