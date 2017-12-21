@@ -200,10 +200,8 @@ public class PIPI {
             if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
                 threadPool.shutdownNow();
                 if (!threadPool.awaitTermination(60, TimeUnit.SECONDS))
-                    System.err.println("Pool did not terminate");
+                    throw new Exception("Pool did not terminate");
             }
-            threadPool.shutdownNow();
-            Thread.currentThread().interrupt();
 
             sqlConnection.close();
             if (lock.isLocked()) {
@@ -215,6 +213,8 @@ public class PIPI {
                 System.exit(1);
             }
         } catch (Exception ex) {
+            threadPool.shutdownNow();
+            Thread.currentThread().interrupt();
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
