@@ -217,7 +217,6 @@ public class PIPI {
             }
         } catch (Exception ex) {
             threadPool.shutdownNow();
-            Thread.currentThread().interrupt();
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
