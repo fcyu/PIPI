@@ -164,12 +164,17 @@ public class PIPIWrap implements Callable<Boolean> {
                             int isotopeCorrectionNum = sqlResultSet.getInt("isotopeCorrectionNum");
                             double ms1PearsonCorrelationCoefficient = sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient");
 
-                            double deltaLC = (topPeptide.getScore() - peptideSet.last().getScore()) / topPeptide.getScore();
+                            double deltaLC = 0;
+                            if (topPeptide.getScore() > 0) {
+                                deltaLC = (topPeptide.getScore() - peptideSet.last().getScore()) / topPeptide.getScore();
+                            }
                             double deltaC = 0;
-                            if (peptideSet.size() > 1) {
-                                Iterator<Peptide> temp = peptideSet.iterator();
-                                temp.next();
-                                deltaC = (topPeptide.getScore() - temp.next().getScore()) / topPeptide.getScore();
+                            if (topPeptide.getScore() > 0) {
+                                if (peptideSet.size() > 1) {
+                                    Iterator<Peptide> temp = peptideSet.iterator();
+                                    temp.next();
+                                    deltaC = (topPeptide.getScore() - temp.next().getScore()) / topPeptide.getScore();
+                                }
                             }
 
                             String otherPtmPatterns = "-";
