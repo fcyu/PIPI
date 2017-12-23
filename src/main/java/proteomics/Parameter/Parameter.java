@@ -15,7 +15,7 @@ public class Parameter {
     private static final Pattern linePattern = Pattern.compile("([^#]+)=([^#]+)#*.*");
     private static final Pattern enzymePattern = Pattern.compile("(.+)\\s+([01])\\s+([A-Z]+)\\s+([A-Z\\-]+)");
 
-    private Map<String, String> parameterMap = new HashMap<>();
+    private Map<String, String> parameterMap = new LinkedHashMap<>();
 
     public Parameter(String parameterFile) {
         try (BufferedReader parameterReader = new BufferedReader(new FileReader(parameterFile))) {

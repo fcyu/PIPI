@@ -74,6 +74,12 @@ public class PIPI {
         String percolatorPath = parameterMap.get("percolator_path");
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
 
+        // print all the parameters
+        logger.info("Parameters:");
+        for (String k : parameterMap.keySet()) {
+            logger.info("{} = {}", k, parameterMap.get(k));
+        }
+
         String[] tempArray = parameterMap.get("ms_level").split(",");
         Set<Integer> msLevelSet = new HashSet<>(tempArray.length + 1, 1);
         for (String temp : tempArray) {
