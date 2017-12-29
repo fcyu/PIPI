@@ -66,7 +66,8 @@ public class InferPTM {
             for (VarModParam modEntry : aasMap.get(aa)) {
                 if (finalPtmMap.containsKey(aa)) {
                     if (finalPtmMap.get(aa).contains(modEntry)) {
-                        if (modEntry.priority == 1) {
+                        if (modEntry.priority == 1 || !modEntry.onlyProteinTerminalIfnc) {
+                            finalPtmMap.get(aa).remove(modEntry); // VarModParam only differs by mass and site.
                             finalPtmMap.get(aa).add(modEntry); // temp is a high priority PTM, it is safe to overwrite the original PTM.
                         }
                     } else {
@@ -83,7 +84,8 @@ public class InferPTM {
             for (VarModParam modEntry : ptmMap.get(aa)) {
                 if (finalPtmMap.containsKey(aa)) {
                     if (finalPtmMap.get(aa).contains(modEntry)) {
-                        if (modEntry.priority == 1) {
+                        if (modEntry.priority == 1 || !modEntry.onlyProteinTerminalIfnc) {
+                            finalPtmMap.get(aa).remove(modEntry); // VarModParam only differs by mass and site.
                             finalPtmMap.get(aa).add(modEntry); // temp is a high priority PTM, it is safe to overwrite the original PTM.
                         }
                     } else {
@@ -164,7 +166,7 @@ public class InferPTM {
                 if (mass >= minPtmMass && mass <= maxPtmMass) {
                     if (site == 'n' || site == 'c' || massTable.get(site) + mass > ms2Tolerance) { // The mass of a modified amino acid cannot be 0 or negative.
                         int priority = Integer.valueOf(parts[3]);
-                        VarModParam temp = new VarModParam(mass, site, priority);
+                        VarModParam temp = new VarModParam(mass, site, priority, true); // natural N/C-terminal PTMs only happens on protein terminal.
                         if (siteModMap.containsKey(site)) {
                             if (siteModMap.get(site).contains(temp)) {
                                 if (temp.priority == 1) { // temp is a high priority PTM, it is safe to overwrite the original PTM.
@@ -236,7 +238,7 @@ public class InferPTM {
                     if (!(aaArray[i] == 'I' && aaArray[j] == 'L') && !(aaArray[i] == 'L' && aaArray[j] == 'I')) { // "I" and "L" have the same mass. don't consider such a AA substitution.
                         float deltaMass = massTable.get(aaArray[j]) - massTable.get(aaArray[i]);
                         if (deltaMass >= minPtmMass && deltaMass <= maxPtmMass) {
-                            VarModParam temp = new VarModParam(deltaMass, aaArray[i], 0);
+                            VarModParam temp = new VarModParam(deltaMass, aaArray[i], 0, true);
                             if (aasMap.containsKey(aaArray[i])) {
                                 aasMap.get(aaArray[i]).add(temp); // all AAs have the same priority
                             } else {
@@ -287,8 +289,10 @@ public class InferPTM {
                     if (finalPtmMap.containsKey('n')) {
                         Set<VarModParam> tempSet = new HashSet<>();
                         for (VarModParam modEntry : finalPtmMap.get('n')) {
-                            if ((leftFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (leftFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreeSequence.charAt(1)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in N-term and the mass of a modified amino acid cannot be 0 or negative.
-                                tempSet.add(modEntry);
+                            if (!modEntry.onlyProteinTerminalIfnc || leftFlank == '-') {
+                                if ((leftFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (leftFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreeSequence.charAt(1)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in N-term and the mass of a modified amino acid cannot be 0 or negative.
+                                    tempSet.add(modEntry);
+                                }
                             }
                         }
                         if (!tempSet.isEmpty()) {
@@ -299,8 +303,10 @@ public class InferPTM {
                     if (finalPtmMap.containsKey('c')) {
                         Set<VarModParam> tempSet = new HashSet<>();
                         for (VarModParam modEntry : finalPtmMap.get('c')) {
-                            if ((rightFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (rightFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreeSequence.charAt(ptmFreeSequence.length() - 2)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in C-term and the mass of a modified amino acid cannot be 0 or negative
-                                tempSet.add(modEntry);
+                            if (!modEntry.onlyProteinTerminalIfnc || rightFlank == '-') {
+                                if ((rightFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (rightFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreeSequence.charAt(ptmFreeSequence.length() - 2)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in C-term and the mass of a modified amino acid cannot be 0 or negative
+                                    tempSet.add(modEntry);
+                                }
                             }
                         }
                         if (!tempSet.isEmpty()) {
