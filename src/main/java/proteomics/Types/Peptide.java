@@ -104,21 +104,14 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public Peptide clone() {
-        Peptide other = null;
-        try {
-            other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
-            if (varPTMMap != null) {
-                other.setVarPTM(varPTMMap.clone());
-                other.setScore(score);
-                other.setMatchedHighestIntensityFrac(matchedHighestIntensityFrac);
-                other.setExplainedAaFrac(explainedAaFrac);
-                other.setIonFrac(ionFrac);
-                other.setQValue(qValue);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
+        Peptide other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
+        if (varPTMMap != null) {
+            other.setVarPTM(varPTMMap.clone());
+            other.setScore(score);
+            other.setMatchedHighestIntensityFrac(matchedHighestIntensityFrac);
+            other.setExplainedAaFrac(explainedAaFrac);
+            other.setIonFrac(ionFrac);
+            other.setQValue(qValue);
         }
 
         return other;

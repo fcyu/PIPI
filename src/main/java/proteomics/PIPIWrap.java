@@ -67,7 +67,7 @@ public class PIPIWrap implements Callable<Boolean> {
     }
 
     @Override
-    public Boolean call() {
+    public Boolean call() throws SQLException {
         Map<Double, Double> rawPLMap = null;
         try {
             lock.lock();
@@ -141,75 +141,69 @@ public class PIPIWrap implements Callable<Boolean> {
                 }
                 new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge);
 
-                try {
-                    Statement sqlStatement = sqlConnection.createStatement();
-                    ResultSet sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId)); // todo: check
-                    if (sqlResultSet.next()) {
-                        boolean needUpdate = false;
-                        int isDecoyOld = sqlResultSet.getInt("isDecoy");
-                        if (!sqlResultSet.wasNull()) {
-                            double scoreOld = sqlResultSet.getDouble("score");
-                            if (topPeptide.getScore() > scoreOld || (topPeptide.getScore() == scoreOld && isDecoyOld == 1 && !topPeptide.isDecoy())) {
-                                needUpdate = true;
-                            }
-                        } else {
+                Statement sqlStatement = sqlConnection.createStatement();
+                ResultSet sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId)); // todo: check
+                if (sqlResultSet.next()) {
+                    boolean needUpdate = false;
+                    int isDecoyOld = sqlResultSet.getInt("isDecoy");
+                    if (!sqlResultSet.wasNull()) {
+                        double scoreOld = sqlResultSet.getDouble("score");
+                        if (topPeptide.getScore() > scoreOld || (topPeptide.getScore() == scoreOld && isDecoyOld == 1 && !topPeptide.isDecoy())) {
                             needUpdate = true;
                         }
-                        if (needUpdate) {
-                            int scanNum = sqlResultSet.getInt("scanNum");
-                            String scanId = sqlResultSet.getString("scanId");
-                            int precursorCharge = sqlResultSet.getInt("precursorCharge");
-                            float precursorMass = sqlResultSet.getFloat("precursorMass");
-                            String mgfTitle = sqlResultSet.getString("mgfTitle");
-                            int isotopeCorrectionNum = sqlResultSet.getInt("isotopeCorrectionNum");
-                            double ms1PearsonCorrelationCoefficient = sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient");
-
-                            double deltaLC = 0;
-                            if (topPeptide.getScore() > 0) {
-                                deltaLC = (topPeptide.getScore() - peptideSet.last().getScore()) / topPeptide.getScore();
-                            }
-                            double deltaC = 0;
-                            if (topPeptide.getScore() > 0) {
-                                if (peptideSet.size() > 1) {
-                                    Iterator<Peptide> temp = peptideSet.iterator();
-                                    temp.next();
-                                    deltaC = (topPeptide.getScore() - temp.next().getScore()) / topPeptide.getScore();
-                                }
-                            }
-
-                            String otherPtmPatterns = "-";
-                            String ptmDeltaScore = "-";
-                            if (ptmPatterns != null) {
-                                List<String> tempList = new LinkedList<>();
-                                Iterator<Peptide> ptmPatternsIterator = ptmPatterns.iterator();
-                                ptmPatternsIterator.next();
-                                while (ptmPatternsIterator.hasNext()) {
-                                    Peptide temp = ptmPatternsIterator.next();
-                                    tempList.add(String.format(Locale.US, "%s-%.4f;", temp.getPtmContainingSeq(buildIndexObj.returnFixModMap()), temp.getScore()));
-                                }
-                                otherPtmPatterns = String.join(";", tempList);
-                                if (ptmPatterns.size() > 1) {
-                                    Iterator<Peptide> temp = ptmPatterns.iterator();
-                                    ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
-                                } else {
-                                    ptmDeltaScore = String.valueOf(ptmPatterns.first().getScore());
-                                }
-                            }
-
-                            sqlStatement.executeUpdate(String.format(Locale.US, "DELETE FROM spectraTable WHERE scanId=%s", scanId));
-                            sqlStatement.executeUpdate(String.format(Locale.US, "INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore) VALUES (%d, '%s', %d, %f, '%s', %d, %f, '%s', '%s', %f, %d, %d, %f, %f, %f, %f, %d, %f, %f, %f, %f, '%s', '%s')", scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, buildIndexObj.getLabeling(), topPeptide.getPtmContainingSeq(buildIndexObj.returnFixModMap()), topPeptide.getTheoMass(), topPeptide.isDecoy() ? 1 : 0, topPeptide.getGlobalRank(), topPeptide.getNormalizedCrossCorr(), topPeptide.getScore(), deltaLC, deltaC, topPeptide.getMatchedPeakNum(), topPeptide.getIonFrac(), topPeptide.getMatchedHighestIntensityFrac(), topPeptide.getExplainedAaFrac(), topPeptide.getPtmSupportingPeakFrac(), otherPtmPatterns, ptmDeltaScore));
-                        }
                     } else {
-                        throw new NullPointerException(String.format(Locale.US, "There is no record %s in the spectraTable.", scanId));
+                        needUpdate = true;
                     }
+                    if (needUpdate) {
+                        int scanNum = sqlResultSet.getInt("scanNum");
+                        String scanId = sqlResultSet.getString("scanId");
+                        int precursorCharge = sqlResultSet.getInt("precursorCharge");
+                        float precursorMass = sqlResultSet.getFloat("precursorMass");
+                        String mgfTitle = sqlResultSet.getString("mgfTitle");
+                        int isotopeCorrectionNum = sqlResultSet.getInt("isotopeCorrectionNum");
+                        double ms1PearsonCorrelationCoefficient = sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient");
 
-                    sqlResultSet.close();
-                    sqlStatement.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    logger.error(ex.toString());
-                    System.exit(1);
+                        double deltaLC = 0;
+                        if (topPeptide.getScore() > 0) {
+                            deltaLC = (topPeptide.getScore() - peptideSet.last().getScore()) / topPeptide.getScore();
+                        }
+                        double deltaC = 0;
+                        if (topPeptide.getScore() > 0) {
+                            if (peptideSet.size() > 1) {
+                                Iterator<Peptide> temp = peptideSet.iterator();
+                                temp.next();
+                                deltaC = (topPeptide.getScore() - temp.next().getScore()) / topPeptide.getScore();
+                            }
+                        }
+
+                        String otherPtmPatterns = "-";
+                        String ptmDeltaScore = "-";
+                        if (ptmPatterns != null) {
+                            List<String> tempList = new LinkedList<>();
+                            Iterator<Peptide> ptmPatternsIterator = ptmPatterns.iterator();
+                            ptmPatternsIterator.next();
+                            while (ptmPatternsIterator.hasNext()) {
+                                Peptide temp = ptmPatternsIterator.next();
+                                tempList.add(String.format(Locale.US, "%s-%.4f;", temp.getPtmContainingSeq(buildIndexObj.returnFixModMap()), temp.getScore()));
+                            }
+                            otherPtmPatterns = String.join(";", tempList);
+                            if (ptmPatterns.size() > 1) {
+                                Iterator<Peptide> temp = ptmPatterns.iterator();
+                                ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
+                            } else {
+                                ptmDeltaScore = String.valueOf(ptmPatterns.first().getScore());
+                            }
+                        }
+
+                        sqlStatement.executeUpdate(String.format(Locale.US, "DELETE FROM spectraTable WHERE scanId=%s", scanId));
+                        sqlStatement.executeUpdate(String.format(Locale.US, "INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore) VALUES (%d, '%s', %d, %f, '%s', %d, %f, '%s', '%s', %f, %d, %d, %f, %f, %f, %f, %d, %f, %f, %f, %f, '%s', '%s')", scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, buildIndexObj.getLabeling(), topPeptide.getPtmContainingSeq(buildIndexObj.returnFixModMap()), topPeptide.getTheoMass(), topPeptide.isDecoy() ? 1 : 0, topPeptide.getGlobalRank(), topPeptide.getNormalizedCrossCorr(), topPeptide.getScore(), deltaLC, deltaC, topPeptide.getMatchedPeakNum(), topPeptide.getIonFrac(), topPeptide.getMatchedHighestIntensityFrac(), topPeptide.getExplainedAaFrac(), topPeptide.getPtmSupportingPeakFrac(), otherPtmPatterns, ptmDeltaScore));
+                    }
+                } else {
+                    throw new NullPointerException(String.format(Locale.US, "There is no record %s in the spectraTable.", scanId));
                 }
+
+                sqlResultSet.close();
+                sqlStatement.close();
                 return true;
             } else {
                 return false;

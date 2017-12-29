@@ -14,7 +14,7 @@ public class DbTool {
     private Map<String, String> proSeqMap = new HashMap<>();
     private Map<String, String> proAnnotateMap = new HashMap<>();
 
-    public DbTool(String dbName, String databaseType) {
+    public DbTool(String dbName, String databaseType) throws IOException {
         String id = "";
         String annotate;
         StringBuilder seq = new StringBuilder(99999);
@@ -32,39 +32,35 @@ public class DbTool {
             System.exit(1);
         }
 
-        try (BufferedReader dbReader = new BufferedReader(new FileReader(dbName))) {
-            String line;
-            while ((line = dbReader.readLine()) != null) {
-                line = line.trim();
-                Matcher headMatcher = headerPattern.matcher(line);
-                if (headMatcher.matches()) {
-                    // This line is a header
-                    if (!newPro) {
-                        // This isn't the first protein
-                        proSeqMap.put(id, seq.toString());
-                    }
-                    id = headMatcher.group(1).trim();
-                    annotate = headMatcher.group(2).trim();
-                    proAnnotateMap.put(id, annotate);
-                    newPro = true;
-                } else if (!line.isEmpty()) {
-                    // This line is a body
-                    if (newPro) {
-                        seq = new StringBuilder(99999);
-                        seq.append(line);
-                        newPro = false;
-                    } else {
-                        seq.append(line);
-                    }
+        BufferedReader dbReader = new BufferedReader(new FileReader(dbName));
+        String line;
+        while ((line = dbReader.readLine()) != null) {
+            line = line.trim();
+            Matcher headMatcher = headerPattern.matcher(line);
+            if (headMatcher.matches()) {
+                // This line is a header
+                if (!newPro) {
+                    // This isn't the first protein
+                    proSeqMap.put(id, seq.toString());
+                }
+                id = headMatcher.group(1).trim();
+                annotate = headMatcher.group(2).trim();
+                proAnnotateMap.put(id, annotate);
+                newPro = true;
+            } else if (!line.isEmpty()) {
+                // This line is a body
+                if (newPro) {
+                    seq = new StringBuilder(99999);
+                    seq.append(line);
+                    newPro = false;
+                } else {
+                    seq.append(line);
                 }
             }
-            // Last protein
-            proSeqMap.put(id, seq.toString());
-        } catch (IOException | PatternSyntaxException ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
         }
+        dbReader.close();
+        // Last protein
+        proSeqMap.put(id, seq.toString());
     }
 
     public Map<String, String> returnSeqMap() {

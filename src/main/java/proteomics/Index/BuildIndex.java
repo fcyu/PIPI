@@ -1,5 +1,6 @@
 package proteomics.Index;
 
+import java.io.IOException;
 import java.util.*;
 
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class BuildIndex {
     private final String labeling;
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
-    public BuildIndex(Map<String, String> parameterMap, String labeling) {
+    public BuildIndex(Map<String, String> parameterMap, String labeling) throws IOException {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
@@ -67,113 +68,107 @@ public class BuildIndex {
         massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labeling);
 
         // build database
-        try {
-            inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
+        inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
 
-            Set<String> forCheckDuplicate = new HashSet<>(500000);
-            Map<String, TreeSet<String>> targetPeptideProteinMap = new HashMap<>(500000);
-            Map<String, Float> targetPeptideMassMap = new HashMap<>(500000);
-            for (String proId : proteinPeptideMap.keySet()) {
-                String proSeq = proteinPeptideMap.get(proId);
-                Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
-                for (String peptide : peptideSet) {
-                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
-                        continue;
+        Set<String> forCheckDuplicate = new HashSet<>(500000);
+        Map<String, TreeSet<String>> targetPeptideProteinMap = new HashMap<>(500000);
+        Map<String, Float> targetPeptideMassMap = new HashMap<>(500000);
+        for (String proId : proteinPeptideMap.keySet()) {
+            String proSeq = proteinPeptideMap.get(proId);
+            Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
+            for (String peptide : peptideSet) {
+                if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
+                    continue;
+                }
+
+                if ((peptide.length() - 2 <= maxPeptideLength) && (peptide.length() - 2 >= minPeptideLength)) { // caution: there are n and c in the sequence
+                    if (!forCheckDuplicate.contains(peptide.replace('L', 'I'))) { // don't record duplicate peptide sequences
+                        // Add the sequence to the check set for duplicate check
+                        forCheckDuplicate.add(peptide.replace('L', 'I'));
+
+                        float mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
+                        // recode min and max peptide mass
+                        if (mass < minPeptideMass) {
+                            minPeptideMass = mass;
+                        }
+                        if (mass > maxPeptideMass) {
+                            maxPeptideMass = mass;
+                        }
+
+                        targetPeptideMassMap.put(peptide, mass);
+                        TreeSet<String> proteins = new TreeSet<>();
+                        proteins.add(proId);
+                        targetPeptideProteinMap.put(peptide, proteins);
                     }
 
-                    if ((peptide.length() - 2 <= maxPeptideLength) && (peptide.length() - 2 >= minPeptideLength)) { // caution: there are n and c in the sequence
-                        if (!forCheckDuplicate.contains(peptide.replace('L', 'I'))) { // don't record duplicate peptide sequences
-                            // Add the sequence to the check set for duplicate check
-                            forCheckDuplicate.add(peptide.replace('L', 'I'));
-
-                            float mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
-                            // recode min and max peptide mass
-                            if (mass < minPeptideMass) {
-                                minPeptideMass = mass;
-                            }
-                            if (mass > maxPeptideMass) {
-                                maxPeptideMass = mass;
-                            }
-
-                            targetPeptideMassMap.put(peptide, mass);
-                            TreeSet<String> proteins = new TreeSet<>();
-                            proteins.add(proId);
-                            targetPeptideProteinMap.put(peptide, proteins);
-                        }
-
-                        // considering the case that the sequence has multiple proteins. In the above if clock, such a protein wasn't recorded.
-                        if (targetPeptideProteinMap.containsKey(peptide)) {
-                            targetPeptideProteinMap.get(peptide).add(proId);
-                        }
+                    // considering the case that the sequence has multiple proteins. In the above if clock, such a protein wasn't recorded.
+                    if (targetPeptideProteinMap.containsKey(peptide)) {
+                        targetPeptideProteinMap.get(peptide).add(proId);
                     }
                 }
             }
+        }
 
-            Map<String, Peptide0> tempMap = new HashMap<>();
-            for (String targetPeptide : targetPeptideMassMap.keySet()) {
-                SparseBooleanVector targetCode = inference3SegmentObj.generateSegmentBooleanVector(targetPeptide.substring(1, targetPeptide.length() - 1));
+        Map<String, Peptide0> tempMap = new HashMap<>();
+        for (String targetPeptide : targetPeptideMassMap.keySet()) {
+            SparseBooleanVector targetCode = inference3SegmentObj.generateSegmentBooleanVector(targetPeptide.substring(1, targetPeptide.length() - 1));
 
-                char leftFlank = '-';
-                char rightFlank = '-';
-                String peptideString = targetPeptide.substring(1, targetPeptide.length() - 1);
-                if (targetPeptideProteinMap.containsKey(targetPeptide)) {
-                    String proteinSequence = proteinPeptideMap.get(targetPeptideProteinMap.get(targetPeptide).iterator().next());
-                    int startIdx = proteinSequence.indexOf(peptideString);
-                    if (startIdx == -1) {
-                        logger.warn("Cannot locate {} in protein {}.", targetPeptide, proteinSequence);
-                    } else if (startIdx == 0) {
-                        int tempIdx = peptideString.length();
-                        if (tempIdx < proteinSequence.length()) {
-                            rightFlank = proteinSequence.charAt(tempIdx);
-                        }
-                    } else if (startIdx == proteinSequence.length() - peptideString.length()) {
-                        leftFlank = proteinSequence.charAt(startIdx - 1);
-                    } else {
-                        leftFlank = proteinSequence.charAt(startIdx - 1);
-                        rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
+            char leftFlank = '-';
+            char rightFlank = '-';
+            String peptideString = targetPeptide.substring(1, targetPeptide.length() - 1);
+            if (targetPeptideProteinMap.containsKey(targetPeptide)) {
+                String proteinSequence = proteinPeptideMap.get(targetPeptideProteinMap.get(targetPeptide).iterator().next());
+                int startIdx = proteinSequence.indexOf(peptideString);
+                if (startIdx == -1) {
+                    logger.warn("Cannot locate {} in protein {}.", targetPeptide, proteinSequence);
+                } else if (startIdx == 0) {
+                    int tempIdx = peptideString.length();
+                    if (tempIdx < proteinSequence.length()) {
+                        rightFlank = proteinSequence.charAt(tempIdx);
                     }
+                } else if (startIdx == proteinSequence.length() - peptideString.length()) {
+                    leftFlank = proteinSequence.charAt(startIdx - 1);
+                } else {
+                    leftFlank = proteinSequence.charAt(startIdx - 1);
+                    rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
+                }
+            }
+
+            tempMap.put(targetPeptide, new Peptide0(targetCode, true, targetPeptideProteinMap.get(targetPeptide).toArray(new String[targetPeptideProteinMap.get(targetPeptide).size()]), leftFlank, rightFlank));
+
+            if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
+                massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
+            } else {
+                Set<String> tempSet = new HashSet<>();
+                tempSet.add(targetPeptide);
+                massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
+            }
+
+            // decoy peptides
+            String decoyPeptide = shuffleSeq(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
+            if (!decoyPeptide.isEmpty()) {
+                decoyPeptide = "n" + decoyPeptide + "c";
+                forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
+                SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(decoyPeptide.substring(1, decoyPeptide.length() - 1));
+
+                String[] decoyProteins = new String[targetPeptideProteinMap.get(targetPeptide).size()];
+                int idx = 0;
+                for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
+                    decoyProteins[idx] = "DECOY_" + proteinId;
+                    ++idx;
                 }
 
-                tempMap.put(targetPeptide, new Peptide0(targetCode, true, targetPeptideProteinMap.get(targetPeptide).toArray(new String[targetPeptideProteinMap.get(targetPeptide).size()]), leftFlank, rightFlank));
-
+                tempMap.put(decoyPeptide, new Peptide0(decoyCode, false, decoyProteins, leftFlank, rightFlank));
                 if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
-                    massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
+                    massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(decoyPeptide);
                 } else {
                     Set<String> tempSet = new HashSet<>();
-                    tempSet.add(targetPeptide);
+                    tempSet.add(decoyPeptide);
                     massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
                 }
-
-                // decoy peptides
-                String decoyPeptide = shuffleSeq(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
-                if (!decoyPeptide.isEmpty()) {
-                    decoyPeptide = "n" + decoyPeptide + "c";
-                    forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
-                    SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(decoyPeptide.substring(1, decoyPeptide.length() - 1));
-
-                    String[] decoyProteins = new String[targetPeptideProteinMap.get(targetPeptide).size()];
-                    int idx = 0;
-                    for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
-                        decoyProteins[idx] = "DECOY_" + proteinId;
-                        ++idx;
-                    }
-
-                    tempMap.put(decoyPeptide, new Peptide0(decoyCode, false, decoyProteins, leftFlank, rightFlank));
-                    if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
-                        massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(decoyPeptide);
-                    } else {
-                        Set<String> tempSet = new HashSet<>();
-                        tempSet.add(decoyPeptide);
-                        massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
-                    }
-                }
             }
-            peptide0Map = new HashMap<>(tempMap);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
         }
+        peptide0Map = new HashMap<>(tempMap);
     }
 
     /////////////////////////////////////public methods////////////////////////////////////////////////////////////////////

@@ -30,7 +30,7 @@ public class PreSpectra {
 
     private Map<Integer, TreeMap<Integer, TreeSet<DevEntry>>> scanDevEntryMap = new HashMap<>();
 
-    public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext, Set<Integer> msLevelSet, String sqlPath) {
+    public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext, Set<Integer> msLevelSet, String sqlPath) throws Exception {
         int minMs1Charge = Integer.valueOf(parameterMap.get("min_ms1_charge"));
         int maxMs1Charge = Integer.valueOf(parameterMap.get("max_ms1_charge"));
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
@@ -38,134 +38,128 @@ public class PreSpectra {
         ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabeling());
 
-        try {
-            // prepare SQL database
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
-            Statement sqlStatement = sqlConnection.createStatement();
-            sqlStatement.executeUpdate("DROP TABLE IF EXISTS spectraTable");
-            sqlStatement.executeUpdate("CREATE TABLE spectraTable (scanNum INTEGER NOT NULL, scanId TEXT PRIMARY KEY, precursorCharge INTEGER NOT NULL, precursorMass REAL NOT NULL, mgfTitle TEXT NOT NULL, isotopeCorrectionNum INTEGER NOT NULL, ms1PearsonCorrelationCoefficient REAL NOT NULL, labelling TEXT, peptide TEXT, theoMass REAL, isDecoy INTEGER, globalRank INTEGER, normalizedCorrelationCoefficient REAL, score REAL, deltaLC REAL, deltaC REAL, matchedPeakNum INTEGER, ionFrac REAL, matchedHighestIntensityFrac REAL, explainedAaFrac REAL, ptmSupportingPeakFrac REAL, otherPtmPatterns TEXT, ptmDeltaScore TEXT)");
-            sqlStatement.close();
+        // prepare SQL database
+        Connection sqlConnection = DriverManager.getConnection(sqlPath);
+        Statement sqlStatement = sqlConnection.createStatement();
+        sqlStatement.executeUpdate("DROP TABLE IF EXISTS spectraTable");
+        sqlStatement.executeUpdate("CREATE TABLE spectraTable (scanNum INTEGER NOT NULL, scanId TEXT PRIMARY KEY, precursorCharge INTEGER NOT NULL, precursorMass REAL NOT NULL, mgfTitle TEXT NOT NULL, isotopeCorrectionNum INTEGER NOT NULL, ms1PearsonCorrelationCoefficient REAL NOT NULL, labelling TEXT, peptide TEXT, theoMass REAL, isDecoy INTEGER, globalRank INTEGER, normalizedCorrelationCoefficient REAL, score REAL, deltaLC REAL, deltaC REAL, matchedPeakNum INTEGER, ionFrac REAL, matchedHighestIntensityFrac REAL, explainedAaFrac REAL, ptmSupportingPeakFrac REAL, otherPtmPatterns TEXT, ptmDeltaScore TEXT)");
+        sqlStatement.close();
 
-            PreparedStatement sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            sqlConnection.setAutoCommit(false);
-            int usefulSpectraNum = 0;
+        PreparedStatement sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        sqlConnection.setAutoCommit(false);
+        int usefulSpectraNum = 0;
 
-            Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
-            String parentId = null;
-            while (spectrumIterator.hasNext()) {
-                Spectrum spectrum = spectrumIterator.next();
+        Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
+        String parentId = null;
+        while (spectrumIterator.hasNext()) {
+            Spectrum spectrum = spectrumIterator.next();
 
-                if (!msLevelSet.contains(spectrum.getMsLevel())) {
-                    parentId = spectrum.getId();
-                    continue;
+            if (!msLevelSet.contains(spectrum.getMsLevel())) {
+                parentId = spectrum.getId();
+                continue;
+            }
+
+            if (spectrum.getPeakList().size() < minPeakNum) {
+                logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
+                continue;
+            }
+
+            int scanNum = -1;
+            float precursorMz = spectrum.getPrecursorMZ().floatValue();
+            int precursorCharge = -1;
+            float precursorMass = -1;
+            int isotopeCorrectionNum = 0;
+            double pearsonCorrelationCoefficient = -1;
+            String mgfTitle = "";
+            TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap = new TreeMap<>();
+            if (ext.toLowerCase().contentEquals("mgf")) {
+                mgfTitle = ((Ms2Query) spectrum).getTitle();
+                Matcher matcher1 = scanNumPattern1.matcher(mgfTitle);
+                Matcher matcher2 = scanNumPattern2.matcher(mgfTitle);
+                Matcher matcher3 = scanNumPattern3.matcher(mgfTitle);
+                if (matcher1.find()) {
+                    scanNum = Integer.valueOf(matcher1.group(1));
+                } else if (matcher2.find()) {
+                    scanNum = Integer.valueOf(matcher2.group(1));
+                } else if (matcher3.find()) {
+                    scanNum = Integer.valueOf(matcher3.group(1));
+                } else {
+                    throw new Exception("Cannot get scan number from the MGF title " + mgfTitle + ". Please report your MGF title to fyuab@connect.ust.hk.");
                 }
 
-                if (spectrum.getPeakList().size() < minPeakNum) {
-                    logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
-                    continue;
-                }
-
-                int scanNum = -1;
-                float precursorMz = spectrum.getPrecursorMZ().floatValue();
-                int precursorCharge = -1;
-                float precursorMass = -1;
-                int isotopeCorrectionNum = 0;
-                double pearsonCorrelationCoefficient = -1;
-                String mgfTitle = "";
-                TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap = new TreeMap<>();
-                if (ext.toLowerCase().contentEquals("mgf")) {
-                    mgfTitle = ((Ms2Query) spectrum).getTitle();
-                    Matcher matcher1 = scanNumPattern1.matcher(mgfTitle);
-                    Matcher matcher2 = scanNumPattern2.matcher(mgfTitle);
-                    Matcher matcher3 = scanNumPattern3.matcher(mgfTitle);
-                    if (matcher1.find()) {
-                        scanNum = Integer.valueOf(matcher1.group(1));
-                    } else if (matcher2.find()) {
-                        scanNum = Integer.valueOf(matcher2.group(1));
-                    } else if (matcher3.find()) {
-                        scanNum = Integer.valueOf(matcher3.group(1));
-                    } else {
-                        throw new Exception("Cannot get scan number from the MGF title " + mgfTitle + ". Please report your MGF title to fyuab@connect.ust.hk.");
+                if (PIPI.debugScanNumArray.length > 0) {
+                    if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                        continue;
                     }
+                }
 
-                    if (PIPI.debugScanNumArray.length > 0) {
-                        if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
-                            continue;
+                if (spectrum.getPrecursorCharge() == null) {
+                    throw new Exception("MGF file does not contain charge information.");
+                } else {
+                    precursorCharge = spectrum.getPrecursorCharge();
+                    precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
+                }
+            } else {
+                scanNum = Integer.valueOf(spectrum.getId());
+
+                if (PIPI.debugScanNumArray.length > 0) {
+                    if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                        continue;
+                    }
+                }
+
+                TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
+                if (spectrum.getPrecursorCharge() == null) {
+                    // We have to infer the precursor charge.
+                    for (int charge = minMs1Charge; charge <= maxMs1Charge; ++charge) {
+                        Entry entry = getIsotopeCorrectionNum(precursorMz, charge, parentPeakList, chargeDevEntryMap);
+                        if (entry.pearsonCorrelationCoefficient > pearsonCorrelationCoefficient) {
+                            pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
+                            isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                            precursorCharge = charge;
                         }
                     }
-
-                    if (spectrum.getPrecursorCharge() == null) {
-                        throw new Exception("MGF file does not contain charge information.");
+                    if (precursorCharge > 0) {
+                        precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
                     } else {
-                        precursorCharge = spectrum.getPrecursorCharge();
-                        precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
+                        logger.warn("Cannot infer the precursor charge for scan {}.", scanNum);
+                        continue;
                     }
                 } else {
-                    scanNum = Integer.valueOf(spectrum.getId());
-
-                    if (PIPI.debugScanNumArray.length > 0) {
-                        if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
-                            continue;
-                        }
+                    // We do not try to correct the precursor charge if there is one.
+                    precursorCharge = spectrum.getPrecursorCharge();
+                    Entry entry = getIsotopeCorrectionNum(precursorMz, precursorCharge, parentPeakList, chargeDevEntryMap);
+                    if (entry.pearsonCorrelationCoefficient >= 0.7) { // If the Pearson correlation coefficient is smaller than 0.7, there is not enough evidence to change the original precursor mz.
+                        isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                        pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
                     }
-
-                    TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
-                    if (spectrum.getPrecursorCharge() == null) {
-                        // We have to infer the precursor charge.
-                        for (int charge = minMs1Charge; charge <= maxMs1Charge; ++charge) {
-                            Entry entry = getIsotopeCorrectionNum(precursorMz, charge, parentPeakList, chargeDevEntryMap);
-                            if (entry.pearsonCorrelationCoefficient > pearsonCorrelationCoefficient) {
-                                pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
-                                isotopeCorrectionNum = entry.isotopeCorrectionNum;
-                                precursorCharge = charge;
-                            }
-                        }
-                        if (precursorCharge > 0) {
-                            precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
-                        } else {
-                            logger.warn("Cannot infer the precursor charge for scan {}.", scanNum);
-                            continue;
-                        }
-                    } else {
-                        // We do not try to correct the precursor charge if there is one.
-                        precursorCharge = spectrum.getPrecursorCharge();
-                        Entry entry = getIsotopeCorrectionNum(precursorMz, precursorCharge, parentPeakList, chargeDevEntryMap);
-                        if (entry.pearsonCorrelationCoefficient >= 0.7) { // If the Pearson correlation coefficient is smaller than 0.7, there is not enough evidence to change the original precursor mz.
-                            isotopeCorrectionNum = entry.isotopeCorrectionNum;
-                            pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
-                        }
-                        precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
-                    }
-                }
-
-                if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge) || (precursorMass < 400)) {
-                    continue;
-                }
-
-                sqlPrepareStatement.setInt(1, scanNum);
-                sqlPrepareStatement.setString(2, spectrum.getId());
-                sqlPrepareStatement.setInt(3, precursorCharge);
-                sqlPrepareStatement.setFloat(4, precursorMass);
-                sqlPrepareStatement.setString(5, mgfTitle);
-                sqlPrepareStatement.setInt(6, isotopeCorrectionNum);
-                sqlPrepareStatement.setDouble(7, pearsonCorrelationCoefficient);
-                sqlPrepareStatement.executeUpdate();
-                ++usefulSpectraNum;
-
-                if (PIPI.DEV) {
-                    scanDevEntryMap.put(scanNum, chargeDevEntryMap);
+                    precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
                 }
             }
-            sqlConnection.commit();
-            sqlConnection.setAutoCommit(true);
-            sqlPrepareStatement.close();
-            sqlConnection.close();
-            logger.info("Useful MS/MS spectra number: {}.", usefulSpectraNum);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
+
+            if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge) || (precursorMass < 400)) {
+                continue;
+            }
+
+            sqlPrepareStatement.setInt(1, scanNum);
+            sqlPrepareStatement.setString(2, spectrum.getId());
+            sqlPrepareStatement.setInt(3, precursorCharge);
+            sqlPrepareStatement.setFloat(4, precursorMass);
+            sqlPrepareStatement.setString(5, mgfTitle);
+            sqlPrepareStatement.setInt(6, isotopeCorrectionNum);
+            sqlPrepareStatement.setDouble(7, pearsonCorrelationCoefficient);
+            sqlPrepareStatement.executeUpdate();
+            ++usefulSpectraNum;
+
+            if (PIPI.DEV) {
+                scanDevEntryMap.put(scanNum, chargeDevEntryMap);
+            }
         }
+        sqlConnection.commit();
+        sqlConnection.setAutoCommit(true);
+        sqlPrepareStatement.close();
+        sqlConnection.close();
+        logger.info("Useful MS/MS spectra number: {}.", usefulSpectraNum);
     }
 
     public Map<Integer, TreeMap<Integer, TreeSet<DevEntry>>> getScanDevEntryMap() {

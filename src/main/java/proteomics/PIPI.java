@@ -48,20 +48,23 @@ public class PIPI {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
             logger.info("Computer: {}.", hostName);
+            logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
+
+            if (DEV) {
+                logger.info("In DEV mode.");
+            }
+
+            new PIPI(parameterPath, spectraPath, hostName);
         } catch (UnknownHostException ex) {
             logger.warn("Cannot get the computer's name.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            logger.error(ex.toString());
+            System.exit(1);
         }
-
-        logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
-
-        if (DEV) {
-            logger.info("In DEV mode.");
-        }
-
-        new PIPI(parameterPath, spectraPath, hostName);
     }
 
-    private PIPI(String parameterPath, String spectraPath, String hostName) {
+    private PIPI(String parameterPath, String spectraPath, String hostName) throws Exception {
         // Get the parameter map
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
@@ -104,46 +107,38 @@ public class PIPI {
         String ext = "";
         String dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
         String sqlPath = "jdbc:sqlite:" + dbName;
-        try {
-            File spectraFile = new File(spectraPath);
-            if ((!spectraFile.exists() || (spectraFile.isDirectory()))) {
-                throw new FileNotFoundException("The spectra file not found.");
-            }
-            String[] temp = spectraPath.split("\\.");
-            ext = temp[temp.length - 1];
-            if (ext.contentEquals("mzXML")) {
-                spectraParser = new MzXMLFile(spectraFile);
-            } else if (ext.toLowerCase().contentEquals("mgf")) {
-                spectraParser = new MgfFile(spectraFile);
-            } else {
-                throw new Exception(String.format(Locale.US, "Unsupported file format %s. Currently, PIPI only support mzXML and MGF.", ext));
-            }
-            Class.forName("org.sqlite.JDBC").newInstance();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
+
+        File spectraFile = new File(spectraPath);
+        if ((!spectraFile.exists() || (spectraFile.isDirectory()))) {
+            throw new FileNotFoundException("The spectra file not found.");
         }
+        String[] temp = spectraPath.split("\\.");
+        ext = temp[temp.length - 1];
+        if (ext.contentEquals("mzXML")) {
+            spectraParser = new MzXMLFile(spectraFile);
+        } else if (ext.toLowerCase().contentEquals("mgf")) {
+            spectraParser = new MgfFile(spectraFile);
+        } else {
+            throw new Exception(String.format(Locale.US, "Unsupported file format %s. Currently, PIPI only support mzXML and MGF.", ext));
+        }
+
+        Class.forName("org.sqlite.JDBC").newInstance();
 
         PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet, sqlPath);
 
         if (DEV) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"))) {
-                writer.write("scanNum,charge,finalIsotopeCorrectionNum,isotopeCorrectionNum,pearsonCorrelationCoefficient,expMz1,expMz2,expMz3,expInt1,expInt2,expInt3,theoMz1,theoMz2,theoMz3,theoInt1,theoInt2,theoInt3\n");
-                Map<Integer, TreeMap<Integer, TreeSet<PreSpectra.DevEntry>>> scanDevEntryMap = preSpectraObj.getScanDevEntryMap();
-                for (int scanNum : scanDevEntryMap.keySet()) {
-                    TreeMap<Integer, TreeSet<PreSpectra.DevEntry>> chargeDevEntryMap = scanDevEntryMap.get(scanNum);
-                    for (int charge : chargeDevEntryMap.keySet()) {
-                        for (PreSpectra.DevEntry devEntry : chargeDevEntryMap.get(charge)) {
-                            writer.write(String.format(Locale.US, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", scanNum, charge, devEntry.isotopeCorrectionNum, devEntry.isotopeCorrectionNum, devEntry.pearsonCorrelationCoefficient, devEntry.expMatrix[0][0], devEntry.expMatrix[1][0], devEntry.expMatrix[2][0], devEntry.expMatrix[0][1], devEntry.expMatrix[1][1], devEntry.expMatrix[2][1], devEntry.theoMatrix[0][0], devEntry.theoMatrix[1][0], devEntry.theoMatrix[2][0], devEntry.theoMatrix[0][1], devEntry.theoMatrix[1][1], devEntry.theoMatrix[2][1]));
-                        }
+            BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"));
+            writer.write("scanNum,charge,finalIsotopeCorrectionNum,isotopeCorrectionNum,pearsonCorrelationCoefficient,expMz1,expMz2,expMz3,expInt1,expInt2,expInt3,theoMz1,theoMz2,theoMz3,theoInt1,theoInt2,theoInt3\n");
+            Map<Integer, TreeMap<Integer, TreeSet<PreSpectra.DevEntry>>> scanDevEntryMap = preSpectraObj.getScanDevEntryMap();
+            for (int scanNum : scanDevEntryMap.keySet()) {
+                TreeMap<Integer, TreeSet<PreSpectra.DevEntry>> chargeDevEntryMap = scanDevEntryMap.get(scanNum);
+                for (int charge : chargeDevEntryMap.keySet()) {
+                    for (PreSpectra.DevEntry devEntry : chargeDevEntryMap.get(charge)) {
+                        writer.write(String.format(Locale.US, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", scanNum, charge, devEntry.isotopeCorrectionNum, devEntry.isotopeCorrectionNum, devEntry.pearsonCorrelationCoefficient, devEntry.expMatrix[0][0], devEntry.expMatrix[1][0], devEntry.expMatrix[2][0], devEntry.expMatrix[0][1], devEntry.expMatrix[1][1], devEntry.expMatrix[2][1], devEntry.theoMatrix[0][0], devEntry.theoMatrix[1][0], devEntry.theoMatrix[2][0], devEntry.theoMatrix[0][1], devEntry.theoMatrix[1][1], devEntry.theoMatrix[2][1]));
                     }
                 }
-            } catch (IOException ex) {
-                logger.error(ex.toString());
-                ex.printStackTrace();
-                System.exit(1);
             }
+            writer.close();
         }
 
         logger.info("Start searching...");
@@ -156,75 +151,67 @@ public class PIPI {
         InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         List<Future<Boolean>> taskList = new LinkedList<>();
+        Connection sqlConnection = DriverManager.getConnection(sqlPath);
+        Statement sqlStatement = sqlConnection.createStatement();
+        ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
+        ReentrantLock lock = new ReentrantLock();
+        while (sqlResultSet.next()) {
+            String scanId = sqlResultSet.getString("scanId");
+            int precursorCharge = sqlResultSet.getInt("precursorCharge");
+            float precursorMass = sqlResultSet.getFloat("precursorMass");
+            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection)));
+        }
+        sqlResultSet.close();
+        sqlStatement.close();
 
-        try {
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
-            Statement sqlStatement = sqlConnection.createStatement();
-            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
-            ReentrantLock lock = new ReentrantLock();
-            while (sqlResultSet.next()) {
-                String scanId = sqlResultSet.getString("scanId");
-                int precursorCharge = sqlResultSet.getInt("precursorCharge");
-                float precursorMass = sqlResultSet.getFloat("precursorMass");
-                taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection)));
-            }
-            sqlResultSet.close();
-            sqlStatement.close();
-
-            // check progress every minute, record results,and delete finished tasks.
-            int lastProgress = 0;
-            int resultCount = 0;
-            int totalCount = taskList.size();
-            int count = 0;
-            while (count < totalCount) {
-                // record search results and delete finished ones.
-                List<Future<Boolean>> toBeDeleteTaskList = new LinkedList<>();
-                for (Future<Boolean> task : taskList) {
-                    if (task.isDone()) {
-                        if (task.get()) {
-                            ++resultCount;
-                        }
-                        toBeDeleteTaskList.add(task);
-                    } else if (task.isCancelled()) {
-                        toBeDeleteTaskList.add(task);
+        // check progress every minute, record results,and delete finished tasks.
+        int lastProgress = 0;
+        int resultCount = 0;
+        int totalCount = taskList.size();
+        int count = 0;
+        while (count < totalCount) {
+            // record search results and delete finished ones.
+            List<Future<Boolean>> toBeDeleteTaskList = new LinkedList<>();
+            for (Future<Boolean> task : taskList) {
+                if (task.isDone()) {
+                    if (task.get()) {
+                        ++resultCount;
                     }
+                    toBeDeleteTaskList.add(task);
+                } else if (task.isCancelled()) {
+                    toBeDeleteTaskList.add(task);
                 }
-                count += toBeDeleteTaskList.size();
-                taskList.removeAll(toBeDeleteTaskList);
+            }
+            count += toBeDeleteTaskList.size();
+            taskList.removeAll(toBeDeleteTaskList);
 
-                int progress = count * 20 / totalCount;
-                if (progress != lastProgress) {
-                    logger.info("Searching {}%...", progress * 5);
-                    lastProgress = progress;
-                }
-
-                if (count == totalCount) {
-                    break;
-                }
-                Thread.sleep(6000);
+            int progress = count * 20 / totalCount;
+            if (progress != lastProgress) {
+                logger.info("Searching {}%...", progress * 5);
+                lastProgress = progress;
             }
 
-            // shutdown threads.
-            threadPool.shutdown();
-            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
-                threadPool.shutdownNow();
-                if (!threadPool.awaitTermination(60, TimeUnit.SECONDS))
-                    throw new Exception("Pool did not terminate");
+            if (count == totalCount) {
+                break;
             }
+            Thread.sleep(6000);
+        }
 
-            sqlConnection.close();
-            if (lock.isLocked()) {
-                lock.unlock();
-            }
-
-            if (resultCount == 0) {
-                logger.error("There is no useful results.");
-                System.exit(1);
-            }
-        } catch (Exception ex) {
+        // shutdown threads.
+        threadPool.shutdown();
+        if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
             threadPool.shutdownNow();
-            ex.printStackTrace();
-            logger.error(ex.toString());
+            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS))
+                throw new Exception("Pool did not terminate");
+        }
+
+        sqlConnection.close();
+        if (lock.isLocked()) {
+            lock.unlock();
+        }
+
+        if (resultCount == 0) {
+            logger.error("There is no useful results.");
             System.exit(1);
         }
 
@@ -267,20 +254,135 @@ public class PIPI {
         System.exit(1);
     }
 
-    private void writePercolator(String resultPath, Map<String, Peptide0> peptide0Map, String sqlPath) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath));
-            writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
-            Statement sqlStatement = sqlConnection.createStatement();
-            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac FROM spectraTable");
-            while (sqlResultSet.next()) {
-                String peptide = sqlResultSet.getString("peptide");
-                if (!sqlResultSet.wasNull()) {
-                    int charge = sqlResultSet.getInt("precursorCharge");
-                    float theoMass = sqlResultSet.getFloat("theoMass");
+    private void writePercolator(String resultPath, Map<String, Peptide0> peptide0Map, String sqlPath) throws IOException, SQLException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(resultPath));
+        writer.write("id\tlabel\tscannr\tscore\tdelta_c\tdelta_L_c\tnormalized_cross_corr\tglobal_search_rank\tabs_ppm\tion_frac\tmatched_high_peak_frac\tcharge1\tcharge2\tcharge3\tcharge4\tcharge5\tcharge6\texplained_aa_frac\tptm_supporting_peak_frac\tpeptide\tprotein\n");
+        Connection sqlConnection = DriverManager.getConnection(sqlPath);
+        Statement sqlStatement = sqlConnection.createStatement();
+        ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, ptmSupportingPeakFrac FROM spectraTable");
+        while (sqlResultSet.next()) {
+            String peptide = sqlResultSet.getString("peptide");
+            if (!sqlResultSet.wasNull()) {
+                int charge = sqlResultSet.getInt("precursorCharge");
+                float theoMass = sqlResultSet.getFloat("theoMass");
+                float expMass = sqlResultSet.getFloat("precursorMass");
+                float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+
+                Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
+                TreeSet<String> proteinIdSet = new TreeSet<>();
+                for (String protein : peptide0.proteins) {
+                    proteinIdSet.add(protein.trim());
+                }
+
+                StringBuilder sb = new StringBuilder(20);
+                for (int i = 0; i < 6; ++i) {
+                    if (i == charge - 1) {
+                        sb.append(1);
+                    } else {
+                        sb.append(0);
+                    }
+                    sb.append("\t");
+                }
+
+                int scanNum = sqlResultSet.getInt("scanNum");
+                int isDecoy = sqlResultSet.getInt("isDecoy");
+                int globalRank = sqlResultSet.getInt("globalRank");
+                double normalizedCorrelationCoefficient = sqlResultSet.getDouble("normalizedCorrelationCoefficient");
+                double score = sqlResultSet.getDouble("score");
+                double deltaLC = sqlResultSet.getDouble("deltaLC");
+                double deltaC = sqlResultSet.getDouble("deltaC");
+                double ionFrac = sqlResultSet.getDouble("ionFrac");
+                double matchedHighestIntensityFrac = sqlResultSet.getDouble("matchedHighestIntensityFrac");
+                double explainedAaFrac = sqlResultSet.getDouble("explainedAaFrac");
+                double ptmSupportingPeakFrac = sqlResultSet.getDouble("ptmSupportingPeakFrac");
+
+                if (isDecoy == 1) {
+                    writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + ptmSupportingPeakFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                } else {
+                    writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + ptmSupportingPeakFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                }
+            }
+        }
+        writer.close();
+        sqlResultSet.close();
+        sqlStatement.close();
+        sqlConnection.close();
+    }
+
+    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName) throws Exception {
+        Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
+        if ((new File(percolatorPath)).exists()) {
+            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --results-psms " + percolatorOutputFileName + " " + percolatorInputFileName);
+            ps.waitFor();
+
+            if (!(new File(percolatorOutputFileName).exists())) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    logger.info("[Percolator info]: {}", line.trim());
+                }
+                reader.close();
+                reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    logger.info("[Percolator info]: {}", line.trim());
+                }
+                reader.close();
+                throw new NullPointerException(String.format(Locale.US, "Cannot find the Percolator result file %s.", percolatorOutputFileName));
+            } else {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    logger.info("[Percolator info]: {}", line.trim());
+                }
+                reader.close();
+                reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    logger.info("[Percolator info]: {}", line.trim());
+                }
+                reader.close();
+            }
+
+            if (ps.exitValue() == 0) {
+                logger.info("Percolator finished normally");
+            } else {
+                throw new Exception("Percolator didn't exit normally.");
+            }
+
+            BufferedReader reader = new BufferedReader(new FileReader(percolatorOutputFileName));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (!line.startsWith("PSMId")) {
+                    String[] parts = line.split("\t");
+                    percolatorResultMap.put(Integer.valueOf(parts[0]), new PercolatorEntry(Double.valueOf(parts[1]), parts[2], parts[3]));
+                }
+            }
+            reader.close();
+        } else {
+            logger.error("Cannot find Percolator (from {}) for estimating Percolator Q-Value.", percolatorPath);
+            return percolatorResultMap;
+        }
+
+        return percolatorResultMap;
+    }
+
+    private void writeFinalResult(Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map, String sqlPath) throws IOException, SQLException {
+        TreeMap<Double, List<String>> tempMap = new TreeMap<>();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
+        writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
+        Connection sqlConnection = DriverManager.getConnection(sqlPath);
+        Statement sqlStatement = sqlConnection.createStatement();
+        ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
+        while (sqlResultSet.next()) {
+            int isDecoy = sqlResultSet.getInt("isDecoy");
+            if (!sqlResultSet.wasNull()) {
+                if (isDecoy == 0) {
+                    int scanNum = sqlResultSet.getInt("scanNum");
                     float expMass = sqlResultSet.getFloat("precursorMass");
+                    String peptide = sqlResultSet.getString("peptide");
+                    float theoMass = sqlResultSet.getFloat("theoMass");
                     float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+                    float ppm = Math.abs(massDiff * 1e6f / theoMass);
 
                     Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
                     TreeSet<String> proteinIdSet = new TreeSet<>();
@@ -288,167 +390,34 @@ public class PIPI {
                         proteinIdSet.add(protein.trim());
                     }
 
-                    StringBuilder sb = new StringBuilder(20);
-                    for (int i = 0; i < 6; ++i) {
-                        if (i == charge - 1) {
-                            sb.append(1);
-                        } else {
-                            sb.append(0);
-                        }
-                        sb.append("\t");
-                    }
+                    String ptmDeltaScore = sqlResultSet.getString("ptmDeltaScore");
 
-                    int scanNum = sqlResultSet.getInt("scanNum");
-                    int isDecoy = sqlResultSet.getInt("isDecoy");
-                    int globalRank = sqlResultSet.getInt("globalRank");
-                    double normalizedCorrelationCoefficient = sqlResultSet.getDouble("normalizedCorrelationCoefficient");
-                    double score = sqlResultSet.getDouble("score");
-                    double deltaLC = sqlResultSet.getDouble("deltaLC");
-                    double deltaC = sqlResultSet.getDouble("deltaC");
-                    double ionFrac = sqlResultSet.getDouble("ionFrac");
-                    double matchedHighestIntensityFrac = sqlResultSet.getDouble("matchedHighestIntensityFrac");
-                    double explainedAaFrac = sqlResultSet.getDouble("explainedAaFrac");
-                    double ptmSupportingPeakFrac = sqlResultSet.getDouble("ptmSupportingPeakFrac");
+                    PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
+                    String str = String.format(Locale.US, "%d,%s,%d,%.4f,%.4f,%.2f,%s,%s,%s,%.4f,%.4f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, ptmDeltaScore, ptmDeltaScore.contentEquals("-") ? "-" : String.format(Locale.US, "%.4f", sqlResultSet.getDouble("ptmSupportingPeakFrac")), String.join(";", proteinIdSet), sqlResultSet.getDouble("score"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
 
-                    if (isDecoy == 1) {
-                        writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + ptmSupportingPeakFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
+                        tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
                     } else {
-                        writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + ptmSupportingPeakFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                        List<String> tempList = new LinkedList<>();
+                        tempList.add(str);
+                        tempMap.put(percolatorResultMap.get(scanNum).percolatorScore, tempList);
                     }
                 }
             }
-            writer.close();
-            sqlResultSet.close();
-            sqlStatement.close();
-            sqlConnection.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
-        }
-    }
-
-    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName) {
-        Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
-        try {
-            if ((new File(percolatorPath)).exists()) {
-                Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --results-psms " + percolatorOutputFileName + " " + percolatorInputFileName);
-                ps.waitFor();
-
-                if (!(new File(percolatorOutputFileName).exists())) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        logger.info("[Percolator info]: {}", line.trim());
-                    }
-                    reader.close();
-                    reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
-                    while ((line = reader.readLine()) != null) {
-                        logger.info("[Percolator info]: {}", line.trim());
-                    }
-                    reader.close();
-                    throw new NullPointerException(String.format(Locale.US, "Cannot find the Percolator result file %s.", percolatorOutputFileName));
-                } else {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        logger.info("[Percolator info]: {}", line.trim());
-                    }
-                    reader.close();
-                    reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
-                    while ((line = reader.readLine()) != null) {
-                        logger.info("[Percolator info]: {}", line.trim());
-                    }
-                    reader.close();
-                }
-
-                if (ps.exitValue() == 0) {
-                    logger.info("Percolator finished normally");
-                } else {
-                    throw new Exception("Percolator didn't exit normally.");
-                }
-
-                BufferedReader reader = new BufferedReader(new FileReader(percolatorOutputFileName));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    line = line.trim();
-                    if (!line.startsWith("PSMId")) {
-                        String[] parts = line.split("\t");
-                        percolatorResultMap.put(Integer.valueOf(parts[0]), new PercolatorEntry(Double.valueOf(parts[1]), parts[2], parts[3]));
-                    }
-                }
-                reader.close();
-            } else {
-                logger.error("Cannot find Percolator (from {}) for estimating Percolator Q-Value.", percolatorPath);
-                return percolatorResultMap;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            return percolatorResultMap;
         }
 
-        return percolatorResultMap;
-    }
+        sqlResultSet.close();
+        sqlStatement.close();
+        sqlConnection.close();
 
-    private void writeFinalResult(Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map, String sqlPath) {
-        TreeMap<Double, List<String>> tempMap = new TreeMap<>();
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
-            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
-            Connection sqlConnection = DriverManager.getConnection(sqlPath);
-            Statement sqlStatement = sqlConnection.createStatement();
-            ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
-            while (sqlResultSet.next()) {
-                int isDecoy = sqlResultSet.getInt("isDecoy");
-                if (!sqlResultSet.wasNull()) {
-                    if (isDecoy == 0) {
-                        int scanNum = sqlResultSet.getInt("scanNum");
-                        float expMass = sqlResultSet.getFloat("precursorMass");
-                        String peptide = sqlResultSet.getString("peptide");
-                        float theoMass = sqlResultSet.getFloat("theoMass");
-                        float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
-                        float ppm = Math.abs(massDiff * 1e6f / theoMass);
-
-                        Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
-                        TreeSet<String> proteinIdSet = new TreeSet<>();
-                        for (String protein : peptide0.proteins) {
-                            proteinIdSet.add(protein.trim());
-                        }
-
-                        String ptmDeltaScore = sqlResultSet.getString("ptmDeltaScore");
-
-                        PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                        String str = String.format(Locale.US, "%d,%s,%d,%.4f,%.4f,%.2f,%s,%s,%s,%.4f,%.4f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, ptmDeltaScore, ptmDeltaScore.contentEquals("-") ? "-" : String.format(Locale.US, "%.4f", sqlResultSet.getDouble("ptmSupportingPeakFrac")), String.join(";", proteinIdSet), sqlResultSet.getDouble("score"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
-
-                        if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
-                            tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
-                        } else {
-                            List<String> tempList = new LinkedList<>();
-                            tempList.add(str);
-                            tempMap.put(percolatorResultMap.get(scanNum).percolatorScore, tempList);
-                        }
-                    }
-                }
+        Double[] tempArray = tempMap.keySet().toArray(new Double[tempMap.size()]);
+        for (int i = tempArray.length - 1; i >= 0; --i) {
+            List<String> tempList = tempMap.get(tempArray[i]);
+            for (String tempStr : tempList) {
+                writer.write(tempStr);
             }
-
-            sqlResultSet.close();
-            sqlStatement.close();
-            sqlConnection.close();
-
-            Double[] tempArray = tempMap.keySet().toArray(new Double[tempMap.size()]);
-            for (int i = tempArray.length - 1; i >= 0; --i) {
-                List<String> tempList = tempMap.get(tempArray[i]);
-                for (String tempStr : tempList) {
-                    writer.write(tempStr);
-                }
-            }
-            writer.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
         }
+        writer.close();
     }
 
     public static float getMassDiff(float expMass, float theoMass, float C13Diff) {
