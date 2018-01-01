@@ -36,7 +36,7 @@ public class PreSpectra {
         int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
-        isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabeling());
+        isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabelling());
 
         // prepare SQL database
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
@@ -64,10 +64,10 @@ public class PreSpectra {
                 continue;
             }
 
-            int scanNum = -1;
+            int scanNum;
             float precursorMz = spectrum.getPrecursorMZ().floatValue();
             int precursorCharge = -1;
-            float precursorMass = -1;
+            float precursorMass;
             int isotopeCorrectionNum = 0;
             double pearsonCorrelationCoefficient = -1;
             String mgfTitle = "";

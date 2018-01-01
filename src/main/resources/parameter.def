@@ -29,7 +29,7 @@ max_clear_mz = 121.5
 min_ptm_mass = -250 # Min allowed PTM mass.
 max_ptm_mass = 250 # Max allowed PTM mass.
 
-# Isotopic labeling strategy
+# Isotopic labelling strategy
 15N = 1 # 1: 15N. 0: 14N.
 
 # Considered modifications in generating tags.

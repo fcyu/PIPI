@@ -21,10 +21,10 @@ public class BuildIndex {
     private InferenceSegment inference3SegmentObj;
     private TreeMap<Float, Set<String>> massPeptideMap = new TreeMap<>();
     private Map<String, Peptide0> peptide0Map;
-    private final String labeling;
+    private final String labelling;
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
-    public BuildIndex(Map<String, String> parameterMap, String labeling) throws IOException {
+    public BuildIndex(Map<String, String> parameterMap, String labelling) throws IOException {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
@@ -32,7 +32,7 @@ public class BuildIndex {
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float oneMinusBinOffset = 1 - Float.valueOf(parameterMap.get("mz_bin_offset"));
-        this.labeling = labeling;
+        this.labelling = labelling;
 
         // Read fix modification
         fixModMap.put('G', Float.valueOf(parameterMap.get("G")));
@@ -65,7 +65,7 @@ public class BuildIndex {
         Map<String, String> proteinPeptideMap = dbToolObj.returnSeqMap();
 
         // define a new MassTool object
-        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labeling);
+        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
 
         // build database
         inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
@@ -200,8 +200,8 @@ public class BuildIndex {
         return peptide0Map;
     }
 
-    public String getLabeling() {
-        return labeling;
+    public String getLabelling() {
+        return labelling;
     }
 
     private String shuffleSeq2(String seq, Set<String> forCheckDuplicate) {

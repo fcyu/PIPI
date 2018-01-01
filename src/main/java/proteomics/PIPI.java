@@ -89,31 +89,27 @@ public class PIPI {
             msLevelSet.add(Integer.valueOf(temp));
         }
 
-        String labeling = "N14";
+        String labelling = "N14";
         if (parameterMap.get("15N").trim().contentEquals("1")) {
             logger.info("N15 mode is on...");
-            labeling = "N15";
+            labelling = "N15";
         }
 
         logger.info("Indexing protein database...");
-        BuildIndex buildIndexObj = new BuildIndex(parameterMap, labeling);
+        BuildIndex buildIndexObj = new BuildIndex(parameterMap, labelling);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
 
         float minPtmMass = Float.valueOf(parameterMap.get("min_ptm_mass"));
         float maxPtmMass = Float.valueOf(parameterMap.get("max_ptm_mass"));
 
         logger.info("Reading spectra...");
-        JMzReader spectraParser = null;
-        String ext = "";
-        String dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
-        String sqlPath = "jdbc:sqlite:" + dbName;
-
         File spectraFile = new File(spectraPath);
         if ((!spectraFile.exists() || (spectraFile.isDirectory()))) {
             throw new FileNotFoundException("The spectra file not found.");
         }
         String[] temp = spectraPath.split("\\.");
-        ext = temp[temp.length - 1];
+        String ext = temp[temp.length - 1];
+        JMzReader spectraParser;
         if (ext.contentEquals("mzXML")) {
             spectraParser = new MzXMLFile(spectraFile);
         } else if (ext.toLowerCase().contentEquals("mgf")) {
@@ -122,6 +118,8 @@ public class PIPI {
             throw new Exception(String.format(Locale.US, "Unsupported file format %s. Currently, PIPI only support mzXML and MGF.", ext));
         }
 
+        String dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
+        String sqlPath = "jdbc:sqlite:" + dbName;
         Class.forName("org.sqlite.JDBC").newInstance();
 
         PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet, sqlPath);
@@ -216,8 +214,8 @@ public class PIPI {
         }
 
         logger.info("Estimating FDR...");
-        String percolatorInputFileName = spectraPath + "." + labeling + ".input.temp";
-        String percolatorOutputFileName = spectraPath + "." + labeling + ".output.temp";
+        String percolatorInputFileName = spectraPath + "." + labelling + ".input.temp";
+        String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
         writePercolator(percolatorInputFileName, buildIndexObj.getPeptide0Map(), sqlPath);
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
 
@@ -233,8 +231,8 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(percolatorResultMap, spectraPath + "." + labeling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
-        new WritePepXml(spectraPath + "." + labeling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
+        writeFinalResult(percolatorResultMap, spectraPath + "." + labelling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
+        new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
 
         (new File(dbName)).delete();
 
@@ -369,7 +367,7 @@ public class PIPI {
     private void writeFinalResult(Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map, String sqlPath) throws IOException, SQLException {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
-        writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labeling,isotope_correction,MS1_pearson_correlation_coefficient\n");
+        writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,ptm_delta_score,ptm_supporting_peak_frac,protein_ID,score,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labelling,isotope_correction,MS1_pearson_correlation_coefficient\n");
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, ptmSupportingPeakFrac, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
