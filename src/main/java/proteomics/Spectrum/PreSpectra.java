@@ -94,7 +94,8 @@ public class PreSpectra {
                 }
 
                 if (spectrum.getPrecursorCharge() == null) {
-                    throw new Exception("MGF file does not contain charge information.");
+                    logger.warn("Scan {} does not contain charge information.", scanNum);
+                    continue;
                 } else {
                     precursorCharge = spectrum.getPrecursorCharge();
                     precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
