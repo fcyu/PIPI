@@ -44,9 +44,9 @@ public class PIPI {
 
         logger.info("Running PIPI version {}.", versionStr);
 
-        String hostName = "";
+        String dbName = null;
         try {
-            hostName = InetAddress.getLocalHost().getHostName();
+            String hostName = InetAddress.getLocalHost().getHostName();
             logger.info("Computer: {}.", hostName);
             logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
 
@@ -54,6 +54,7 @@ public class PIPI {
                 logger.info("In DEV mode.");
             }
 
+            dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
             new PIPI(parameterPath, spectraPath, hostName);
         } catch (UnknownHostException ex) {
             logger.warn("Cannot get the computer's name.");
@@ -61,10 +62,14 @@ public class PIPI {
             ex.printStackTrace();
             logger.error(ex.toString());
             System.exit(1);
+        } finally {
+            if (dbName != null) {
+                (new File(dbName)).delete();
+            }
         }
     }
 
-    private PIPI(String parameterPath, String spectraPath, String hostName) throws Exception {
+    private PIPI(String parameterPath, String spectraPath, String dbName) throws Exception {
         // Get the parameter map
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
@@ -118,7 +123,6 @@ public class PIPI {
             throw new Exception(String.format(Locale.US, "Unsupported file format %s. Currently, PIPI only support mzXML and MGF.", ext));
         }
 
-        String dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
         String sqlPath = "jdbc:sqlite:" + dbName;
         Class.forName("org.sqlite.JDBC").newInstance();
 
@@ -221,7 +225,6 @@ public class PIPI {
 
         if (percolatorResultMap.isEmpty()) {
             logger.error("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
-            (new File(dbName)).delete();
             System.exit(1);
         }
 
@@ -233,8 +236,6 @@ public class PIPI {
         logger.info("Saving results...");
         writeFinalResult(percolatorResultMap, spectraPath + "." + labelling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
         new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
-
-        (new File(dbName)).delete();
 
         logger.info("Done.");
     }
