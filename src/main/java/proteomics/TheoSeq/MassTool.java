@@ -8,7 +8,7 @@ import java.util.regex.*;
 
 public class MassTool {
 
-    private static final Pattern mod_aa_pattern = Pattern.compile("([A-Znc])(\\(([0-9\\.\\-]+)\\))?");
+    private static final Pattern mod_aa_pattern = Pattern.compile("([A-Znc])(\\(([0-9.\\-]+)\\))?");
     public static final float PROTON = 1.00727646688f;
     public static final float C13_DIFF = 1.00335483f;
 
@@ -22,9 +22,12 @@ public class MassTool {
     private Pattern digestSitePattern;
     private final boolean cleavageFromCTerm;
     private final String labelling;
+    private final Map<Character, Float> fixModMap;
 
     public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset, String labelling) {
         this.labelling = labelling;
+        this.fixModMap = fixModMap;
+
         elementTable.put("-", 0d);
         elementTable.put("H", 1.0078246);
         elementTable.put("He", 3.01603);
@@ -194,7 +197,7 @@ public class MassTool {
         }
     }
 
-    public float calResidueMass(String seq) { // n and c are also AA.
+    public float calResidueMass(String seq) { // n and c are also AA. Consider fixed modification automatically
         float total_mass = 0;
         Matcher matcher = mod_aa_pattern.matcher(seq);
         while (matcher.find()) {
@@ -204,6 +207,25 @@ public class MassTool {
                 delta_mass = Float.valueOf(matcher.group(3));
             }
             total_mass += massTable.get(aa) + delta_mass;
+        }
+
+        return total_mass;
+    }
+
+    public float calResidueMass2(String seq) { // n and c are also AA. Don't consider fixed modification
+        float total_mass = 0;
+        Matcher matcher = mod_aa_pattern.matcher(seq);
+        while (matcher.find()) {
+            char aa = matcher.group(1).charAt(0);
+            float delta_mass = 0;
+            if (matcher.group(3) != null) {
+                delta_mass = Float.valueOf(matcher.group(3));
+            }
+            if (Math.abs(fixModMap.get(aa) - delta_mass) < 0.01) {
+                total_mass += massTable.get(aa);
+            } else {
+                total_mass += massTable.get(aa) + delta_mass;
+            }
         }
 
         return total_mass;
