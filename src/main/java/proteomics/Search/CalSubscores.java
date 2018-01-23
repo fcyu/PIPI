@@ -71,44 +71,5 @@ public class CalSubscores {
             }
         }
         peptide.setExplainedAaFrac((double) explainedAaNum / (double) ionMatrix[0].length);
-
-        // calculate PTM supporting peak frac
-        if (peptide.hasVarPTM()) {
-            Set<Integer> matchedPtmSupportingPeakSet = new HashSet<>();
-            Set<Integer> totalPtmSupportingPeakSet = new HashSet<>();
-            for (Coordinate co : peptide.getVarPTMs().keySet()) {
-                if (co.x == 0 || co.x == 1) {
-                    totalPtmSupportingPeakSet.add(0);
-                    totalPtmSupportingPeakSet.add(1);
-                    if (matchedIdxSet.contains(0)) {
-                        matchedPtmSupportingPeakSet.add(0);
-                    }
-                    if (matchedIdxSet.contains(1)) {
-                        matchedPtmSupportingPeakSet.add(1);
-                    }
-                } else if (co.x == peptide.getPTMFreeSeq().length() - 1 || co.x == peptide.getPTMFreeSeq().length() - 2) {
-                    totalPtmSupportingPeakSet.add(ionMatrix[0].length - 1);
-                    totalPtmSupportingPeakSet.add(ionMatrix[0].length);
-                    if (matchedIdxSet.contains(ionMatrix[0].length - 1)) {
-                        matchedPtmSupportingPeakSet.add(ionMatrix[0].length - 1);
-                    }
-                    if (matchedIdxSet.contains(ionMatrix[0].length)) {
-                        matchedPtmSupportingPeakSet.add(ionMatrix[0].length);
-                    }
-                } else {
-                    totalPtmSupportingPeakSet.add(co.x - 1);
-                    totalPtmSupportingPeakSet.add(co.x);
-                    if (matchedIdxSet.contains(co.x - 1)) {
-                        matchedPtmSupportingPeakSet.add(co.x - 1);
-                    }
-                    if (matchedIdxSet.contains(co.x)) {
-                        matchedPtmSupportingPeakSet.add(co.x);
-                    }
-                }
-            }
-            peptide.setPtmSupportingPeakFrac(totalPtmSupportingPeakSet.isEmpty() ? 0 : (double) matchedPtmSupportingPeakSet.size() / (double) totalPtmSupportingPeakSet.size());
-        } else {
-            peptide.setPtmSupportingPeakFrac(1);
-        }
     }
 }
