@@ -149,7 +149,7 @@ public class InferPTM {
 
     private Map<Character, Set<VarModParam>> readModFile() throws IOException {
         Map<Character, Set<VarModParam>> siteModMap = new HashMap<>();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("modTable.tsv");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("modTable.tsv"); // PTMs from Unimod except for AA substitutions, chemical labellings, and those without PSI-MS names.
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         while ((line = reader.readLine()) != null) {
