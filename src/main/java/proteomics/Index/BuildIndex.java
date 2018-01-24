@@ -113,58 +113,91 @@ public class BuildIndex {
         for (String targetPeptide : targetPeptideMassMap.keySet()) {
             SparseBooleanVector targetCode = inference3SegmentObj.generateSegmentBooleanVector(targetPeptide.substring(1, targetPeptide.length() - 1));
 
-            char leftFlank = '-';
-            char rightFlank = '-';
+            Character leftFlank = null;
+            Character rightFlank = null;
             String peptideString = targetPeptide.substring(1, targetPeptide.length() - 1);
             if (targetPeptideProteinMap.containsKey(targetPeptide)) {
-                String proteinSequence = proteinPeptideMap.get(targetPeptideProteinMap.get(targetPeptide).iterator().next());
-                int startIdx = proteinSequence.indexOf(peptideString);
-                if (startIdx == -1) {
-                    logger.warn("Cannot locate {} in protein {}.", targetPeptide, proteinSequence);
-                } else if (startIdx == 0) {
-                    int tempIdx = peptideString.length();
-                    if (tempIdx < proteinSequence.length()) {
-                        rightFlank = proteinSequence.charAt(tempIdx);
-                    }
-                } else if (startIdx == proteinSequence.length() - peptideString.length()) {
-                    leftFlank = proteinSequence.charAt(startIdx - 1);
-                } else {
-                    leftFlank = proteinSequence.charAt(startIdx - 1);
-                    rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
-                }
-            }
-
-            tempMap.put(targetPeptide, new Peptide0(targetCode, true, targetPeptideProteinMap.get(targetPeptide).toArray(new String[targetPeptideProteinMap.get(targetPeptide).size()]), leftFlank, rightFlank));
-
-            if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
-                massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
-            } else {
-                Set<String> tempSet = new HashSet<>();
-                tempSet.add(targetPeptide);
-                massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
-            }
-
-            // decoy peptides
-            String decoyPeptide = shuffleSeq(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
-            if (!decoyPeptide.isEmpty()) {
-                decoyPeptide = "n" + decoyPeptide + "c";
-                forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
-                SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(decoyPeptide.substring(1, decoyPeptide.length() - 1));
-
-                String[] decoyProteins = new String[targetPeptideProteinMap.get(targetPeptide).size()];
-                int idx = 0;
                 for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
-                    decoyProteins[idx] = "DECOY_" + proteinId;
-                    ++idx;
+                    String proteinSequence = proteinPeptideMap.get(proteinId);
+                    int startIdx = proteinSequence.indexOf(peptideString);
+                    while (startIdx >= 0) {
+                        if (startIdx == 0) {
+                            int tempIdx = peptideString.length();
+                            if (tempIdx < proteinSequence.length()) {
+                                rightFlank = proteinSequence.charAt(tempIdx);
+                                if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()))) {
+                                    leftFlank = '-';
+                                    break;
+                                } else {
+                                    rightFlank = null;
+                                }
+                            } else if (tempIdx == proteinSequence.length()) {
+                                leftFlank = '-';
+                                rightFlank = '-';
+                                break;
+                            } else {
+                                logger.warn("The peptide {} is longer than its protein {}.", peptideString, proteinSequence);
+                            }
+                        } else if (startIdx == proteinSequence.length() - peptideString.length()) {
+                            leftFlank = proteinSequence.charAt(startIdx - 1);
+                            if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
+                                rightFlank = '-';
+                                break;
+                            } else {
+                                leftFlank = null;
+                            }
+                        } else {
+                            leftFlank = proteinSequence.charAt(startIdx - 1);
+                            rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
+                            if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString()) && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()) && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
+                                break;
+                            } else {
+                                leftFlank = null;
+                                rightFlank = null;
+                            }
+                        }
+                        startIdx = proteinSequence.indexOf(peptideString, startIdx + 1);
+                    }
+
+                    if (leftFlank != null && rightFlank != null) {
+                        break;
+                    }
                 }
 
-                tempMap.put(decoyPeptide, new Peptide0(decoyCode, false, decoyProteins, leftFlank, rightFlank));
-                if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
-                    massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(decoyPeptide);
-                } else {
-                    Set<String> tempSet = new HashSet<>();
-                    tempSet.add(decoyPeptide);
-                    massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
+                if (leftFlank != null && rightFlank != null) {
+                    tempMap.put(targetPeptide, new Peptide0(targetCode, true, targetPeptideProteinMap.get(targetPeptide).toArray(new String[targetPeptideProteinMap.get(targetPeptide).size()]), leftFlank, rightFlank));
+
+                    if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
+                        massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(targetPeptide);
+                    } else {
+                        Set<String> tempSet = new HashSet<>();
+                        tempSet.add(targetPeptide);
+                        massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
+                    }
+
+                    // decoy peptides
+                    String decoyPeptide = shuffleSeq(targetPeptide.substring(1, targetPeptide.length() - 1), forCheckDuplicate);
+                    if (!decoyPeptide.isEmpty()) {
+                        decoyPeptide = "n" + decoyPeptide + "c";
+                        forCheckDuplicate.add(decoyPeptide.replace('L', 'I'));
+                        SparseBooleanVector decoyCode = inference3SegmentObj.generateSegmentBooleanVector(decoyPeptide.substring(1, decoyPeptide.length() - 1));
+
+                        String[] decoyProteins = new String[targetPeptideProteinMap.get(targetPeptide).size()];
+                        int idx = 0;
+                        for (String proteinId : targetPeptideProteinMap.get(targetPeptide)) {
+                            decoyProteins[idx] = "DECOY_" + proteinId;
+                            ++idx;
+                        }
+
+                        tempMap.put(decoyPeptide, new Peptide0(decoyCode, false, decoyProteins, leftFlank, rightFlank));
+                        if (massPeptideMap.containsKey(targetPeptideMassMap.get(targetPeptide))) {
+                            massPeptideMap.get(targetPeptideMassMap.get(targetPeptide)).add(decoyPeptide);
+                        } else {
+                            Set<String> tempSet = new HashSet<>();
+                            tempSet.add(decoyPeptide);
+                            massPeptideMap.put(targetPeptideMassMap.get(targetPeptide), tempSet);
+                        }
+                    }
                 }
             }
         }
