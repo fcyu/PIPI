@@ -10,7 +10,7 @@ public class PreSpectrum {
     private static final float defaultIntensity = 1; // DO NOT change. Otherwise, change the whole project accordingly.
     private static final float floatZero = 1e-6f;
     private static final int xcorrOffset = 75;
-    private static final int topN = 10;
+    public static final int topN = 10;
     private static final float removePrecursorPeakTolerance = 1.5f; // this equals the isolation window.
 
     private final MassTool massToolObj;

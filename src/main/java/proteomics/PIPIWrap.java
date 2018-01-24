@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.InferPTM;
+import proteomics.Search.Binomial;
 import proteomics.Search.CalSubscores;
 import proteomics.Search.CalScore;
 import proteomics.Search.Search;
@@ -42,9 +43,10 @@ public class PIPIWrap implements Callable<Boolean> {
     private final InferPTM inferPTM;
     private final PreSpectrum preSpectrum;
     private final Connection sqlConnection;
+    private final Binomial binomial;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.ms1Tolerance = ms1Tolerance;
@@ -63,6 +65,7 @@ public class PIPIWrap implements Callable<Boolean> {
         this.inferPTM = inferPTM;
         this.preSpectrum = preSpectrum;
         this.sqlConnection = sqlConnection;
+        this.binomial = binomial;
         peptide0Map = buildIndexObj.getPeptide0Map();
     }
 
@@ -139,7 +142,7 @@ public class PIPIWrap implements Callable<Boolean> {
                 if (topPeptide.hasVarPTM()) {
                     ptmPatterns = modSequences.get(topPeptide.getPTMFreeSeq());
                 }
-                new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge);
+                new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge, ptmPatterns, binomial);
 
                 Statement sqlStatement = sqlConnection.createStatement();
                 ResultSet sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId)); // todo: check
@@ -177,7 +180,6 @@ public class PIPIWrap implements Callable<Boolean> {
                         }
 
                         String otherPtmPatterns = "-";
-                        String ptmDeltaScore = "-";
                         if (ptmPatterns != null) {
                             List<String> tempList = new LinkedList<>();
                             Iterator<Peptide> ptmPatternsIterator = ptmPatterns.iterator();
@@ -187,16 +189,10 @@ public class PIPIWrap implements Callable<Boolean> {
                                 tempList.add(String.format(Locale.US, "%s-%.4f;", temp.getPtmContainingSeq(buildIndexObj.returnFixModMap()), temp.getScore()));
                             }
                             otherPtmPatterns = String.join(";", tempList);
-                            if (ptmPatterns.size() > 1) {
-                                Iterator<Peptide> temp = ptmPatterns.iterator();
-                                ptmDeltaScore = String.valueOf(temp.next().getScore() - temp.next().getScore());
-                            } else {
-                                ptmDeltaScore = String.valueOf(ptmPatterns.first().getScore());
-                            }
                         }
 
                         sqlStatement.executeUpdate(String.format(Locale.US, "DELETE FROM spectraTable WHERE scanId=%s", scanId));
-                        sqlStatement.executeUpdate(String.format(Locale.US, "INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, otherPtmPatterns, ptmDeltaScore) VALUES (%d, '%s', %d, %f, '%s', %d, %f, '%s', '%s', %f, %d, %d, %f, %f, %f, %f, %d, %f, %f, %f, '%s', '%s')", scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, buildIndexObj.getLabelling(), topPeptide.getPtmContainingSeq(buildIndexObj.returnFixModMap()), topPeptide.getTheoMass(), topPeptide.isDecoy() ? 1 : 0, topPeptide.getGlobalRank(), topPeptide.getNormalizedCrossCorr(), topPeptide.getScore(), deltaLC, deltaC, topPeptide.getMatchedPeakNum(), topPeptide.getIonFrac(), topPeptide.getMatchedHighestIntensityFrac(), topPeptide.getExplainedAaFrac(), otherPtmPatterns, ptmDeltaScore));
+                        sqlStatement.executeUpdate(String.format(Locale.US, "INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, otherPtmPatterns, aScore) VALUES (%d, '%s', %d, %f, '%s', %d, %f, '%s', '%s', %f, %d, %d, %f, %f, %f, %f, %d, %f, %f, %f, '%s', '%s')", scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, buildIndexObj.getLabelling(), topPeptide.getPtmContainingSeq(buildIndexObj.returnFixModMap()), topPeptide.getTheoMass(), topPeptide.isDecoy() ? 1 : 0, topPeptide.getGlobalRank(), topPeptide.getNormalizedCrossCorr(), topPeptide.getScore(), deltaLC, deltaC, topPeptide.getMatchedPeakNum(), topPeptide.getIonFrac(), topPeptide.getMatchedHighestIntensityFrac(), topPeptide.getExplainedAaFrac(), otherPtmPatterns, topPeptide.getaScore()));
                     }
                 } else {
                     throw new NullPointerException(String.format(Locale.US, "There is no record %s in the spectraTable.", scanId));

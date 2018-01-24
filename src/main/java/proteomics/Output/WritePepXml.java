@@ -33,7 +33,7 @@ public class WritePepXml {
         writer.write(pepxmlHeader(massTable));
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();
-        ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, otherPtmPatterns, ptmDeltaScore FROM spectraTable");
+        ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, otherPtmPatterns, aScore FROM spectraTable");
         while (sqlResultSet.next()) {
             int scanNum = sqlResultSet.getInt("scanNum");
             if (percolatorResultMap.containsKey(scanNum)) {
@@ -45,7 +45,7 @@ public class WritePepXml {
                     proteinIdSet.add(protein.trim());
                 }
                 float expMass = sqlResultSet.getFloat("precursorMass");
-                String ptmDeltaScore = sqlResultSet.getString("ptmDeltaScore");
+                String aScore = sqlResultSet.getString("aScore");
                 PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
                 int precursorCharge = sqlResultSet.getInt("precursorCharge");
                 float theoMass = sqlResultSet.getFloat("theoMass");
@@ -55,13 +55,13 @@ public class WritePepXml {
                                 "\t\t\t<search_result>\r\n" +
                                 "\t\t\t\t<search_hit hit_rank=\"1\" peptide=\"%s\" peptide_prev_aa=\"%c\" peptide_next_aa=\"%c\" protein=\"%s\" num_tot_proteins=\"%d\" num_matched_ions=\"%d\" tot_num_ions=\"%d\" calc_neutral_pep_mass=\"%f\" massdiff=\"%f\" num_tol_term=\"2\">\r\n" +
                                 "\t\t\t\t\t<search_score name=\"score\" value=\"%f\"/>\r\n" +
-                                "\t\t\t\t\t<search_score name=\"ptm_delta_score\" value=\"%s\"/>\r\n" +
+                                "\t\t\t\t\t<search_score name=\"A_score\" value=\"%s\"/>\r\n" +
                                 "\t\t\t\t\t<search_score name=\"percolator_score\" value=\"%f\"/>\r\n" +
                                 "\t\t\t\t\t<search_score name=\"percolator_error_prob\" value=\"%s\"/>\r\n" +
                                 "\t\t\t\t\t<search_score name=\"q_value\" value=\"%s\"/>\r\n" +
-                                "\t\t\t\t\t<search_score name=\"labelling\" value=\"%s\"/>\r\n", scanNum, scanNum, scanNum, expMass, precursorCharge, scanNum, ptmFreePeptide.replaceAll("[nc]+", ""), peptide0.leftFlank, peptide0.rightFlank, String.join(";", proteinIdSet), peptide0.proteins.length, sqlResultSet.getInt("matchedPeakNum"), (ptmFreePeptide.length() - 2) * 2 * Math.max(1, precursorCharge - 1), theoMass, PIPI.getMassDiff(expMass, theoMass, MassTool.C13_DIFF), sqlResultSet.getDouble("score"), ptmDeltaScore, percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("labelling")));
+                                "\t\t\t\t\t<search_score name=\"labelling\" value=\"%s\"/>\r\n", scanNum, scanNum, scanNum, expMass, precursorCharge, scanNum, ptmFreePeptide.replaceAll("[nc]+", ""), peptide0.leftFlank, peptide0.rightFlank, String.join(";", proteinIdSet), peptide0.proteins.length, sqlResultSet.getInt("matchedPeakNum"), (ptmFreePeptide.length() - 2) * 2 * Math.max(1, precursorCharge - 1), theoMass, PIPI.getMassDiff(expMass, theoMass, MassTool.C13_DIFF), sqlResultSet.getDouble("score"), aScore, percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("labelling")));
 
-                if (!ptmDeltaScore.contentEquals("-")) {
+                if (!aScore.contentEquals("-")) {
                     PositionDeltaMassMap ptmMap = new PositionDeltaMassMap(ptmFreePeptide.length());
                     AA[] aaArray = MassTool.seqToAAList(peptide);
                     StringBuilder sb = new StringBuilder();
