@@ -333,12 +333,12 @@ public class PIPI {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    logger.info("[Percolator info]: {}", line.trim());
+                    logger.debug("[Percolator info]: {}", line.trim());
                 }
                 reader.close();
                 reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
                 while ((line = reader.readLine()) != null) {
-                    logger.info("[Percolator info]: {}", line.trim());
+                    logger.debug("[Percolator info]: {}", line.trim());
                 }
                 reader.close();
             }
