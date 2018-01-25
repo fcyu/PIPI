@@ -222,8 +222,9 @@ public class PIPI {
         logger.info("Estimating FDR...");
         String percolatorInputFileName = spectraPath + "." + labelling + ".input.temp";
         String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
+        String percolatorProteinOutputFileName = spectraPath + "." + labelling + ".protein.tsv";
         writePercolator(percolatorInputFileName, buildIndexObj.getPeptide0Map(), sqlPath);
-        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName);
+        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
             logger.error("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
@@ -309,10 +310,10 @@ public class PIPI {
         sqlConnection.close();
     }
 
-    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName) throws Exception {
+    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName) throws Exception {
         Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
         if ((new File(percolatorPath)).exists()) {
-            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --results-psms " + percolatorOutputFileName + " " + percolatorInputFileName);
+            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --picked-protein auto --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
             ps.waitFor();
 
             if (!(new File(percolatorOutputFileName).exists())) {
