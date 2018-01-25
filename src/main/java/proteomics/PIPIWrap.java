@@ -186,7 +186,7 @@ public class PIPIWrap implements Callable<Boolean> {
                             ptmPatternsIterator.next();
                             while (ptmPatternsIterator.hasNext()) {
                                 Peptide temp = ptmPatternsIterator.next();
-                                tempList.add(String.format(Locale.US, "%s-%.4f;", temp.getPtmContainingSeq(buildIndexObj.returnFixModMap()), temp.getScore()));
+                                tempList.add(String.format(Locale.US, "%s-%.4f", temp.getPtmContainingSeq(buildIndexObj.returnFixModMap()), temp.getScore()));
                             }
                             otherPtmPatterns = String.join(";", tempList);
                         }
