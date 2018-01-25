@@ -14,6 +14,7 @@ public class InferPTM {
 
     private static final Logger logger = LoggerFactory.getLogger(InferPTM.class);
     private static final Pattern pattern = Pattern.compile("([0-9A-Za-z]+)(\\(([0-9\\-]+)\\))?");
+    private static final float ptmMassTolerance = 0.1f;
 
     private final MassTool massTool;
     private final Map<String, Double> elementTable;
@@ -23,7 +24,6 @@ public class InferPTM {
     private final float minPtmMass;
     private final float maxPtmMass;
     private final float ms2Tolerance;
-    private final float ptmMassTolerance;
 
     private int matchedPeakNum;
     private double score;
@@ -39,7 +39,6 @@ public class InferPTM {
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.ms2Tolerance = ms2Tolerance;
-        ptmMassTolerance = Math.min(2 * ms2Tolerance, 0.02f);
 
         Map<Character, Float> massTable = massTool.returnMassTable();
 
