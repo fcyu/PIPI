@@ -99,25 +99,19 @@ public class CalSubscores {
             if (co.x == 0 || co.x == 1) {
                 totalAffectedPeakSet.add("b1");
                 totalAffectedPeakSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - 1));
-                totalAffectedPeakSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length));
                 for (float mz : expPl.keySet()) {
                     if (Math.abs(mz - ionMatrix[0][0]) <= ms2Tolerance) {
                         matchedIonTypeSet.add("b1");
-                    } else if (Math.abs(mz - ionMatrix[1][0]) <= ms2Tolerance) {
-                        matchedIonTypeSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length));
                     } else if (Math.abs(mz - ionMatrix[1][1]) <= ms2Tolerance) {
                         matchedIonTypeSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - 1));
                     }
                 }
             } else if (co.x == ionMatrix[0].length + 1 || co.x == ionMatrix[0].length) {
                 totalAffectedPeakSet.add(String.format(Locale.US, "b%d", ionMatrix[0].length - 1));
-                totalAffectedPeakSet.add(String.format(Locale.US, "b%d", ionMatrix[0].length));
                 totalAffectedPeakSet.add("y1");
                 for (float mz : expPl.keySet()) {
                     if (Math.abs(mz - ionMatrix[0][ionMatrix[0].length - 2]) <= ms2Tolerance) {
                         matchedIonTypeSet.add(String.format(Locale.US, "b%d", ionMatrix[0].length - 1));
-                    } else if (Math.abs(mz - ionMatrix[0][ionMatrix[0].length - 1]) <= ms2Tolerance) {
-                        matchedIonTypeSet.add(String.format(Locale.US, "b%d", ionMatrix[0].length));
                     } else if (Math.abs(mz - ionMatrix[1][ionMatrix[0].length - 1]) <= ms2Tolerance) {
                         matchedIonTypeSet.add("y1");
                     }
@@ -133,9 +127,9 @@ public class CalSubscores {
                     } else if (Math.abs(mz - ionMatrix[0][co.x - 1]) <= ms2Tolerance) {
                         matchedIonTypeSet.add(String.format(Locale.US, "b%d", co.x));
                     } else if (Math.abs(mz - ionMatrix[1][co.x - 1]) <= ms2Tolerance) {
-                        matchedIonTypeSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - co.x));
-                    } else if (Math.abs(mz - ionMatrix[1][co.x]) <= ms2Tolerance) {
                         matchedIonTypeSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - co.x + 1));
+                    } else if (Math.abs(mz - ionMatrix[1][co.x]) <= ms2Tolerance) {
+                        matchedIonTypeSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - co.x));
                     }
                 }
             }
