@@ -379,7 +379,6 @@ public class InferPTM {
                         if (Math.abs(modEntry1.mass + modEntry2.mass) >= ptmMassTolerance) { // two self cancelled PTM masses are not allowed.
                             for (int k = j + 1; k < idxArray.length; ++k) {
                                 for (VarModParam modEntry3 : idxVarModMap.get(idxArray[k])) {
-                                    if (modEntry1.priority + modEntry2.priority + modEntry3.priority > 0) {
                                     if (Math.abs(modEntry1.mass + modEntry3.mass) >= ptmMassTolerance && Math.abs(modEntry2.mass + modEntry3.mass) >= ptmMassTolerance) {
                                         if (modEntry1.mass + modEntry2.mass + modEntry3.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass >= leftMassBound) {
                                             if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000))) {
@@ -393,7 +392,6 @@ public class InferPTM {
                                                 peptideObj.setScore(massTool.buildVector(peptideObj.getIonMatrix(), localMaxMS2Charge + 1).fastDot(expProcessedPL) * 0.25);
                                                 peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix()));
                                                 peptidePTMPattern.update(peptideObj);
-                                                }
                                             }
                                         }
                                     }
