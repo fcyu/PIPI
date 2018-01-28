@@ -76,6 +76,9 @@ public class BuildIndex {
         for (String proId : proteinPeptideMap.keySet()) {
             String proSeq = proteinPeptideMap.get(proId);
             Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
+            if (proSeq.startsWith("M")) { // Since the digestion doesn't take much time, just digest the whole protein again for easy read.
+                peptideSet.addAll(massToolObj.buildPeptideSet(proSeq.substring(1)));
+            }
             for (String peptide : peptideSet) {
                 if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
                     continue;
@@ -121,8 +124,8 @@ public class BuildIndex {
                     String proteinSequence = proteinPeptideMap.get(proteinId);
                     int startIdx = proteinSequence.indexOf(peptideString);
                     while (startIdx >= 0) {
-                        if (startIdx == 0) {
-                            int tempIdx = peptideString.length();
+                        if (startIdx == 0 || ((startIdx == 1 && proteinSequence.charAt(0) == 'M'))) { // considering first "M" being cut situation.
+                            int tempIdx = startIdx + peptideString.length();
                             if (tempIdx < proteinSequence.length()) {
                                 rightFlank = proteinSequence.charAt(tempIdx);
                                 if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()))) {
