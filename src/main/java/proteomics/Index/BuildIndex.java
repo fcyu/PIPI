@@ -62,7 +62,9 @@ public class BuildIndex {
 
         // read protein database
         DbTool dbToolObj = new DbTool(dbPath, parameterMap.get("database_type"));
-        Map<String, String> proteinPeptideMap = dbToolObj.returnSeqMap();
+        DbTool contaminantsDb = new DbTool(null, "contaminants");
+        Map<String, String> proteinPeptideMap = contaminantsDb.returnSeqMap();
+        proteinPeptideMap.putAll(dbToolObj.returnSeqMap()); // using the target sequence to replace contaminant sequence if there is conflict.
 
         // define a new MassTool object
         massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);

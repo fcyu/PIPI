@@ -26,13 +26,21 @@ public class DbTool {
             headerPattern = Pattern.compile("^>([^\\s]+)[\\s|]+(.+)$");
         } else if (databaseType.contentEquals("UniProt") || databaseType.contentEquals("SwissProt")) {
             headerPattern = Pattern.compile("^>[^|]+\\|(.+)\\|(.+)$");
+        } else if (databaseType.contentEquals("contaminants")) {
+            headerPattern = Pattern.compile("^>([^ ]+) (.+)$");
         } else {
             headerPattern = null;
             logger.error("Incorrect database type ({}) in the parameter file.", databaseType);
             System.exit(1);
         }
 
-        BufferedReader dbReader = new BufferedReader(new FileReader(dbName));
+        BufferedReader dbReader;
+        if (databaseType.contentEquals("contaminants")) {
+            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("contaminants.fasta");
+            dbReader = new BufferedReader(new InputStreamReader(inputStream));
+        } else {
+            dbReader = new BufferedReader(new FileReader(dbName));
+        }
         String line;
         while ((line = dbReader.readLine()) != null) {
             line = line.trim();
