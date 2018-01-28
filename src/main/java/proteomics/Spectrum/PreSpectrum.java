@@ -84,6 +84,37 @@ public class PreSpectrum {
         return digitizedPL;
     }
 
+    public static TreeMap<Float, Float> selectTopN(TreeMap<Float, Float> plMap, int localTopN) { // the input plMap must have been normalized.
+        // select top N in each 100 Da
+        TreeMap<Float, Float> preprocessedPL = new TreeMap<>();
+        float minMz = plMap.firstKey();
+        float maxMz = plMap.lastKey();
+        float leftMz = minMz;
+        while (leftMz < maxMz) {
+            // find the max intensity in each window
+            float rightMz = Math.min(leftMz + 100, maxMz);
+            NavigableMap<Float, Float> subMap;
+            if (rightMz < maxMz) {
+                subMap = plMap.subMap(leftMz, true, rightMz, false);
+            } else {
+                subMap = plMap.subMap(leftMz, true, rightMz, true);
+            }
+            if (!subMap.isEmpty()) {
+                Float[] intensityArray = subMap.values().toArray(new Float[subMap.size()]);
+                Arrays.sort(intensityArray, Comparator.reverseOrder());
+                float temp2 = subMap.size() > localTopN ? intensityArray[localTopN] : 0;
+                for (float mz : subMap.keySet()) {
+                    if (subMap.get(mz) > temp2) {
+                        preprocessedPL.put(mz, subMap.get(mz));
+                    }
+                }
+            }
+            leftMz = rightMz;
+        }
+
+        return preprocessedPL;
+    }
+
     private TreeMap<Float, Float> removeCertainPeaks(Map<Double, Double> peakMap, float precursorMass, int precursorCharge, float ms2Tolerance, float minClear, float maxClear) {
         TreeMap<Float, Float> mzIntensityMap = new TreeMap<>();
         float precursorMz = precursorMass / precursorCharge + MassTool.PROTON;

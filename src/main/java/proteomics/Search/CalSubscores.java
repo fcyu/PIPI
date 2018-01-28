@@ -78,28 +78,35 @@ public class CalSubscores {
 
         // calculate A score
         if (peptide.hasVarPTM()) {
-            Set<String> totalAffectedPeakSet = new HashSet<>();
-            Set<String> topMatchedPeakSet = new HashSet<>();
-            Set<String> secondMatchedPeakSet = new HashSet<>();
-            sub(peptide.getVarPTMs(), ionMatrix, expPl, ms2Tolerance, totalAffectedPeakSet, topMatchedPeakSet);
-            Peptide[] tempArray = ptmPatterns.toArray(new Peptide[ptmPatterns.size()]);
-            double aScore;
-            if (tempArray.length > 1) {
-                sub(tempArray[1].getVarPTMs(), tempArray[1].getIonMatrix(), expPl, ms2Tolerance, totalAffectedPeakSet, secondMatchedPeakSet);
-                aScore = -10 * Math.log10(binomial.calPValue(totalAffectedPeakSet.size(), topMatchedPeakSet.size(), p)) + 10 * Math.log10(binomial.calPValue(totalAffectedPeakSet.size(), secondMatchedPeakSet.size(), p));
-            } else {
-                aScore = -10 * Math.log10(binomial.calPValue(totalAffectedPeakSet.size(), topMatchedPeakSet.size(), p));
+            double finalAScore = -9999;
+            for (int localTopN = 1; localTopN <= PreSpectrum.topN; ++localTopN) {
+                TreeMap<Float, Float> localPlMap = PreSpectrum.selectTopN(expPl, localTopN);
+                Set<String> totalAffectedPeakSet = new HashSet<>();
+                Set<String> topMatchedPeakSet = new HashSet<>();
+                Set<String> secondMatchedPeakSet = new HashSet<>();
+                sub(peptide.getVarPTMs(), ionMatrix, localPlMap, ms2Tolerance, totalAffectedPeakSet, topMatchedPeakSet);
+                Peptide[] tempArray = ptmPatterns.toArray(new Peptide[ptmPatterns.size()]);
+                double aScore;
+                if (tempArray.length > 1) {
+                    sub(tempArray[1].getVarPTMs(), tempArray[1].getIonMatrix(), localPlMap, ms2Tolerance, totalAffectedPeakSet, secondMatchedPeakSet);
+                    aScore = -10 * Math.log10(binomial.calPValue(totalAffectedPeakSet.size(), topMatchedPeakSet.size(), p)) + 10 * Math.log10(binomial.calPValue(totalAffectedPeakSet.size(), secondMatchedPeakSet.size(), p));
+                } else {
+                    aScore = -10 * Math.log10(binomial.calPValue(totalAffectedPeakSet.size(), topMatchedPeakSet.size(), p));
+                }
+                if (aScore > finalAScore) {
+                    finalAScore = aScore;
+                }
             }
-            peptide.setaScore(String.valueOf(aScore));
+            peptide.setaScore(String.valueOf(finalAScore));
         }
     }
 
-    private void sub(PositionDeltaMassMap varPtmMap, float[][] ionMatrix, TreeMap<Float, Float> expPl, float ms2Tolerance, Set<String> totalAffectedPeakSet, Set<String> matchedIonTypeSet) {
+    private void sub(PositionDeltaMassMap varPtmMap, float[][] ionMatrix, TreeMap<Float, Float> localPlMap, float ms2Tolerance, Set<String> totalAffectedPeakSet, Set<String> matchedIonTypeSet) {
         for (Coordinate co : varPtmMap.keySet()) {
             if (co.x == 0 || co.x == 1) {
                 totalAffectedPeakSet.add("b1");
                 totalAffectedPeakSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - 1));
-                for (float mz : expPl.keySet()) {
+                for (float mz : localPlMap.keySet()) {
                     if (Math.abs(mz - ionMatrix[0][0]) <= ms2Tolerance) {
                         matchedIonTypeSet.add("b1");
                     } else if (Math.abs(mz - ionMatrix[1][1]) <= ms2Tolerance) {
@@ -109,7 +116,7 @@ public class CalSubscores {
             } else if (co.x == ionMatrix[0].length + 1 || co.x == ionMatrix[0].length) {
                 totalAffectedPeakSet.add(String.format(Locale.US, "b%d", ionMatrix[0].length - 1));
                 totalAffectedPeakSet.add("y1");
-                for (float mz : expPl.keySet()) {
+                for (float mz : localPlMap.keySet()) {
                     if (Math.abs(mz - ionMatrix[0][ionMatrix[0].length - 2]) <= ms2Tolerance) {
                         matchedIonTypeSet.add(String.format(Locale.US, "b%d", ionMatrix[0].length - 1));
                     } else if (Math.abs(mz - ionMatrix[1][ionMatrix[0].length - 1]) <= ms2Tolerance) {
@@ -121,7 +128,7 @@ public class CalSubscores {
                 totalAffectedPeakSet.add(String.format(Locale.US, "b%d", co.x));
                 totalAffectedPeakSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - co.x));
                 totalAffectedPeakSet.add(String.format(Locale.US, "y%d", ionMatrix[0].length - co.x + 1));
-                for (float mz : expPl.keySet()) {
+                for (float mz : localPlMap.keySet()) {
                     if (Math.abs(mz - ionMatrix[0][co.x - 2]) <= ms2Tolerance) {
                         matchedIonTypeSet.add(String.format(Locale.US, "b%d", co.x - 1));
                     } else if (Math.abs(mz - ionMatrix[0][co.x - 1]) <= ms2Tolerance) {
