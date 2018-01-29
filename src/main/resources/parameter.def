@@ -5,7 +5,7 @@ percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please 
 
 # Database
 db = test.fasta # Protein database.
-database_type = UniProt # Different types have different fasta header patterns. Available values: UniProt, SwissProt, TAIR
+database_type = UniProt # Different types have different fasta header patterns. Available values: UniProt, SwissProt, TAIR, Others
 missed_cleavage = 2 # Maximum number of allowed missed cleavage.
 min_peptide_length = 7
 max_peptide_length = 50

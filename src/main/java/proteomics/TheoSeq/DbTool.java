@@ -28,6 +28,8 @@ public class DbTool {
             headerPattern = Pattern.compile("^>[^|]+\\|(.+)\\|(.+)$");
         } else if (databaseType.contentEquals("contaminants")) {
             headerPattern = Pattern.compile("^>([^ ]+) (.+)$");
+        } else if (databaseType.contentEquals("Others")) {
+            headerPattern = Pattern.compile("^>(.+)$");
         } else {
             headerPattern = null;
             logger.error("Incorrect database type ({}) in the parameter file.", databaseType);
@@ -52,7 +54,11 @@ public class DbTool {
                     proSeqMap.put(id, seq.toString());
                 }
                 id = headMatcher.group(1).trim();
-                annotate = headMatcher.group(2).trim();
+                if (databaseType.contentEquals("Others")) {
+                    annotate = id;
+                } else {
+                    annotate = headMatcher.group(2).trim();
+                }
                 proAnnotateMap.put(id, annotate);
                 newPro = true;
             } else if (!line.isEmpty()) {
