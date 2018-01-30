@@ -149,6 +149,9 @@ public class PIPI {
         if (threadNum == 0) {
             threadNum = 3 + Runtime.getRuntime().availableProcessors();
         }
+        if (debugScanNumArray.length > 0) {
+            threadNum = 1;
+        }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
         InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
