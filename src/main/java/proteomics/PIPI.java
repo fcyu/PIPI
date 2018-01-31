@@ -56,7 +56,7 @@ public class PIPI {
             }
 
             dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
-            new PIPI(parameterPath, spectraPath, hostName);
+            new PIPI(parameterPath, spectraPath, dbName);
         } catch (UnknownHostException ex) {
             logger.warn("Cannot get the computer's name.");
         } catch (Exception ex) {
