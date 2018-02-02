@@ -70,17 +70,12 @@ public class PIPIWrap implements Callable<Boolean> {
     }
 
     @Override
-    public Boolean call() throws SQLException {
-        Map<Double, Double> rawPLMap = null;
+    public Boolean call() throws SQLException, JMzReaderException {
+        Map<Double, Double> rawPLMap;
         try {
             lock.lock();
             // Reading peak list.
             rawPLMap = spectraParser.getSpectrumById(scanId).getPeakList();
-        } catch (JMzReaderException ex) {
-            lock.unlock();
-            ex.printStackTrace();
-            logger.error(ex.toString());
-            System.exit(1);
         } finally {
             lock.unlock();
         }
@@ -145,7 +140,7 @@ public class PIPIWrap implements Callable<Boolean> {
                 new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge, ptmPatterns, binomial);
 
                 Statement sqlStatement = sqlConnection.createStatement();
-                ResultSet sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId)); // todo: check
+                ResultSet sqlResultSet = sqlStatement.executeQuery(String.format(Locale.US, "SELECT scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, isDecoy, score FROM spectraTable WHERE scanId='%s'", scanId));
                 if (sqlResultSet.next()) {
                     boolean needUpdate = false;
                     int isDecoyOld = sqlResultSet.getInt("isDecoy");
