@@ -2,6 +2,7 @@ package proteomics.TheoSeq;
 
 import proteomics.Types.AA;
 import proteomics.Types.SparseBooleanVector;
+import proteomics.Types.SparseVector;
 
 import java.util.*;
 import java.util.regex.*;
@@ -306,24 +307,21 @@ public class MassTool {
         return peptideIonArray;
     }
 
-    public SparseBooleanVector buildVector(double[][] ionMatrix, int precursorCharge) {
+    public double buildVectorAndCalXCorr(double[][] ionMatrix, int precursorCharge, SparseVector xcorrPL) {
         int colNum = ionMatrix[0].length;
         int rowNum = Math.min(ionMatrix.length / 2, precursorCharge - 1) * 2;
         if (precursorCharge == 1) {
             rowNum = 2;
         }
 
-        Set<Integer> tempSet = new HashSet<>();
+        double xcorr = 0;
         for (int i = 0; i < rowNum; ++i) {
             for (int j = 0; j < colNum; ++j) {
-                if (ionMatrix[i][j] > 1e-6) {
-                    int idx = mzToBin(ionMatrix[i][j]);
-                    tempSet.add(idx);
-                }
+                xcorr += xcorrPL.get(mzToBin(ionMatrix[i][j]));
             }
         }
 
-        return new SparseBooleanVector(tempSet);
+        return xcorr * 0.25;
     }
 
     public Map<Character, Double> returnMassTable() {

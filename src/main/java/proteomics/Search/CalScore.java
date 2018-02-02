@@ -8,7 +8,7 @@ import java.util.*;
 public class CalScore {
 
     public static void calScore(Peptide peptide, SparseVector expProcessedPL, int precursorCharge, MassTool massToolObj, TreeSet<Peptide> peptideSet, Map<String, TreeSet<Peptide>> modSequences) {
-        double score = massToolObj.buildVector(peptide.getIonMatrix(), precursorCharge).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.
+        double score = massToolObj.buildVectorAndCalXCorr(peptide.getIonMatrix(), precursorCharge, expProcessedPL); // scaling the xcorr to original SEQUEST type.
         if (score > 0) {
             peptide.setScore(score);
             if (peptideSet.size() < 5) {
