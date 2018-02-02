@@ -189,7 +189,11 @@ public class PreSpectra {
                 Map<String, Integer> elementMap = isotopeDistribution.getElementMapFromMonoMass((expMatrix[0][0] - MassTool.PROTON) * charge);
                 List<IsotopeDistribution.Peak> theoIsotopeDistribution = isotopeDistribution.calculate(elementMap);
                 double pearsonCorrelationCoefficient = scaleAndCalPearsonCorrelationCoefficient(expMatrix, theoIsotopeDistribution, charge, isotopeCorrectionNum);
-                if (pearsonCorrelationCoefficient > entry.pearsonCorrelationCoefficient) {
+                if (isotopeCorrectionNum == 0 && pearsonCorrelationCoefficient > 0.8) { // Unless there is a strong evidence, we prefer the original MZ.
+                    entry.pearsonCorrelationCoefficient = pearsonCorrelationCoefficient;
+                    entry.isotopeCorrectionNum = isotopeCorrectionNum;
+                    break;
+                } else if (pearsonCorrelationCoefficient > entry.pearsonCorrelationCoefficient) {
                     entry.pearsonCorrelationCoefficient = pearsonCorrelationCoefficient;
                     entry.isotopeCorrectionNum = isotopeCorrectionNum;
                 }
