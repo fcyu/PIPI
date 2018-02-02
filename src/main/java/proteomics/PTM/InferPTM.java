@@ -14,19 +14,19 @@ public class InferPTM {
 
     private static final Logger logger = LoggerFactory.getLogger(InferPTM.class);
     private static final Pattern pattern = Pattern.compile("([0-9A-Za-z]+)(\\(([0-9\\-]+)\\))?");
-    private static final float ptmMassTolerance = 0.1f;
+    private static final double ptmMassTolerance = 0.1;
 
     private final MassTool massTool;
     private final Map<String, Double> elementTable;
-    private final Map<Character, Float> massTable;
-    private final Map<Character, Float> fixModMap;
-    private final float minPtmMass;
-    private final float maxPtmMass;
-    private final float ms2Tolerance;
+    private final Map<Character, Double> massTable;
+    private final Map<Character, Double> fixModMap;
+    private final double minPtmMass;
+    private final double maxPtmMass;
+    private final double ms2Tolerance;
 
     private Map<Character, Set<VarModParam>> finalPtmMap = new HashMap<>();
 
-    public InferPTM(MassTool massTool, Map<Character, Float> fixModMap, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms2Tolerance) throws IOException{
+    public InferPTM(MassTool massTool, Map<Character, Double> fixModMap, Set<VarModParam> varModParamSet, double minPtmMass, double maxPtmMass, double ms2Tolerance) throws IOException{
         this.massTool = massTool;
         elementTable = massTool.getElementTable();
         massTable = massTool.returnMassTable();
@@ -35,7 +35,7 @@ public class InferPTM {
         this.maxPtmMass = maxPtmMass;
         this.ms2Tolerance = ms2Tolerance;
 
-        Map<Character, Float> massTable = massTool.returnMassTable();
+        Map<Character, Double> massTable = massTool.returnMassTable();
 
         // Building an amino acid substitution matrix.
         Map<Character, Set<VarModParam>> aasMap = buildAASMap(massTable);
@@ -94,11 +94,11 @@ public class InferPTM {
         }
     }
 
-    public PeptidePTMPattern tryPTM(SparseVector expProcessedPL, TreeMap<Float, Float> plMap, float precursorMass, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, char leftFlank, char rightFlank, int globalRank, int localMaxMS2Charge, float localMS1ToleranceL, float localMS1ToleranceR) {
-        float ptmFreeMass = massTool.calResidueMass(ptmFreeSequence) + massTool.H2O;
-        float deltaMass = precursorMass - ptmFreeMass;
-        float leftMassBound = deltaMass + localMS1ToleranceL;
-        float rightMassBound = deltaMass + localMS1ToleranceR;
+    public PeptidePTMPattern tryPTM(SparseVector expProcessedPL, TreeMap<Double, Double> plMap, double precursorMass, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, char leftFlank, char rightFlank, int globalRank, int localMaxMS2Charge, double localMS1ToleranceL, double localMS1ToleranceR) {
+        double ptmFreeMass = massTool.calResidueMass(ptmFreeSequence) + massTool.H2O;
+        double deltaMass = precursorMass - ptmFreeMass;
+        double leftMassBound = deltaMass + localMS1ToleranceL;
+        double rightMassBound = deltaMass + localMS1ToleranceR;
         Set<Integer> fixModIdxes = getFixModIdxes(ptmFreeSequence, fixModMap);
 
         PeptidePTMPattern peptidePTMPattern = new PeptidePTMPattern(ptmFreeSequence);
@@ -152,7 +152,7 @@ public class InferPTM {
                 } else if (parts[0].trim().contentEquals("C-term")) {
                     site = 'c';
                 }
-                float mass = calculateMassFromComposition(parts[2].trim());
+                double mass = calculateMassFromComposition(parts[2].trim());
                 if (mass >= minPtmMass && mass <= maxPtmMass) {
                     if (site == 'n' || site == 'c' || massTable.get(site) + mass > ms2Tolerance) { // The mass of a modified amino acid cannot be 0 or negative.
                         int priority = Integer.valueOf(parts[3]);
@@ -178,9 +178,9 @@ public class InferPTM {
         return siteModMap;
     }
 
-    private float calculateMassFromComposition(String composition) {
+    private double calculateMassFromComposition(String composition) {
         String[] parts = composition.split(" ");
-        float mass = 0;
+        double mass = 0;
         for (String part : parts) {
             Matcher matcher = pattern.matcher(part.trim());
             if (matcher.matches()) {
@@ -197,7 +197,7 @@ public class InferPTM {
         return mass;
     }
 
-    private Map<Character, Set<VarModParam>> buildAASMap(Map<Character, Float> massTable) {
+    private Map<Character, Set<VarModParam>> buildAASMap(Map<Character, Double> massTable) {
         int[][] pam1Matrix = new int[][]{
                 {9867 , 2    , 9    , 10   , 3    , 8    , 17   , 21   , 2    , 6    , 4    , 2    , 6    , 2    , 22   , 35   , 32   , 0    , 2    , 18},
                 {1    , 9913 , 1    , 0    , 1    , 10   , 0    , 0    , 10   , 3    , 1    , 19   , 4    , 1    , 4    , 6    , 1    , 8    , 0    , 1},
@@ -226,7 +226,7 @@ public class InferPTM {
             for (int j = 0; j < aaArray.length; ++j) {
                 if (i != j) {
                     if (!(aaArray[i] == 'I' && aaArray[j] == 'L') && !(aaArray[i] == 'L' && aaArray[j] == 'I')) { // "I" and "L" have the same mass. don't consider such a AA substitution.
-                        float deltaMass = massTable.get(aaArray[j]) - massTable.get(aaArray[i]);
+                        double deltaMass = massTable.get(aaArray[j]) - massTable.get(aaArray[i]);
                         if (deltaMass >= minPtmMass && deltaMass <= maxPtmMass) {
                             VarModParam temp = new VarModParam(deltaMass, aaArray[i], 0, true);
                             if (aasMap.containsKey(aaArray[i])) {
@@ -244,11 +244,11 @@ public class InferPTM {
         return aasMap;
     }
 
-    private int getMatchedPeakNum(TreeMap<Float, Float> plMap, int localMaxMs2Charge, float[][] ionMatrix) {
+    private int getMatchedPeakNum(TreeMap<Double, Double> plMap, int localMaxMs2Charge, double[][] ionMatrix) {
         int K1 = 0;
         for (int i = 0; i < localMaxMs2Charge * 2; ++i) {
             for (int j = 0; j < ionMatrix[0].length; ++j) {
-                for (float mz : plMap.keySet()) {
+                for (double mz : plMap.keySet()) {
                     if (Math.abs(mz - ionMatrix[i][j]) <= ms2Tolerance) {
                         ++K1;
                         break;
@@ -259,7 +259,7 @@ public class InferPTM {
         return K1;
     }
 
-    private Set<Integer> getFixModIdxes(String ptmFreeSequence, Map<Character, Float> fixModMap) {
+    private Set<Integer> getFixModIdxes(String ptmFreeSequence, Map<Character, Double> fixModMap) {
         Set<Integer> outputSet = new HashSet<>(ptmFreeSequence.length(), 1);
         char[] tempArray = ptmFreeSequence.toCharArray();
         for (int i = 0; i < tempArray.length; ++i) {
@@ -313,7 +313,7 @@ public class InferPTM {
         return idxVarModMap;
     }
 
-    private void try1PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) { // Sometimes, the precursor mass error may affects the digitized spectrum.
+    private void try1PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) { // Sometimes, the precursor mass error may affects the digitized spectrum.
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 1; ++i) {
@@ -334,7 +334,7 @@ public class InferPTM {
         }
     }
 
-    private void try2PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) {
+    private void try2PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 1; ++i) {
@@ -360,7 +360,7 @@ public class InferPTM {
         }
     }
 
-    private void try3PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) {
+    private void try3PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 2; ++i) {
@@ -395,7 +395,7 @@ public class InferPTM {
         }
     }
 
-    private void try4PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) { // only allow one low priority PTM
+    private void try4PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) { // only allow one low priority PTM
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 3; ++i) {
@@ -443,7 +443,7 @@ public class InferPTM {
         }
     }
 
-    private void try5PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, float leftMassBound, float rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Float, Float> plMap, int localMaxMS2Charge) { // only allow one low priority PTM
+    private void try5PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) { // only allow one low priority PTM
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 4; ++i) {

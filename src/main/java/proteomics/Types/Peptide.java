@@ -20,9 +20,9 @@ public class Peptide implements Comparable<Peptide> {
 
     // these fields need to be changed every time PTM changed.
     private PositionDeltaMassMap varPTMMap = null;
-    private float theoMass = -1;
-    private float[][] ionMatrix = null;
-    private float[] chargeOneBIonArray = null;
+    private double theoMass = -1;
+    private double[][] ionMatrix = null;
+    private double[] chargeOneBIonArray = null;
     private String varPtmContainingSeq = null;
 
     private String ptmContainingSeq = null;
@@ -52,7 +52,7 @@ public class Peptide implements Comparable<Peptide> {
         return globalRank;
     }
 
-    public float[][] getIonMatrix() {
+    public double[][] getIonMatrix() {
         if (ionMatrix == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
@@ -70,7 +70,7 @@ public class Peptide implements Comparable<Peptide> {
         return isDecoy;
     }
 
-    public float getTheoMass() {
+    public double getTheoMass() {
         if (theoMass < 0) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
@@ -80,7 +80,7 @@ public class Peptide implements Comparable<Peptide> {
         return theoMass;
     }
 
-    public float[] getChargeOneBIonArray() {
+    public double[] getChargeOneBIonArray() {
         if (chargeOneBIonArray == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
             ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
@@ -198,7 +198,7 @@ public class Peptide implements Comparable<Peptide> {
         return varPtmContainingSeq;
     }
 
-    public String getPtmContainingSeq(Map<Character, Float> fixModMap) { // caution: containing fix modification. Calculating ion masses based on it is incorrect.
+    public String getPtmContainingSeq(Map<Character, Double> fixModMap) { // caution: containing fix modification. Calculating ion masses based on it is incorrect.
         if (ptmContainingSeq == null) {
             ptmContainingSeq = getVarPtmContainingSeq();
             for (char aa : fixModMap.keySet()) {

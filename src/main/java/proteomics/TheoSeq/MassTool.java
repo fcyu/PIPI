@@ -9,23 +9,23 @@ import java.util.regex.*;
 public class MassTool {
 
     private static final Pattern mod_aa_pattern = Pattern.compile("([A-Znc])(\\(([0-9.\\-]+)\\))?");
-    public static final float PROTON = 1.00727646688f;
-    public static final float C13_DIFF = 1.00335483f;
+    public static final double PROTON = 1.00727646688;
+    public static final double C13_DIFF = 1.00335483;
 
-    public final float H2O;
+    public final double H2O;
     public Map<String, Double> elementTable = new HashMap<>();
 
-    private final Map<Character, Float> massTable = new HashMap<>(30, 1);
+    private final Map<Character, Double> massTable = new HashMap<>(30, 1);
     private final int missedCleavage;
-    private float ms2Tolerance;
-    private float inverse2Ms2Tolerance;
-    private float oneMinusBinOffset;
+    private double ms2Tolerance;
+    private double inverse2Ms2Tolerance;
+    private double oneMinusBinOffset;
     private Pattern digestSitePattern;
     private final boolean cleavageFromCTerm;
     private final String labelling;
-    private final Map<Character, Float> fixModMap;
+    private final Map<Character, Double> fixModMap;
 
-    public MassTool(final int missedCleavage, Map<Character, Float> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, float ms2Tolerance, float oneMinusBinOffset, String labelling) {
+    public MassTool(final int missedCleavage, Map<Character, Double> fixModMap, String cleavageSite, String protectionSite, boolean cleavageFromCTerm, double ms2Tolerance, double oneMinusBinOffset, String labelling) {
         this.labelling = labelling;
         this.fixModMap = fixModMap;
 
@@ -162,33 +162,33 @@ public class MassTool {
         inverse2Ms2Tolerance = 1 / (2 * ms2Tolerance);
         this.oneMinusBinOffset = oneMinusBinOffset;
         this.cleavageFromCTerm = cleavageFromCTerm;
-        massTable.put('G', (float) (elementTable.get("C") * 2 + elementTable.get("H") * 3 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('G')));
-        massTable.put('A', (float) (elementTable.get("C") * 3 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('A')));
-        massTable.put('S', (float) (elementTable.get("C") * 3 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") * 2 + fixModMap.get('S')));
-        massTable.put('P', (float) (elementTable.get("C") * 5 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('P')));
-        massTable.put('V', (float) (elementTable.get("C") * 5 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('V')));
-        massTable.put('T', (float) (elementTable.get("C") * 4 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") * 2 + fixModMap.get('I')));
-        massTable.put('C', (float) (elementTable.get("C") * 3 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") + elementTable.get("S") + fixModMap.get('C')));
-        massTable.put('I', (float) (elementTable.get("C") * 6 + elementTable.get("H") * 11 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('I')));
-        massTable.put('L', (float) (elementTable.get("C") * 6 + elementTable.get("H") * 11 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('L')));
-        massTable.put('N', (float) (elementTable.get("C") * 4 + elementTable.get("H") * 6 + elementTable.get("N") * 2 + elementTable.get("O") * 2 + fixModMap.get('N')));
-        massTable.put('D', (float) (elementTable.get("C") * 4 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") * 3 + fixModMap.get('D')));
-        massTable.put('Q', (float) (elementTable.get("C") * 5 + elementTable.get("H") * 8 + elementTable.get("N") * 2 + elementTable.get("O") * 2 + fixModMap.get('Q')));
-        massTable.put('K', (float) (elementTable.get("C") * 6 + elementTable.get("H") * 12 + elementTable.get("N") * 2 + elementTable.get("O") + fixModMap.get('K')));
-        massTable.put('E', (float) (elementTable.get("C") * 5 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") * 3 + fixModMap.get('E')));
-        massTable.put('M', (float) (elementTable.get("C") * 5 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") + elementTable.get("S") + fixModMap.get('M')));
-        massTable.put('H', (float) (elementTable.get("C") * 6 + elementTable.get("H") * 7 + elementTable.get("N") * 3 + elementTable.get("O") + fixModMap.get('H')));
-        massTable.put('F', (float) (elementTable.get("C") * 9 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('F')));
-        massTable.put('R', (float) (elementTable.get("C") * 6 + elementTable.get("H") * 12 + elementTable.get("N") * 4 + elementTable.get("O") + fixModMap.get('R')));
-        massTable.put('Y', (float) (elementTable.get("C") * 9 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") * 2 + fixModMap.get('Y')));
-        massTable.put('W', (float) (elementTable.get("C") * 11 + elementTable.get("H") * 10 + elementTable.get("N") * 2 + elementTable.get("O") + fixModMap.get('W')));
-        massTable.put('U', (float) (elementTable.get("C") * 3 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") * 2 + elementTable.get("Se") + fixModMap.get('U')));
-        massTable.put('O', (float) (elementTable.get("C") * 12 + elementTable.get("H") * 21 + elementTable.get("N") * 3 + elementTable.get("O") * 3 + fixModMap.get('O')));
+        massTable.put('G', (elementTable.get("C") * 2 + elementTable.get("H") * 3 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('G')));
+        massTable.put('A', (elementTable.get("C") * 3 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('A')));
+        massTable.put('S', (elementTable.get("C") * 3 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") * 2 + fixModMap.get('S')));
+        massTable.put('P', (elementTable.get("C") * 5 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('P')));
+        massTable.put('V', (elementTable.get("C") * 5 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('V')));
+        massTable.put('T', (elementTable.get("C") * 4 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") * 2 + fixModMap.get('I')));
+        massTable.put('C', (elementTable.get("C") * 3 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") + elementTable.get("S") + fixModMap.get('C')));
+        massTable.put('I', (elementTable.get("C") * 6 + elementTable.get("H") * 11 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('I')));
+        massTable.put('L', (elementTable.get("C") * 6 + elementTable.get("H") * 11 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('L')));
+        massTable.put('N', (elementTable.get("C") * 4 + elementTable.get("H") * 6 + elementTable.get("N") * 2 + elementTable.get("O") * 2 + fixModMap.get('N')));
+        massTable.put('D', (elementTable.get("C") * 4 + elementTable.get("H") * 5 + elementTable.get("N") + elementTable.get("O") * 3 + fixModMap.get('D')));
+        massTable.put('Q', (elementTable.get("C") * 5 + elementTable.get("H") * 8 + elementTable.get("N") * 2 + elementTable.get("O") * 2 + fixModMap.get('Q')));
+        massTable.put('K', (elementTable.get("C") * 6 + elementTable.get("H") * 12 + elementTable.get("N") * 2 + elementTable.get("O") + fixModMap.get('K')));
+        massTable.put('E', (elementTable.get("C") * 5 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") * 3 + fixModMap.get('E')));
+        massTable.put('M', (elementTable.get("C") * 5 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") + elementTable.get("S") + fixModMap.get('M')));
+        massTable.put('H', (elementTable.get("C") * 6 + elementTable.get("H") * 7 + elementTable.get("N") * 3 + elementTable.get("O") + fixModMap.get('H')));
+        massTable.put('F', (elementTable.get("C") * 9 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('F')));
+        massTable.put('R', (elementTable.get("C") * 6 + elementTable.get("H") * 12 + elementTable.get("N") * 4 + elementTable.get("O") + fixModMap.get('R')));
+        massTable.put('Y', (elementTable.get("C") * 9 + elementTable.get("H") * 9 + elementTable.get("N") + elementTable.get("O") * 2 + fixModMap.get('Y')));
+        massTable.put('W', (elementTable.get("C") * 11 + elementTable.get("H") * 10 + elementTable.get("N") * 2 + elementTable.get("O") + fixModMap.get('W')));
+        massTable.put('U', (elementTable.get("C") * 3 + elementTable.get("H") * 7 + elementTable.get("N") + elementTable.get("O") * 2 + elementTable.get("Se") + fixModMap.get('U')));
+        massTable.put('O', (elementTable.get("C") * 12 + elementTable.get("H") * 21 + elementTable.get("N") * 3 + elementTable.get("O") * 3 + fixModMap.get('O')));
         massTable.put('n', fixModMap.get('n'));
         massTable.put('c', fixModMap.get('c'));
         massTable.put('#', massTable.get('I')); // for I and L.
-        massTable.put('$', (massTable.get('Q') + massTable.get('K')) * 0.5f); // for Q and K.
-        H2O = (float) (elementTable.get("H") * 2 + elementTable.get("O"));
+        massTable.put('$', (massTable.get('Q') + massTable.get('K')) * 0.5); // for Q and K.
+        H2O = elementTable.get("H") * 2 + elementTable.get("O");
 
         if (protectionSite.contentEquals("-")) {
             digestSitePattern = Pattern.compile("[" + cleavageSite + "]");
@@ -199,14 +199,14 @@ public class MassTool {
         }
     }
 
-    public float calResidueMass(String seq) { // n and c are also AA. Consider fixed modification automatically
-        float total_mass = 0;
+    public double calResidueMass(String seq) { // n and c are also AA. Consider fixed modification automatically
+        double total_mass = 0;
         Matcher matcher = mod_aa_pattern.matcher(seq);
         while (matcher.find()) {
             char aa = matcher.group(1).charAt(0);
-            float delta_mass = 0;
+            double delta_mass = 0;
             if (matcher.group(3) != null) {
-                delta_mass = Float.valueOf(matcher.group(3));
+                delta_mass = Double.valueOf(matcher.group(3));
             }
             total_mass += massTable.get(aa) + delta_mass;
         }
@@ -214,14 +214,14 @@ public class MassTool {
         return total_mass;
     }
 
-    public float calResidueMass2(String seq) { // n and c are also AA. Don't consider fixed modification
-        float total_mass = 0;
+    public double calResidueMass2(String seq) { // n and c are also AA. Don't consider fixed modification
+        double total_mass = 0;
         Matcher matcher = mod_aa_pattern.matcher(seq);
         while (matcher.find()) {
             char aa = matcher.group(1).charAt(0);
-            float delta_mass = 0;
+            double delta_mass = 0;
             if (matcher.group(3) != null) {
-                delta_mass = Float.valueOf(matcher.group(3));
+                delta_mass = Double.valueOf(matcher.group(3));
             }
             if (Math.abs(fixModMap.get(aa) - delta_mass) < 0.01) {
                 total_mass += massTable.get(aa);
@@ -238,9 +238,9 @@ public class MassTool {
         List<AA> temp = new LinkedList<>();
         while (matcher.find()) {
             char aa = matcher.group(1).charAt(0);
-            float delta_mass = 0;
+            double delta_mass = 0;
             if (matcher.group(3) != null) {
-                delta_mass = Float.valueOf(matcher.group(3));
+                delta_mass = Double.valueOf(matcher.group(3));
             }
             temp.add(new AA(aa, delta_mass));
         }
@@ -260,17 +260,17 @@ public class MassTool {
         return peptideSeqSet;
     }
 
-    public float[][] buildIonArray(String seq, int maxCharge) {
+    public double[][] buildIonArray(String seq, int maxCharge) {
         AA[] aaArray = seqToAAList(seq);
 
-        float[] inverseChargeArray = new float[maxCharge];
+        double[] inverseChargeArray = new double[maxCharge];
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            inverseChargeArray[charge - 1] = (float) 1 / (float) charge;
+            inverseChargeArray[charge - 1] = (double) 1 / (double) charge;
         }
 
-        float[][] peptideIonArray = new float[2 * maxCharge][aaArray.length - 2];
+        double[][] peptideIonArray = new double[2 * maxCharge][aaArray.length - 2];
         // traverse the sequence to get b-ion
-        float bIonMass = massTable.get(aaArray[0].aa) + aaArray[0].ptmDeltaMass; // add N-term modification
+        double bIonMass = massTable.get(aaArray[0].aa) + aaArray[0].ptmDeltaMass; // add N-term modification
         for (int i = 1; i < aaArray.length - 2; ++i) {
             bIonMass += massTable.get(aaArray[i].aa) + aaArray[i].ptmDeltaMass;
             for (int charge = 1; charge <= maxCharge; ++charge) {
@@ -285,7 +285,7 @@ public class MassTool {
 
         // traverse the sequence with reversed order to get y-ion
         // the whole sequence
-        float yIonMass = bIonMass + H2O;
+        double yIonMass = bIonMass + H2O;
         for (int charge = 1; charge <= maxCharge; ++charge) {
             peptideIonArray[2 * (charge - 1) + 1][0] = yIonMass * inverseChargeArray[charge - 1] + PROTON;
         }
@@ -306,7 +306,7 @@ public class MassTool {
         return peptideIonArray;
     }
 
-    public SparseBooleanVector buildVector(float[][] ionMatrix, int precursorCharge) {
+    public SparseBooleanVector buildVector(double[][] ionMatrix, int precursorCharge) {
         int colNum = ionMatrix[0].length;
         int rowNum = Math.min(ionMatrix.length / 2, precursorCharge - 1) * 2;
         if (precursorCharge == 1) {
@@ -326,7 +326,7 @@ public class MassTool {
         return new SparseBooleanVector(tempSet);
     }
 
-    public Map<Character, Float> returnMassTable() {
+    public Map<Character, Double> returnMassTable() {
         return massTable;
     }
 
@@ -334,11 +334,11 @@ public class MassTool {
         return elementTable;
     }
 
-    public int mzToBin(float mz) {
+    public int mzToBin(double mz) {
         return (int) Math.floor(mz * inverse2Ms2Tolerance + oneMinusBinOffset);
     }
 
-    public float binToMz(int idx) {
+    public double binToMz(int idx) {
         return (idx - oneMinusBinOffset) * 2 * ms2Tolerance;
     }
 

@@ -4,7 +4,7 @@ package proteomics.Types;
 import java.util.Locale;
 import java.util.TreeMap;
 
-public class PositionDeltaMassMap extends TreeMap<Coordinate, Float> {
+public class PositionDeltaMassMap extends TreeMap<Coordinate, Double> {
 
     public final int peptideLength;
 

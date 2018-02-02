@@ -3,10 +3,10 @@ package proteomics.Types;
 public class AA {
 
     public final char aa;
-    public final float ptmDeltaMass;
+    public final double ptmDeltaMass;
     private final int hashCode;
 
-    public AA(char aa, float ptmDeltaMass) {
+    public AA(char aa, double ptmDeltaMass) {
         this.aa = aa;
         this.ptmDeltaMass = ptmDeltaMass;
         String toString = aa + "-" + ptmDeltaMass;

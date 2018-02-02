@@ -14,30 +14,30 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, float precursorMass, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, float leftInverseMs1Tolerance, float rightInverseMs1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int localMaxMs2Charge) {
+    public Search(BuildIndex buildIndexObj, double precursorMass, SparseVector scanCode, MassTool massToolObj, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, double minPtmMass, double maxPtmMass, int localMaxMs2Charge) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         double scanNormSquare = scanCode.norm2square();
-        float leftTol = ms1Tolerance;
-        float rightTol = ms1Tolerance;
+        double leftTol = ms1Tolerance;
+        double rightTol = ms1Tolerance;
         if (ms1ToleranceUnit == 1) {
             leftTol = precursorMass - (precursorMass * leftInverseMs1Tolerance);
             rightTol = (precursorMass * rightInverseMs1Tolerance) - precursorMass;
         }
-        float leftMass = Math.max(precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
-        float rightMass = Math.min(precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());
+        double leftMass = Math.max(precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
+        double rightMass = Math.min(precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());
 
         if (leftMass >= rightMass) {
             return;
         }
 
         Map<String, Peptide0> peptide0Map = buildIndexObj.getPeptide0Map();
-        TreeMap<Float, Set<String>> massPeptideMap = buildIndexObj.getMassPeptideMap();
+        TreeMap<Double, Set<String>> massPeptideMap = buildIndexObj.getMassPeptideMap();
 
-        NavigableMap<Float, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
+        NavigableMap<Double, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
 
         if (!subMassPeptideMap.isEmpty()) {
-            for (float mass : subMassPeptideMap.keySet()) {
+            for (double mass : subMassPeptideMap.keySet()) {
                 for (String sequence : massPeptideMap.get(mass)) {
                     Peptide0 peptide0 = peptide0Map.get(sequence);
                     double score = 0;
@@ -45,7 +45,7 @@ public class Search {
                     if (temp1 > 1e-6) {
                         score = peptide0.code.dot(scanCode) / temp1;
                     }
-                    float deltaMass = mass - precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
+                    double deltaMass = mass - precursorMass; // caution: the order matters under ms1ToleranceUnit == 1 situation
 
                     if (peptide0.isTarget) {
                         if ((deltaMass <= rightTol) && (deltaMass >= -1 * leftTol)) {

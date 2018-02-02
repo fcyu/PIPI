@@ -6,7 +6,7 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
     private final ExpAA[] threeExpAa;
     private int hashCode;
     private final String aaString;
-    private final float totalIntensity;
+    private final double totalIntensity;
     private final String ptmFreeAAString;
     private int regionIdx;
 
@@ -27,7 +27,7 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
         }
         ptmFreeAAString = sb.toString();
 
-        float intensity = threeExpAa[0].getHeadIntensity();
+        double intensity = threeExpAa[0].getHeadIntensity();
         for (ExpAA aa : threeExpAa) {
             intensity += aa.getTailIntensity();
         }
@@ -42,7 +42,7 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
         return (other instanceof ThreeExpAA) && (this.hashCode() == other.hashCode());
     }
 
-    public boolean approximateEquals(ThreeExpAA other, float tolerance) {
+    public boolean approximateEquals(ThreeExpAA other, double tolerance) {
         for (int i = 0; i < this.size(); ++i) {
             if (!this.get(i).approximateEquals(other.get(i), tolerance)) {
                 return false;
@@ -80,15 +80,15 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
         return ptmFreeAAString;
     }
 
-    public float getTotalIntensity() {
+    public double getTotalIntensity() {
         return totalIntensity;
     }
 
-    public float getHeadLocation() {
+    public double getHeadLocation() {
         return threeExpAa[0].getHeadLocation();
     }
 
-    public float getTailLocation() {
+    public double getTailLocation() {
         return threeExpAa[threeExpAa.length - 1].getTailLocation();
     }
 

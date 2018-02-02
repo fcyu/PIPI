@@ -26,7 +26,7 @@ public class SparseBooleanVector {
 
     public double fastDot(SparseVector other) { // Caution: this will change the original SparseBooleanVector
         double output = 0;
-        Map<Integer, Float> otherVector = other.getVectorMap();
+        Map<Integer, Double> otherVector = other.getVectorMap();
         sparseVector.retainAll(otherVector.keySet());
         for (int i : sparseVector) {
             output += otherVector.get(i);

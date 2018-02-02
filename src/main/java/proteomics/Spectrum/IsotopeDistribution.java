@@ -692,7 +692,7 @@ class IsotopeDistribution {
             }
         }
 
-        prune(result, 1e-6f); // prune the final result to a reasonable precision.
+        prune(result, 1e-6); // prune the final result to a reasonable precision.
         return result;
     }
 

@@ -22,29 +22,29 @@ public class PIPIWrap implements Callable<Boolean> {
 
     private final BuildIndex buildIndexObj;
     private final MassTool massToolObj;
-    private final float ms1Tolerance;
-    private final float leftInverseMs1Tolerance;
-    private final float rightInverseMs1Tolerance;
+    private final double ms1Tolerance;
+    private final double leftInverseMs1Tolerance;
+    private final double rightInverseMs1Tolerance;
     private final int ms1ToleranceUnit;
-    private final float ms2Tolerance;
-    private final float minPtmMass;
-    private final float maxPtmMass;
+    private final double ms2Tolerance;
+    private final double minPtmMass;
+    private final double maxPtmMass;
     private final int localMaxMs2Charge;
     private final Map<String, Peptide0> peptide0Map;
     private final JMzReader spectraParser;
-    private final float minClear;
-    private final float maxClear;
+    private final double minClear;
+    private final double maxClear;
     private final ReentrantLock lock;
     private final String scanId;
     private final int precursorCharge;
-    private final float precursorMass;
+    private final double precursorMass;
     private final InferPTM inferPTM;
     private final PreSpectrum preSpectrum;
     private final Connection sqlConnection;
     private final Binomial binomial;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, float leftInverseMs1Tolerance, float rightInverseMs1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, double ms2Tolerance, double minPtmMass, double maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, double minClear, double maxClear, ReentrantLock lock, String scanId, int precursorCharge, double precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.ms1Tolerance = ms1Tolerance;
@@ -81,7 +81,7 @@ public class PIPIWrap implements Callable<Boolean> {
         }
 
         // preprocess peak list
-        TreeMap<Float, Float> plMap = preSpectrum.preSpectrum(rawPLMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
+        TreeMap<Double, Double> plMap = preSpectrum.preSpectrum(rawPLMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
 
         // Coding
         InferenceSegment inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
@@ -100,8 +100,8 @@ public class PIPIWrap implements Callable<Boolean> {
                 expProcessedPL = preSpectrum.prepareDigitizedPL(plMap, false);
             }
 
-            float localMS1ToleranceL = -1 * ms1Tolerance;
-            float localMS1ToleranceR = ms1Tolerance;
+            double localMS1ToleranceL = -1 * ms1Tolerance;
+            double localMS1ToleranceR = ms1Tolerance;
             if (ms1ToleranceUnit == 1) {
                 localMS1ToleranceL = (precursorMass * leftInverseMs1Tolerance) - precursorMass;
                 localMS1ToleranceR = (precursorMass * rightInverseMs1Tolerance) - precursorMass;
@@ -156,7 +156,7 @@ public class PIPIWrap implements Callable<Boolean> {
                         int scanNum = sqlResultSet.getInt("scanNum");
                         String scanId = sqlResultSet.getString("scanId");
                         int precursorCharge = sqlResultSet.getInt("precursorCharge");
-                        float precursorMass = sqlResultSet.getFloat("precursorMass");
+                        double precursorMass = sqlResultSet.getDouble("precursorMass");
                         String mgfTitle = sqlResultSet.getString("mgfTitle");
                         int isotopeCorrectionNum = sqlResultSet.getInt("isotopeCorrectionNum");
                         double ms1PearsonCorrelationCoefficient = sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient");

@@ -74,13 +74,13 @@ public class PIPI {
         // Get the parameter map
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
-        float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
-        float ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
-        float leftInverseMs1Tolerance = 1 / (1 + ms1Tolerance * 1e-6f);
-        float rightInverseMs1Tolerance = 1 / (1 - ms1Tolerance * 1e-6f);
+        double ms2Tolerance = Double.valueOf(parameterMap.get("ms2_tolerance"));
+        double ms1Tolerance = Double.valueOf(parameterMap.get("ms1_tolerance"));
+        double leftInverseMs1Tolerance = 1 / (1 + ms1Tolerance * 1e-6);
+        double rightInverseMs1Tolerance = 1 / (1 - ms1Tolerance * 1e-6);
         int ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
-        float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
-        float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
+        double minClear = Double.valueOf(parameterMap.get("min_clear_mz"));
+        double maxClear = Double.valueOf(parameterMap.get("max_clear_mz"));
         String percolatorPath = parameterMap.get("percolator_path");
         boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
 
@@ -106,8 +106,8 @@ public class PIPI {
         BuildIndex buildIndexObj = new BuildIndex(parameterMap, labelling);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
 
-        float minPtmMass = Float.valueOf(parameterMap.get("min_ptm_mass"));
-        float maxPtmMass = Float.valueOf(parameterMap.get("max_ptm_mass"));
+        double minPtmMass = Double.valueOf(parameterMap.get("min_ptm_mass"));
+        double maxPtmMass = Double.valueOf(parameterMap.get("max_ptm_mass"));
 
         logger.info("Reading spectra...");
         File spectraFile = new File(spectraPath);
@@ -166,7 +166,7 @@ public class PIPI {
         while (sqlResultSet.next()) {
             String scanId = sqlResultSet.getString("scanId");
             int precursorCharge = sqlResultSet.getInt("precursorCharge");
-            float precursorMass = sqlResultSet.getFloat("precursorMass");
+            double precursorMass = sqlResultSet.getDouble("precursorMass");
             taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection, binomial)));
         }
         sqlResultSet.close();
@@ -270,9 +270,9 @@ public class PIPI {
             String peptide = sqlResultSet.getString("peptide");
             if (!sqlResultSet.wasNull()) {
                 int charge = sqlResultSet.getInt("precursorCharge");
-                float theoMass = sqlResultSet.getFloat("theoMass");
-                float expMass = sqlResultSet.getFloat("precursorMass");
-                float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+                double theoMass = sqlResultSet.getDouble("theoMass");
+                double expMass = sqlResultSet.getDouble("precursorMass");
+                double massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
 
                 Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
                 TreeSet<String> proteinIdSet = new TreeSet<>();
@@ -302,9 +302,9 @@ public class PIPI {
                 double explainedAaFrac = sqlResultSet.getDouble("explainedAaFrac");
 
                 if (isDecoy == 1) {
-                    writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6 / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
                 } else {
-                    writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6f / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6 / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
                 }
             }
         }
@@ -383,11 +383,11 @@ public class PIPI {
             if (!sqlResultSet.wasNull()) {
                 if (isDecoy == 0) {
                     int scanNum = sqlResultSet.getInt("scanNum");
-                    float expMass = sqlResultSet.getFloat("precursorMass");
+                    double expMass = sqlResultSet.getDouble("precursorMass");
                     String peptide = sqlResultSet.getString("peptide");
-                    float theoMass = sqlResultSet.getFloat("theoMass");
-                    float massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
-                    float ppm = Math.abs(massDiff * 1e6f / theoMass);
+                    double theoMass = sqlResultSet.getDouble("theoMass");
+                    double massDiff = getMassDiff(expMass, theoMass, MassTool.C13_DIFF);
+                    double ppm = Math.abs(massDiff * 1e6 / theoMass);
 
                     Peptide0 peptide0 = peptide0Map.get(peptide.replaceAll("[^ncA-Z]+", ""));
                     TreeSet<String> proteinIdSet = new TreeSet<>();
@@ -425,13 +425,13 @@ public class PIPI {
         writer.close();
     }
 
-    public static float getMassDiff(float expMass, float theoMass, float C13Diff) {
-        float massDiff1 = expMass - theoMass;
-        float massDiff2 = expMass - theoMass - C13Diff;
-        float massDiff3 = expMass - theoMass - 2 * C13Diff;
-        float absMassDiff1 = Math.abs(massDiff1);
-        float absMassDiff2 = Math.abs(massDiff2);
-        float absMassDiff3 = Math.abs(massDiff3);
+    public static double getMassDiff(double expMass, double theoMass, double C13Diff) {
+        double massDiff1 = expMass - theoMass;
+        double massDiff2 = expMass - theoMass - C13Diff;
+        double massDiff3 = expMass - theoMass - 2 * C13Diff;
+        double absMassDiff1 = Math.abs(massDiff1);
+        double absMassDiff2 = Math.abs(massDiff2);
+        double absMassDiff3 = Math.abs(massDiff3);
 
         if ((absMassDiff1 <= absMassDiff2) && (absMassDiff1 <= absMassDiff2)) {
             return massDiff1;

@@ -18,7 +18,7 @@ public class WritePepXml {
     private final String rawDataType;
     private final Map<String, String> parameterMap;
 
-    public WritePepXml(String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Float> massTable, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Peptide0> peptide0Map, Map<Character, Float> fixModMap, String sqlPath) throws IOException, SQLException {
+    public WritePepXml(String outputPath, String spectraName, Map<String, String> parameterMap, Map<Character, Double> massTable, Map<Integer, PercolatorEntry> percolatorResultMap, Map<String, Peptide0> peptide0Map, Map<Character, Double> fixModMap, String sqlPath) throws IOException, SQLException {
         this.outputPath = outputPath;
         int tempIdx = spectraName.lastIndexOf('.');
         baseName = spectraName.substring(0, tempIdx);
@@ -40,11 +40,11 @@ public class WritePepXml {
                 for (String protein : peptide0.proteins) {
                     proteinIdSet.add(protein.trim());
                 }
-                float expMass = sqlResultSet.getFloat("precursorMass");
+                double expMass = sqlResultSet.getDouble("precursorMass");
                 String aScore = sqlResultSet.getString("aScore");
                 PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
                 int precursorCharge = sqlResultSet.getInt("precursorCharge");
-                float theoMass = sqlResultSet.getFloat("theoMass");
+                double theoMass = sqlResultSet.getDouble("theoMass");
 
                 writer.write(String.format(Locale.US,
                         "\t\t<spectrum_query spectrum=\"%d\" start_scan=\"%d\" end_scan=\"%d\" precursor_neutral_mass=\"%f\" assumed_charge=\"%d\" index=\"%d\">\r\n" +
@@ -98,7 +98,7 @@ public class WritePepXml {
         sqlConnection.close();
     }
 
-    private String pepxmlHeader(Map<Character, Float> massTable) {
+    private String pepxmlHeader(Map<Character, Double> massTable) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Date date = new Date();
         StringBuilder header = new StringBuilder();
@@ -115,23 +115,23 @@ public class WritePepXml {
         for (String k : parameterMap.keySet()) {
             if (k.startsWith("mod") && !parameterMap.get(k).trim().startsWith("0.0")) {
                 String[] parts = parameterMap.get(k).trim().split("@");
-                header.append(String.format(Locale.US, "\t\t\t<aminoacid_modification aminoacid=\"%c\" massdiff=\"%s\" mass=\"%f\" variable=\"Y\"/>\r\n", parts[1].charAt(0), parts[0].trim(), massTable.get(parts[1].charAt(0)) + Float.valueOf(parts[0])));
-            } else if (k.startsWith("Nterm") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
+                header.append(String.format(Locale.US, "\t\t\t<aminoacid_modification aminoacid=\"%c\" massdiff=\"%s\" mass=\"%f\" variable=\"Y\"/>\r\n", parts[1].charAt(0), parts[0].trim(), massTable.get(parts[1].charAt(0)) + Double.valueOf(parts[0])));
+            } else if (k.startsWith("Nterm") && Math.abs(Double.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 String[] parts = parameterMap.get(k).trim().split(",");
                 for (String part : parts) {
-                    header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"N\" massdiff=\"%s\" mass=\"%f\" variable=\"Y\" protein_terminus=\"N\"/>\r\n", part.trim(), MassTool.PROTON + Float.valueOf(parts[0])));
+                    header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"N\" massdiff=\"%s\" mass=\"%f\" variable=\"Y\" protein_terminus=\"N\"/>\r\n", part.trim(), MassTool.PROTON + Double.valueOf(parts[0])));
                 }
-            } else if (k.startsWith("Cterm") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
+            } else if (k.startsWith("Cterm") && Math.abs(Double.valueOf(parameterMap.get(k).trim())) > 0.5) {
                 String[] parts = parameterMap.get(k).trim().split(",");
                 for (String part : parts) {
                     header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"C\" massdiff=\"%s\" mass=\"%s\" variable=\"Y\" protein_terminus=\"N\"/>\r\n", part.trim(), part.trim()));
                 }
-            } else if (k.matches("[A-Z]") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
-                header.append(String.format(Locale.US, "\t\t\t<aminoacid_modification aminoacid=\"%c\" massdiff=\"%s\" mass=\"%f\" variable=\"N\"/>\r\n", k.charAt(0), parameterMap.get(k).trim(), massTable.get(k.charAt(0)) + Float.valueOf(parameterMap.get(k))));
-            } else if (k.contentEquals("n") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
-                header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"N\" massdiff=\"%s\" mass=\"%s\" variable=\"N\" protein_terminus=\"N\"/>\r\n", parameterMap.get(k).trim(), MassTool.PROTON + Float.valueOf(parameterMap.get(k).trim())));
-            } else if (k.contentEquals("c") && Math.abs(Float.valueOf(parameterMap.get(k).trim())) > 0.5) {
-                header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"C\" massdiff=\"%s\" mass=\"%s\" variable=\"N\" protein_terminus=\"N\"/>\r\n", parameterMap.get(k).trim(), Float.valueOf(parameterMap.get(k).trim())));
+            } else if (k.matches("[A-Z]") && Math.abs(Double.valueOf(parameterMap.get(k).trim())) > 0.5) {
+                header.append(String.format(Locale.US, "\t\t\t<aminoacid_modification aminoacid=\"%c\" massdiff=\"%s\" mass=\"%f\" variable=\"N\"/>\r\n", k.charAt(0), parameterMap.get(k).trim(), massTable.get(k.charAt(0)) + Double.valueOf(parameterMap.get(k))));
+            } else if (k.contentEquals("n") && Math.abs(Double.valueOf(parameterMap.get(k).trim())) > 0.5) {
+                header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"N\" massdiff=\"%s\" mass=\"%s\" variable=\"N\" protein_terminus=\"N\"/>\r\n", parameterMap.get(k).trim(), MassTool.PROTON + Double.valueOf(parameterMap.get(k).trim())));
+            } else if (k.contentEquals("c") && Math.abs(Double.valueOf(parameterMap.get(k).trim())) > 0.5) {
+                header.append(String.format(Locale.US, "\t\t\t<terminal_modification terminus=\"C\" massdiff=\"%s\" mass=\"%s\" variable=\"N\" protein_terminus=\"N\"/>\r\n", parameterMap.get(k).trim(), Double.valueOf(parameterMap.get(k).trim())));
             }
         }
         for (String k : parameterMap.keySet()) {

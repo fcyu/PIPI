@@ -3,14 +3,14 @@ package proteomics.Types;
 
 public class VarModParam {
 
-    public final float mass;
+    public final double mass;
     public final char aa;
     public final int priority; // 1 = high; 0 = low.
     public final boolean onlyProteinTerminalIfnc;
 
     private final int hashCode;
 
-    public VarModParam(float mass, char aa, int priority, boolean onlyProteinTerminalIfnc) {
+    public VarModParam(double mass, char aa, int priority, boolean onlyProteinTerminalIfnc) {
         this.mass = mass;
         this.aa = aa;
         this.priority = priority;

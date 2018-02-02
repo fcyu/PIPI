@@ -3,25 +3,25 @@ package proteomics.Types;
 public class ExpAA implements Comparable<ExpAA> {
     private final String aa;
     private final char ptmFreeAA;
-    private final float headLocation;
-    private final float tailLocation;
-    private final float headIntensity;
-    private final float tailIntensity;
-    private final float totalHalfIntensity;
-    private final float mod;
-    private final float nTermMod;
-    private final float cTermMod;
+    private final double headLocation;
+    private final double tailLocation;
+    private final double headIntensity;
+    private final double tailIntensity;
+    private final double totalHalfIntensity;
+    private final double mod;
+    private final double nTermMod;
+    private final double cTermMod;
     private int theoLocation; // starts from 0, include N/C-terminal
     private int hashCode;
 
-    public ExpAA(String aa, char ptmFreeAA, float headLocation, float tailLocation, float headIntensity, float tailIntensity, int theoLocation, float mod, float nTermMod, float cTermMod) {
+    public ExpAA(String aa, char ptmFreeAA, double headLocation, double tailLocation, double headIntensity, double tailIntensity, int theoLocation, double mod, double nTermMod, double cTermMod) {
         this.aa = aa;
         this.ptmFreeAA = ptmFreeAA;
         this.headLocation = headLocation;
         this.tailLocation = tailLocation;
         this.headIntensity = headIntensity;
         this.tailIntensity = tailIntensity;
-        this.totalHalfIntensity = (headIntensity + tailIntensity) * 0.5f;
+        this.totalHalfIntensity = (headIntensity + tailIntensity) * 0.5;
         this.mod = mod;
         this.nTermMod = nTermMod;
         this.cTermMod = cTermMod;
@@ -38,15 +38,15 @@ public class ExpAA implements Comparable<ExpAA> {
         return ptmFreeAA;
     }
 
-    public float getMod() {
+    public double getMod() {
         return mod;
     }
 
-    public float getnTermMod() {
+    public double getnTermMod() {
         return nTermMod;
     }
 
-    public float getcTermMod() {
+    public double getcTermMod() {
         return cTermMod;
     }
 
@@ -84,7 +84,7 @@ public class ExpAA implements Comparable<ExpAA> {
         }
     }
 
-    public boolean approximateEquals(ExpAA other, float tolerance) {
+    public boolean approximateEquals(ExpAA other, double tolerance) {
         return (this.aa.contentEquals(other.aa) && (this.theoLocation == other.theoLocation) && (Math.abs(this.headLocation - other.headLocation) <= tolerance));
     }
 
@@ -92,23 +92,23 @@ public class ExpAA implements Comparable<ExpAA> {
         return new ExpAA(aa, ptmFreeAA, headLocation, tailLocation, headIntensity, tailIntensity, theoLocation, mod, nTermMod, cTermMod);
     }
 
-    public float getHeadLocation() {
+    public double getHeadLocation() {
         return headLocation;
     }
 
-    public float getTailLocation() {
+    public double getTailLocation() {
         return tailLocation;
     }
 
-    public float getHeadIntensity() {
+    public double getHeadIntensity() {
         return headIntensity;
     }
 
-    public float getTailIntensity() {
+    public double getTailIntensity() {
         return tailIntensity;
     }
 
-    public float getTotalHalfIntensity() {
+    public double getTotalHalfIntensity() {
         return totalHalfIntensity;
     }
 }

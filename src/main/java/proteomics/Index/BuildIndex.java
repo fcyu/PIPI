@@ -15,11 +15,11 @@ public class BuildIndex {
     private static final Logger logger = LoggerFactory.getLogger(BuildIndex.class);
 
     private final MassTool massToolObj;
-    private Map<Character, Float> fixModMap = new HashMap<>(25, 1);
-    private float minPeptideMass = 9999;
-    private float maxPeptideMass = 0;
+    private Map<Character, Double> fixModMap = new HashMap<>(25, 1);
+    private double minPeptideMass = 9999;
+    private double maxPeptideMass = 0;
     private InferenceSegment inference3SegmentObj;
-    private TreeMap<Float, Set<String>> massPeptideMap = new TreeMap<>();
+    private TreeMap<Double, Set<String>> massPeptideMap = new TreeMap<>();
     private Map<String, Peptide0> peptide0Map;
     private final String labelling;
 
@@ -30,35 +30,35 @@ public class BuildIndex {
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
         String dbPath = parameterMap.get("db");
         int missedCleavage = Integer.valueOf(parameterMap.get("missed_cleavage"));
-        float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
-        float oneMinusBinOffset = 1 - Float.valueOf(parameterMap.get("mz_bin_offset"));
+        double ms2Tolerance = Double.valueOf(parameterMap.get("ms2_tolerance"));
+        double oneMinusBinOffset = 1 - Double.valueOf(parameterMap.get("mz_bin_offset"));
         this.labelling = labelling;
 
         // Read fix modification
-        fixModMap.put('G', Float.valueOf(parameterMap.get("G")));
-        fixModMap.put('A', Float.valueOf(parameterMap.get("A")));
-        fixModMap.put('S', Float.valueOf(parameterMap.get("S")));
-        fixModMap.put('P', Float.valueOf(parameterMap.get("P")));
-        fixModMap.put('V', Float.valueOf(parameterMap.get("V")));
-        fixModMap.put('T', Float.valueOf(parameterMap.get("T")));
-        fixModMap.put('C', Float.valueOf(parameterMap.get("C")));
-        fixModMap.put('I', Float.valueOf(parameterMap.get("I")));
-        fixModMap.put('L', Float.valueOf(parameterMap.get("L")));
-        fixModMap.put('N', Float.valueOf(parameterMap.get("N")));
-        fixModMap.put('D', Float.valueOf(parameterMap.get("D")));
-        fixModMap.put('Q', Float.valueOf(parameterMap.get("Q")));
-        fixModMap.put('K', Float.valueOf(parameterMap.get("K")));
-        fixModMap.put('E', Float.valueOf(parameterMap.get("E")));
-        fixModMap.put('M', Float.valueOf(parameterMap.get("M")));
-        fixModMap.put('H', Float.valueOf(parameterMap.get("H")));
-        fixModMap.put('F', Float.valueOf(parameterMap.get("F")));
-        fixModMap.put('R', Float.valueOf(parameterMap.get("R")));
-        fixModMap.put('Y', Float.valueOf(parameterMap.get("Y")));
-        fixModMap.put('W', Float.valueOf(parameterMap.get("W")));
-        fixModMap.put('U', Float.valueOf(parameterMap.get("U")));
-        fixModMap.put('O', Float.valueOf(parameterMap.get("O")));
-        fixModMap.put('n', Float.valueOf(parameterMap.get("n")));
-        fixModMap.put('c', Float.valueOf(parameterMap.get("c")));
+        fixModMap.put('G', Double.valueOf(parameterMap.get("G")));
+        fixModMap.put('A', Double.valueOf(parameterMap.get("A")));
+        fixModMap.put('S', Double.valueOf(parameterMap.get("S")));
+        fixModMap.put('P', Double.valueOf(parameterMap.get("P")));
+        fixModMap.put('V', Double.valueOf(parameterMap.get("V")));
+        fixModMap.put('T', Double.valueOf(parameterMap.get("T")));
+        fixModMap.put('C', Double.valueOf(parameterMap.get("C")));
+        fixModMap.put('I', Double.valueOf(parameterMap.get("I")));
+        fixModMap.put('L', Double.valueOf(parameterMap.get("L")));
+        fixModMap.put('N', Double.valueOf(parameterMap.get("N")));
+        fixModMap.put('D', Double.valueOf(parameterMap.get("D")));
+        fixModMap.put('Q', Double.valueOf(parameterMap.get("Q")));
+        fixModMap.put('K', Double.valueOf(parameterMap.get("K")));
+        fixModMap.put('E', Double.valueOf(parameterMap.get("E")));
+        fixModMap.put('M', Double.valueOf(parameterMap.get("M")));
+        fixModMap.put('H', Double.valueOf(parameterMap.get("H")));
+        fixModMap.put('F', Double.valueOf(parameterMap.get("F")));
+        fixModMap.put('R', Double.valueOf(parameterMap.get("R")));
+        fixModMap.put('Y', Double.valueOf(parameterMap.get("Y")));
+        fixModMap.put('W', Double.valueOf(parameterMap.get("W")));
+        fixModMap.put('U', Double.valueOf(parameterMap.get("U")));
+        fixModMap.put('O', Double.valueOf(parameterMap.get("O")));
+        fixModMap.put('n', Double.valueOf(parameterMap.get("n")));
+        fixModMap.put('c', Double.valueOf(parameterMap.get("c")));
 
         // read protein database
         DbTool dbToolObj = new DbTool(dbPath, parameterMap.get("database_type"));
@@ -74,7 +74,7 @@ public class BuildIndex {
 
         Set<String> forCheckDuplicate = new HashSet<>(500000);
         Map<String, TreeSet<String>> targetPeptideProteinMap = new HashMap<>(500000);
-        Map<String, Float> targetPeptideMassMap = new HashMap<>(500000);
+        Map<String, Double> targetPeptideMassMap = new HashMap<>(500000);
         for (String proId : proteinPeptideMap.keySet()) {
             String proSeq = proteinPeptideMap.get(proId);
             Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
@@ -91,7 +91,7 @@ public class BuildIndex {
                         // Add the sequence to the check set for duplicate check
                         forCheckDuplicate.add(peptide.replace('L', 'I'));
 
-                        float mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
+                        double mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
                         // recode min and max peptide mass
                         if (mass < minPeptideMass) {
                             minPeptideMass = mass;
@@ -214,15 +214,15 @@ public class BuildIndex {
         return massToolObj;
     }
 
-    public float getMinPeptideMass() {
+    public double getMinPeptideMass() {
         return minPeptideMass;
     }
 
-    public float getMaxPeptideMass() {
+    public double getMaxPeptideMass() {
         return maxPeptideMass;
     }
 
-    public Map<Character, Float> returnFixModMap() {
+    public Map<Character, Double> returnFixModMap() {
         return fixModMap;
     }
 
@@ -230,7 +230,7 @@ public class BuildIndex {
         return inference3SegmentObj;
     }
 
-    public TreeMap<Float, Set<String>> getMassPeptideMap() {
+    public TreeMap<Double, Set<String>> getMassPeptideMap() {
         return massPeptideMap;
     }
 
