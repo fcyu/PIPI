@@ -21,7 +21,7 @@ public class ExpAA implements Comparable<ExpAA> {
         this.tailLocation = tailLocation;
         this.headIntensity = headIntensity;
         this.tailIntensity = tailIntensity;
-        this.totalHalfIntensity = (headIntensity + tailIntensity) / 2;
+        this.totalHalfIntensity = (headIntensity + tailIntensity) * 0.5f;
         this.mod = mod;
         this.nTermMod = nTermMod;
         this.cTermMod = cTermMod;

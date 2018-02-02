@@ -14,15 +14,15 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, float precursorMass, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int localMaxMs2Charge) {
+    public Search(BuildIndex buildIndexObj, float precursorMass, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, float leftInverseMs1Tolerance, float rightInverseMs1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int localMaxMs2Charge) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         double scanNormSquare = scanCode.norm2square();
         float leftTol = ms1Tolerance;
         float rightTol = ms1Tolerance;
         if (ms1ToleranceUnit == 1) {
-            leftTol = precursorMass - (precursorMass / (1 + ms1Tolerance * 1e-6f));
-            rightTol = (precursorMass / (1 - ms1Tolerance * 1e-6f)) - precursorMass;
+            leftTol = precursorMass - (precursorMass * leftInverseMs1Tolerance);
+            rightTol = (precursorMass * rightInverseMs1Tolerance) - precursorMass;
         }
         float leftMass = Math.max(precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
         float rightMass = Math.min(precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());

@@ -12,13 +12,13 @@ class IsotopeDistribution {
 
     private Map<String, Peak[]> elementIsotopeMap = new HashMap<>();
     private final double limit;
-    private final double averagineMonoMass;
+    private final double inverseAveragineMonoMass;
     private final Map<String, Double> elementTable;
 
     IsotopeDistribution(Map<String, Double> elementTable, double limit, String labelling) {
         this.elementTable = elementTable;
         this.limit = limit;
-        averagineMonoMass = averagineC * elementTable.get("C") + averagineH * elementTable.get("H") + averagineN * elementTable.get("N") + averagineO * elementTable.get("O") + averagineS * elementTable.get("S");
+        inverseAveragineMonoMass = 1 / (averagineC * elementTable.get("C") + averagineH * elementTable.get("H") + averagineN * elementTable.get("N") + averagineO * elementTable.get("O") + averagineS * elementTable.get("S"));
 
         Peak[] peakArray = new Peak[2];
         peakArray[0] = new Peak(1.0078246, 0.99985);
@@ -644,7 +644,7 @@ class IsotopeDistribution {
     }
 
     Map<String, Integer> getElementMapFromMonoMass(double mass) {
-        double unit = mass / averagineMonoMass;
+        double unit = mass * inverseAveragineMonoMass;
         int C = (int) Math.round(averagineC * unit);
         int N = (int) Math.round(averagineN * unit);
         int O = (int) Math.round(averagineO * unit);

@@ -18,6 +18,7 @@ public class MassTool {
     private final Map<Character, Float> massTable = new HashMap<>(30, 1);
     private final int missedCleavage;
     private float ms2Tolerance;
+    private float inverse2Ms2Tolerance;
     private float oneMinusBinOffset;
     private Pattern digestSitePattern;
     private final boolean cleavageFromCTerm;
@@ -158,6 +159,7 @@ public class MassTool {
 
         this.missedCleavage = missedCleavage;
         this.ms2Tolerance = ms2Tolerance;
+        inverse2Ms2Tolerance = 1 / (2 * ms2Tolerance);
         this.oneMinusBinOffset = oneMinusBinOffset;
         this.cleavageFromCTerm = cleavageFromCTerm;
         massTable.put('G', (float) (elementTable.get("C") * 2 + elementTable.get("H") * 3 + elementTable.get("N") + elementTable.get("O") + fixModMap.get('G')));
@@ -185,7 +187,7 @@ public class MassTool {
         massTable.put('n', fixModMap.get('n'));
         massTable.put('c', fixModMap.get('c'));
         massTable.put('#', massTable.get('I')); // for I and L.
-        massTable.put('$', (massTable.get('Q') + massTable.get('K')) / 2); // for Q and K.
+        massTable.put('$', (massTable.get('Q') + massTable.get('K')) * 0.5f); // for Q and K.
         H2O = (float) (elementTable.get("H") * 2 + elementTable.get("O"));
 
         if (protectionSite.contentEquals("-")) {
@@ -261,38 +263,43 @@ public class MassTool {
     public float[][] buildIonArray(String seq, int maxCharge) {
         AA[] aaArray = seqToAAList(seq);
 
+        float[] inverseChargeArray = new float[maxCharge];
+        for (int charge = 1; charge <= maxCharge; ++charge) {
+            inverseChargeArray[charge - 1] = (float) 1 / (float) charge;
+        }
+
         float[][] peptideIonArray = new float[2 * maxCharge][aaArray.length - 2];
         // traverse the sequence to get b-ion
         float bIonMass = massTable.get(aaArray[0].aa) + aaArray[0].ptmDeltaMass; // add N-term modification
         for (int i = 1; i < aaArray.length - 2; ++i) {
             bIonMass += massTable.get(aaArray[i].aa) + aaArray[i].ptmDeltaMass;
             for (int charge = 1; charge <= maxCharge; ++charge) {
-                peptideIonArray[2 * (charge - 1)][i - 1]  = bIonMass / charge + PROTON;
+                peptideIonArray[2 * (charge - 1)][i - 1]  = bIonMass * inverseChargeArray[charge - 1] + PROTON;
             }
         }
         // calculate the last b-ion with C-term modification
         bIonMass +=  massTable.get(aaArray[aaArray.length - 2].aa) + aaArray[aaArray.length - 2].ptmDeltaMass + massTable.get(aaArray[aaArray.length - 1].aa) + aaArray[aaArray.length - 1].ptmDeltaMass;
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            peptideIonArray[2 * (charge - 1)][aaArray.length - 3] = bIonMass / charge + 1.00727646688f;
+            peptideIonArray[2 * (charge - 1)][aaArray.length - 3] = bIonMass * inverseChargeArray[charge - 1] + PROTON;
         }
 
         // traverse the sequence with reversed order to get y-ion
         // the whole sequence
         float yIonMass = bIonMass + H2O;
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            peptideIonArray[2 * (charge - 1) + 1][0] = yIonMass  / charge + PROTON;
+            peptideIonArray[2 * (charge - 1) + 1][0] = yIonMass * inverseChargeArray[charge - 1] + PROTON;
         }
         // delete the first amino acid and N-term modification
         yIonMass -= massTable.get(aaArray[0].aa) + aaArray[0].ptmDeltaMass + massTable.get(aaArray[1].aa) + aaArray[1].ptmDeltaMass;
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            peptideIonArray[2 * (charge - 1) + 1][1] = yIonMass / charge + PROTON;
+            peptideIonArray[2 * (charge - 1) + 1][1] = yIonMass * inverseChargeArray[charge - 1] + PROTON;
         }
 
         // rest of the sequence
         for (int i = 2; i < aaArray.length - 2; ++i) {
             yIonMass -= massTable.get(aaArray[i].aa) + aaArray[i].ptmDeltaMass;
             for (int charge = 1; charge <= maxCharge; ++charge) {
-                peptideIonArray[2 * (charge - 1) + 1][i] = yIonMass / charge + PROTON;
+                peptideIonArray[2 * (charge - 1) + 1][i] = yIonMass * inverseChargeArray[charge - 1] + PROTON;
             }
         }
 
@@ -328,7 +335,7 @@ public class MassTool {
     }
 
     public int mzToBin(float mz) {
-        return (int) Math.floor(mz / (2 * ms2Tolerance) + oneMinusBinOffset);
+        return (int) Math.floor(mz * inverse2Ms2Tolerance + oneMinusBinOffset);
     }
 
     public float binToMz(int idx) {

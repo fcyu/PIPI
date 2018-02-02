@@ -76,6 +76,8 @@ public class PIPI {
         Map<String, String> parameterMap = parameter.returnParameterMap();
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
+        float leftInverseMs1Tolerance = 1 / (1 + ms1Tolerance * 1e-6f);
+        float rightInverseMs1Tolerance = 1 / (1 - ms1Tolerance * 1e-6f);
         int ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
         float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
@@ -126,7 +128,7 @@ public class PIPI {
         String sqlPath = "jdbc:sqlite:" + dbName;
         Class.forName("org.sqlite.JDBC").newInstance();
 
-        PreSpectra preSpectraObj = new PreSpectra(spectraParser, parameterMap, massToolObj, ext, msLevelSet, sqlPath);
+        PreSpectra preSpectraObj = new PreSpectra(spectraParser, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, massToolObj, ext, msLevelSet, sqlPath);
 
         if (DEV) {
             BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"));
@@ -165,7 +167,7 @@ public class PIPI {
             String scanId = sqlResultSet.getString("scanId");
             int precursorCharge = sqlResultSet.getInt("precursorCharge");
             float precursorMass = sqlResultSet.getFloat("precursorMass");
-            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection, binomial)));
+            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection, binomial)));
         }
         sqlResultSet.close();
         sqlStatement.close();

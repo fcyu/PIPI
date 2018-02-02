@@ -23,6 +23,8 @@ public class PIPIWrap implements Callable<Boolean> {
     private final BuildIndex buildIndexObj;
     private final MassTool massToolObj;
     private final float ms1Tolerance;
+    private final float leftInverseMs1Tolerance;
+    private final float rightInverseMs1Tolerance;
     private final int ms1ToleranceUnit;
     private final float ms2Tolerance;
     private final float minPtmMass;
@@ -42,10 +44,12 @@ public class PIPIWrap implements Callable<Boolean> {
     private final Binomial binomial;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, float leftInverseMs1Tolerance, float rightInverseMs1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.ms1Tolerance = ms1Tolerance;
+        this.leftInverseMs1Tolerance = leftInverseMs1Tolerance;
+        this.rightInverseMs1Tolerance = rightInverseMs1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
         this.ms2Tolerance = ms2Tolerance;
         this.minPtmMass = minPtmMass;
@@ -86,7 +90,7 @@ public class PIPIWrap implements Callable<Boolean> {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);
 
             // Begin search.
-            Search searchObj = new Search(buildIndexObj, precursorMass, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, localMaxMs2Charge);
+            Search searchObj = new Search(buildIndexObj, precursorMass, scanCode, massToolObj, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, localMaxMs2Charge);
 
             // prepare the spectrum
             SparseVector expProcessedPL;
@@ -99,8 +103,8 @@ public class PIPIWrap implements Callable<Boolean> {
             float localMS1ToleranceL = -1 * ms1Tolerance;
             float localMS1ToleranceR = ms1Tolerance;
             if (ms1ToleranceUnit == 1) {
-                localMS1ToleranceL = (precursorMass / (1 + ms1Tolerance * 1e-6f)) - precursorMass;
-                localMS1ToleranceR = (precursorMass / (1 - ms1Tolerance * 1e-6f)) - precursorMass;
+                localMS1ToleranceL = (precursorMass * leftInverseMs1Tolerance) - precursorMass;
+                localMS1ToleranceR = (precursorMass * rightInverseMs1Tolerance) - precursorMass;
             }
 
             // infer PTM using the new approach

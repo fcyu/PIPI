@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CalSubscores {
 
-    private static final double p = (double) PreSpectrum.topN / (double) 100;
+    private static final double p = PreSpectrum.topN * 0.01;
 
     public CalSubscores(Peptide peptide, float ms2Tolerance, TreeMap<Float, Float> expPl, int precursorCharge, TreeSet<Peptide> ptmPatterns, Binomial binomial) {
         float[][] ionMatrix = peptide.getIonMatrix();

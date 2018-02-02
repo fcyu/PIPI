@@ -134,7 +134,7 @@ public class PreSpectrum {
         TreeMap<Float, Float> denoisedPlMap = new TreeMap<>();
         float minMz = plMap.firstKey();
         float maxMz = plMap.lastKey();
-        float windowSize = (plMap.lastKey() - plMap.firstKey()) / 10 + 1;
+        float windowSize = (plMap.lastKey() - plMap.firstKey()) * 0.1f + 1;
         for (int i = 0; i < 10; ++i) {
             float leftMz = Math.min(minMz + i * windowSize, maxMz);
             float rightMz = Math.min(leftMz + windowSize, maxMz);
