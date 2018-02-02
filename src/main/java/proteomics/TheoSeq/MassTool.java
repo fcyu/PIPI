@@ -267,7 +267,7 @@ public class MassTool {
         for (int i = 1; i < aaArray.length - 2; ++i) {
             bIonMass += massTable.get(aaArray[i].aa) + aaArray[i].ptmDeltaMass;
             for (int charge = 1; charge <= maxCharge; ++charge) {
-                peptideIonArray[2 * (charge - 1)][i - 1]  = bIonMass / charge + 1.00727646688f;
+                peptideIonArray[2 * (charge - 1)][i - 1]  = bIonMass / charge + PROTON;
             }
         }
         // calculate the last b-ion with C-term modification
@@ -280,19 +280,19 @@ public class MassTool {
         // the whole sequence
         float yIonMass = bIonMass + H2O;
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            peptideIonArray[2 * (charge - 1) + 1][0] = yIonMass  / charge + 1.00727646688f;
+            peptideIonArray[2 * (charge - 1) + 1][0] = yIonMass  / charge + PROTON;
         }
         // delete the first amino acid and N-term modification
         yIonMass -= massTable.get(aaArray[0].aa) + aaArray[0].ptmDeltaMass + massTable.get(aaArray[1].aa) + aaArray[1].ptmDeltaMass;
         for (int charge = 1; charge <= maxCharge; ++charge) {
-            peptideIonArray[2 * (charge - 1) + 1][1] = yIonMass / charge + 1.00727646688f;
+            peptideIonArray[2 * (charge - 1) + 1][1] = yIonMass / charge + PROTON;
         }
 
         // rest of the sequence
         for (int i = 2; i < aaArray.length - 2; ++i) {
             yIonMass -= massTable.get(aaArray[i].aa) + aaArray[i].ptmDeltaMass;
             for (int charge = 1; charge <= maxCharge; ++charge) {
-                peptideIonArray[2 * (charge - 1) + 1][i] = yIonMass / charge + 1.00727646688f;
+                peptideIonArray[2 * (charge - 1) + 1][i] = yIonMass / charge + PROTON;
             }
         }
 
