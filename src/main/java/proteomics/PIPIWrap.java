@@ -27,7 +27,7 @@ public class PIPIWrap implements Callable<Boolean> {
     private final float ms2Tolerance;
     private final float minPtmMass;
     private final float maxPtmMass;
-    private final int maxMs2Charge;
+    private final int localMaxMs2Charge;
     private final Map<String, Peptide0> peptide0Map;
     private final JMzReader spectraParser;
     private final float minClear;
@@ -42,7 +42,7 @@ public class PIPIWrap implements Callable<Boolean> {
     private final Binomial binomial;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int maxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float ms2Tolerance, float minPtmMass, float maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, float minClear, float maxClear, ReentrantLock lock, String scanId, int precursorCharge, float precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, Connection sqlConnection, Binomial binomial) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.ms1Tolerance = ms1Tolerance;
@@ -50,7 +50,7 @@ public class PIPIWrap implements Callable<Boolean> {
         this.ms2Tolerance = ms2Tolerance;
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
-        this.maxMs2Charge = maxMs2Charge;
+        this.localMaxMs2Charge = localMaxMs2Charge;
         this.spectraParser = spectraParser;
         this.minClear = minClear;
         this.maxClear = maxClear;
@@ -86,7 +86,7 @@ public class PIPIWrap implements Callable<Boolean> {
             SparseVector scanCode = inference3SegmentObj.generateSegmentIntensityVector(expAaLists);
 
             // Begin search.
-            Search searchObj = new Search(buildIndexObj, precursorMass, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, maxMs2Charge);
+            Search searchObj = new Search(buildIndexObj, precursorMass, scanCode, massToolObj, ms1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, localMaxMs2Charge);
 
             // prepare the spectrum
             SparseVector expProcessedPL;
@@ -108,7 +108,7 @@ public class PIPIWrap implements Callable<Boolean> {
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), maxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
+                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), localMaxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
                     Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
                     if (peptideSet.size() < 5) {

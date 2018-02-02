@@ -14,7 +14,7 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, float precursorMass, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int maxMs2Charge) {
+    public Search(BuildIndex buildIndexObj, float precursorMass, SparseVector scanCode, MassTool massToolObj, float ms1Tolerance, int ms1ToleranceUnit, float minPtmMass, float maxPtmMass, int localMaxMs2Charge) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         double scanNormSquare = scanCode.norm2square();
@@ -101,17 +101,17 @@ public class Search {
         }
 
         if (!(ptmFreeQueue.isEmpty() && ptmOnlyQueue.isEmpty())) {
-            ptmFreeResult = convertResult(ptmFreeQueue, massToolObj, maxMs2Charge);
-            ptmOnlyResult = convertResult(ptmOnlyQueue, massToolObj, maxMs2Charge);
+            ptmFreeResult = convertResult(ptmFreeQueue, massToolObj, localMaxMs2Charge);
+            ptmOnlyResult = convertResult(ptmOnlyQueue, massToolObj, localMaxMs2Charge);
         }
     }
 
-    private List<Peptide> convertResult(PriorityQueue<ResultEntry> inputQueue, MassTool massToolObj, int maxMs2Charge) {
+    private List<Peptide> convertResult(PriorityQueue<ResultEntry> inputQueue, MassTool massToolObj, int localMaxMs2Charge) {
         List<Peptide> peptideList = new LinkedList<>();
         int globalRank = inputQueue.size();
         while (!inputQueue.isEmpty()) {
             ResultEntry temp = inputQueue.poll();
-            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, maxMs2Charge, temp.score, globalRank));
+            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, localMaxMs2Charge, temp.score, globalRank));
             --globalRank;
         }
 
