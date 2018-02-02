@@ -1,8 +1,5 @@
 package proteomics.Search;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
@@ -11,7 +8,6 @@ import java.util.*;
 
 public class Search {
 
-    private static final Logger logger = LoggerFactory.getLogger(Search.class);
     private static final int rankNum = 5;
 
     private List<Peptide> ptmOnlyResult = new LinkedList<>();

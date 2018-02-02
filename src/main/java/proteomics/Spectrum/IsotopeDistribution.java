@@ -1,13 +1,8 @@
 package proteomics.Spectrum;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
 
 class IsotopeDistribution {
-
-    private static final Logger logger = LoggerFactory.getLogger(IsotopeDistribution.class);
 
     private static final double averagineC = 4.9384;
     private static final double averagineH = 7.7583;

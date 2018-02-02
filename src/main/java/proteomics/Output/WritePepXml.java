@@ -1,7 +1,5 @@
 package proteomics.Output;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.PIPI;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
@@ -14,8 +12,6 @@ import java.util.*;
 import java.util.Date;
 
 public class WritePepXml {
-
-    private static final Logger logger = LoggerFactory.getLogger(WritePepXml.class);
 
     private final String outputPath;
     private final String baseName;

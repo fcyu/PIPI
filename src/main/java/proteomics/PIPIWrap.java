@@ -1,7 +1,5 @@
 package proteomics;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.InferPTM;
 import proteomics.Search.Binomial;
@@ -21,8 +19,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class PIPIWrap implements Callable<Boolean> {
-
-    private static final Logger logger = LoggerFactory.getLogger(PIPIWrap.class);
 
     private final BuildIndex buildIndexObj;
     private final MassTool massToolObj;

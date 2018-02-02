@@ -1,16 +1,11 @@
 package proteomics.Search;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.TheoSeq.MassTool;
 import proteomics.Types.*;
 
 import java.util.*;
 
 public class CalScore {
-
-    private static final Logger logger = LoggerFactory.getLogger(CalScore.class);
 
     public static void calScore(Peptide peptide, SparseVector expProcessedPL, int precursorCharge, MassTool massToolObj, TreeSet<Peptide> peptideSet, Map<String, TreeSet<Peptide>> modSequences) {
         double score = massToolObj.buildVector(peptide.getIonMatrix(), precursorCharge).fastDot(expProcessedPL) * 0.25; // scaling the xcorr to original SEQUEST type.

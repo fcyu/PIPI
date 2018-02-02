@@ -1,7 +1,5 @@
 package proteomics.Types;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.Segment.InferenceSegment;
 import proteomics.TheoSeq.MassTool;
 
@@ -9,8 +7,6 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Peptide implements Comparable<Peptide> {
-
-    private static Logger logger = LoggerFactory.getLogger(Peptide.class);
 
     private final String ptmFreeSeq;
     private final boolean isDecoy;
