@@ -25,9 +25,6 @@ public class InferPTM {
     private final float maxPtmMass;
     private final float ms2Tolerance;
 
-    private int matchedPeakNum;
-    private double score;
-
     private Map<Character, Set<VarModParam>> finalPtmMap = new HashMap<>();
 
     public InferPTM(MassTool massTool, int maxMs2Charge, Map<Character, Float> fixModMap, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms2Tolerance) throws IOException{
@@ -105,10 +102,6 @@ public class InferPTM {
         float leftMassBound = deltaMass + localMS1ToleranceL;
         float rightMassBound = deltaMass + localMS1ToleranceR;
         Set<Integer> fixModIdxes = getFixModIdxes(ptmFreeSequence, fixModMap);
-
-        // reset values;
-        matchedPeakNum = 0;
-        score = 0;
 
         PeptidePTMPattern peptidePTMPattern = new PeptidePTMPattern(ptmFreeSequence);
 
