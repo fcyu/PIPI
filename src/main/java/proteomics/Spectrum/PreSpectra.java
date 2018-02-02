@@ -31,9 +31,6 @@ public class PreSpectra {
     private Map<Integer, TreeMap<Integer, TreeSet<DevEntry>>> scanDevEntryMap = new HashMap<>();
 
     public PreSpectra(JMzReader spectraParser, Map<String, String> parameterMap, MassTool massToolObj, String ext, Set<Integer> msLevelSet, String sqlPath) throws Exception {
-        int minMs1Charge = Integer.valueOf(parameterMap.get("min_ms1_charge"));
-        int maxMs1Charge = Integer.valueOf(parameterMap.get("max_ms1_charge"));
-        int minPeakNum = Integer.valueOf(parameterMap.get("min_peak_num"));
         ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
         isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabelling());
@@ -56,11 +53,6 @@ public class PreSpectra {
 
             if (!msLevelSet.contains(spectrum.getMsLevel())) {
                 parentId = spectrum.getId();
-                continue;
-            }
-
-            if (spectrum.getPeakList().size() < minPeakNum) {
-                logger.debug("Scan {} doesn't contain enough peak number ({}). Skip.", spectrum.getId(), minPeakNum);
                 continue;
             }
 
@@ -112,7 +104,7 @@ public class PreSpectra {
                 TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
                 if (spectrum.getPrecursorCharge() == null) {
                     // We have to infer the precursor charge.
-                    for (int charge = minMs1Charge; charge <= maxMs1Charge; ++charge) {
+                    for (int charge = 2; charge <= 4; ++charge) {
                         Entry entry = getIsotopeCorrectionNum(precursorMz, charge, parentPeakList, chargeDevEntryMap);
                         if (entry.pearsonCorrelationCoefficient > pearsonCorrelationCoefficient) {
                             pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
@@ -136,10 +128,6 @@ public class PreSpectra {
                     }
                     precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
                 }
-            }
-
-            if ((precursorCharge < minMs1Charge) || (precursorCharge > maxMs1Charge) || (precursorMass < 400)) {
-                continue;
             }
 
             sqlPrepareStatement.setInt(1, scanNum);

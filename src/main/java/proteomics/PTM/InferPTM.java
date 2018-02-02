@@ -19,7 +19,6 @@ public class InferPTM {
     private final MassTool massTool;
     private final Map<String, Double> elementTable;
     private final Map<Character, Float> massTable;
-    private final int maxMs2Charge;
     private final Map<Character, Float> fixModMap;
     private final float minPtmMass;
     private final float maxPtmMass;
@@ -27,11 +26,10 @@ public class InferPTM {
 
     private Map<Character, Set<VarModParam>> finalPtmMap = new HashMap<>();
 
-    public InferPTM(MassTool massTool, int maxMs2Charge, Map<Character, Float> fixModMap, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms2Tolerance) throws IOException{
+    public InferPTM(MassTool massTool, Map<Character, Float> fixModMap, Set<VarModParam> varModParamSet, float minPtmMass, float maxPtmMass, float ms2Tolerance) throws IOException{
         this.massTool = massTool;
         elementTable = massTool.getElementTable();
         massTable = massTool.returnMassTable();
-        this.maxMs2Charge = maxMs2Charge;
         this.fixModMap = fixModMap;
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;

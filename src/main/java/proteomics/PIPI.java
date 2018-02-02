@@ -77,7 +77,6 @@ public class PIPI {
         float ms2Tolerance = Float.valueOf(parameterMap.get("ms2_tolerance"));
         float ms1Tolerance = Float.valueOf(parameterMap.get("ms1_tolerance"));
         int ms1ToleranceUnit = Integer.valueOf(parameterMap.get("ms1_tolerance_unit"));
-        int maxMs2Charge = Integer.valueOf(parameterMap.get("max_ms2_charge"));
         float minClear = Float.valueOf(parameterMap.get("min_clear_mz"));
         float maxClear = Float.valueOf(parameterMap.get("max_clear_mz"));
         String percolatorPath = parameterMap.get("percolator_path");
@@ -154,7 +153,7 @@ public class PIPI {
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
-        InferPTM inferPTM = new InferPTM(massToolObj, maxMs2Charge, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
+        InferPTM inferPTM = new InferPTM(massToolObj, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
         List<Future<Boolean>> taskList = new LinkedList<>();
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
@@ -166,7 +165,7 @@ public class PIPI {
             String scanId = sqlResultSet.getString("scanId");
             int precursorCharge = sqlResultSet.getInt("precursorCharge");
             float precursorMass = sqlResultSet.getFloat("precursorMass");
-            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, maxMs2Charge), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection, binomial)));
+            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection, binomial)));
         }
         sqlResultSet.close();
         sqlStatement.close();
