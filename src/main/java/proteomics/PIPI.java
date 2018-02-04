@@ -27,7 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
-    public static final String versionStr = "1.4.3";
+    public static final String versionStr = "1.4.4";
     public static final boolean useXcorr = true;
 
     public static final boolean DEV = false;
@@ -157,7 +157,7 @@ public class PIPI {
 
         InferPTM inferPTM = new InferPTM(massToolObj, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
-        ArrayList<Future<Boolean>> taskList = new ArrayList<>(preSpectraObj.getUsefulSpectraNum() + 10);
+        ArrayList<Future<PIPIWrap.Entry>> taskList = new ArrayList<>(preSpectraObj.getUsefulSpectraNum() + 10);
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
@@ -167,22 +167,48 @@ public class PIPI {
             String scanId = sqlResultSet.getString("scanId");
             int precursorCharge = sqlResultSet.getInt("precursorCharge");
             double precursorMass = sqlResultSet.getDouble("precursorMass");
-            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlConnection, binomial)));
+            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlPath, binomial)));
         }
         sqlResultSet.close();
         sqlStatement.close();
 
         // check progress every minute, record results,and delete finished tasks.
+        PreparedStatement sqlPreparedStatement = sqlConnection.prepareStatement("REPLACE INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, globalRank, normalizedCorrelationCoefficient, score, deltaLC, deltaC, matchedPeakNum, ionFrac, matchedHighestIntensityFrac, explainedAaFrac, otherPtmPatterns, aScore) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        sqlConnection.setAutoCommit(false);
         int lastProgress = 0;
         int resultCount = 0;
         int totalCount = taskList.size();
         int count = 0;
         while (count < totalCount) {
             // record search results and delete finished ones.
-            List<Future<Boolean>> toBeDeleteTaskList = new ArrayList<>(totalCount - count);
-            for (Future<Boolean> task : taskList) {
+            List<Future<PIPIWrap.Entry>> toBeDeleteTaskList = new ArrayList<>(totalCount - count);
+            for (Future<PIPIWrap.Entry> task : taskList) {
                 if (task.isDone()) {
-                    if (task.get()) {
+                    if (task.get() != null) {
+                        PIPIWrap.Entry entry = task.get();
+                        sqlPreparedStatement.setInt(1, entry.scanNum);
+                        sqlPreparedStatement.setString(2, entry.scanId);
+                        sqlPreparedStatement.setInt(3, entry.precursorCharge);
+                        sqlPreparedStatement.setDouble(4, entry.precursorMass);
+                        sqlPreparedStatement.setString(5, entry.mgfTitle);
+                        sqlPreparedStatement.setInt(6, entry.isotopeCorrectionNum);
+                        sqlPreparedStatement.setDouble(7, entry.ms1PearsonCorrelationCoefficient);
+                        sqlPreparedStatement.setString(8, entry.labelling);
+                        sqlPreparedStatement.setString(9, entry.peptide);
+                        sqlPreparedStatement.setDouble(10, entry.theoMass);
+                        sqlPreparedStatement.setInt(11, entry.isDecoy);
+                        sqlPreparedStatement.setInt(12, entry.globalRank);
+                        sqlPreparedStatement.setDouble(13, entry.normalizedCorrelationCoefficient);
+                        sqlPreparedStatement.setDouble(14, entry.score);
+                        sqlPreparedStatement.setDouble(15, entry.deltaLC);
+                        sqlPreparedStatement.setDouble(16, entry.deltaC);
+                        sqlPreparedStatement.setInt(17, entry.matchedPeakNum);
+                        sqlPreparedStatement.setDouble(18, entry.ionFrac);
+                        sqlPreparedStatement.setDouble(19, entry.matchedHighestIntensityFrac);
+                        sqlPreparedStatement.setDouble(20, entry.explainedAaFrac);
+                        sqlPreparedStatement.setString(21, entry.otherPtmPatterns);
+                        sqlPreparedStatement.setString(22, entry.aScore);
+                        sqlPreparedStatement.executeUpdate();
                         ++resultCount;
                     }
                     toBeDeleteTaskList.add(task);
@@ -193,6 +219,8 @@ public class PIPI {
             count += toBeDeleteTaskList.size();
             taskList.removeAll(toBeDeleteTaskList);
             taskList.trimToSize();
+
+            sqlConnection.commit();
 
             int progress = count * 20 / totalCount;
             if (progress != lastProgress) {
@@ -214,6 +242,8 @@ public class PIPI {
                 throw new Exception("Pool did not terminate");
         }
 
+        sqlConnection.commit();
+        sqlConnection.setAutoCommit(true);
         sqlConnection.close();
         if (lock.isLocked()) {
             lock.unlock();
