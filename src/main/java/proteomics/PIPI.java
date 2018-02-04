@@ -157,7 +157,7 @@ public class PIPI {
 
         InferPTM inferPTM = new InferPTM(massToolObj, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
         PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
-        List<Future<Boolean>> taskList = new LinkedList<>();
+        ArrayList<Future<Boolean>> taskList = new ArrayList<>(preSpectraObj.getUsefulSpectraNum() + 10);
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
@@ -179,7 +179,7 @@ public class PIPI {
         int count = 0;
         while (count < totalCount) {
             // record search results and delete finished ones.
-            List<Future<Boolean>> toBeDeleteTaskList = new LinkedList<>();
+            List<Future<Boolean>> toBeDeleteTaskList = new ArrayList<>(totalCount - count);
             for (Future<Boolean> task : taskList) {
                 if (task.isDone()) {
                     if (task.get()) {
@@ -192,6 +192,7 @@ public class PIPI {
             }
             count += toBeDeleteTaskList.size();
             taskList.removeAll(toBeDeleteTaskList);
+            taskList.trimToSize();
 
             int progress = count * 20 / totalCount;
             if (progress != lastProgress) {

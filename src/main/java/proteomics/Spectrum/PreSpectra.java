@@ -31,6 +31,7 @@ public class PreSpectra {
     private final IsotopeDistribution isotopeDistribution;
 
     private Map<Integer, TreeMap<Integer, TreeSet<DevEntry>>> scanDevEntryMap = new HashMap<>();
+    private int usefulSpectraNum = 0;
 
     public PreSpectra(JMzReader spectraParser, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, MassTool massToolObj, String ext, Set<Integer> msLevelSet, String sqlPath) throws Exception {
         this.ms1Tolerance = ms1Tolerance;
@@ -48,7 +49,6 @@ public class PreSpectra {
 
         PreparedStatement sqlPrepareStatement = sqlConnection.prepareStatement("INSERT INTO spectraTable (scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient) VALUES (?, ?, ?, ?, ?, ?, ?)");
         sqlConnection.setAutoCommit(false);
-        int usefulSpectraNum = 0;
 
         Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
         String parentId = null;
@@ -157,6 +157,10 @@ public class PreSpectra {
 
     public Map<Integer, TreeMap<Integer, TreeSet<DevEntry>>> getScanDevEntryMap() {
         return scanDevEntryMap;
+    }
+
+    public int getUsefulSpectraNum() {
+        return usefulSpectraNum;
     }
 
     private Entry getIsotopeCorrectionNum(double precursorMz, int charge, double inverseCharge, TreeMap<Double, Double> parentPeakList, TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap) {
