@@ -61,6 +61,10 @@ public class PreSpectra {
                 continue;
             }
 
+            if (spectrum.getPeakList().size() < 5) {
+                continue;
+            }
+
             int scanNum;
             double precursorMz = spectrum.getPrecursorMZ().doubleValue();
             int precursorCharge = -1;

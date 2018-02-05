@@ -83,6 +83,10 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
         // preprocess peak list
         TreeMap<Double, Double> plMap = preSpectrum.preSpectrum(rawPLMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
 
+        if (plMap.isEmpty()) {
+            return null;
+        }
+
         // Coding
         InferenceSegment inference3SegmentObj = buildIndexObj.getInference3SegmentObj();
         List<ThreeExpAA> expAaLists = inference3SegmentObj.inferSegmentLocationFromSpectrum(precursorMass, plMap);
