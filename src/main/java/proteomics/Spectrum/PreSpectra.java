@@ -67,7 +67,7 @@ public class PreSpectra {
                 }
 
                 int scanNum;
-                double precursorMz = spectrum.getPrecursorMZ().doubleValue();
+                double precursorMz = spectrum.getPrecursorMZ();
                 int precursorCharge = -1;
                 double precursorMass;
                 int isotopeCorrectionNum = 0;
