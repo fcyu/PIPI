@@ -54,103 +54,107 @@ public class PreSpectra {
         Iterator<Spectrum> spectrumIterator = spectraParser.getSpectrumIterator();
         String parentId = null;
         while (spectrumIterator.hasNext()) {
-            Spectrum spectrum = spectrumIterator.next();
+            try {
+                Spectrum spectrum = spectrumIterator.next();
 
-            if (!msLevelSet.contains(spectrum.getMsLevel())) {
-                parentId = spectrum.getId();
-                continue;
-            }
-
-            if (spectrum.getPeakList().size() < 5) {
-                continue;
-            }
-
-            int scanNum;
-            double precursorMz = spectrum.getPrecursorMZ().doubleValue();
-            int precursorCharge = -1;
-            double precursorMass;
-            int isotopeCorrectionNum = 0;
-            double pearsonCorrelationCoefficient = -1;
-            String mgfTitle = "";
-            TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap = new TreeMap<>();
-            if (ext.toLowerCase().contentEquals("mgf")) {
-                mgfTitle = ((Ms2Query) spectrum).getTitle();
-                Matcher matcher1 = scanNumPattern1.matcher(mgfTitle);
-                Matcher matcher2 = scanNumPattern2.matcher(mgfTitle);
-                Matcher matcher3 = scanNumPattern3.matcher(mgfTitle);
-                if (matcher1.find()) {
-                    scanNum = Integer.valueOf(matcher1.group(1));
-                } else if (matcher2.find()) {
-                    scanNum = Integer.valueOf(matcher2.group(1));
-                } else if (matcher3.find()) {
-                    scanNum = Integer.valueOf(matcher3.group(1));
-                } else {
-                    throw new Exception("Cannot get scan number from the MGF title " + mgfTitle + ". Please report your MGF title to fyuab@connect.ust.hk.");
-                }
-
-                if (PIPI.debugScanNumArray.length > 0) {
-                    if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
-                        continue;
-                    }
-                }
-
-                if (spectrum.getPrecursorCharge() == null) {
-                    logger.warn("Scan {} does not contain charge information.", scanNum);
+                if (!msLevelSet.contains(spectrum.getMsLevel())) {
+                    parentId = spectrum.getId();
                     continue;
-                } else {
-                    precursorCharge = spectrum.getPrecursorCharge();
-                    precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
                 }
-            } else {
-                scanNum = Integer.valueOf(spectrum.getId());
 
-                if (PIPI.debugScanNumArray.length > 0) {
-                    if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
-                        continue;
+                if (spectrum.getPeakList().size() < 5) {
+                    continue;
+                }
+
+                int scanNum;
+                double precursorMz = spectrum.getPrecursorMZ().doubleValue();
+                int precursorCharge = -1;
+                double precursorMass;
+                int isotopeCorrectionNum = 0;
+                double pearsonCorrelationCoefficient = -1;
+                String mgfTitle = "";
+                TreeMap<Integer, TreeSet<DevEntry>> chargeDevEntryMap = new TreeMap<>();
+                if (ext.toLowerCase().contentEquals("mgf")) {
+                    mgfTitle = ((Ms2Query) spectrum).getTitle();
+                    Matcher matcher1 = scanNumPattern1.matcher(mgfTitle);
+                    Matcher matcher2 = scanNumPattern2.matcher(mgfTitle);
+                    Matcher matcher3 = scanNumPattern3.matcher(mgfTitle);
+                    if (matcher1.find()) {
+                        scanNum = Integer.valueOf(matcher1.group(1));
+                    } else if (matcher2.find()) {
+                        scanNum = Integer.valueOf(matcher2.group(1));
+                    } else if (matcher3.find()) {
+                        scanNum = Integer.valueOf(matcher3.group(1));
+                    } else {
+                        throw new Exception("Cannot get scan number from the MGF title " + mgfTitle + ". Please report your MGF title to fyuab@connect.ust.hk.");
                     }
-                }
 
-                TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
-                if (spectrum.getPrecursorCharge() == null) {
-                    // We have to infer the precursor charge.
-                    for (int charge = 2; charge <= 4; ++charge) {
-                        Entry entry = getIsotopeCorrectionNum(precursorMz, charge, 1 / (double) charge, parentPeakList, chargeDevEntryMap);
-                        if (entry.pearsonCorrelationCoefficient > pearsonCorrelationCoefficient) {
-                            pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
-                            isotopeCorrectionNum = entry.isotopeCorrectionNum;
-                            precursorCharge = charge;
+                    if (PIPI.debugScanNumArray.length > 0) {
+                        if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                            continue;
                         }
                     }
-                    if (precursorCharge > 0) {
-                        precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
-                    } else {
-                        logger.warn("Cannot infer the precursor charge for scan {}.", scanNum);
+
+                    if (spectrum.getPrecursorCharge() == null) {
+                        logger.warn("Scan {} does not contain charge information.", scanNum);
                         continue;
+                    } else {
+                        precursorCharge = spectrum.getPrecursorCharge();
+                        precursorMass = precursorMz * precursorCharge - precursorCharge * MassTool.PROTON;
                     }
                 } else {
-                    // We do not try to correct the precursor charge if there is one.
-                    precursorCharge = spectrum.getPrecursorCharge();
-                    Entry entry = getIsotopeCorrectionNum(precursorMz, precursorCharge, 1 / (double) precursorCharge, parentPeakList, chargeDevEntryMap);
-                    if (entry.pearsonCorrelationCoefficient >= 0.7) { // If the Pearson correlation coefficient is smaller than 0.7, there is not enough evidence to change the original precursor mz.
-                        isotopeCorrectionNum = entry.isotopeCorrectionNum;
-                        pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
+                    scanNum = Integer.valueOf(spectrum.getId());
+
+                    if (PIPI.debugScanNumArray.length > 0) {
+                        if (Arrays.binarySearch(PIPI.debugScanNumArray, scanNum) < 0) {
+                            continue;
+                        }
                     }
-                    precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
+
+                    TreeMap<Double, Double> parentPeakList = new TreeMap<>(spectraParser.getSpectrumById(parentId).getPeakList());
+                    if (spectrum.getPrecursorCharge() == null) {
+                        // We have to infer the precursor charge.
+                        for (int charge = 2; charge <= 4; ++charge) {
+                            Entry entry = getIsotopeCorrectionNum(precursorMz, charge, 1 / (double) charge, parentPeakList, chargeDevEntryMap);
+                            if (entry.pearsonCorrelationCoefficient > pearsonCorrelationCoefficient) {
+                                pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
+                                isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                                precursorCharge = charge;
+                            }
+                        }
+                        if (precursorCharge > 0) {
+                            precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
+                        } else {
+                            logger.warn("Cannot infer the precursor charge for scan {}.", scanNum);
+                            continue;
+                        }
+                    } else {
+                        // We do not try to correct the precursor charge if there is one.
+                        precursorCharge = spectrum.getPrecursorCharge();
+                        Entry entry = getIsotopeCorrectionNum(precursorMz, precursorCharge, 1 / (double) precursorCharge, parentPeakList, chargeDevEntryMap);
+                        if (entry.pearsonCorrelationCoefficient >= 0.7) { // If the Pearson correlation coefficient is smaller than 0.7, there is not enough evidence to change the original precursor mz.
+                            isotopeCorrectionNum = entry.isotopeCorrectionNum;
+                            pearsonCorrelationCoefficient = entry.pearsonCorrelationCoefficient;
+                        }
+                        precursorMass = (precursorMz - MassTool.PROTON) * precursorCharge + isotopeCorrectionNum * MassTool.C13_DIFF;
+                    }
                 }
-            }
 
-            sqlPrepareStatement.setInt(1, scanNum);
-            sqlPrepareStatement.setString(2, spectrum.getId());
-            sqlPrepareStatement.setInt(3, precursorCharge);
-            sqlPrepareStatement.setDouble(4, precursorMass);
-            sqlPrepareStatement.setString(5, mgfTitle);
-            sqlPrepareStatement.setInt(6, isotopeCorrectionNum);
-            sqlPrepareStatement.setDouble(7, pearsonCorrelationCoefficient);
-            sqlPrepareStatement.executeUpdate();
-            ++usefulSpectraNum;
+                sqlPrepareStatement.setInt(1, scanNum);
+                sqlPrepareStatement.setString(2, spectrum.getId());
+                sqlPrepareStatement.setInt(3, precursorCharge);
+                sqlPrepareStatement.setDouble(4, precursorMass);
+                sqlPrepareStatement.setString(5, mgfTitle);
+                sqlPrepareStatement.setInt(6, isotopeCorrectionNum);
+                sqlPrepareStatement.setDouble(7, pearsonCorrelationCoefficient);
+                sqlPrepareStatement.executeUpdate();
+                ++usefulSpectraNum;
 
-            if (PIPI.DEV) {
-                scanDevEntryMap.put(scanNum, chargeDevEntryMap);
+                if (PIPI.DEV) {
+                    scanDevEntryMap.put(scanNum, chargeDevEntryMap);
+                }
+            } catch (RuntimeException ex) {
+                logger.error(ex.toString());
             }
         }
         sqlConnection.commit();
