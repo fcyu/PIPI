@@ -57,9 +57,11 @@ public class PreSpectra {
             try {
                 Spectrum spectrum = spectrumIterator.next();
 
-                if (!msLevelSet.contains(spectrum.getMsLevel())) {
-                    parentId = spectrum.getId();
-                    continue;
+                if (ext.toLowerCase().contentEquals("mzxml")) {
+                    if (!msLevelSet.contains(spectrum.getMsLevel())) {
+                        parentId = spectrum.getId();
+                        continue;
+                    }
                 }
 
                 if (spectrum.getPeakList().size() < 5) {
