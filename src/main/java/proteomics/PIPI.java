@@ -46,9 +46,15 @@ public class PIPI {
         logger.info("Running PIPI version {}.", versionStr);
 
         String dbName = null;
+        String hostName = "unknown-host";
         try {
-            String hostName = InetAddress.getLocalHost().getHostName();
+            hostName = InetAddress.getLocalHost().getHostName();
             logger.info("Computer: {}.", hostName);
+        } catch (UnknownHostException ex) {
+            logger.warn("Cannot get the computer's name.");
+        }
+
+        try {
             logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
 
             if (DEV) {
@@ -57,8 +63,6 @@ public class PIPI {
 
             dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
             new PIPI(parameterPath, spectraPath, dbName);
-        } catch (UnknownHostException ex) {
-            logger.warn("Cannot get the computer's name.");
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
