@@ -70,6 +70,8 @@ public class PIPI {
         } finally {
             if (dbName != null) {
                 (new File(dbName)).delete();
+                (new File(dbName + "-wal")).delete();
+                (new File(dbName + "-shm")).delete();
             }
         }
     }
