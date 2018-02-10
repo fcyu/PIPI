@@ -139,36 +139,38 @@ public class InferPTM {
 
     private Map<Character, Set<VarModParam>> readModFile() throws IOException {
         Map<Character, Set<VarModParam>> siteModMap = new HashMap<>();
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("modTable.tsv"); // PTMs from Unimod except for AA substitutions, chemical labellings, and those without PSI-MS names.
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("modTable.tsv"); // PTMs from Unimod except for AA substitutions, isotopic labellings
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String line;
         while ((line = reader.readLine()) != null) {
             line = line.trim();
             if (!line.isEmpty() && !line.startsWith("site")) {
                 String[] parts = line.split("\t");
-                char site = parts[0].charAt(0);
-                if (parts[0].trim().contentEquals("N-term")) {
-                    site = 'n';
-                } else if (parts[0].trim().contentEquals("C-term")) {
-                    site = 'c';
-                }
-                double mass = calculateMassFromComposition(parts[2].trim());
-                if (mass >= minPtmMass && mass <= maxPtmMass) {
-                    if (site == 'n' || site == 'c' || massTable.get(site) + mass > ms2Tolerance) { // The mass of a modified amino acid cannot be 0 or negative.
-                        int priority = Integer.valueOf(parts[3]);
-                        VarModParam temp = new VarModParam(mass, site, priority, true); // natural N/C-terminal PTMs only happens on protein terminal.
-                        if (siteModMap.containsKey(site)) {
-                            if (siteModMap.get(site).contains(temp)) {
-                                if (temp.priority == 1) { // temp is a high priority PTM, it is safe to overwrite the original PTM.
+                if (!parts[1].trim().contentEquals("null")) { // We don't consider those without PSI-MS names.
+                    char site = parts[0].charAt(0);
+                    if (parts[0].trim().contentEquals("N-term")) {
+                        site = 'n';
+                    } else if (parts[0].trim().contentEquals("C-term")) {
+                        site = 'c';
+                    }
+                    double mass = calculateMassFromComposition(parts[3].trim());
+                    if (mass >= minPtmMass && mass <= maxPtmMass) {
+                        if (site == 'n' || site == 'c' || massTable.get(site) + mass > ms2Tolerance) { // The mass of a modified amino acid cannot be 0 or negative.
+                            int priority = Integer.valueOf(parts[4]);
+                            VarModParam temp = new VarModParam(mass, site, priority, true); // natural N/C-terminal PTMs only happens on protein terminal.
+                            if (siteModMap.containsKey(site)) {
+                                if (siteModMap.get(site).contains(temp)) {
+                                    if (temp.priority == 1) { // temp is a high priority PTM, it is safe to overwrite the original PTM.
+                                        siteModMap.get(site).add(temp);
+                                    }
+                                } else {
                                     siteModMap.get(site).add(temp);
                                 }
                             } else {
-                                siteModMap.get(site).add(temp);
+                                Set<VarModParam> tempSet = new HashSet<>();
+                                tempSet.add(temp);
+                                siteModMap.put(site, tempSet);
                             }
-                        } else {
-                            Set<VarModParam> tempSet = new HashSet<>();
-                            tempSet.add(temp);
-                            siteModMap.put(site, tempSet);
                         }
                     }
                 }
