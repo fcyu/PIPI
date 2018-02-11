@@ -21,8 +21,7 @@ public class Parameter {
         BufferedReader parameterReader = new BufferedReader(new FileReader(parameterFile));
         String line = parameterReader.readLine().trim();
         if (!line.contentEquals("# " + PIPI.versionStr)) {
-            logger.error("The parameter file version ({}) is not compatible with current PIPI version ({}).", line.substring(2), PIPI.versionStr);
-            System.exit(1);
+            throw new IOException(String.format(Locale.US, "The parameter file version (%s) is not compatible with current PIPI version (%s).", line.substring(2), PIPI.versionStr));
         }
         while ((line = parameterReader.readLine()) != null) {
             line = line.trim();

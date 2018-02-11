@@ -70,7 +70,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
     }
 
     @Override
-    public Entry call() throws SQLException, JMzReaderException {
+    public Entry call() throws Exception {
         Map<Double, Double> rawPLMap;
         try {
             lock.lock();

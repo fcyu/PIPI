@@ -28,7 +28,7 @@ public class InferenceSegment {
     private double[] cTermPossibleMod = null;
     private MassTool massTool;
 
-    public InferenceSegment(MassTool massTool, double ms2Tolerance, Map<String, String> parameterMap, Map<Character, Double> fixModMap) {
+    public InferenceSegment(MassTool massTool, double ms2Tolerance, Map<String, String> parameterMap, Map<Character, Double> fixModMap) throws Exception {
         this.massTool = massTool;
         this.ms2Tolerance = ms2Tolerance;
         Map<Character, Double> massTable = massTool.returnMassTable();
@@ -78,8 +78,7 @@ public class InferenceSegment {
                     // check if the mass has conflict
                     for (double temp2 : modifiedAAMap.keySet()) {
                         if (Math.abs(temp2 - tempMass) <= ms2Tolerance) {
-                            logger.error("{} and {} have conflict mass values({} vs {}).", v, modifiedAAMap.get(temp2), tempMass, temp2);
-                            System.exit(1);
+                            throw new Exception(String.format(Locale.US, "%s and %s have conflict mass values(%f vs %f).", v, modifiedAAMap.get(temp2), tempMass, temp2));
                         }
                     }
                     if (Math.abs(fixModMap.get(temp[1].charAt(0))) < 0.1) {
@@ -123,7 +122,7 @@ public class InferenceSegment {
         deltaMassArray = modifiedAAMap.keySet().toArray(new Double[modifiedAAMap.size()]);
     }
 
-    public List<ThreeExpAA> inferSegmentLocationFromSpectrum(double precursorMass, TreeMap<Double, Double> plMap) {
+    public List<ThreeExpAA> inferSegmentLocationFromSpectrum(double precursorMass, TreeMap<Double, Double> plMap) throws Exception {
         return inferThreeAAFromSpectrum(addVirtualPeaks(precursorMass, plMap), precursorMass - massTool.H2O + MassTool.PROTON);
     }
 
@@ -171,7 +170,7 @@ public class InferenceSegment {
         return seq.replaceAll("[IL]", "#");
     }
 
-    private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Double, Double> plMap, double cTermMz) {
+    private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Double, Double> plMap, double cTermMz) throws Exception {
         Double[] mzArray = plMap.keySet().toArray(new Double[plMap.size()]);
         Double[] intensityArray = plMap.values().toArray(new Double[plMap.size()]);
         Set<ThreeExpAA> tempSet = new HashSet<>();
@@ -197,13 +196,11 @@ public class InferenceSegment {
                             if ((matcher.group(1).charAt(1) - '0' >= 0) && (matcher.group(1).charAt(1) - '0' < 10)) {
                                 nTermMod = nTermPossibleMod[matcher.group(1).charAt(1) - '0'];
                             } else {
-                                logger.error("Something is wrong in inferring tags.");
-                                System.exit(1);
+                                throw new Exception("Something is wrong in inferring tags.");
                             }
                         }
                     } else {
-                        logger.error("Cannot find the PTM free amino acid for {}.", aa1);
-                        System.exit(1);
+                        throw new NullPointerException(String.format(Locale.US, "Cannot find the PTM free amino acid for %s.", aa1));
                     }
                     ExpAA expAa1 = new ExpAA(aa1, ptmFreeAA, mz1, mz2, intensity1, intensity2, -1, mod, nTermMod, 0);
                     List<List<ExpAA>> tempAasList2 = new LinkedList<>();
@@ -236,13 +233,11 @@ public class InferenceSegment {
                                             if ((matcher.group(1).charAt(1) - '0' >= 0) && (matcher.group(1).charAt(1) - '0' < 10)) {
                                                 cTermMod = cTermPossibleMod[matcher.group(1).charAt(1) - '0'];
                                             } else {
-                                                logger.error("Something is wrong in inferring tags.");
-                                                System.exit(1);
+                                                throw new Exception("Something is wrong in inferring tags.");
                                             }
                                         }
                                     } else {
-                                        logger.error("Cannot find the PTM free amino acid for {}.", aa3);
-                                        System.exit(1);
+                                        throw new NullPointerException(String.format(Locale.US, "Cannot find the PTM free amino acid for %s.", aa3));
                                     }
                                     ExpAA expAa3 = new ExpAA(aa3, ptmFreeAA, mz3, mz4, intensity3, intensity4, -1, mod, 0, cTermMod);
                                     tempAasList3.add(expAa3);

@@ -32,8 +32,7 @@ public class DbTool {
             headerPattern = Pattern.compile("^>(.+)$");
         } else {
             headerPattern = null;
-            logger.error("Incorrect database type ({}) in the parameter file.", databaseType);
-            System.exit(1);
+            throw new NullPointerException(String.format(Locale.US, "Incorrect database type (%s) in the parameter file.", databaseType));
         }
 
         BufferedReader dbReader;

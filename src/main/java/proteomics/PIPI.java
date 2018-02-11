@@ -66,7 +66,6 @@ public class PIPI {
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
-            System.exit(1);
         } finally {
             if (dbName != null) {
                 (new File(dbName)).delete();
@@ -256,8 +255,7 @@ public class PIPI {
         }
 
         if (resultCount == 0) {
-            logger.error("There is no useful results.");
-            System.exit(1);
+            throw new Exception("There is no useful results.");
         }
 
         logger.info("Estimating FDR...");
@@ -268,8 +266,7 @@ public class PIPI {
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName);
 
         if (percolatorResultMap.isEmpty()) {
-            logger.error("Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in {} is correct.", parameterPath);
-            System.exit(1);
+            throw new Exception(String.format(Locale.US, "Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in %s is correct.", parameterPath));
         }
 
         if (!outputPercolatorInput) {

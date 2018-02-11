@@ -24,7 +24,7 @@ public class BuildIndex {
     private final String labelling;
 
     /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
-    public BuildIndex(Map<String, String> parameterMap, String labelling) throws IOException {
+    public BuildIndex(Map<String, String> parameterMap, String labelling) throws Exception {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
