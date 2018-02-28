@@ -344,6 +344,10 @@ public class MassTool {
         return labelling;
     }
 
+    public Pattern getDigestSitePattern() {
+        return digestSitePattern;
+    }
+
     private Map<Integer, List<int[]>> digestTrypsin(String proSeq) {
         // Cut a protein
         List<Integer> cutPointList = new ArrayList<>(200);

@@ -263,7 +263,7 @@ public class PIPI {
         String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
         String percolatorProteinOutputFileName = spectraPath + "." + labelling + ".protein.tsv";
         writePercolator(percolatorInputFileName, buildIndexObj.getPeptide0Map(), sqlPath);
-        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName);
+        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName, parameterMap.get("db") + ".TD.fasta");
 
         if (percolatorResultMap.isEmpty()) {
             throw new Exception(String.format(Locale.US, "Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in %s is correct.", parameterPath));
@@ -348,10 +348,10 @@ public class PIPI {
         sqlConnection.close();
     }
 
-    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName) throws Exception {
+    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName, String tdFastaPath) throws Exception {
         Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
         if ((new File(percolatorPath)).exists()) {
-            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --picked-protein auto --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
+            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
             ps.waitFor();
 
             if (!(new File(percolatorOutputFileName).exists())) {
