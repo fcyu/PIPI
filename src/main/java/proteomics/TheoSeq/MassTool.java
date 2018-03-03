@@ -193,9 +193,9 @@ public class MassTool {
         if (protectionSite.contentEquals("-")) {
             digestSitePattern = Pattern.compile("[" + cleavageSite + "]");
         } else if (cleavageFromCTerm) {
-            digestSitePattern = Pattern.compile("[" + cleavageSite + "](?=[^" + protectionSite + "])");
+            digestSitePattern = Pattern.compile("[" + cleavageSite + "](?![" + protectionSite + "])");
         } else {
-            digestSitePattern = Pattern.compile("(?<=[^" + protectionSite + "])" + "[" + cleavageSite + "]");
+            digestSitePattern = Pattern.compile("(?<![" + protectionSite + "])" + "[" + cleavageSite + "]");
         }
     }
 
