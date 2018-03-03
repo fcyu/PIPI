@@ -92,8 +92,8 @@ public class DbTool {
         int idx = proteinSequence.indexOf(peptide);
         while (idx >= 0) {
             if ((idx == 0 || cutSite.contains(proteinSequence.substring(idx - 1, idx)) || (idx == 1 && proteinSequence.charAt(0) == 'M')) && (idx + peptide.length() == proteinSequence.length() || !protectSite.contains(proteinSequence.substring(idx + peptide.length(), idx + peptide.length() + 1)))) { // caution: we only consider cutting from N-term.
-            output.add(idx);
-        }
+                output.add(idx);
+            }
             idx = proteinSequence.indexOf(peptide, idx + 1);
         }
         if (output.isEmpty()) {
@@ -123,5 +123,13 @@ public class DbTool {
             }
             return output;
         }
+    }
+
+    public static String getPtmFreePeptide(String peptide) {
+        return peptide.replaceAll("[^A-Znc]+", "");
+    }
+
+    public static String getSequenceOnly(String peptide) {
+        return peptide.replaceAll("[^A-Z]+", "");
     }
 }
