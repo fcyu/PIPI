@@ -1,7 +1,6 @@
 package proteomics.TheoSeq;
 
 import proteomics.Types.AA;
-import proteomics.Types.SparseBooleanVector;
 import proteomics.Types.SparseVector;
 
 import java.util.*;
