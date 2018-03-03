@@ -28,7 +28,6 @@ public class BuildIndex {
     private Map<String, Peptide0> peptide0Map;
     private final String labelling;
 
-    /////////////////////////////////public methods//////////////////////////////////////////////////////////////////
     public BuildIndex(Map<String, String> parameterMap, String labelling) throws Exception {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
@@ -240,7 +239,6 @@ public class BuildIndex {
         peptide0Map = new HashMap<>(tempMap); // Since this map won't be changed any more, using this step to create a HashMap with the capacity exactly equals the actual size.
     }
 
-    /////////////////////////////////////public methods////////////////////////////////////////////////////////////////////
     public MassTool returnMassToolObj() {
         return massToolObj;
     }
