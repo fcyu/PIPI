@@ -27,6 +27,7 @@ public class BuildIndex {
     private TreeMap<Double, Set<String>> massPeptideMap = new TreeMap<>();
     private Map<String, Peptide0> peptide0Map;
     private final String labelling;
+    private final DbTool dbTool; // this one doesn't contain contaminant proteins.
 
     public BuildIndex(Map<String, String> parameterMap, String labelling) throws Exception {
         // initialize parameters
@@ -65,10 +66,10 @@ public class BuildIndex {
         fixModMap.put('c', Double.valueOf(parameterMap.get("c")));
 
         // read protein database
-        DbTool dbToolObj = new DbTool(dbPath, parameterMap.get("database_type"));
+        dbTool = new DbTool(dbPath, parameterMap.get("database_type"));
         DbTool contaminantsDb = new DbTool(null, "contaminants");
         Map<String, String> proteinPeptideMap = contaminantsDb.returnSeqMap();
-        proteinPeptideMap.putAll(dbToolObj.returnSeqMap()); // using the target sequence to replace contaminant sequence if there is conflict.
+        proteinPeptideMap.putAll(dbTool.returnSeqMap()); // using the target sequence to replace contaminant sequence if there is conflict.
 
         // define a new MassTool object
         massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
@@ -159,7 +160,7 @@ public class BuildIndex {
         }
 
         // writer concatenated fasta
-        Map<String, String> proteinAnnotationMap = dbToolObj.returnAnnotateMap();
+        Map<String, String> proteinAnnotationMap = dbTool.returnAnnotateMap();
         proteinAnnotationMap.putAll(contaminantsDb.returnAnnotateMap());
         BufferedWriter writer = new BufferedWriter(new FileWriter(dbPath + ".TD.fasta"));
         for (String proId : targetDecoyProteinSequenceMap.keySet()) {
@@ -237,6 +238,10 @@ public class BuildIndex {
             }
         }
         peptide0Map = new HashMap<>(tempMap); // Since this map won't be changed any more, using this step to create a HashMap with the capacity exactly equals the actual size.
+    }
+
+    public DbTool getDbTool() {
+        return dbTool;
     }
 
     public MassTool returnMassToolObj() {
