@@ -26,6 +26,8 @@ public class DbTool {
             headerPattern = Pattern.compile("^>([^\\s]+)[\\s|]+(.+)$");
         } else if (databaseType.contentEquals("UniProt") || databaseType.contentEquals("SwissProt")) {
             headerPattern = Pattern.compile("^>[^|]+\\|(.+)\\|(.+)$");
+        } else if (databaseType.contentEquals("neXtProt")) {
+            headerPattern = Pattern.compile("^>nxp:NX_([^ ]+) (.+)");
         } else if (databaseType.contentEquals("contaminants")) {
             headerPattern = Pattern.compile("^>([^ ]+) (.+)$");
         } else if (databaseType.contentEquals("Others")) {
