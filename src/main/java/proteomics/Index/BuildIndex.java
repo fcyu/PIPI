@@ -237,7 +237,7 @@ public class BuildIndex {
                 }
             }
         }
-        peptide0Map = new HashMap<>(tempMap);
+        peptide0Map = new HashMap<>(tempMap); // Since this map won't be changed any more, using this step to create a HashMap with the capacity exactly equals the actual size.
     }
 
     /////////////////////////////////////public methods////////////////////////////////////////////////////////////////////
