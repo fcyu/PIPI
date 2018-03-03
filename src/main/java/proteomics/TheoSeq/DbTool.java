@@ -86,19 +86,20 @@ public class DbTool {
         return proAnnotateMap;
     }
 
-    public Set<Integer> findPeptideLocation(String proteinId, String peptide) {
-        peptide = peptide.trim().replaceAll("[^A-Z]+", "");
+    public static Set<Integer> findPeptideLocation(String proteinSequence, String peptide, String cutSite, String protectSite) throws NullPointerException {
+        peptide = getSequenceOnly(peptide.trim());
         Set<Integer> output = new HashSet<>();
-        int idx = proSeqMap.get(proteinId).indexOf(peptide);
+        int idx = proteinSequence.indexOf(peptide);
         while (idx >= 0) {
+            if ((idx == 0 || cutSite.contains(proteinSequence.substring(idx - 1, idx)) || (idx == 1 && proteinSequence.charAt(0) == 'M')) && (idx + peptide.length() == proteinSequence.length() || !protectSite.contains(proteinSequence.substring(idx + peptide.length(), idx + peptide.length() + 1)))) { // caution: we only consider cutting from N-term.
             output.add(idx);
-            idx = proSeqMap.get(proteinId).indexOf(peptide, idx + 1);
         }
-        if (!output.isEmpty()) {
-            return output;
-        } else {
-            throw new NullPointerException(String.format(Locale.US, "Cannot find the peptide %s from the protein %s.", peptide, proteinId));
+            idx = proteinSequence.indexOf(peptide, idx + 1);
         }
+        if (output.isEmpty()) {
+            logger.debug(String.format(Locale.US, "Cannot find the peptide %s from the protein sequence %s.", peptide, proteinSequence));
+        }
+        return output;
     }
 
     public static Set<String> reduceProteinIdSet(Set<String> input) {
