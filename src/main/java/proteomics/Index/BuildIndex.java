@@ -161,15 +161,17 @@ public class BuildIndex {
             }
         }
 
-        // writer concatenated fasta
-        Map<String, String> proteinAnnotationMap = dbTool.returnAnnotateMap();
-        proteinAnnotationMap.putAll(contaminantsDb.returnAnnotateMap());
-        BufferedWriter writer = new BufferedWriter(new FileWriter(dbPath + ".TD.fasta"));
-        for (String proId : targetDecoyProteinSequenceMap.keySet()) {
-            writer.write(String.format(Locale.US, ">%s %s\n", proId, proteinAnnotationMap.getOrDefault(proId, "")));
-            writer.write(targetDecoyProteinSequenceMap.get(proId) + "\n");
+        if (needDecoy) {
+            // writer concatenated fasta
+            Map<String, String> proteinAnnotationMap = dbTool.returnAnnotateMap();
+            proteinAnnotationMap.putAll(contaminantsDb.returnAnnotateMap());
+            BufferedWriter writer = new BufferedWriter(new FileWriter(dbPath + ".TD.fasta"));
+            for (String proId : targetDecoyProteinSequenceMap.keySet()) {
+                writer.write(String.format(Locale.US, ">%s %s\n", proId, proteinAnnotationMap.getOrDefault(proId, "")));
+                writer.write(targetDecoyProteinSequenceMap.get(proId) + "\n");
+            }
+            writer.close();
         }
-        writer.close();
 
         Map<String, Peptide0> tempMap = new HashMap<>();
         for (String peptide : peptideMassMap.keySet()) {
