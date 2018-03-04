@@ -108,7 +108,7 @@ public class PIPI {
         }
 
         logger.info("Indexing protein database...");
-        BuildIndex buildIndexObj = new BuildIndex(parameterMap, labelling);
+        BuildIndex buildIndexObj = new BuildIndex(parameterMap, labelling, true, true);
         MassTool massToolObj = buildIndexObj.returnMassToolObj();
 
         double minPtmMass = Double.valueOf(parameterMap.get("min_ptm_mass"));

@@ -29,7 +29,7 @@ public class BuildIndex {
     private final String labelling;
     private final DbTool dbTool; // this one doesn't contain contaminant proteins.
 
-    public BuildIndex(Map<String, String> parameterMap, String labelling) throws Exception {
+    public BuildIndex(Map<String, String> parameterMap, String labelling, boolean needCoding, boolean needDecoy) throws Exception {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
@@ -118,45 +118,47 @@ public class BuildIndex {
                 }
             }
 
-            // decoy sequence
-            String decoyProSeq;
-            if (proSeq.startsWith("M")) {
-                decoyProSeq = "M" + shuffleSeq(proSeq.substring(1), massToolObj.getDigestSitePattern());
-            } else {
-                decoyProSeq = shuffleSeq(proSeq, massToolObj.getDigestSitePattern());
-            }
-            peptideSet = massToolObj.buildPeptideSet(decoyProSeq);
-            if (decoyProSeq.startsWith("M")) { // Since the digestion doesn't take much time, just digest the whole protein again for easy read.
-                peptideSet.addAll(massToolObj.buildPeptideSet(decoyProSeq.substring(1)));
-            }
+            targetDecoyProteinSequenceMap.put(proId, proSeq);
 
-            for (String peptide : peptideSet) {
-                if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
-                    continue;
+            if (needDecoy) {
+                // decoy sequence
+                String decoyProSeq;
+                if (proSeq.startsWith("M")) {
+                    decoyProSeq = "M" + shuffleSeq(proSeq.substring(1), massToolObj.getDigestSitePattern());
+                } else {
+                    decoyProSeq = shuffleSeq(proSeq, massToolObj.getDigestSitePattern());
+                }
+                peptideSet = massToolObj.buildPeptideSet(decoyProSeq);
+                if (decoyProSeq.startsWith("M")) { // Since the digestion doesn't take much time, just digest the whole protein again for easy read.
+                    peptideSet.addAll(massToolObj.buildPeptideSet(decoyProSeq.substring(1)));
                 }
 
-                if ((peptide.length() - 2 <= maxPeptideLength) && (peptide.length() - 2 >= minPeptideLength)) { // caution: there are n and c in the sequence
-                    if (!forCheckDuplicate.contains(peptide.replace('L', 'I'))) { // don't record duplicate peptide sequences
-                        // Add the sequence to the check set for duplicate check
-                        forCheckDuplicate.add(peptide.replace('L', 'I'));
+                for (String peptide : peptideSet) {
+                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
+                        continue;
+                    }
 
-                        double mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
-                        // recode min and max peptide mass
-                        if (mass < minPeptideMass) {
-                            minPeptideMass = mass;
-                        }
-                        if (mass > maxPeptideMass) {
-                            maxPeptideMass = mass;
-                        }
+                    if ((peptide.length() - 2 <= maxPeptideLength) && (peptide.length() - 2 >= minPeptideLength)) { // caution: there are n and c in the sequence
+                        if (!forCheckDuplicate.contains(peptide.replace('L', 'I'))) { // don't record duplicate peptide sequences
+                            // Add the sequence to the check set for duplicate check
+                            forCheckDuplicate.add(peptide.replace('L', 'I'));
 
-                        peptideMassMap.put(peptide, mass);
-                        peptideProteinMap.put(peptide, "DECOY_" + proId);
+                            double mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
+                            // recode min and max peptide mass
+                            if (mass < minPeptideMass) {
+                                minPeptideMass = mass;
+                            }
+                            if (mass > maxPeptideMass) {
+                                maxPeptideMass = mass;
+                            }
+
+                            peptideMassMap.put(peptide, mass);
+                            peptideProteinMap.put(peptide, "DECOY_" + proId);
+                        }
                     }
                 }
+                targetDecoyProteinSequenceMap.put("DECOY_" + proId, decoyProSeq);
             }
-
-            targetDecoyProteinSequenceMap.put(proId, proSeq);
-            targetDecoyProteinSequenceMap.put("DECOY_" + proId, decoyProSeq);
         }
 
         // writer concatenated fasta
@@ -171,7 +173,10 @@ public class BuildIndex {
 
         Map<String, Peptide0> tempMap = new HashMap<>();
         for (String peptide : peptideMassMap.keySet()) {
-            SparseBooleanVector code = inference3SegmentObj.generateSegmentBooleanVector(peptide.substring(1, peptide.length() - 1));
+            SparseBooleanVector code = null;
+            if (needCoding) {
+                code = inference3SegmentObj.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
+            }
 
             Character leftFlank = null;
             Character rightFlank = null;
