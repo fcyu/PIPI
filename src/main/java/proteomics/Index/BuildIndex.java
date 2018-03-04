@@ -180,7 +180,7 @@ public class BuildIndex {
 
             Character leftFlank = null;
             Character rightFlank = null;
-            String peptideString = peptide.substring(1, peptide.length() - 1);
+            String peptideString = DbTool.getSequenceOnly(peptide);
             if (peptideProteinMap.containsKey(peptide)) {
                 for (String proteinId : peptideProteinMap.get(peptide)) {
                     String proteinSequence = proteinPeptideMap.get(proteinId);
