@@ -185,7 +185,7 @@ public class BuildIndex {
             String peptideString = DbTool.getSequenceOnly(peptide);
             if (peptideProteinMap.containsKey(peptide)) {
                 for (String proteinId : peptideProteinMap.get(peptide)) {
-                    String proteinSequence = proteinPeptideMap.get(proteinId);
+                    String proteinSequence = targetDecoyProteinSequenceMap.get(proteinId);
                     int startIdx = proteinSequence.indexOf(peptideString);
                     while (startIdx >= 0) {
                         if (startIdx == 0 || ((startIdx == 1 && proteinSequence.charAt(0) == 'M'))) { // considering first "M" being cut situation.
