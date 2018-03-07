@@ -102,9 +102,9 @@ public class DbTool {
         return output;
     }
 
-    public static Set<String> reduceProteinIdSet(Set<String> input) {
-        if (input.size() == 1) {
-            return input;
+    public static TreeSet<String> reduceProteinIdSet(Set<String> input, String databaseType) { // this only works for TAIR10
+        if (input.size() == 1 || !databaseType.contentEquals("TAIR")) {
+            return new TreeSet<>(input);
         } else {
             Map<String, Integer> tempMap = new HashMap<>();
             for (String s : input) {
@@ -117,7 +117,7 @@ public class DbTool {
                     tempMap.put(tempArray[0], Integer.valueOf(tempArray[1]));
                 }
             }
-            Set<String> output = new HashSet<>();
+            TreeSet<String> output = new TreeSet<>();
             for (String s : tempMap.keySet()) {
                 output.add(s + "." + tempMap.get(s));
             }
