@@ -2,8 +2,8 @@ package proteomics.Types;
 
 public class AA {
 
-    public final char aa;
-    public final double ptmDeltaMass;
+    public char aa;
+    public double ptmDeltaMass;
     private final int hashCode;
 
     public AA(char aa, double ptmDeltaMass) {
