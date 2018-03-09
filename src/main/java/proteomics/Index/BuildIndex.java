@@ -183,64 +183,62 @@ public class BuildIndex {
             Character leftFlank = null;
             Character rightFlank = null;
             String peptideString = DbTool.getSequenceOnly(peptide);
-            if (peptideProteinMap.containsKey(peptide)) {
-                for (String proteinId : peptideProteinMap.get(peptide)) {
-                    String proteinSequence = targetDecoyProteinSequenceMap.get(proteinId);
-                    int startIdx = proteinSequence.indexOf(peptideString);
-                    while (startIdx >= 0) {
-                        if (startIdx == 0 || ((startIdx == 1 && proteinSequence.charAt(0) == 'M'))) { // considering first "M" being cut situation.
-                            int tempIdx = startIdx + peptideString.length();
-                            if (tempIdx < proteinSequence.length()) {
-                                rightFlank = proteinSequence.charAt(tempIdx);
-                                if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()))) {
-                                    leftFlank = '-';
-                                    break;
-                                } else {
-                                    rightFlank = null;
-                                }
-                            } else if (tempIdx == proteinSequence.length()) {
+            for (String proteinId : peptideProteinMap.get(peptide)) {
+                String proteinSequence = targetDecoyProteinSequenceMap.get(proteinId);
+                int startIdx = proteinSequence.indexOf(peptideString);
+                while (startIdx >= 0) {
+                    if (startIdx == 0 || ((startIdx == 1 && proteinSequence.charAt(0) == 'M'))) { // considering first "M" being cut situation.
+                        int tempIdx = startIdx + peptideString.length();
+                        if (tempIdx < proteinSequence.length()) {
+                            rightFlank = proteinSequence.charAt(tempIdx);
+                            if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()))) {
                                 leftFlank = '-';
-                                rightFlank = '-';
                                 break;
                             } else {
-                                logger.warn("The peptide {} is longer than its protein {}.", peptideString, proteinSequence);
-                            }
-                        } else if (startIdx == proteinSequence.length() - peptideString.length()) {
-                            leftFlank = proteinSequence.charAt(startIdx - 1);
-                            if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
-                                rightFlank = '-';
-                                break;
-                            } else {
-                                leftFlank = null;
-                            }
-                        } else {
-                            leftFlank = proteinSequence.charAt(startIdx - 1);
-                            rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
-                            if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString()) && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()) && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
-                                break;
-                            } else {
-                                leftFlank = null;
                                 rightFlank = null;
                             }
+                        } else if (tempIdx == proteinSequence.length()) {
+                            leftFlank = '-';
+                            rightFlank = '-';
+                            break;
+                        } else {
+                            logger.warn("The peptide {} is longer than its protein {}.", peptideString, proteinSequence);
                         }
-                        startIdx = proteinSequence.indexOf(peptideString, startIdx + 1);
+                    } else if (startIdx == proteinSequence.length() - peptideString.length()) {
+                        leftFlank = proteinSequence.charAt(startIdx - 1);
+                        if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
+                            rightFlank = '-';
+                            break;
+                        } else {
+                            leftFlank = null;
+                        }
+                    } else {
+                        leftFlank = proteinSequence.charAt(startIdx - 1);
+                        rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
+                        if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString()) && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()) && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
+                            break;
+                        } else {
+                            leftFlank = null;
+                            rightFlank = null;
+                        }
                     }
-
-                    if (leftFlank != null && rightFlank != null) {
-                        break;
-                    }
+                    startIdx = proteinSequence.indexOf(peptideString, startIdx + 1);
                 }
 
                 if (leftFlank != null && rightFlank != null) {
-                    tempMap.put(peptide, new Peptide0(code, true, peptideProteinMap.get(peptide).toArray(new String[peptideProteinMap.get(peptide).size()]), leftFlank, rightFlank));
+                    break;
+                }
+            }
 
-                    if (massPeptideMap.containsKey(peptideMassMap.get(peptide))) {
-                        massPeptideMap.get(peptideMassMap.get(peptide)).add(peptide);
-                    } else {
-                        Set<String> tempSet = new HashSet<>();
-                        tempSet.add(peptide);
-                        massPeptideMap.put(peptideMassMap.get(peptide), tempSet);
-                    }
+            if (leftFlank != null && rightFlank != null) {
+                tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[peptideProteinMap.get(peptide).size()]), leftFlank, rightFlank));
+
+                if (massPeptideMap.containsKey(peptideMassMap.get(peptide))) {
+                    massPeptideMap.get(peptideMassMap.get(peptide)).add(peptide);
+                } else {
+                    Set<String> tempSet = new HashSet<>();
+                    tempSet.add(peptide);
+                    massPeptideMap.put(peptideMassMap.get(peptide), tempSet);
                 }
             }
         }
@@ -328,5 +326,14 @@ public class BuildIndex {
             }
         }
         return String.valueOf(tempArray);
+    }
+
+    private boolean isTarget(Collection<String> proteinIds) {
+        for (String protein : proteinIds) {
+            if (protein.startsWith("DECOY_")) {
+                return false;
+            }
+        }
+        return true;
     }
 }
