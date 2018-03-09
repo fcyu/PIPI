@@ -63,14 +63,30 @@ public class PIPI {
 
             dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
             new PIPI(parameterPath, spectraPath, dbName);
+
+            (new File(dbName)).delete();
+            (new File(dbName + "-wal")).delete();
+            (new File(dbName + "-shm")).delete();
+            dbName = null;
         } catch (Exception ex) {
             ex.printStackTrace();
             logger.error(ex.toString());
         } finally {
             if (dbName != null) {
-                (new File(dbName)).delete();
-                (new File(dbName + "-wal")).delete();
-                (new File(dbName + "-shm")).delete();
+                boolean deleted = (new File(dbName)).delete();
+                if (!deleted) {
+                    logger.warn("Failed to delete {}. It's useless. Please delete it by yourself.", dbName);
+                }
+
+                deleted = (new File(dbName + "-wal")).delete();
+                if (!deleted) {
+                    logger.warn("Failed to delete {}. It's useless. Please delete it by yourself.", dbName + "-wal");
+                }
+
+                deleted = (new File(dbName + "-shm")).delete();
+                if (!deleted) {
+                    logger.warn("Failed to delete {}. It's useless. Please delete it by yourself.", dbName + "-wal");
+                }
             }
         }
     }
