@@ -111,7 +111,7 @@ public class BuildIndex {
                         peptideProteinMap.put(peptide, proId);
                     }
 
-                    // considering the case that the sequence has multiple proteins. In the above if clock, such a protein wasn't recorded.
+                    // Considering the case that the sequence has multiple proteins. In the above if clock, such a protein ID wasn't recorded. The side-effect is that a decoy sequence may have target protein IDs. Don't be surprised by seeing a decoy sequence has target protein IDs.
                     if (peptideProteinMap.containsKey(peptide)) {
                         peptideProteinMap.put(peptide, proId);
                     }
