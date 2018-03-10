@@ -352,9 +352,9 @@ public class PIPI {
                 double explainedAaFrac = sqlResultSet.getDouble("explainedAaFrac");
 
                 if (isDecoy == 1) {
-                    writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6 / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    writer.write(scanNum + "\t-1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6 / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join("\t", proteinIdSet) + "\n");
                 } else {
-                    writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6 / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join(";", proteinIdSet) + "\n");
+                    writer.write(scanNum + "\t1\t" + scanNum + "\t" + score + "\t" + deltaC + "\t" + deltaLC + "\t" + normalizedCorrelationCoefficient + "\t" + globalRank + "\t" + Math.abs(massDiff * 1e6 / theoMass) + "\t" + ionFrac + "\t" + matchedHighestIntensityFrac + "\t" + sb.toString() + explainedAaFrac + "\t" + peptide0.leftFlank + "." + peptide + "." + peptide0.rightFlank + "\t" + String.join("\t", proteinIdSet) + "\n");
                 }
             }
         }
