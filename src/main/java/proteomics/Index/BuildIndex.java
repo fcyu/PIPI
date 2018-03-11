@@ -109,10 +109,15 @@ public class BuildIndex {
 
                         peptideMassMap.put(peptide, mass);
                         peptideProteinMap.put(peptide, proId);
-                    }
-
-                    // Considering the case that the sequence has multiple proteins. In the above if clock, such a protein ID wasn't recorded. The side-effect is that a decoy sequence may have target protein IDs. Don't be surprised by seeing a decoy sequence has target protein IDs.
-                    if (peptideProteinMap.containsKey(peptide)) {
+                    } else if (peptideProteinMap.containsKey(peptide)) {
+                        // Considering the case that the sequence has multiple proteins. In the above if block, such a protein ID wasn't recorded. If there are decoy IDs, replace it with the current target ID since the target ID has a higher priority.
+                        Set<String> proteinSet = new HashSet<>(peptideProteinMap.get(peptide));
+                        peptideProteinMap.get(peptide).clear();
+                        for (String protein : proteinSet) {
+                            if (!protein.startsWith("DECOY_")) {
+                                peptideProteinMap.put(peptide, protein);
+                            }
+                        }
                         peptideProteinMap.put(peptide, proId);
                     }
                 }
