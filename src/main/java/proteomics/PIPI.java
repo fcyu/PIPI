@@ -367,7 +367,7 @@ public class PIPI {
     private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName, String tdFastaPath) throws Exception {
         Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
         if ((new File(percolatorPath)).exists()) {
-            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
+            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --protein-report-fragments --protein-report-duplicates --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
             ps.waitFor();
 
             if (!(new File(percolatorOutputFileName).exists())) {
