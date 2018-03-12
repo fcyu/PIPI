@@ -3,7 +3,8 @@ package proteomics.Segment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import proteomics.TheoSeq.MassTool;
+import ProteomicsLibrary.MassTool;
+import ProteomicsLibrary.Types.*;
 import proteomics.Types.*;
 
 import java.util.*;
@@ -31,7 +32,7 @@ public class InferenceSegment {
     public InferenceSegment(MassTool massTool, double ms2Tolerance, Map<String, String> parameterMap, Map<Character, Double> fixModMap) throws Exception {
         this.massTool = massTool;
         this.ms2Tolerance = ms2Tolerance;
-        Map<Character, Double> massTable = massTool.returnMassTable();
+        Map<Character, Double> massTable = massTool.getMassTable();
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
 

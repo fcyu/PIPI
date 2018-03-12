@@ -11,7 +11,7 @@ import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Segment.InferenceSegment;
-import proteomics.TheoSeq.*;
+import ProteomicsLibrary.*;
 import proteomics.Types.Peptide0;
 import proteomics.Types.SparseBooleanVector;
 
@@ -68,11 +68,11 @@ public class BuildIndex {
         // read protein database
         dbTool = new DbTool(dbPath, parameterMap.get("database_type"));
         DbTool contaminantsDb = new DbTool(null, "contaminants");
-        Map<String, String> proteinPeptideMap = contaminantsDb.returnSeqMap();
-        proteinPeptideMap.putAll(dbTool.returnSeqMap()); // using the target sequence to replace contaminant sequence if there is conflict.
+        Map<String, String> proteinPeptideMap = contaminantsDb.getProteinSequenceMap();
+        proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
 
         // define a new MassTool object
-        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
+        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling, "()");
 
         // build database
         inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
@@ -168,8 +168,8 @@ public class BuildIndex {
 
         if (needDecoy) {
             // writer concatenated fasta
-            Map<String, String> proteinAnnotationMap = dbTool.returnAnnotateMap();
-            proteinAnnotationMap.putAll(contaminantsDb.returnAnnotateMap());
+            Map<String, String> proteinAnnotationMap = dbTool.getProteinAnnotateMap();
+            proteinAnnotationMap.putAll(contaminantsDb.getProteinAnnotateMap());
             BufferedWriter writer = new BufferedWriter(new FileWriter(dbPath + ".TD.fasta"));
             for (String proId : targetDecoyProteinSequenceMap.keySet()) {
                 writer.write(String.format(Locale.US, ">%s %s\n", proId, proteinAnnotationMap.getOrDefault(proId, "")));

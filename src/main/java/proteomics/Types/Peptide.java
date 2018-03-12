@@ -1,7 +1,7 @@
 package proteomics.Types;
 
 import proteomics.Segment.InferenceSegment;
-import proteomics.TheoSeq.MassTool;
+import ProteomicsLibrary.MassTool;
 
 import java.util.Locale;
 import java.util.Map;

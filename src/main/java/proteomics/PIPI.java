@@ -10,7 +10,7 @@ import proteomics.Types.*;
 import proteomics.Index.BuildIndex;
 import proteomics.Parameter.Parameter;
 import proteomics.Spectrum.PreSpectra;
-import proteomics.TheoSeq.MassTool;
+import ProteomicsLibrary.MassTool;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 import uk.ac.ebi.pride.tools.mgf_parser.MgfFile;
 import uk.ac.ebi.pride.tools.mzxml_parser.MzXMLFile;
@@ -292,7 +292,7 @@ public class PIPI {
 
         logger.info("Saving results...");
         writeFinalResult(percolatorResultMap, spectraPath + "." + labelling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
-        new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.returnMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
+        new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.getMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
 
         logger.info("Done.");
     }

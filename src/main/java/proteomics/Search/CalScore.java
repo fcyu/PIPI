@@ -1,6 +1,7 @@
 package proteomics.Search;
 
-import proteomics.TheoSeq.MassTool;
+import ProteomicsLibrary.MassTool;
+import ProteomicsLibrary.Types.*;
 import proteomics.Types.*;
 
 import java.util.*;

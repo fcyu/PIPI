@@ -3,7 +3,7 @@ package proteomics.Spectrum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.PIPI;
-import proteomics.TheoSeq.MassTool;
+import ProteomicsLibrary.MassTool;
 import uk.ac.ebi.pride.tools.jmzreader.*;
 import uk.ac.ebi.pride.tools.jmzreader.model.*;
 import uk.ac.ebi.pride.tools.mgf_parser.model.Ms2Query;
@@ -38,7 +38,7 @@ public class PreSpectra {
         this.leftInverseMs1Tolerance = leftInverseMs1Tolerance;
         this.rightInverseMs1Tolerance = rightInverseMs1Tolerance;
         this.ms1ToleranceUnit = ms1ToleranceUnit;
-        isotopeDistribution = new IsotopeDistribution(massToolObj.elementTable, 0, massToolObj.getLabelling());
+        isotopeDistribution = new IsotopeDistribution(massToolObj.getElementTable(), 0, massToolObj.getLabelling());
 
         // prepare SQL database
         Connection sqlConnection = DriverManager.getConnection(sqlPath);

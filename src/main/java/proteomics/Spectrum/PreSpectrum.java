@@ -1,7 +1,7 @@
 package proteomics.Spectrum;
 
-import proteomics.TheoSeq.MassTool;
-import proteomics.Types.SparseVector;
+import ProteomicsLibrary.MassTool;
+import ProteomicsLibrary.Types.*;
 
 import java.util.*;
 

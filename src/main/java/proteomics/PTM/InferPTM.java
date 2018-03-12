@@ -2,7 +2,8 @@ package proteomics.PTM;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import proteomics.TheoSeq.MassTool;
+import ProteomicsLibrary.MassTool;
+import ProteomicsLibrary.Types.*;
 import proteomics.Types.*;
 
 import java.io.*;
@@ -29,13 +30,13 @@ public class InferPTM {
     public InferPTM(MassTool massTool, Map<Character, Double> fixModMap, Set<VarModParam> varModParamSet, double minPtmMass, double maxPtmMass, double ms2Tolerance) throws IOException{
         this.massTool = massTool;
         elementTable = massTool.getElementTable();
-        massTable = massTool.returnMassTable();
+        massTable = massTool.getMassTable();
         this.fixModMap = fixModMap;
         this.minPtmMass = minPtmMass;
         this.maxPtmMass = maxPtmMass;
         this.ms2Tolerance = ms2Tolerance;
 
-        Map<Character, Double> massTable = massTool.returnMassTable();
+        Map<Character, Double> massTable = massTool.getMassTable();
 
         // Building an amino acid substitution matrix.
         Map<Character, Set<VarModParam>> aasMap = buildAASMap(massTable);
