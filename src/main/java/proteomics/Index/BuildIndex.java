@@ -84,12 +84,9 @@ public class BuildIndex {
         for (String proId : proteinPeptideMap.keySet()) {
             String proSeq = proteinPeptideMap.get(proId);
             Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
-            if (proSeq.startsWith("M")) { // Since the digestion doesn't take much time, just digest the whole protein again for easy read.
-                peptideSet.addAll(massToolObj.buildPeptideSet(proSeq.substring(1)));
-            }
 
             for (String peptide : peptideSet) {
-                if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
+                if (MassTool.containsNonAAAndNC(peptide)) {
                     continue;
                 }
 
@@ -127,19 +124,11 @@ public class BuildIndex {
 
             if (needDecoy) {
                 // decoy sequence
-                String decoyProSeq;
-                if (proSeq.startsWith("M")) {
-                    decoyProSeq = "M" + shuffleSeq(proSeq.substring(1), massToolObj.getDigestSitePattern());
-                } else {
-                    decoyProSeq = shuffleSeq(proSeq, massToolObj.getDigestSitePattern());
-                }
+                String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1);
                 peptideSet = massToolObj.buildPeptideSet(decoyProSeq);
-                if (decoyProSeq.startsWith("M")) { // Since the digestion doesn't take much time, just digest the whole protein again for easy read.
-                    peptideSet.addAll(massToolObj.buildPeptideSet(decoyProSeq.substring(1)));
-                }
 
                 for (String peptide : peptideSet) {
-                    if (peptide.contains("B") || peptide.contains("J") || peptide.contains("X") || peptide.contains("Z") || peptide.contains("*")) {
+                    if (MassTool.containsNonAAAndNC(peptide)) {
                         continue;
                     }
 
@@ -185,58 +174,9 @@ public class BuildIndex {
                 code = inference3SegmentObj.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
             }
 
-            Character leftFlank = null;
-            Character rightFlank = null;
-            String peptideString = DbTool.getSequenceOnly(peptide);
-            for (String proteinId : peptideProteinMap.get(peptide)) {
-                String proteinSequence = targetDecoyProteinSequenceMap.get(proteinId);
-                int startIdx = proteinSequence.indexOf(peptideString);
-                while (startIdx >= 0) {
-                    if (startIdx == 0 || ((startIdx == 1 && proteinSequence.charAt(0) == 'M'))) { // considering first "M" being cut situation.
-                        int tempIdx = startIdx + peptideString.length();
-                        if (tempIdx < proteinSequence.length()) {
-                            rightFlank = proteinSequence.charAt(tempIdx);
-                            if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()))) {
-                                leftFlank = '-';
-                                break;
-                            } else {
-                                rightFlank = null;
-                            }
-                        } else if (tempIdx == proteinSequence.length()) {
-                            leftFlank = '-';
-                            rightFlank = '-';
-                            break;
-                        } else {
-                            logger.warn("The peptide {} is longer than its protein {}.", peptideString, proteinSequence);
-                        }
-                    } else if (startIdx == proteinSequence.length() - peptideString.length()) {
-                        leftFlank = proteinSequence.charAt(startIdx - 1);
-                        if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
-                            rightFlank = '-';
-                            break;
-                        } else {
-                            leftFlank = null;
-                        }
-                    } else {
-                        leftFlank = proteinSequence.charAt(startIdx - 1);
-                        rightFlank = proteinSequence.charAt(startIdx + peptideString.length());
-                        if ((parameterMap.get("cleavage_from_c_term").contentEquals("1") && parameterMap.get("cleavage_site").contains(leftFlank.toString()) && !parameterMap.get("protection_site").contains(rightFlank.toString())) || (parameterMap.get("cleavage_from_c_term").contentEquals("0") && parameterMap.get("cleavage_site").contains(rightFlank.toString()) && !parameterMap.get("protection_site").contains(leftFlank.toString()))) {
-                            break;
-                        } else {
-                            leftFlank = null;
-                            rightFlank = null;
-                        }
-                    }
-                    startIdx = proteinSequence.indexOf(peptideString, startIdx + 1);
-                }
-
-                if (leftFlank != null && rightFlank != null) {
-                    break;
-                }
-            }
-
-            if (leftFlank != null && rightFlank != null) {
-                tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[peptideProteinMap.get(peptide).size()]), leftFlank, rightFlank));
+            Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), parameterMap.get("cleavage_from_c_term").contentEquals("1"));
+            if (leftRightFlank != null) {
+                tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[peptideProteinMap.get(peptide).size()]), leftRightFlank[0], leftRightFlank[1]));
 
                 if (massPeptideMap.containsKey(peptideMassMap.get(peptide))) {
                     massPeptideMap.get(peptideMassMap.get(peptide)).add(peptide);
@@ -284,53 +224,6 @@ public class BuildIndex {
 
     public String getLabelling() {
         return labelling;
-    }
-
-    private String shuffleSeq2(String seq, Set<String> forCheckDuplicate) {
-        Random random = new Random(0);
-        char[] tempArray = seq.substring(0, seq.length() - 1).toCharArray();
-        String decoySeq;
-        int time = 0;
-        do {
-            // the standard Fisher-Yates shuffle
-            for (int i = 0; i < tempArray.length; ++i) {
-                int j = random.nextInt(tempArray.length);
-                while (j == i) {
-                    j = random.nextInt(tempArray.length);
-                }
-                char temp = tempArray[i];
-                tempArray[i] = tempArray[j];
-                tempArray[j] = temp;
-            }
-            decoySeq = String.valueOf(tempArray) + seq.substring(seq.length() - 1, seq.length());
-            ++time;
-        } while (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c") && (time < 10));
-        if (forCheckDuplicate.contains("n" + decoySeq.replace('L', 'I') + "c")) {
-            return "";
-        } else {
-            return decoySeq;
-        }
-    }
-
-    private String shuffleSeq(String seq, Pattern digestSitePattern) {
-        Set<Integer> cutSiteSet = new HashSet<>();
-        Matcher matcher = digestSitePattern.matcher(seq);
-        while (matcher.find()) {
-            cutSiteSet.add(matcher.start());
-        }
-        char[] tempArray = seq.toCharArray();
-        int idx = 0;
-        while (idx < tempArray.length - 1) {
-            if (!cutSiteSet.contains(idx) && !cutSiteSet.contains(idx + 1)) {
-                char temp = tempArray[idx];
-                tempArray[idx] = tempArray[idx + 1];
-                tempArray[idx + 1] = temp;
-                idx += 2;
-            } else {
-                ++idx;
-            }
-        }
-        return String.valueOf(tempArray);
     }
 
     private boolean isTarget(Collection<String> proteinIds) {
