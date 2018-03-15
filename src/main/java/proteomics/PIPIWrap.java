@@ -12,7 +12,6 @@ import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.*;
 import proteomics.Types.*;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
-import uk.ac.ebi.pride.tools.jmzreader.JMzReaderException;
 
 import java.sql.*;
 import java.util.*;
