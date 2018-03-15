@@ -1,7 +1,7 @@
 package proteomics.Search;
 
 
-import proteomics.Spectrum.PreSpectrum;
+import ProteomicsLibrary.PrepareSpectrum;
 import proteomics.Types.Coordinate;
 import proteomics.Types.Peptide;
 import proteomics.Types.PositionDeltaMassMap;
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class CalSubscores {
 
-    private static final double p = PreSpectrum.topN * 0.01;
+    private static final double p = PrepareSpectrum.topN * 0.01;
 
     public CalSubscores(Peptide peptide, double ms2Tolerance, TreeMap<Double, Double> expPl, int precursorCharge, TreeSet<Peptide> ptmPatterns, Binomial binomial) {
         double[][] ionMatrix = peptide.getIonMatrix();
@@ -79,8 +79,8 @@ public class CalSubscores {
         // calculate A score
         if (peptide.hasVarPTM()) {
             double finalAScore = -9999;
-            for (int localTopN = 1; localTopN <= PreSpectrum.topN; ++localTopN) {
-                TreeMap<Double, Double> localPlMap = PreSpectrum.selectTopN(expPl, localTopN);
+            for (int localTopN = 1; localTopN <= PrepareSpectrum.topN; ++localTopN) {
+                TreeMap<Double, Double> localPlMap = PrepareSpectrum.topNStyleNormalization(expPl, localTopN);
                 Set<String> totalAffectedPeakSet = new HashSet<>();
                 Set<String> topMatchedPeakSet = new HashSet<>();
                 Set<String> secondMatchedPeakSet = new HashSet<>();

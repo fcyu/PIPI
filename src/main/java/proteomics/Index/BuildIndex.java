@@ -3,8 +3,6 @@ package proteomics.Index;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -12,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Segment.InferenceSegment;
 import ProteomicsLibrary.*;
+import ProteomicsLibrary.Types.*;
 import proteomics.Types.Peptide0;
-import proteomics.Types.SparseBooleanVector;
 
 public class BuildIndex {
 
@@ -72,7 +70,7 @@ public class BuildIndex {
         proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
 
         // define a new MassTool object
-        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling, "()");
+        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
 
         // build database
         inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);

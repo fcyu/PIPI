@@ -7,7 +7,7 @@ import proteomics.Search.CalSubscores;
 import proteomics.Search.CalScore;
 import proteomics.Search.Search;
 import proteomics.Segment.InferenceSegment;
-import proteomics.Spectrum.PreSpectrum;
+import ProteomicsLibrary.PrepareSpectrum;
 import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.*;
 import proteomics.Types.*;
@@ -39,12 +39,12 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
     private final int precursorCharge;
     private final double precursorMass;
     private final InferPTM inferPTM;
-    private final PreSpectrum preSpectrum;
+    private final PrepareSpectrum preSpectrum;
     private final String sqlPath;
     private final Binomial binomial;
 
 
-    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, double ms2Tolerance, double minPtmMass, double maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, double minClear, double maxClear, ReentrantLock lock, String scanId, int precursorCharge, double precursorMass, InferPTM inferPTM, PreSpectrum preSpectrum, String sqlPath, Binomial binomial) {
+    public PIPIWrap(BuildIndex buildIndexObj, MassTool massToolObj, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, double ms2Tolerance, double minPtmMass, double maxPtmMass, int localMaxMs2Charge, JMzReader spectraParser, double minClear, double maxClear, ReentrantLock lock, String scanId, int precursorCharge, double precursorMass, InferPTM inferPTM, PrepareSpectrum preSpectrum, String sqlPath, Binomial binomial) {
         this.buildIndexObj = buildIndexObj;
         this.massToolObj = massToolObj;
         this.ms1Tolerance = ms1Tolerance;
@@ -81,7 +81,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
         }
 
         // preprocess peak list
-        TreeMap<Double, Double> plMap = preSpectrum.preSpectrum(rawPLMap, precursorMass, precursorCharge, ms2Tolerance, minClear, maxClear);
+        TreeMap<Double, Double> plMap = preSpectrum.preSpectrumTopNStyle(rawPLMap, precursorMass, precursorCharge, minClear, maxClear);
 
         if (plMap.isEmpty()) {
             return null;
@@ -99,9 +99,9 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
             // prepare the spectrum
             SparseVector expProcessedPL;
             if (PIPI.useXcorr) {
-                expProcessedPL = preSpectrum.prepareXcorr(plMap, false);
+                expProcessedPL = preSpectrum.prepareXCorr(plMap, false);
             } else {
-                expProcessedPL = preSpectrum.prepareDigitizedPL(plMap, false);
+                expProcessedPL = preSpectrum.digitizePL(plMap);
             }
 
             double localMS1ToleranceL = -1 * ms1Tolerance;

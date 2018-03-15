@@ -60,7 +60,7 @@ public class WritePepXml {
 
                 if (!aScore.contentEquals("-")) {
                     PositionDeltaMassMap ptmMap = new PositionDeltaMassMap(ptmFreePeptide.length());
-                    AA[] aaArray = MassTool.seqToAAList(peptide, "()");
+                    AA[] aaArray = MassTool.seqToAAList(peptide);
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < aaArray.length; ++i) {
                         if (Math.abs(aaArray[i].ptmDeltaMass) > 0.5 && Math.abs(fixModMap.get(aaArray[i].aa) - aaArray[i].ptmDeltaMass) > 0.1) {

@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import proteomics.Output.WritePepXml;
 import proteomics.PTM.InferPTM;
 import proteomics.Search.Binomial;
-import proteomics.Spectrum.PreSpectrum;
+import ProteomicsLibrary.PrepareSpectrum;
 import proteomics.Types.*;
 import proteomics.Index.BuildIndex;
 import proteomics.Parameter.Parameter;
@@ -30,7 +30,6 @@ public class PIPI {
     public static final String versionStr = "1.4.4";
     public static final boolean useXcorr = true;
 
-    public static final boolean DEV = false;
     public static final int[] debugScanNumArray = new int[]{};
 
     public static void main(String[] args) {
@@ -56,10 +55,6 @@ public class PIPI {
 
         try {
             logger.info("Spectra: {}, parameter: {}.", spectraPath, parameterPath);
-
-            if (DEV) {
-                logger.info("In DEV mode.");
-            }
 
             dbName = String.format(Locale.US, "PIPI.%s.%s.temp.db", hostName, new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss").format(Calendar.getInstance().getTime()));
             new PIPI(parameterPath, spectraPath, dbName);
@@ -103,7 +98,7 @@ public class PIPI {
         double minClear = Double.valueOf(parameterMap.get("min_clear_mz"));
         double maxClear = Double.valueOf(parameterMap.get("max_clear_mz"));
         String percolatorPath = parameterMap.get("percolator_path");
-        boolean outputPercolatorInput = (DEV || (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1));
+        boolean outputPercolatorInput = (Integer.valueOf(parameterMap.get("output_percolator_input")) == 1);
 
         // print all the parameters
         logger.info("Parameters:");
@@ -151,21 +146,6 @@ public class PIPI {
 
         PreSpectra preSpectraObj = new PreSpectra(spectraParser, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, massToolObj, ext, msLevelSet, sqlPath);
 
-        if (DEV) {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("spectrum.dev.csv"));
-            writer.write("scanNum,charge,finalIsotopeCorrectionNum,isotopeCorrectionNum,pearsonCorrelationCoefficient,expMz1,expMz2,expMz3,expInt1,expInt2,expInt3,theoMz1,theoMz2,theoMz3,theoInt1,theoInt2,theoInt3\n");
-            Map<Integer, TreeMap<Integer, TreeSet<PreSpectra.DevEntry>>> scanDevEntryMap = preSpectraObj.getScanDevEntryMap();
-            for (int scanNum : scanDevEntryMap.keySet()) {
-                TreeMap<Integer, TreeSet<PreSpectra.DevEntry>> chargeDevEntryMap = scanDevEntryMap.get(scanNum);
-                for (int charge : chargeDevEntryMap.keySet()) {
-                    for (PreSpectra.DevEntry devEntry : chargeDevEntryMap.get(charge)) {
-                        writer.write(String.format(Locale.US, "%d,%d,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n", scanNum, charge, devEntry.isotopeCorrectionNum, devEntry.isotopeCorrectionNum, devEntry.pearsonCorrelationCoefficient, devEntry.expMatrix[0][0], devEntry.expMatrix[1][0], devEntry.expMatrix[2][0], devEntry.expMatrix[0][1], devEntry.expMatrix[1][1], devEntry.expMatrix[2][1], devEntry.theoMatrix[0][0], devEntry.theoMatrix[1][0], devEntry.theoMatrix[2][0], devEntry.theoMatrix[0][1], devEntry.theoMatrix[1][1], devEntry.theoMatrix[2][1]));
-                    }
-                }
-            }
-            writer.close();
-        }
-
         logger.info("Start searching...");
         int threadNum = Integer.valueOf(parameterMap.get("thread_num"));
         if (threadNum == 0) {
@@ -177,7 +157,7 @@ public class PIPI {
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
         InferPTM inferPTM = new InferPTM(massToolObj, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
-        PreSpectrum preSpectrumObj = new PreSpectrum(massToolObj);
+        PrepareSpectrum preSpectrumObj = new PrepareSpectrum(massToolObj);
         ArrayList<Future<PIPIWrap.Entry>> taskList = new ArrayList<>(preSpectraObj.getUsefulSpectraNum() + 10);
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();

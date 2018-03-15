@@ -1,6 +1,8 @@
 package proteomics.Types;
 
 
+import ProteomicsLibrary.Types.SparseBooleanVector;
+
 public class Peptide0 {
 
     public final SparseBooleanVector code;
