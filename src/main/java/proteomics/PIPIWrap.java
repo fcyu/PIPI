@@ -10,6 +10,7 @@ import proteomics.Segment.InferenceSegment;
 import ProteomicsLibrary.PrepareSpectrum;
 import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.*;
+import proteomics.Spectrum.PreSpectra;
 import proteomics.Types.*;
 import uk.ac.ebi.pride.tools.jmzreader.JMzReader;
 
@@ -81,7 +82,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
         }
 
         // preprocess peak list
-        TreeMap<Double, Double> plMap = preSpectrum.preSpectrumTopNStyle(rawPLMap, precursorMass, precursorCharge, minClear, maxClear);
+        TreeMap<Double, Double> plMap = preSpectrum.preSpectrumTopNStyle(rawPLMap, precursorMass, precursorCharge, minClear, maxClear, PreSpectra.topN);
 
         if (plMap.isEmpty()) {
             return null;
