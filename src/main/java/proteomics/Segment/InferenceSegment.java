@@ -46,7 +46,7 @@ public class InferenceSegment {
             }
         }
 
-        Character[] aaArray = massAaMap.values().toArray(new Character[massAaMap.size()]);
+        Character[] aaArray = massAaMap.values().toArray(new Character[0]);
 
         for (char aa1 : aaArray) {
             for (char aa2 : aaArray) {
@@ -120,7 +120,7 @@ public class InferenceSegment {
                 }
             }
         }
-        deltaMassArray = modifiedAAMap.keySet().toArray(new Double[modifiedAAMap.size()]);
+        deltaMassArray = modifiedAAMap.keySet().toArray(new Double[0]);
     }
 
     public List<ThreeExpAA> inferSegmentLocationFromSpectrum(double precursorMass, TreeMap<Double, Double> plMap) throws Exception {
@@ -172,8 +172,8 @@ public class InferenceSegment {
     }
 
     private List<ThreeExpAA> inferThreeAAFromSpectrum(TreeMap<Double, Double> plMap, double cTermMz) throws Exception {
-        Double[] mzArray = plMap.keySet().toArray(new Double[plMap.size()]);
-        Double[] intensityArray = plMap.values().toArray(new Double[plMap.size()]);
+        Double[] mzArray = plMap.keySet().toArray(new Double[0]);
+        Double[] intensityArray = plMap.values().toArray(new Double[0]);
         Set<ThreeExpAA> tempSet = new HashSet<>();
         List<ThreeExpAA> outputList = new LinkedList<>();
         for (int i = 0; i < mzArray.length; ++i) {
@@ -261,7 +261,7 @@ public class InferenceSegment {
         }
 
         // eliminate "overlapped" tags
-        ThreeExpAA[] tempArray = tempSet.toArray(new ThreeExpAA[tempSet.size()]);
+        ThreeExpAA[] tempArray = tempSet.toArray(new ThreeExpAA[0]);
         List<ThreeExpAA> tempList = new LinkedList<>();
         for (int i = 0; i < tempArray.length; ++i) {
             boolean keep = true;

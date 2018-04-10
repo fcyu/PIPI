@@ -445,7 +445,7 @@ public class PIPI {
         sqlStatement.close();
         sqlConnection.close();
 
-        Double[] tempArray = tempMap.keySet().toArray(new Double[tempMap.size()]);
+        Double[] tempArray = tempMap.keySet().toArray(new Double[0]);
         for (int i = tempArray.length - 1; i >= 0; --i) {
             List<String> tempList = tempMap.get(tempArray[i]);
             for (String tempStr : tempList) {

@@ -23,7 +23,7 @@ public class CalSubscores {
             maxRow = 2;
         }
         int totalIonNum = ionMatrix[0].length * maxRow;
-        Double[] intensityArray = expPl.values().toArray(new Double[expPl.size()]);
+        Double[] intensityArray = expPl.values().toArray(new Double[0]);
         Arrays.sort(intensityArray, Collections.reverseOrder());
         double intensityT = 0;
         if (totalIonNum < intensityArray.length) {
@@ -64,7 +64,7 @@ public class CalSubscores {
         }
 
         // calculate explained AA num
-        Integer[] matchedIdxArray = matchedIdxSet.toArray(new Integer[matchedIdxSet.size()]);
+        Integer[] matchedIdxArray = matchedIdxSet.toArray(new Integer[0]);
         Arrays.sort(matchedIdxArray);
         int explainedAaNum = 0;
         if (matchedIdxArray.length > 1) {
@@ -85,7 +85,7 @@ public class CalSubscores {
                 Set<String> topMatchedPeakSet = new HashSet<>();
                 Set<String> secondMatchedPeakSet = new HashSet<>();
                 sub(peptide.getVarPTMs(), ionMatrix, localPlMap, ms2Tolerance, totalAffectedPeakSet, topMatchedPeakSet);
-                Peptide[] tempArray = ptmPatterns.toArray(new Peptide[ptmPatterns.size()]);
+                Peptide[] tempArray = ptmPatterns.toArray(new Peptide[0]);
                 double aScore;
                 if (tempArray.length > 1) {
                     sub(tempArray[1].getVarPTMs(), tempArray[1].getIonMatrix(), localPlMap, ms2Tolerance, totalAffectedPeakSet, secondMatchedPeakSet);

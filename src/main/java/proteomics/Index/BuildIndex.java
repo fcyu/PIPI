@@ -174,7 +174,7 @@ public class BuildIndex {
 
             Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), parameterMap.get("cleavage_from_c_term").contentEquals("1"));
             if (leftRightFlank != null) {
-                tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[peptideProteinMap.get(peptide).size()]), leftRightFlank[0], leftRightFlank[1]));
+                tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[0]), leftRightFlank[0], leftRightFlank[1]));
 
                 if (massPeptideMap.containsKey(peptideMassMap.get(peptide))) {
                     massPeptideMap.get(peptideMassMap.get(peptide)).add(peptide);

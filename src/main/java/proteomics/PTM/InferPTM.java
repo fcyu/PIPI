@@ -317,7 +317,7 @@ public class InferPTM {
     }
 
     private void try1PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) { // Sometimes, the precursor mass error may affects the digitized spectrum.
-        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
+        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 1; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
@@ -338,7 +338,7 @@ public class InferPTM {
     }
 
     private void try2PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) {
-        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
+        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 1; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
@@ -364,7 +364,7 @@ public class InferPTM {
     }
 
     private void try3PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) {
-        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
+        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 2; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
@@ -399,7 +399,7 @@ public class InferPTM {
     }
 
     private void try4PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) { // only allow one low priority PTM
-        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
+        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 3; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
@@ -447,7 +447,7 @@ public class InferPTM {
     }
 
     private void try5PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int localMaxMS2Charge) { // only allow one low priority PTM
-        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[idxVarModMap.size()]);
+        Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 4; ++i) {
             for (VarModParam modEntry1 : idxVarModMap.get(idxArray[i])) {
