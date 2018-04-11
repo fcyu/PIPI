@@ -287,13 +287,13 @@ public class Peptide implements Comparable<Peptide> {
                 } else if (explainedAaFrac < peptide.getExplainedAaFrac()) {
                     return -1;
                 } else {
-                    if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
-                        return 1;
-                    } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
-                        return -1;
-                    } else if (getVarPTMNum() < peptide.getVarPTMNum()) {
+                    if (getVarPTMNum() < peptide.getVarPTMNum()) {
                         return 1;
                     } else if (getVarPTMNum() > peptide.getVarPTMNum()) {
+                        return -1;
+                    } else if (normalizedCrossCorrelationCoefficient > peptide.getNormalizedCrossCorr()) {
+                        return 1;
+                    } else if (normalizedCrossCorrelationCoefficient < peptide.getNormalizedCrossCorr()) {
                         return -1;
                     } else {
                         if (!isDecoy && peptide.isDecoy()) {
