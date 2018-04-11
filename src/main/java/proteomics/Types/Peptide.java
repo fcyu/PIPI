@@ -137,6 +137,10 @@ public class Peptide implements Comparable<Peptide> {
         }
     }
 
+    public String toString() {
+        return ptmFreeSeq + "." + varPTMMap.toString();
+    }
+
     public boolean hasVarPTM() {
         return varPTMMap != null;
     }

@@ -13,6 +13,10 @@ public class Coordinate implements Comparable<Coordinate> {
         hashCode = toString.hashCode();
     }
 
+    public String toString() {
+        return "(" + x + "-" + y + ")";
+    }
+
     public int compareTo(Coordinate other) {
         if (x > other.x) {
             return 1;
