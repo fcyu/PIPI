@@ -247,7 +247,7 @@ public class InferPTM {
         return aasMap;
     }
 
-    private int getMatchedPeakNum(TreeMap<Double, Double> plMap, int localMaxMs2Charge, double[][] ionMatrix) {
+    public static int getMatchedPeakNum(TreeMap<Double, Double> plMap, int localMaxMs2Charge, double[][] ionMatrix, double ms2Tolerance) {
         int K1 = 0;
         for (int i = 0; i < localMaxMs2Charge * 2; ++i) {
             for (int j = 0; j < ionMatrix[0].length; ++j) {
@@ -328,9 +328,9 @@ public class InferPTM {
                         positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), modEntry1.mass);
                         Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                         peptideObj.setVarPTM(positionDeltaMassMap);
-                        peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix()));
                         peptideObj.setScore(massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL));
                         peptidePTMPattern.update(peptideObj);
+                            peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                     }
                 }
             }
@@ -352,9 +352,9 @@ public class InferPTM {
                                 positionDeltaMassMap.put(new Coordinate(idxArray[j], idxArray[j] + 1), modEntry2.mass);
                                 Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                 peptideObj.setVarPTM(positionDeltaMassMap);
-                                peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix()));
                                 peptideObj.setScore(massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL));
                                 peptidePTMPattern.update(peptideObj);
+                                    peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                             }
                         }
                     }
@@ -385,9 +385,9 @@ public class InferPTM {
                                                         positionDeltaMassMap.put(new Coordinate(idxArray[k], idxArray[k] + 1), modEntry3.mass);
                                                         Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                                         peptideObj.setVarPTM(positionDeltaMassMap);
-                                                        peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix()));
                                                         peptideObj.setScore(massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL));
                                                         peptidePTMPattern.update(peptideObj);
+                                                            peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                                     }
                                                 }
                                             }
@@ -429,9 +429,9 @@ public class InferPTM {
                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[l], idxArray[l] + 1), modEntry4.mass);
                                                                         Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                                                         peptideObj.setVarPTM(positionDeltaMassMap);
-                                                                        peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix()));
                                                                         peptideObj.setScore(massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL));
                                                                         peptidePTMPattern.update(peptideObj);
+                                                                            peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                                                     }
                                                                 }
                                                             }
@@ -482,9 +482,9 @@ public class InferPTM {
                                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[m], idxArray[m] + 1), modEntry5.mass);
                                                                                         Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                                                                         peptideObj.setVarPTM(positionDeltaMassMap);
-                                                                                        peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix()));
                                                                                         peptideObj.setScore(massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL));
                                                                                         peptidePTMPattern.update(peptideObj);
+                                                                                            peptideObj.setMatchedPeakNum(getMatchedPeakNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                                                                     }
                                                                                 }
                                                                             }

@@ -117,7 +117,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), localMaxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
+                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), precursorCharge, localMaxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
                     Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
                     if (peptideSet.size() < 5) {
@@ -133,7 +133,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
 
             // Calculate Score for PTM free peptide
             for (Peptide peptide : searchObj.getPTMFreeResult()) {
-                CalScore.calScore(peptide, expProcessedPL, precursorCharge, massToolObj, peptideSet, null);
+                CalScore.calScoreForPtmFreePeptide(peptide, expProcessedPL, plMap, precursorCharge, localMaxMs2Charge, ms2Tolerance, massToolObj, peptideSet, null);
             }
 
             if (!peptideSet.isEmpty()) {
