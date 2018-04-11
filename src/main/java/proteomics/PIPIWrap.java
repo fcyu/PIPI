@@ -4,7 +4,6 @@ import proteomics.Index.BuildIndex;
 import proteomics.PTM.InferPTM;
 import proteomics.Search.Binomial;
 import proteomics.Search.CalSubscores;
-import proteomics.Search.CalScore;
 import proteomics.Search.Search;
 import proteomics.Segment.InferenceSegment;
 import ProteomicsLibrary.PrepareSpectrum;
@@ -119,25 +118,39 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                 Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
                 PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), precursorCharge, localMaxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
-                    Peptide topPeptide = peptidePTMPattern.getPeptideTreeSet().first();
-                    if (peptideSet.size() < 5) {
-                        peptideSet.add(topPeptide);
-                    } else if (topPeptide.getScore() > peptideSet.last().getScore()) {
-                        peptideSet.pollLast();
-                        peptideSet.add(topPeptide);
+                    for (Peptide tempPeptide : peptidePTMPattern.getPeptideTreeSet()) {
+                        if (tempPeptide.getScore() > 0) {
+                            if (peptideSet.size() < 5) {
+                                peptideSet.add(tempPeptide);
+                            } else if (tempPeptide.getScore() > peptideSet.last().getScore()) {
+                                peptideSet.pollLast();
+                                peptideSet.add(tempPeptide);
+                            }
+                        }
                     }
                     // record scores with different PTM patterns for calculating PTM delta score.
-                    modSequences.put(topPeptide.getPTMFreeSeq(), peptidePTMPattern.getPeptideTreeSet());
+                    modSequences.put(peptidePTMPattern.ptmFreeSequence, peptidePTMPattern.getPeptideTreeSet());
                 }
             }
 
             // Calculate Score for PTM free peptide
             for (Peptide peptide : searchObj.getPTMFreeResult()) {
-                CalScore.calScoreForPtmFreePeptide(peptide, expProcessedPL, plMap, precursorCharge, localMaxMs2Charge, ms2Tolerance, massToolObj, peptideSet, null);
+                double score = massToolObj.buildVectorAndCalXCorr(peptide.getIonMatrix(), precursorCharge, expProcessedPL);
+                if (score > 0) {
+                    peptide.setScore(score);
+                    peptide.setMatchedPeakNum(InferPTM.getMatchedPeakNum(plMap, localMaxMs2Charge, peptide.getIonMatrix(), ms2Tolerance));
+                    if (peptideSet.size() < 5) {
+                        peptideSet.add(peptide);
+                    } else if (peptide.getScore() > peptideSet.last().getScore()) {
+                        peptideSet.pollLast();
+                        peptideSet.add(peptide);
+                    }
+                }
             }
 
             if (!peptideSet.isEmpty()) {
-                Peptide topPeptide = peptideSet.first();
+                Peptide[] peptideArray = peptideSet.toArray(new Peptide[0]);
+                Peptide topPeptide = peptideArray[0];
                 TreeSet<Peptide> ptmPatterns = null;
                 if (topPeptide.hasVarPTM()) {
                     ptmPatterns = modSequences.get(topPeptide.getPTMFreeSeq());
@@ -156,17 +169,13 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                     int isotopeCorrectionNum = sqlResultSet.getInt("isotopeCorrectionNum");
                     double ms1PearsonCorrelationCoefficient = sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient");
 
-                    double deltaLC = 0;
-                    if (topPeptide.getScore() > 0) {
-                        deltaLC = (topPeptide.getScore() - peptideSet.last().getScore()) / topPeptide.getScore();
+                    double deltaLCn = 1;
+                    if (peptideArray.length > 4) {
+                        deltaLCn = (peptideArray[0].getScore() - peptideArray[4].getScore()) / peptideArray[0].getScore();
                     }
-                    double deltaC = 0;
-                    if (topPeptide.getScore() > 0) {
-                        if (peptideSet.size() > 1) {
-                            Iterator<Peptide> temp = peptideSet.iterator();
-                            temp.next();
-                            deltaC = (topPeptide.getScore() - temp.next().getScore()) / topPeptide.getScore();
-                        }
+                    double deltaCn = 1;
+                    if (peptideArray.length > 1) {
+                        deltaCn = (peptideArray[0].getScore() - peptideArray[1].getScore()) / peptideArray[0].getScore();
                     }
 
                     String otherPtmPatterns = "-";
@@ -181,7 +190,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                         otherPtmPatterns = String.join(";", tempList);
                     }
 
-                        Entry entry = new Entry(scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, buildIndexObj.getLabelling(), topPeptide.getPtmContainingSeq(buildIndexObj.returnFixModMap()), topPeptide.getTheoMass(), topPeptide.isDecoy() ? 1 : 0, topPeptide.getGlobalRank(), topPeptide.getNormalizedCrossCorr(), topPeptide.getScore(), deltaLCn, deltaCn, topPeptide.getMatchedPeakNum(), topPeptide.getIonFrac(), topPeptide.getMatchedHighestIntensityFrac(), topPeptide.getExplainedAaFrac(), otherPtmPatterns, topPeptide.getaScore());
+                    Entry entry = new Entry(scanNum, scanId, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, buildIndexObj.getLabelling(), topPeptide.getPtmContainingSeq(buildIndexObj.returnFixModMap()), topPeptide.getTheoMass(), topPeptide.isDecoy() ? 1 : 0, topPeptide.getGlobalRank(), topPeptide.getNormalizedCrossCorr(), topPeptide.getScore(), deltaLCn, deltaCn, topPeptide.getMatchedPeakNum(), topPeptide.getIonFrac(), topPeptide.getMatchedHighestIntensityFrac(), topPeptide.getExplainedAaFrac(), otherPtmPatterns, topPeptide.getaScore());
 
                     sqlResultSet.close();
                     sqlStatement.close();
