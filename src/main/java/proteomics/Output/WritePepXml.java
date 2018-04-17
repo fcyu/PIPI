@@ -1,5 +1,6 @@
 package proteomics.Output;
 
+import ProteomicsLibrary.Types.Coordinate;
 import proteomics.PIPI;
 import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.AA;

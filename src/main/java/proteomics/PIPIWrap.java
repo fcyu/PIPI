@@ -2,7 +2,7 @@ package proteomics;
 
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.InferPTM;
-import proteomics.Search.Binomial;
+import ProteomicsLibrary.Binomial;
 import proteomics.Search.CalSubscores;
 import proteomics.Search.Search;
 import proteomics.Segment.InferenceSegment;

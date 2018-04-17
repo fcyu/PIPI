@@ -1,6 +1,8 @@
 package proteomics.Types;
 
 
+import ProteomicsLibrary.Types.Coordinate;
+
 import java.util.Locale;
 import java.util.TreeMap;
 

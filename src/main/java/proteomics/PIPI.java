@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Output.WritePepXml;
 import proteomics.PTM.InferPTM;
-import proteomics.Search.Binomial;
+import ProteomicsLibrary.Binomial;
 import ProteomicsLibrary.PrepareSpectrum;
 import proteomics.Types.*;
 import proteomics.Index.BuildIndex;

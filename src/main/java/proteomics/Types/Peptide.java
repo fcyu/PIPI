@@ -1,5 +1,6 @@
 package proteomics.Types;
 
+import ProteomicsLibrary.Types.Coordinate;
 import proteomics.Segment.InferenceSegment;
 import ProteomicsLibrary.MassTool;
 
