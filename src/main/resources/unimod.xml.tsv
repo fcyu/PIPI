@@ -1,0 +1,2350 @@
+accession	site	PSI-MS_name	name	mono_mass	composition	classification	approved
+254	N-term	Delta:H(2)C(2)	Delta:H(2)C(2)	26.01565	H(2) C(2)	Other	true
+126	N-term	Xlink:DTSSP[88]	Thioacyl	87.99828	H(4) C(3) O S	Other	true
+503	N-term	null	LG-lactam-K	332.19876	H(28) C(20) O(4)	Post-translational	false
+737	N-term	null	TMT6plex	229.16293	H(20) C(8) 13C(4) N 15N O(2)	Isotopic label	false
+63	N-term	GIST-Quat:2H(9)	GIST-Quat:2H(9)	136.1562	H(4) 2H(9) C(7) N O	Isotopic label	true
+284	N-term	Methyl:2H(2)	Methyl:2H(2)	16.028204	2H(2) C	Isotopic label	true
+947	N-term	null	LG-pyrrole	316.20386	H(28) C(20) O(3)	Post-translational	false
+270	N-term	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+66	N-term	Succinyl:13C(4)	Succinyl:13C(4)	104.029465	H(4) 13C(4) O(3)	Isotopic label	true
+121	N-term	GG	GG	114.04293	H(6) C(4) N(2) O(2)	Post-translational	true
+280	N-term	Ethyl	Ethyl	28.0313	H(4) C(2)	Chemical derivative	true
+1789	N-term	null	Xlink:DSS-NH2	155.09464	H(13) C(8) N O(2)	Chemical derivative	false
+329	N-term	Methyl:2H(3)13C(1)	Methyl:2H(3)13C(1)	18.037834	H(-1) 2H(3) 13C	Isotopic label	true
+36	N-term	Dimethyl	Dimethyl	28.0313	H(4) C(2)	Isotopic label	true
+1392	N-term	null	DiART6plex	217.16293	H(20) C(7) 13C(4) N 15N O(2)	Isotopic label	false
+1301	N-term	null	Lys	128.09496	H(12) C(6) N(2) O	Other	false
+991	N-term	null	ISD_z+2_ion	-15.010899	H(-1) N(-1)	Artefact	false
+1302	N-term	null	mTRAQ:13C(6)15N(2)	148.10916	H(12) C 13C(6) 15N(2) O	Isotopic label	false
+60	N-term	GIST-Quat	GIST-Quat	127.09972	H(13) C(7) N O	Isotopic label	true
+1252	N-term	null	Biotin:Thermo-33033-H	546.2083	H(34) C(25) N(6) O(4) S(2)	Chemical derivative	false
+1020	N-term	null	Xlink:DSS	156.07864	H(12) C(8) O(3)	Chemical derivative	false
+39	N-term	Methylthio	Methylthio	45.98772	H(2) C S	Artefact	false
+1398	N-term	null	Iodoacetanilide:13C(6)	139.07289	H(7) C(2) 13C(6) N O	Artefact	false
+52	N-term	Guanidinyl	Guanidinyl	42.021797	H(2) C N(2)	Chemical derivative	true
+1838	N-term	null	Brij58	224.2504	H(32) C(16)	Other	false
+889	N-term	null	mTRAQ:13C(3)15N(1)	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+364	N-term	ICPL:13C(6)	ICPL:13C(6)	111.041595	H(3) 13C(6) N O	Isotopic label	false
+730	N-term	null	iTRAQ8plex	304.20535	H(24) C(7) 13C(7) N(3) 15N O(3)	Isotopic label	false
+731	N-term	null	iTRAQ8plex:13C(6)15N(2)	304.19904	H(24) C(8) 13C(6) N(2) 15N(2) O(3)	Isotopic label	false
+4	N-term	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+1021	N-term	null	Xlink:EGS244	244.0583	H(12) C(10) O(7)	Chemical derivative	false
+3	N-term	Biotin	Biotin	226.07759	H(14) C(10) N(2) O(2) S	Chemical derivative	true
+684	N-term	null	BDMAPP	253.01022	H(12) C(11) N O Br	Chemical derivative	false
+41	N-term	Hex	Hex	162.05283	Hex	Other glycosylation	true
+457	N-term	NDA	NDA	175.0422	H(5) C(13) N	Chemical derivative	false
+518	N-term	Diethyl	Diethyl	56.0626	H(8) C(4)	Chemical derivative	false
+1423	N-term	null	Biotin:Thermo-21330	473.21957	H(35) C(21) N(3) O(7) S	Chemical derivative	false
+90	N-term	ESP	ESP	338.17764	H(26) C(16) N(4) O(2) S	Isotopic label	true
+365	N-term	ICPL	ICPL	105.02146	H(3) C(6) N O	Isotopic label	false
+54	N-term	Glucuronyl	Glucuronyl	176.03209	HexA	N-linked glycosylation	true
+261	N-term	SPITC	SPITC	214.97108	H(5) C(7) N O(3) S(2)	Chemical derivative	true
+946	N-term	null	LG-anhydrolactam	314.1882	H(26) C(20) O(3)	Post-translational	false
+1312	N-term	null	Delta:H(6)C(3)O(1)	58.041866	H(6) C(3) O	Chemical derivative	false
+194	N-term	AccQTag	AccQTag	170.04802	H(6) C(10) N(2) O	Chemical derivative	true
+256	N-term	Delta:H(4)C(3)	Delta:H(4)C(3)	40.0313	H(4) C(3)	Other	true
+948	N-term	null	LG-anhyropyrrole	298.19327	H(26) C(20) O(2)	Post-translational	false
+412	N-term	Phenylisocyanate:2H(5)	Phenylisocyanate:2H(5)	124.0685	2H(5) C(7) N O	Chemical derivative	true
+6	N-term	Carboxymethyl	Carboxymethyl	58.005478	H(2) C(2) O(2)	Artefact	true
+504	N-term	null	LG-Hlactam-K	348.19366	H(28) C(20) O(5)	Post-translational	false
+47	N-term	Palmitoyl	Palmitoyl	238.22966	H(30) C(16) O	Post-translational	true
+726	N-term	null	Ethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+456	N-term	null	Xlink:DMP	122.0844	H(10) C(7) N(2)	Chemical derivative	false
+1313	N-term	null	Delta:H(8)C(6)O(1)	96.05752	H(8) C(6) O	Chemical derivative	false
+1396	N-term	null	DiART6plex118	217.1751	H(18) 2H(2) C(8) 13C(3) N(2) O(2)	Isotopic label	false
+276	N-term	AEBS	AEBS	183.0354	H(9) C(8) N O(2) S	Artefact	true
+738	N-term	null	TMT2plex	225.15584	H(20) C(11) 13C N(2) O(2)	Isotopic label	false
+58	N-term	Propionyl	Propionyl	56.026215	H(4) C(3) O	Isotopic label	true
+698	N-term	null	dNIC	109.04812	H 2H(3) C(6) N O	Isotopic label	false
+1251	N-term	null	Biotin:Thermo-33033	548.22394	H(36) C(25) N(6) O(4) S(2)	Chemical derivative	false
+64	N-term	Succinyl	Succinyl	100.016045	H(4) C(4) O(3)	Post-translational	true
+199	N-term	Dimethyl:2H(4)	Dimethyl:2H(4)	32.056408	2H(4) C(2)	Isotopic label	true
+272	N-term	CAF	CAF	135.98303	H(4) C(3) O(4) S	Chemical derivative	true
+1344	N-term	null	Phosphogluconoylation	258.01407	H(11) C(6) O(9) P	Post-translational	false
+523	N-term	Sulfo-NHS-LC-LC-Biotin	Sulfo-NHS-LC-LC-Biotin	452.24573	H(36) C(22) N(4) O(4) S	Chemical derivative	false
+62	N-term	GIST-Quat:2H(6)	GIST-Quat:2H(6)	133.13737	H(7) 2H(6) C(7) N O	Isotopic label	true
+1022	N-term	null	Xlink:DST	132.00587	H(4) C(4) O(5)	Chemical derivative	false
+978	N-term	null	BITC	149.02992	H(7) C(8) N S	Chemical derivative	false
+1288	N-term	null	Arg	156.1011	H(12) C(6) N(4) O	Other	false
+1306	N-term	null	Propyl:2H(6)	48.08461	2H(6) C(3)	Isotopic label	false
+5	N-term	Carbamyl	Carbamyl	43.005814	H C N O	Post-translational	false
+271	N-term	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+1023	N-term	null	Xlink:DTSSP	191.99149	H(8) C(6) O(3) S(2)	Chemical derivative	false
+1323	N-term	null	DiLeu4plex117	145.12831	H(13) 2H(2) C(7) 13C 15N O	Isotopic label	false
+464	N-term	SPITC:13C(6)	SPITC:13C(6)	220.99121	H(5) C 13C(6) N O(3) S(2)	Chemical derivative	true
+455	N-term	Xlink:DMP[154]	Xlink:DMP-s	154.11061	H(14) C(8) N(2) O	Chemical derivative	false
+907	N-term	null	Galactosyl	178.04774	O Hex	Other glycosylation	false
+687	N-term	ICPL:2H(4)	ICPL:2H(4)	109.04657	H(-1) 2H(4) C(6) N O	Isotopic label	false
+255	N-term	Delta:H(4)C(2)	Delta:H(4)C(2)	28.0313	H(4) C(2)	Other	true
+280	N-term	Ethyl	Ethyl	28.0313	H(4) C(2)	Multiple	true
+324	N-term	Xlink:DTBP[87]	Xlink:DTBPc	87.01427	H(5) C(3) N S	Chemical derivative	false
+411	N-term	Phenylisocyanate	Phenylisocyanate	119.03712	H(5) C(7) N O	Chemical derivative	true
+1	N-term	Acetyl	Acetyl	42.010567	H(2) C(2) O	Post-translational	true
+1014	N-term	null	glycidamide	87.03203	H(5) C(3) N O(2)	Chemical derivative	false
+1833	N-term	null	NP40	220.18271	H(24) C(15) O	Other	false
+1321	N-term	null	DiLeu4plex115	145.12	H(15) C(7) 13C 15N 18O	Isotopic label	false
+725	N-term	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+979	N-term	null	PEITC	163.04556	H(9) C(9) N S	Chemical derivative	false
+751	N-term	null	TNBS	210.98654	H C(6) N(3) O(6)	Chemical derivative	false
+1394	N-term	null	DiART6plex116/119	217.16878	H(18) 2H(2) C(9) 13C(2) N 15N O(2)	Isotopic label	false
+537	N-term	null	CLIP_TRAQ_4	244.10146	H(15) C(9) 13C N(2) O(5)	Isotopic label	false
+29	N-term	SMA	SMA	127.06333	H(9) C(6) N O(2)	Chemical derivative	true
+477	N-term	TMAB:2H(9)	TMAB:2H(9)	137.16403	H(5) 2H(9) C(7) N O	Isotopic label	false
+64	N-term	Succinyl	Succinyl	100.016045	H(4) C(4) O(3)	Isotopic label	true
+1291	N-term	null	Dimethyl:2H(6)	34.068962	H(-2) 2H(6) C(2)	Isotopic label	false
+59	N-term	Propionyl:13C(3)	Propionyl:13C(3)	59.036278	H(4) 13C(3) O	Isotopic label	true
+141	N-term	Amidine	Amidine	41.02655	H(3) C(2) N	Chemical derivative	true
+89	N-term	Iminobiotin	Iminobiotin	225.09358	H(15) C(10) N(3) O S	Chemical derivative	true
+697	N-term	null	NIC	105.02146	H(3) C(6) N O	Isotopic label	false
+91	N-term	ESP:2H(10)	ESP:2H(10)	348.24042	H(16) 2H(10) C(16) N(4) O(2) S	Isotopic label	true
+1841	N-term	null	Biotin:Thermo-21328	389.09015	H(23) C(15) N(3) O(3) S(3)	Chemical derivative	false
+34	N-term	Methyl	Methyl	14.01565	H(2) C	Chemical derivative	true
+888	N-term	null	mTRAQ	140.09496	H(12) C(7) N(2) O	Isotopic label	false
+34	N-term	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+107	N-term	FormylMet	FormylMet	159.0354	H(9) C(6) N O(2) S	Pre-translational	true
+122	N-term	Formyl	Formyl	27.994915	C O	Artefact	true
+1	N-term	Acetyl	Acetyl	42.010567	H(2) C(2) O	Multiple	true
+56	N-term	Acetyl:2H(3)	Acetyl:2H(3)	45.029396	H(-1) 2H(3) C(2) O	Isotopic label	true
+214	N-term	iTRAQ4plex	iTRAQ4plex	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+139	N-term	Dansyl	Dansyl	233.05106	H(11) C(12) N O(2) S	Chemical derivative	true
+122	N-term	Formyl	Formyl	27.994915	C O	Post-translational	true
+61	N-term	GIST-Quat:2H(3)	GIST-Quat:2H(3)	130.11855	H(10) 2H(3) C(7) N O	Isotopic label	true
+136	N-term	Benzoyl	Benzoyl	104.026215	H(4) C(7) O	Isotopic label	true
+532	N-term	iTRAQ4plex114	iTRAQ4plex114	144.10591	H(12) C(5) 13C(2) N(2) 18O	Isotopic label	false
+861	N-term	null	ZGB	758.38086	H(53) B C(37) N(6) O(6) F(2) S	Other	false
+1834	N-term	null	Tween20	165.16432	H(21) C(12)	Other	false
+1372	N-term	null	Acetyl:13C(2)	44.017273	H(2) 13C(2) O	Isotopic label	false
+1314	N-term	null	biotinAcrolein298	298.14633	H(22) C(13) N(4) O(2) S	Chemical derivative	false
+533	N-term	iTRAQ4plex115	iTRAQ4plex115	144.0996	H(12) C(6) 13C N 15N 18O	Isotopic label	false
+1290	N-term	null	Dicarbamidomethyl	114.04293	H(6) C(4) N(2) O(2)	Artefact	false
+25	N-term	Pyridylacetyl	Pyridylacetyl	119.03712	H(5) C(7) N O	Chemical derivative	true
+92	N-term	NHS-LC-Biotin	NHS-LC-Biotin	339.16165	H(25) C(16) N(3) O(3) S	Chemical derivative	false
+866	N-term	null	ICPL:13C(6)2H(4)	115.0667	H(-1) 2H(4) 13C(6) N O	Isotopic label	false
+1837	N-term	null	Brij35	168.1878	H(24) C(12)	Other	false
+513	N-term	C8-QAT	C8-QAT	227.22491	H(29) C(14) N O	Chemical derivative	false
+1393	N-term	null	DiART6plex115	217.15662	H(20) C(8) 13C(3) 15N(2) O(2)	Isotopic label	false
+1397	N-term	null	Iodoacetanilide	133.05276	H(7) C(8) N O	Artefact	false
+748	N-term	null	3sulfo	183.98303	H(4) C(7) O(4) S	Chemical derivative	false
+362	N-term	Diisopropylphosphate	Diisopropylphosphate	164.06023	H(13) C(6) O(3) P	Chemical derivative	false
+1324	N-term	null	DiLeu4plex118	145.14047	H(11) 2H(4) C(8) N O	Isotopic label	false
+827	N-term	null	TMPP-Ac	572.18115	H(33) C(29) O(10) P	Chemical derivative	false
+5	N-term	Carbamyl	Carbamyl	43.005814	H C N O	Multiple	false
+58	N-term	Propionyl	Propionyl	56.026215	H(4) C(3) O	Multiple	true
+1027	N-term	null	Xlink:DMP-de	140.09496	H(12) C(7) N(2) O	Chemical derivative	false
+501	N-term	PyMIC	PyMIC	134.04802	H(6) C(7) N(2) O	Chemical derivative	false
+1836	N-term	null	Triton	188.1565	H(20) C(14)	Other	false
+1395	N-term	null	DiART6plex117	217.16246	H(18) 2H(2) C(10) 13C 15N(2) O(2)	Isotopic label	false
+1028	N-term	null	Xlink:EGS115	115.02694	H(5) C(4) N O(3)	Chemical derivative	false
+293	N-term	CAMthiopropanoyl	CAMthiopropanoyl	145.01974	H(7) C(5) N O(2) S	Chemical derivative	true
+510	N-term	Dimethyl:2H(4)13C(2)	Dimethyl:2H(4)13C(2)	34.063118	2H(4) 13C(2)	Isotopic label	true
+536	N-term	null	CLIP_TRAQ_3	271.14874	H(20) C(11) 13C N(3) O(4)	Isotopic label	false
+476	N-term	TMAB	TMAB	128.10754	H(14) C(7) N O	Isotopic label	false
+1322	N-term	null	DiLeu4plex	145.13216	H(13) 2H(2) C(8) N 18O	Isotopic label	false
+65	N-term	Succinyl:2H(4)	Succinyl:2H(4)	104.04115	2H(4) C(4) O(3)	Isotopic label	true
+1305	N-term	null	Propyl	42.04695	H(6) C(3)	Isotopic label	false
+1350	N-term	null	CarboxymethylDMAP	162.07932	H(10) C(9) N(2) O	Chemical derivative	false
+520	N-term	Piperidine	Piperidine	68.0626	H(8) C(5)	Chemical derivative	false
+330	N-term	Dimethyl:2H(6)13C(2)	Dimethyl:2H(6)13C(2)	36.07567	H(-2) 2H(6) 13C(2)	Isotopic label	true
+525	N-term	null	CLIP_TRAQ_2	141.09831	H(12) C(6) 13C N(2) O	Isotopic label	false
+24	N-term	Propionamide	Propionamide	71.03712	H(5) C(3) N O	Chemical derivative	true
+739	N-term	null	TMT	224.15248	H(20) C(12) N(2) O(2)	Chemical derivative	false
+1045	A	null	Ala->Phe	76.0313	H(4) C(6)	AA substitution	false
+540	A	null	Ala->Ser	15.994915	O	AA substitution	false
+1048	A	null	Ala->Lys	57.05785	H(7) C(3) N	AA substitution	false
+1297	A	null	Label:13C(3)15N(1)	4.007099	C(-3) 13C(3) N(-1) 15N	Isotopic label	false
+543	A	null	Ala->Pro	26.01565	H(2) C(2)	AA substitution	false
+1400	A	null	MurNAc	275.1005	O(-1) NeuAc	Other glycosylation	false
+546	A	null	Ala->Val	28.0313	H(4) C(2)	AA substitution	false
+1052	A	null	Ala->Arg	85.063995	H(7) C(3) N(3)	AA substitution	false
+994	A	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1296	A	null	Label:13C(3)	3.010064	C(-3) 13C(3)	Isotopic label	false
+37	A	Trimethyl	Trimethyl	42.04695	H(6) C(3)	Post-translational	true
+1046	A	null	Ala->His	66.0218	H(2) C(3) N(2)	AA substitution	false
+1049	A	null	Ala->Met	60.003372	H(4) C(2) S	AA substitution	false
+544	A	null	Ala->Gly	-14.01565	H(-2) C(-1)	AA substitution	false
+53	A	HNE	HNE	156.11504	H(16) C(9) O(2)	Post-translational	true
+541	A	null	Ala->Thr	30.010565	H(2) C O	AA substitution	false
+1050	A	null	Ala->Asn	43.005814	H C N O	AA substitution	false
+1053	A	null	Ala->Trp	115.0422	H(5) C(8) N	AA substitution	false
+542	A	null	Ala->Asp	43.98983	C O(2)	AA substitution	false
+1399	A	null	Dap-DSP	328.05515	H(16) C(13) N(2) O(4) S(2)	Non-standard residue	false
+1047	A	null	Ala->Xle	42.04695	H(6) C(3)	AA substitution	false
+1051	A	null	Ala->Gln	57.021465	H(3) C(2) N O	AA substitution	false
+1044	A	null	Ala->Cys	31.97207	S	AA substitution	false
+1054	A	null	Ala->Tyr	92.026215	H(4) C(6) O	AA substitution	false
+127	A	Fluoro	Fluoro	17.990578	H(-1) F	Chemical derivative	true
+545	A	null	Ala->Glu	58.005478	H(2) C(2) O(2)	AA substitution	false
+1271	C	null	HCysteinyl	133.01974	H(7) C(4) N O(2) S	Post-translational	false
+1327	C	null	SulfurDioxide	63.9619	O(2) S	Post-translational	false
+1846	C	null	Dimethylaminoethyl	71.0735	H(9) C(4) N	Chemical derivative	false
+938	C	null	AROD	820.336	H(52) C(35) N(10) O(9) S(2)	Chemical derivative	false
+376	C	Hydroxyfarnesyl	Hydroxyfarnesyl	220.18271	H(24) C(15) O	Post-translational	true
+1058	C	null	Cys->His	34.04973	H(2) C(3) N(2) S(-1)	AA substitution	false
+24	C	Propionamide	Propionamide	71.03712	H(5) C(3) N O	Artefact	true
+1055	C	null	Cys->Ala	-31.97207	S(-1)	AA substitution	false
+409	C	FMNH	FMNH	454.08896	H(19) C(17) N(4) O(9) P	Post-translational	true
+993	C	null	Biotin:Sigma-B1267	449.17328	H(27) C(20) N(5) O(5) S	Chemical derivative	false
+1331	C	null	DNCB_hapten	166.00145	H(2) C(6) N(2) O(4)	Chemical derivative	false
+424	C	MolybdopterinGD	MolybdopterinGD	1572.9857	H(47) C(40) N(20) O(26) P(4) S(4) Mo	Post-translational	true
+12	C	ICAT-D:2H(8)	ICAT-D:2H(8)	450.2752	H(26) 2H(8) C(20) N(4) O(5) S	Isotopic label	true
+290	C	Biotin-HPDP	Biotin-HPDP	428.1916	H(32) C(19) N(4) O(3) S(2)	Chemical derivative	false
+849	C	null	cGMP	343.0318	H(10) C(10) N(5) O(7) P	Post-translational	false
+391	C	Molybdopterin	Molybdopterin	521.8841	H(11) C(10) N(5) O(8) P S(2) Mo	Post-translational	true
+736	C	null	DTT_C	120.0245	H(8) C(4) O(2) S	Chemical derivative	false
+550	C	null	Cys->Tyr	60.054146	H(4) C(6) O S(-1)	AA substitution	false
+1039	C	null	Biotin:Thermo-21901+H2O	543.23627	H(37) C(23) N(5) O(8) S	Chemical derivative	false
+444	C	CuSMo	CuSMo	922.83484	H(24) C(19) N(8) O(15) P(2) S(3) Cu Mo	Post-translational	true
+213	C	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	Other glycosylation	true
+1009	C	null	Thiazolidine	12.0	C	Synth. pep. protect. gp.	false
+1397	C	null	Iodoacetanilide	133.05276	H(7) C(8) N O	Chemical derivative	false
+438	C	Cyano	Cyano	24.995249	H(-1) C N	Post-translational	true
+368	C	Cys->Dha	Cys->Dha	-33.98772	H(-2) S(-1)	Chemical derivative	true
+547	C	null	Cys->Phe	44.05923	H(4) C(6) S(-1)	AA substitution	false
+13	C	ICAT-D	ICAT-D	442.225	H(34) C(20) N(4) O(5) S	Isotopic label	true
+302	C	Menadione	Menadione	170.03677	H(6) C(11) O(2)	Chemical derivative	false
+773	C	null	maleimide	97.01638	H(3) C(4) N O(2)	Chemical derivative	false
+119	C	IBTP	IBTP	316.1381	H(21) C(22) P	Chemical derivative	true
+1832	C	null	IASD	452.03482	H(16) C(18) N(2) O(8) S(2)	Chemical derivative	false
+500	C	Nmethylmaleimide+water	Nmethylmaleimide+water	129.04259	H(7) C(5) N O(3)	Chemical derivative	false
+371	C	HMVK	HMVK	86.03678	H(6) C(4) O(2)	Chemical derivative	true
+1262	C	null	2-dimethylsuccinyl	144.04225	H(8) C(6) O(4)	Chemical derivative	false
+198	C	EQAT:2H(5)	EQAT:2H(5)	189.18895	H(15) 2H(5) C(10) N(2) O	Isotopic label	true
+1290	C	null	Dicarbamidomethyl	114.04293	H(6) C(4) N(2) O(2)	Artefact	false
+912	C	null	HNE-BAHAH	511.3192	H(45) C(25) N(5) O(4) S	Chemical derivative	false
+97	C	Propionamide:2H(3)	Propionamide:2H(3)	74.05595	H(2) 2H(3) C(3) N O	Isotopic label	true
+39	C	Methylthio	Methylthio	45.98772	H(2) C S	Multiple	false
+415	C	MolybdopterinGD+Delta:S(-1)Se(1)	MolybdopterinGD+Delta:S(-1)Se(1)	1620.9302	H(47) C(40) N(20) O(26) P(4) S(3) Se Mo	Post-translational	true
+20	C	PEO-Iodoacetyl-LC-Biotin	PEO-Iodoacetyl-LC-Biotin	414.1937	H(30) C(18) N(4) O(5) S	Chemical derivative	false
+421	C	Sulfide	Sulfide	31.97207	S	Post-translational	true
+498	C	BHTOH	BHTOH	234.16199	H(22) C(15) O(2)	Other	false
+771	C	null	lapachenole	240.11504	H(16) C(16) O(2)	Chemical derivative	false
+1388	C	null	HN2_mustard	101.08406	H(11) C(5) N O	Post-translational	false
+410	C	Archaeol	Archaeol	634.6628	H(86) C(43) O(2)	Post-translational	true
+685	C	null	NA-LNO2	325.2253	H(31) C(18) N O(4)	Post-translational	false
+1341	C	null	iodoTMT	324.21616	H(28) C(16) N(4) O(3)	Chemical derivative	false
+746	C	null	NO_SMX_SIMD	267.03137	H(9) C(10) N(3) O(4) S	Chemical derivative	false
+48	C	GeranylGeranyl	GeranylGeranyl	272.2504	H(32) C(20)	Post-translational	true
+1281	C	null	BMP-piperidinol	263.131	H(17) C(18) N O	Chemical derivative	false
+1024	C	null	Xlink:SMCC	237.10011	H(15) C(12) N O(4)	Chemical derivative	false
+776	C	null	NEM:2H(5)	130.07906	H(2) 2H(5) C(6) N O(2)	Chemical derivative	false
+50	C	FAD	FAD	783.1415	H(31) C(27) N(9) O(15) P(2)	Post-translational	true
+8	C	ICAT-G	ICAT-G	486.25122	H(38) C(22) N(4) O(6) S	Isotopic label	true
+44	C	Farnesyl	Farnesyl	204.1878	H(24) C(15)	Post-translational	true
+775	C	null	Carboxymethyl:13C(2)	60.012188	H(2) 13C(2) O(2)	Chemical derivative	false
+720	C	null	HNE-Delta:H(2)O	138.10446	H(14) C(9) O	Chemical derivative	false
+17	C	NIPCAM	NIPCAM	99.06841	H(9) C(5) N O	Chemical derivative	true
+21	C	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+407	C	Hydroxycinnamyl	Hydroxycinnamyl	146.03677	H(6) C(9) O(2)	Post-translational	true
+162	C	Delta:S(-1)Se(1)	Delta:S(-1)Se(1)	47.94445	S(-1) Se	Non-standard residue	true
+271	C	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+901	C	null	4AcAllylGal	372.14203	H(24) C(17) O(9)	Chemical derivative	false
+31	C	Pyridylethyl	Pyridylethyl	105.057846	H(7) C(7) N	Chemical derivative	true
+40	C	Sulfo	Sulfo	79.95682	O(3) S	Post-translational	true
+1358	C	null	NEM:2H(5)+H2O	148.08963	H(4) 2H(5) C(6) N O(3)	Chemical derivative	false
+494	C	CyDye-Cy3	CyDye-Cy3	672.29816	H(44) C(37) N(4) O(6) S	Chemical derivative	false
+744	C	null	NO_SMX_SEMD	252.04428	H(10) C(10) N(3) O(3) S	Chemical derivative	false
+721	C	null	4-ONE	154.09938	H(14) C(9) O(2)	Chemical derivative	false
+123	C	ICAT-H	ICAT-H	345.0979	H(20) C(15) N O(6) Cl	Isotopic label	true
+495	C	CyDye-Cy5	CyDye-Cy5	684.29816	H(44) C(38) N(4) O(6) S	Chemical derivative	false
+743	C	null	4-ONE+Delta:H(-2)O(-1)	136.08882	H(12) C(9) O	Chemical derivative	false
+774	C	null	Biotin-phenacyl	626.2635	H(38) C(29) N(8) O(6) S	Chemical derivative	false
+34	C	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+128	C	Fluorescein	Fluorescein	388.08212	H(14) C(22) N O(6)	Chemical derivative	true
+243	C	IGBP	IGBP	296.01605	H(13) C(12) N(2) O(2) Br	Isotopic label	true
+35	C	Oxidation	Oxidation	15.994915	O	Post-translational	false
+1355	C	null	azole	-20.026215	H(-4) O(-1)	Post-translational	false
+902	C	null	DimethylArsino	103.96072	H(5) C(2) As	Post-translational	false
+1018	C	null	ICDID	138.06808	H(10) C(8) O(2)	Isotopic label	false
+47	C	Palmitoyl	Palmitoyl	238.22966	H(30) C(16) O	Post-translational	true
+270	C	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+1390	C	null	Oxidation+NEM	141.04259	H(7) C(6) N O(3)	Chemical derivative	false
+935	C	null	Atto495Maleimide	474.25052	H(32) C(27) N(5) O(3)	Chemical derivative	false
+1064	C	null	Cys->Gln	25.049393	H(3) C(2) N O S(-1)	AA substitution	false
+53	C	HNE	HNE	156.11504	H(16) C(9) O(2)	Post-translational	true
+320	C	Nethylmaleimide+water	Nethylmaleimide+water	143.05824	H(9) C(6) N O(3)	Chemical derivative	true
+548	C	null	Cys->Ser	-15.977156	O S(-1)	AA substitution	false
+51	C	Tripalmitate	Tripalmitate	788.72577	H(96) C(51) O(5)	Post-translational	true
+1002	C	null	EGCG1	456.06927	H(16) C(22) O(11)	Post-translational	false
+377	C	Diacylglycerol	Diacylglycerol	576.5118	H(68) C(37) O(4)	Post-translational	true
+303	C	DeStreak	DeStreak	75.99828	H(4) C(2) O S	Chemical derivative	true
+45	C	Myristoyl	Myristoyl	210.19836	H(26) C(14) O	Post-translational	true
+253	C	Crotonaldehyde	Crotonaldehyde	70.04186	H(6) C(4) O	Other	true
+390	C	Heme	Heme	616.1773	H(32) C(34) N(4) O(4) Fe	Post-translational	true
+985	C	null	cysTMT6plex	304.17722	H(25) C(10) 13C(4) N(2) 15N O(2) S	Isotopic label	false
+312	C	Cysteinyl	Cysteinyl	119.0041	H(5) C(3) N O(2) S	Multiple	true
+387	C	Phycocyanobilin	Phycocyanobilin	586.2791	H(38) C(33) N(4) O(6)	Post-translational	true
+1033	C	null	Cys->SecNEM	172.99213	H(7) C(6) N O(2) S(-1) Se	Non-standard residue	false
+515	C	FNEM	FNEM	427.0692	H(13) C(24) N O(7)	Chemical derivative	false
+389	C	Phytochromobilin	Phytochromobilin	584.2635	H(36) C(33) N(4) O(6)	Post-translational	true
+388	C	Phycoerythrobilin	Phycoerythrobilin	588.2948	H(40) C(33) N(4) O(6)	Post-translational	true
+514	C	PropylNAGthiazoline	PropylNAGthiazoline	232.06436	H(14) C(9) N O(4) S	Chemical derivative	false
+55	C	Glutathione	Glutathione	305.06815	H(15) C(10) N(3) O(6) S	Post-translational	true
+1061	C	null	Cys->Met	28.0313	H(4) C(2)	AA substitution	false
+551	C	null	Cys->Arg	53.091927	H(7) C(3) N(3) S(-1)	AA substitution	false
+382	C	Cys->PyruvicAcid	Cys->PyruvicAcid	-33.003704	H(-3) N(-1) O S(-1)	Post-translational	true
+764	C	null	DTT_C:2H(6)	126.062164	H(2) 2H(6) C(4) O(2) S	Isotopic label	false
+493	C	BADGE	BADGE	340.16745	H(24) C(21) O(4)	Non-standard residue	false
+301	C	Bromobimane	Bromobimane	190.07423	H(10) C(10) N(2) O(2)	Chemical derivative	true
+5	C	Carbamyl	Carbamyl	43.005814	H C N O	Artefact	false
+278	C	Ethanolyl	Ethanolyl	44.026215	H(4) C(2) O	Chemical derivative	true
+1398	C	null	Iodoacetanilide:13C(6)	139.07289	H(7) C(2) 13C(6) N O	Chemical derivative	false
+374	C	Dehydro	Dehydro	-1.007825	H(-1)	Multiple	true
+851	C	null	cGMP+RMP-loss	150.04158	H(4) C(5) N(5) O	Post-translational	false
+1310	C	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+1003	C	null	EGCG2	287.05557	H(11) C(15) O(6)	Post-translational	false
+725	C	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+1342	C	null	iodoTMT6plex	329.2266	H(28) C(12) 13C(4) N(3) 15N O(3)	Chemical derivative	false
+1019	C	null	ICDID:2H(6)	144.10574	H(4) 2H(6) C(8) O(2)	Isotopic label	false
+211	C	NEIAA	NEIAA	85.052765	H(7) C(4) N O	Isotopic label	true
+1320	C	null	Biotin:Thermo-21901+2H2O	561.2468	H(39) C(23) N(5) O(9) S	Chemical derivative	false
+937	C	null	dichlorination	67.92206	H(-2) Cl(2)	Chemical derivative	false
+281	C	CoenzymeA	CoenzymeA	765.09955	H(34) C(21) N(7) O(16) P(3) S	Post-translational	true
+323	C	Xlink:B10621	Xlink:B10621	713.0931	H(30) C(31) N(4) O(6) S I	Chemical derivative	true
+747	C	null	Malonyl	86.0004	H(2) C(3) O(3)	Chemical derivative	false
+942	C	null	SulfoGMBS	458.16238	H(26) C(22) N(4) O(5) S	Other	false
+1253	C	null	2-monomethylsuccinyl	130.02661	H(6) C(5) O(4)	Chemical derivative	false
+345	C	Trioxidation	Trioxidation	47.984745	O(3)	Chemical derivative	true
+1	C	Acetyl	Acetyl	42.010567	H(2) C(2) O	Post-translational	true
+443	C	FMNC	FMNC	456.1046	H(21) C(17) N(4) O(9) P	Post-translational	true
+9	C	ICAT-G:2H(8)	ICAT-G:2H(8)	494.30142	H(30) 2H(8) C(22) N(4) O(6) S	Isotopic label	true
+275	C	Nitrosyl	Nitrosyl	28.990164	H(-1) N O	Post-translational	true
+1063	C	null	Cys->Pro	-5.956421	H(2) C(2) S(-1)	AA substitution	false
+1060	C	null	Cys->Lys	25.08578	H(7) C(3) N S(-1)	AA substitution	false
+971	C	null	maleimide3	969.3662	H(59) C(37) N(7) O(23)	Post-translational	false
+984	C	null	cysTMT	299.16675	H(25) C(14) N(3) O(2) S	Chemical derivative	false
+4	C	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Chemical derivative	true
+478	C	FTC	FTC	421.07324	H(15) C(21) N(3) O(5) S	Chemical derivative	true
+940	C	null	Cys->ethylaminoAla	11.070128	H(5) C(2) N S(-1)	Chemical derivative	false
+1066	C	null	Cys->Val	-3.940771	H(4) C(2) S(-1)	AA substitution	false
+538	C	null	Biotin:Cayman-10141	626.3866	H(54) C(35) N(4) O(4) S	Other	false
+440	C	Amidino	Amidino	42.021797	H(2) C N(2)	Post-translational	true
+105	C	ICAT-C	ICAT-C	227.12698	H(17) C(10) N(3) O(3)	Isotopic label	true
+894	C	null	CarboxymethylDTT	210.00204	H(10) C(6) O(4) S(2)	Artefact	false
+1340	C	null	Biotin:Thermo-21911	921.4617	H(71) C(41) N(5) O(16) S	Chemical derivative	false
+431	C	Palmitoleyl	Palmitoleyl	236.21402	H(28) C(16) O	Post-translational	true
+745	C	null	NO_SMX_SMCT	268.0392	H(10) C(10) N(3) O(4) S	Chemical derivative	false
+108	C	Nethylmaleimide	Nethylmaleimide	125.047676	H(7) C(6) N O(2)	Chemical derivative	true
+212	C	NEIAA:2H(5)	NEIAA:2H(5)	90.084145	H(2) 2H(5) C(4) N O	Isotopic label	true
+121	C	GG	GG	114.04293	H(6) C(4) N(2) O(2)	Other	true
+425	C	Dioxidation	Dioxidation	31.989828	O(2)	Post-translational	true
+23	C	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Artefact	false
+1017	C	null	DMPO	111.06841	H(9) C(6) N O	Post-translational	false
+1261	C	null	Ub-fluorescein	597.2098	H(29) C(31) N(6) O(7)	Chemical derivative	false
+423	C	Delta:Se(1)	Delta:Se(1)	79.91652	Se	Post-translational	true
+552	C	null	Cys->Gly	-45.98772	H(-2) C(-1) S(-1)	AA substitution	false
+1317	C	null	EHD-diphenylpentanone	266.13068	H(18) C(18) O(2)	Chemical derivative	false
+197	C	EQAT	EQAT	184.15756	H(20) C(10) N(2) O	Chemical derivative	true
+878	C	null	Bodipy	414.16748	H(21) B C(20) N(4) O(3) F(2)	Chemical derivative	false
+957	C	null	2-succinyl	116.010956	H(4) C(4) O(4)	Chemical derivative	false
+1056	C	null	Cys->Asp	12.017759	C O(2) S(-1)	AA substitution	false
+402	C	Cys->Oxoalanine	Cys->Oxoalanine	-17.992805	H(-2) O S(-1)	Post-translational	true
+549	C	null	Cys->Trp	83.07013	H(5) C(8) N S(-1)	AA substitution	false
+416	C	Dipyrrolylmethanemethyl	Dipyrrolylmethanemethyl	418.1376	H(22) C(20) N(2) O(8)	Post-translational	true
+1059	C	null	Cys->Xle	10.07488	H(6) C(3) S(-1)	AA substitution	false
+939	C	null	Cys->methylaminoAla	-2.945522	H(3) C N S(-1)	Chemical derivative	false
+422	C	PyruvicAcidIminyl	PyruvicAcidIminyl	70.00548	H(2) C(3) O(2)	Post-translational	true
+1389	C	null	HN3_mustard	131.09464	H(13) C(6) N O(2)	Post-translational	false
+195	C	QAT	QAT	171.14973	H(19) C(9) N(2) O	Chemical derivative	true
+335	C	HNE+Delta:H(2)	HNE+Delta:H(2)	158.13068	H(18) C(9) O(2)	Chemical derivative	true
+686	C	null	NA-OA-NO2	327.24097	H(33) C(18) N O(4)	Post-translational	false
+911	C	null	MTSL	184.0796	H(14) C(9) N O S	Chemical derivative	false
+824	C	null	Xlink:BMOE	220.0484	H(8) C(10) N(2) O(4)	Chemical derivative	false
+6	C	Carboxymethyl	Carboxymethyl	58.005478	H(2) C(2) O(2)	Chemical derivative	true
+291	C	Delta:Hg(1)	Delta:Hg(1)	201.97061	Hg	Chemical derivative	true
+1036	C	null	Withaferin	470.26685	H(38) C(28) O(6)	Chemical derivative	false
+821	C	null	Cy3b-maleimide	682.2461	H(38) C(37) N(4) O(7) S	Chemical derivative	false
+1035	C	null	Thiadiazole	174.02516	H(6) C(9) N(2) S	Chemical derivative	false
+1348	C	null	Cy3-maleimide	753.2628	H(45) C(37) N(4) O(9) S(2)	Chemical derivative	false
+1326	C	null	NEMsulfur	157.01974	H(7) C(6) N O(2) S	Chemical derivative	false
+1315	C	null	MM-diphenylpentanone	265.14667	H(19) C(18) N O	Chemical derivative	false
+106	C	ICAT-C:13C(9)	ICAT-C:13C(9)	236.15718	H(17) C 13C(9) N(3) O(3)	Isotopic label	true
+426	C	Octanoyl	Octanoyl	126.10446	H(14) C(8) O	Post-translational	true
+1381	C	null	ethylsulfonylethyl	120.0245	H(8) C(4) O(2) S	Chemical derivative	false
+176	C	BHT	BHT	218.16707	H(22) C(15) O	Other	true
+41	C	Hex	Hex	162.05283	Hex	Other glycosylation	true
+1065	C	null	Cys->Thr	-1.961506	H(2) C O S(-1)	AA substitution	false
+943	C	null	DimethylamineGMBS	267.1583	H(21) C(13) N(3) O(3)	Chemical derivative	false
+539	C	null	Biotin:Cayman-10013	660.42847	H(60) C(36) N(4) O(5) S	Other	false
+1008	C	null	Cys->CamSec	104.96591	H(3) C(2) N O S(-1) Se	Non-standard residue	false
+1314	C	null	biotinAcrolein298	298.14633	H(22) C(13) N(4) O(2) S	Chemical derivative	false
+1382	C	null	phenylsulfonylethyl	168.0245	H(8) C(8) O(2) S	Chemical derivative	false
+740	C	null	ExacTagThiol	972.36523	H(50) C(23) 13C(12) N(8) 15N(6) O(18)	Isotopic label	false
+994	C	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1258	C	null	Ub-VME	173.09262	H(13) C(7) N(2) O(3)	Chemical derivative	false
+887	C	null	MDCC	383.14813	H(21) C(20) N(3) O(5)	Chemical derivative	false
+1839	C	null	betaFNA	454.2104	H(30) C(25) N(2) O(6)	Chemical derivative	false
+1062	C	null	Cys->Asn	11.033743	H C N O S(-1)	AA substitution	false
+972	C	null	maleimide5	1293.4719	H(79) C(49) N(7) O(33)	Post-translational	false
+124	C	ICAT-H:13C(6)	ICAT-H:13C(6)	351.11804	H(20) C(9) 13C(6) N O(6) Cl	Isotopic label	true
+1257	C	null	Ub-Br2	100.06366	H(8) C(4) N(2) O	Chemical derivative	false
+1260	C	null	Ub-amide	196.1086	H(14) C(9) N(3) O(2)	Chemical derivative	false
+439	C	Diironsubcluster	Diironsubcluster	342.78693	H(-1) C(5) N(2) O(5) S(2) Fe(2)	Post-translational	true
+1034	C	null	Cys->SecNEM:2H(5)	178.02351	H(2) 2H(5) C(6) N O(2) S(-1) Se	Chemical derivative	false
+196	C	QAT:2H(3)	QAT:2H(3)	174.16856	H(16) 2H(3) C(9) N(2) O	Isotopic label	true
+1012	C	null	Biotin:Invitrogen-M1602	523.2101	H(33) C(23) N(5) O(7) S	Chemical derivative	false
+1057	C	null	Cys->Glu	26.03341	H(2) C(2) O(2) S(-1)	AA substitution	false
+294	C	IED-Biotin	IED-Biotin	326.14127	H(22) C(14) N(4) O(3) S	Chemical derivative	true
+893	C	null	CarbamidomethylDTT	209.01804	H(11) C(6) N O(3) S(2)	Artefact	false
+734	C	null	Ethanolamine	43.0422	H(5) C(2) N	Chemical derivative	false
+1312	C	null	Delta:H(6)C(3)O(1)	58.041866	H(6) C(3) O	Chemical derivative	false
+767	C	null	Menadione-HQ	172.05243	H(8) C(11) O(2)	Chemical derivative	false
+941	C	null	DNPS	198.98135	H(3) C(6) N(2) O(4) S	Chemical derivative	false
+890	C	null	DyLight-maleimide	940.1999	H(48) C(39) N(4) O(15) S(4)	Chemical derivative	false
+522	C	Maleimide-PEO2-Biotin	Maleimide-PEO2-Biotin	525.2257	H(35) C(23) N(5) O(7) S	Chemical derivative	false
+762	C	null	IDEnT	214.99046	H(7) C(9) N O Cl(2)	Isotopic label	false
+206	C	Delta:H(4)C(3)O(1)	Delta:H(4)C(3)O(1)	56.026215	H(4) C(3) O	Other	true
+979	C	null	PEITC	163.04556	H(9) C(9) N S	Chemical derivative	false
+891	C	null	Methyl-PEO12-Maleimide	710.3837	H(58) C(32) N(2) O(15)	Chemical derivative	false
+26	C	Pyro-carbamidomethyl	Pyro-carbamidomethyl	39.994915	C(2) O	Artefact	false
+1328	C	null	NEMsulfurWater	175.03032	H(9) C(6) N O(3) S	Chemical derivative	false
+314	C	Nmethylmaleimide	Nmethylmaleimide	111.03203	H(5) C(5) N O(2)	Chemical derivative	true
+1345	C	null	PS_Hapten	120.021126	H(4) C(7) O(2)	Chemical derivative	false
+499	C	IGBP:13C(2)	IGBP:13C(2)	298.02274	H(13) C(10) 13C(2) N(2) O(2) Br	Isotopic label	true
+978	C	null	BITC	149.02992	H(7) C(8) N S	Chemical derivative	false
+385	C	Ammonia-loss	Ammonia-loss	-17.026548	H(-3) N(-1)	Artefact	false
+1380	C	null	methylsulfonylethyl	106.00885	H(6) C(3) O(2) S	Chemical derivative	false
+1277	C	null	Dipyridyl	225.09021	H(11) C(13) N(3) O	Chemical derivative	false
+488	C	DHP	DHP	118.065674	H(8) C(8) N	Chemical derivative	false
+908	C	null	SMCC-maleimide	321.20523	H(27) C(17) N(3) O(3)	Chemical derivative	false
+1419	C	null	15N-oxobutanoic	-18.023584	H(-3) 15N(-1)	Artefact	false
+989	D	null	Ammonium	17.026548	H(3) N	Artefact	false
+298	D	Methyl:2H(3)	Methyl:2H(3)	17.03448	H(-1) 2H(3) C	Isotopic label	true
+1298	D	null	Label:13C(4)15N(1)	5.010454	C(-4) 13C(4) N(-1) 15N	Isotopic label	false
+530	D	Cation:K	Cation:K	37.955883	H(-1) K	Artefact	true
+958	D	null	Propargylamine	37.031635	H(3) C(3) N O(-1)	Chemical derivative	false
+1069	D	null	Asp->Xle	-1.942879	H(6) C(2) O(-2)	AA substitution	false
+734	D	null	Ethanolamine	43.0422	H(5) C(2) N	Chemical derivative	false
+21	D	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+553	D	null	Asp->Ala	-43.98983	C(-1) O(-2)	AA substitution	false
+447	D	Deoxy	Deoxy	-15.994915	O(-1)	Post-translational	true
+556	D	null	Asp->Gly	-58.005478	H(-2) C(-2) O(-2)	AA substitution	false
+1073	D	null	Asp->Gln	13.031634	H(3) C N O(-1)	AA substitution	false
+30	D	Cation:Na	Cation:Na	21.981943	H(-1) Na	Artefact	true
+1076	D	null	Asp->Thr	-13.979265	H(2) O(-1)	AA substitution	false
+1070	D	null	Asp->Lys	13.06802	H(7) C(2) N O(-2)	AA substitution	false
+1074	D	null	Asp->Arg	41.07417	H(7) C(2) N(3) O(-2)	AA substitution	false
+39	D	Methylthio	Methylthio	45.98772	H(2) C S	Post-translational	false
+953	D	null	Cation:Ni[II]	55.919697	H(-2) Ni	Artefact	false
+4	D	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+1071	D	null	Asp->Met	16.013542	H(4) C O(-2) S	AA substitution	false
+1077	D	null	Asp->Trp	71.05237	H(5) C(7) N O(-2)	AA substitution	false
+1282	D	null	UgiJoullieProGly	154.07423	H(10) C(7) N(2) O(2)	Chemical derivative	false
+35	D	Oxidation	Oxidation	15.994915	O	Post-translational	false
+952	D	null	Cation:Fe[II]	53.91929	H(-2) Fe	Artefact	false
+1068	D	null	Asp->Phe	32.04147	H(4) C(5) O(-2)	AA substitution	false
+23	D	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Chemical derivative	false
+1283	D	null	UgiJoullieProGlyProGly	308.14847	H(20) C(14) N(4) O(4)	Chemical derivative	false
+1305	D	null	Propyl	42.04695	H(6) C(3)	Chemical derivative	false
+555	D	null	Asp->Asn	-0.984016	H N O(-1)	AA substitution	false
+285	D	SulfanilicAcid	SulfanilicAcid	155.0041	H(5) C(6) N O(2) S	Isotopic label	true
+558	D	null	Asp->Glu	14.01565	H(2) C	AA substitution	false
+299	D	Carboxy	Carboxy	43.98983	C O(2)	Post-translational	false
+954	D	null	Cation:Zn[II]	61.913494	H(-2) Zn	Artefact	false
+421	D	Sulfide	Sulfide	31.97207	S	Post-translational	true
+34	D	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1276	D	null	UgiJoullie	1106.4894	H(60) C(47) N(23) O(10)	Chemical derivative	false
+531	D	Cation:Cu[I]	Cation:Cu[I]	61.921776	H(-1) Cu	Artefact	true
+1356	D	null	phosphoRibosyl	212.00859	H(9) C(5) O(7) P	Post-translational	false
+289	D	Biotin-PEO-Amine	Biotin-PEO-Amine	356.1882	H(28) C(16) N(4) O(3) S	Chemical derivative	false
+994	D	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1067	D	null	Asp->Cys	-12.017759	C(-1) O(-2) S	AA substitution	false
+951	D	null	Cation:Ca[II]	37.94694	H(-2) Ca	Artefact	false
+554	D	null	Asp->His	22.03197	H(2) C(2) N(2) O(-2)	AA substitution	false
+559	D	null	Asp->Val	-15.958529	H(4) C O(-2)	AA substitution	false
+557	D	null	Asp->Tyr	48.036385	H(4) C(5) O(-1)	AA substitution	false
+956	D	null	Cation:Mg[II]	21.969393	H(-2) Mg	Artefact	false
+424	D	MolybdopterinGD	MolybdopterinGD	1572.9857	H(47) C(40) N(20) O(26) P(4) S(4) Mo	Post-translational	true
+434	D	CHDH	CHDH	294.1831	H(26) C(17) O(4)	Post-translational	true
+1342	D	null	iodoTMT6plex	329.2266	H(28) C(12) 13C(4) N(3) 15N O(3)	Chemical derivative	false
+280	D	Ethyl	Ethyl	28.0313	H(4) C(2)	Chemical derivative	true
+1072	D	null	Asp->Pro	-17.974178	H(2) C O(-2)	AA substitution	false
+1385	D	null	Hydroxamic_acid	15.010899	H N	Artefact	false
+955	D	null	Cation:Ag	105.89727	H(-1) Ag	Artefact	false
+1341	D	null	iodoTMT	324.21616	H(28) C(16) N(4) O(3)	Chemical derivative	false
+286	D	SulfanilicAcid:13C(6)	SulfanilicAcid:13C(6)	161.02423	H(5) 13C(6) N O(2) S	Chemical derivative	true
+1075	D	null	Asp->Ser	-27.994915	C(-1) O(-1)	AA substitution	false
+950	D	null	Cation:Li	6.008178	H(-1) Li	Artefact	false
+213	D	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	Other glycosylation	true
+280	E	Ethyl	Ethyl	28.0313	H(4) C(2)	Artefact	true
+1081	E	null	Glu->Xle	-15.958529	H(4) C O(-2)	AA substitution	false
+285	E	SulfanilicAcid	SulfanilicAcid	155.0041	H(5) C(6) N O(2) S	Isotopic label	true
+563	E	null	Glu->Lys	-0.94763	H(5) C N O(-2)	AA substitution	false
+4	E	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+396	E	GlycerylPE	GlycerylPE	197.0453	H(12) C(5) N O(5) P	Post-translational	true
+27	E	Glu->pyro-Glu	Glu->pyro-Glu	-18.010565	H(-2) O(-1)	Artefact	true
+954	E	null	Cation:Zn[II]	61.913494	H(-2) Zn	Artefact	false
+1276	E	null	UgiJoullie	1106.4894	H(60) C(47) N(23) O(10)	Chemical derivative	false
+1827	E	null	Glu->pyro-Glu+Methyl:2H(2)13C(1)	-0.979006	H(-2) 2H(2) 13C O(-1)	Artefact	false
+560	E	null	Glu->Ala	-58.005478	H(-2) C(-2) O(-2)	AA substitution	false
+213	E	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	Other glycosylation	true
+531	E	Cation:Cu[I]	Cation:Cu[I]	61.921776	H(-1) Cu	Artefact	true
+1282	E	null	UgiJoullieProGly	154.07423	H(10) C(7) N(2) O(2)	Chemical derivative	false
+30	E	Cation:Na	Cation:Na	21.981943	H(-1) Na	Artefact	true
+450	E	Glu	Glu	129.04259	H(7) C(5) N O(3)	Post-translational	false
+1084	E	null	Glu->Pro	-31.989828	O(-2)	AA substitution	false
+1087	E	null	Glu->Thr	-27.994915	C(-1) O(-1)	AA substitution	false
+951	E	null	Cation:Ca[II]	37.94694	H(-2) Ca	Artefact	false
+452	E	GluGluGlu	GluGluGlu	387.12778	H(21) C(15) N(3) O(9)	Post-translational	false
+1088	E	null	Glu->Trp	57.03672	H(3) C(6) N O(-2)	AA substitution	false
+299	E	Carboxy	Carboxy	43.98983	C O(2)	Post-translational	false
+994	E	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1082	E	null	Glu->Met	1.997892	H(2) O(-2) S	AA substitution	false
+1085	E	null	Glu->Arg	27.058517	H(5) C N(3) O(-2)	AA substitution	false
+953	E	null	Cation:Ni[II]	55.919697	H(-2) Ni	Artefact	false
+1399	E	null	Dap-DSP	328.05515	H(16) C(13) N(2) O(4) S(2)	Non-standard residue	false
+952	E	null	Cation:Fe[II]	53.91929	H(-2) Fe	Artefact	false
+1079	E	null	Glu->Phe	18.025822	H(2) C(4) O(-2)	AA substitution	false
+268	E	Label:13C(5)15N(1)	Label:13C(5)15N(1)	6.013809	C(-5) 13C(5) N(-1) 15N	Isotopic label	true
+286	E	SulfanilicAcid:13C(6)	SulfanilicAcid:13C(6)	161.02423	H(5) 13C(6) N O(2) S	Chemical derivative	true
+1305	E	null	Propyl	42.04695	H(6) C(3)	Chemical derivative	false
+1283	E	null	UgiJoullieProGlyProGly	308.14847	H(20) C(14) N(4) O(4)	Chemical derivative	false
+34	E	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+989	E	null	Ammonium	17.026548	H(3) N	Artefact	false
+298	E	Methyl:2H(3)	Methyl:2H(3)	17.03448	H(-1) 2H(3) C	Isotopic label	true
+530	E	Cation:K	Cation:K	37.955883	H(-1) K	Artefact	true
+1089	E	null	Glu->Tyr	34.020737	H(2) C(4) O(-1)	AA substitution	false
+1341	E	null	iodoTMT	324.21616	H(28) C(16) N(4) O(3)	Chemical derivative	false
+956	E	null	Cation:Mg[II]	21.969393	H(-2) Mg	Artefact	false
+564	E	null	Glu->Gly	-72.021126	H(-4) C(-3) O(-2)	AA substitution	false
+958	E	null	Propargylamine	37.031635	H(3) C(3) N O(-1)	Chemical derivative	false
+1078	E	null	Glu->Cys	-26.03341	H(-2) C(-2) O(-2) S	AA substitution	false
+453	E	GluGluGluGlu	GluGluGluGlu	516.17035	H(28) C(20) N(4) O(12)	Post-translational	false
+561	E	null	Glu->Gln	-0.984016	H N O(-1)	AA substitution	false
+451	E	GluGlu	GluGlu	258.08517	H(14) C(10) N(2) O(6)	Post-translational	false
+1356	E	null	phosphoRibosyl	212.00859	H(9) C(5) O(7) P	Post-translational	false
+289	E	Biotin-PEO-Amine	Biotin-PEO-Amine	356.1882	H(28) C(16) N(4) O(3) S	Chemical derivative	false
+1342	E	null	iodoTMT6plex	329.2266	H(28) C(12) 13C(4) N(3) 15N O(3)	Chemical derivative	false
+950	E	null	Cation:Li	6.008178	H(-1) Li	Artefact	false
+1080	E	null	Glu->His	8.016319	C N(2) O(-2)	AA substitution	false
+1385	E	null	Hydroxamic_acid	15.010899	H N	Artefact	false
+436	E	Hydroxyheme	Hydroxyheme	614.1616	H(30) C(34) N(4) O(4) Fe	Post-translational	true
+1826	E	null	Glu->pyro-Glu+Methyl	-3.994915	C O(-1)	Artefact	false
+734	E	null	Ethanolamine	43.0422	H(5) C(2) N	Chemical derivative	false
+565	E	null	Glu->Val	-29.974178	H(2) O(-2)	AA substitution	false
+562	E	null	Glu->Asp	-14.01565	H(-2) C(-1)	AA substitution	false
+1083	E	null	Glu->Asn	-14.999666	H(-1) C(-1) N O(-1)	AA substitution	false
+1086	E	null	Glu->Ser	-42.010567	H(-2) C(-2) O(-1)	AA substitution	false
+955	E	null	Cation:Ag	105.89727	H(-1) Ag	Artefact	false
+269	F	Label:13C(9)15N(1)	Label:13C(9)15N(1)	10.027228	C(-9) 13C(9) N(-1) 15N	Isotopic label	true
+567	F	null	Phe->Cys	-44.05923	H(-4) C(-6) S	AA substitution	false
+1101	F	null	Phe->Thr	-46.020737	H(-2) C(-5) O	AA substitution	false
+569	F	null	Phe->Tyr	15.994915	O	AA substitution	false
+35	F	Oxidation	Oxidation	15.994915	O	Artefact	false
+292	F	IodoU-AMP	IodoU-AMP	322.0202	H(11) C(9) N(2) O(9) P	Chemical derivative	true
+904	F	null	Phe->CamCys	12.962234	H(-1) C(-4) N O S	Pre-translational	false
+1098	F	null	Phe->Pro	-50.01565	H(-2) C(-4)	AA substitution	false
+425	F	Dioxidation	Dioxidation	31.989828	O(2)	Chemical derivative	true
+1092	F	null	Phe->Glu	-18.025822	H(-2) C(-4) O(2)	AA substitution	false
+1095	F	null	Phe->Lys	-18.973452	H(3) C(-3) N	AA substitution	false
+184	F	Label:13C(9)	Label:13C(9)	9.030193	C(-9) 13C(9)	Isotopic label	true
+481	F	Label:2H(4)	Label:2H(4)	4.025107	H(-4) 2H(4)	Isotopic label	false
+1099	F	null	Phe->Gln	-19.009836	H(-1) C(-4) N O	AA substitution	false
+1102	F	null	Phe->Trp	39.0109	H C(2) N	AA substitution	false
+568	F	null	Phe->Xle	-33.98435	H(2) C(-3)	AA substitution	false
+994	F	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1091	F	null	Phe->Asp	-32.04147	H(-4) C(-5) O(2)	AA substitution	false
+1845	F	null	AzidoF	41.001396	H(-1) N(3)	Chemical derivative	false
+1096	F	null	Phe->Met	-16.02793	C(-4) S	AA substitution	false
+1093	F	null	Phe->Gly	-90.04695	H(-6) C(-7)	AA substitution	false
+1100	F	null	Phe->Arg	9.032697	H(3) C(-3) N(3)	AA substitution	false
+566	F	null	Phe->Ser	-60.036385	H(-4) C(-6) O	AA substitution	false
+570	F	null	Phe->Val	-48.0	C(-4)	AA substitution	false
+1090	F	null	Phe->Ala	-76.0313	H(-4) C(-6)	AA substitution	false
+1094	F	null	Phe->His	-10.009502	H(-2) C(-3) N(2)	AA substitution	false
+127	F	Fluoro	Fluoro	17.990578	H(-1) F	Non-standard residue	true
+1097	F	null	Phe->Asn	-33.025486	H(-3) C(-5) N O	AA substitution	false
+7	F	Deamidated	Deamidated	0.984016	H(-1) N(-1) O	Post-translational	false
+340	F	Bromo	Bromo	77.91051	H(-1) Br	Post-translational	true
+135	G	Myristoyl+Delta:H(-4)	Myristoyl+Delta:H(-4)	206.16707	H(22) C(14) O	Co-translational	true
+1108	G	null	Gly->Asn	57.021465	H(3) C(2) N O	AA substitution	false
+1105	G	null	Gly->Xle	56.0626	H(8) C(4)	AA substitution	false
+1112	G	null	Gly->Tyr	106.04186	H(6) C(7) O	AA substitution	false
+572	G	null	Gly->Ser	30.010565	H(2) C O	AA substitution	false
+575	G	null	Gly->Val	42.04695	H(6) C(3)	AA substitution	false
+420	G	Carboxy->Thiocarboxy	Carboxy->Thiocarboxy	15.977156	O(-1) S	Post-translational	true
+822	G	null	Gly-loss+Amide	-58.005478	H(-2) C(-2) O(-2)	Post-translational	false
+1103	G	null	Gly->Phe	90.04695	H(6) C(7)	AA substitution	false
+1106	G	null	Gly->Lys	71.0735	H(9) C(4) N	AA substitution	false
+1109	G	null	Gly->Pro	40.0313	H(4) C(3)	AA substitution	false
+45	G	Myristoyl	Myristoyl	210.19836	H(26) C(14) O	Post-translational	true
+994	G	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+576	G	null	Gly->Asp	58.005478	H(2) C(2) O(2)	AA substitution	false
+573	G	null	Gly->Trp	129.05785	H(7) C(9) N	AA substitution	false
+1110	G	null	Gly->Gln	71.03712	H(5) C(3) N O	AA substitution	false
+578	G	null	Gly->Arg	99.07964	H(9) C(4) N(3)	AA substitution	false
+1104	G	null	Gly->His	80.037445	H(4) C(4) N(2)	AA substitution	false
+1107	G	null	Gly->Met	74.01902	H(6) C(3) S	AA substitution	false
+571	G	null	Gly->Ala	14.01565	H(2) C	AA substitution	false
+134	G	Myristoleyl	Myristoleyl	208.18271	H(24) C(14) O	Co-translational	true
+574	G	null	Gly->Glu	72.021126	H(4) C(3) O(2)	AA substitution	false
+577	G	null	Gly->Cys	45.98772	H(2) C S	AA substitution	false
+35	G	Oxidation	Oxidation	15.994915	O	Pre-translational	false
+1111	G	null	Gly->Thr	44.026215	H(4) C(2) O	AA substitution	false
+253	H	Crotonaldehyde	Crotonaldehyde	70.04186	H(6) C(4) O	Other	true
+335	H	HNE+Delta:H(2)	HNE+Delta:H(2)	158.13068	H(18) C(9) O(2)	Chemical derivative	true
+1389	H	null	HN3_mustard	131.09464	H(13) C(6) N O(2)	Post-translational	false
+1380	H	null	methylsulfonylethyl	106.00885	H(6) C(3) O(2) S	Chemical derivative	false
+686	H	null	NA-OA-NO2	327.24097	H(33) C(18) N O(4)	Post-translational	false
+1341	H	null	iodoTMT	324.21616	H(28) C(16) N(4) O(3)	Chemical derivative	false
+349	H	His->Asp	His->Asp	-22.03197	H(-2) C(-2) N(-2) O(2)	AA substitution	true
+585	H	null	His->Xle	-23.974848	H(4) N(-2)	AA substitution	false
+582	H	null	His->Gln	-9.000334	H C(-1) N(-1) O	AA substitution	false
+739	H	null	TMT	224.15248	H(20) C(12) N(2) O(2)	Isotopic label	false
+743	H	null	4-ONE+Delta:H(-2)O(-1)	136.08882	H(12) C(9) O	Chemical derivative	false
+4	H	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+53	H	HNE	HNE	156.11504	H(16) C(9) O(2)	Post-translational	true
+721	H	null	4-ONE	154.09938	H(14) C(9) O(2)	Chemical derivative	false
+214	H	iTRAQ4plex	iTRAQ4plex	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+256	H	Delta:H(4)C(3)	Delta:H(4)C(3)	40.0313	H(4) C(3)	Other	true
+1117	H	null	His->Gly	-80.037445	H(-4) C(-4) N(-2)	AA substitution	false
+375	H	Diphthamide	Diphthamide	142.11061	H(14) C(7) N(2) O	Post-translational	true
+1114	H	null	His->Cys	-34.04973	H(-2) C(-3) N(-2) S	AA substitution	false
+1121	H	null	His->Ser	-50.026882	H(-2) C(-3) N(-2) O	AA substitution	false
+1381	H	null	ethylsulfonylethyl	120.0245	H(8) C(4) O(2) S	Chemical derivative	false
+56	H	Acetyl:2H(3)	Acetyl:2H(3)	45.029396	H(-1) 2H(3) C(2) O	Isotopic label	true
+1017	H	null	DMPO	111.06841	H(9) C(6) N O	Post-translational	false
+129	H	Iodo	Iodo	125.896645	H(-1) I	Chemical derivative	true
+276	H	AEBS	AEBS	183.0354	H(9) C(8) N O(2) S	Artefact	true
+1124	H	null	His->Trp	49.0204	H(3) C(5) N(-1)	AA substitution	false
+378	H	Carboxyethyl	Carboxyethyl	72.021126	H(4) C(3) O(2)	Chemical derivative	true
+737	H	null	TMT6plex	229.16293	H(20) C(8) 13C(4) N 15N O(2)	Isotopic label	false
+1115	H	null	His->Glu	-8.016319	C(-1) N(-2) O(2)	AA substitution	false
+1331	H	null	DNCB_hapten	166.00145	H(2) C(6) N(2) O(4)	Chemical derivative	false
+1310	H	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+1314	H	null	biotinAcrolein298	298.14633	H(22) C(13) N(4) O(2) S	Chemical derivative	false
+405	H	Phosphoadenosine	Phosphoadenosine	329.05252	H(12) C(10) N(5) O(6) P	Post-translational	true
+684	H	null	BDMAPP	253.01022	H(12) C(11) N O Br	Artefact	false
+531	H	Cation:Cu[I]	Cation:Cu[I]	61.921776	H(-1) Cu	Artefact	true
+727	H	null	O-pinacolylmethylphosphonate	162.08096	H(15) C(7) O(2) P	Chemical derivative	false
+1302	H	null	mTRAQ:13C(6)15N(2)	148.10916	H(12) C 13C(6) 15N(2) O	Isotopic label	false
+888	H	null	mTRAQ	140.09496	H(12) C(7) N(2) O	Isotopic label	false
+35	H	Oxidation	Oxidation	15.994915	O	Artefact	false
+1	H	Acetyl	Acetyl	42.010567	H(2) C(2) O	Chemical derivative	true
+1345	H	null	PS_Hapten	120.021126	H(4) C(7) O(2)	Chemical derivative	false
+738	H	null	TMT2plex	225.15584	H(20) C(11) 13C N(2) O(2)	Isotopic label	false
+996	H	null	Label:15N(3)	2.991105	N(-3) 15N(3)	Isotopic label	false
+1123	H	null	His->Val	-37.990498	H(2) C(-1) N(-2)	AA substitution	false
+685	H	null	NA-LNO2	325.2253	H(31) C(18) N O(4)	Post-translational	false
+1119	H	null	His->Lys	-8.963949	H(5) N(-1)	AA substitution	false
+413	H	Phosphoguanosine	Phosphoguanosine	345.04742	H(12) C(10) N(5) O(7) P	Post-translational	true
+1120	H	null	His->Met	-6.018427	H(2) C(-1) N(-2) S	AA substitution	false
+409	H	FMNH	FMNH	454.08896	H(19) C(17) N(4) O(9) P	Post-translational	true
+1388	H	null	HN2_mustard	101.08406	H(11) C(5) N O	Post-translational	false
+730	H	null	iTRAQ8plex	304.20535	H(24) C(7) 13C(7) N(3) 15N O(3)	Isotopic label	false
+889	H	null	mTRAQ:13C(3)15N(1)	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+498	H	BHTOH	BHTOH	234.16199	H(22) C(15) O(2)	Other	false
+774	H	null	Biotin-phenacyl	626.2635	H(38) C(29) N(8) O(6) S	Chemical derivative	false
+1254	H	null	Saligenin	106.04186	H(6) C(7) O	Chemical derivative	false
+255	H	Delta:H(4)C(2)	Delta:H(4)C(2)	28.0313	H(4) C(2)	Other	true
+1290	H	null	Dicarbamidomethyl	114.04293	H(6) C(4) N(2) O(2)	Artefact	false
+50	H	FAD	FAD	783.1415	H(31) C(27) N(9) O(15) P(2)	Post-translational	true
+954	H	null	Cation:Zn[II]	61.913494	H(-2) Zn	Artefact	false
+417	H	PhosphoUridine	PhosphoUridine	306.0253	H(11) C(9) N(2) O(8) P	Post-translational	true
+580	H	null	His->Pro	-40.00615	C(-1) N(-2)	AA substitution	false
+915	H	null	Ethoxyformyl	72.021126	H(4) C(3) O(2)	Chemical derivative	false
+348	H	His->Asn	His->Asn	-23.015984	H(-1) C(-2) N(-1) O	AA substitution	true
+21	H	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+1312	H	null	Delta:H(6)C(3)O(1)	58.041866	H(6) C(3) O	Chemical derivative	false
+720	H	null	HNE-Delta:H(2)O	138.10446	H(14) C(9) O	Chemical derivative	false
+725	H	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+130	H	Diiodo	Diiodo	251.79329	H(-2) I(2)	Chemical derivative	true
+581	H	null	His->Tyr	26.004417	H(2) C(3) N(-2) O	AA substitution	false
+1342	H	null	iodoTMT6plex	329.2266	H(28) C(12) 13C(4) N(3) 15N O(3)	Chemical derivative	false
+206	H	Delta:H(4)C(3)O(1)	Delta:H(4)C(3)O(1)	56.026215	H(4) C(3) O	Other	true
+584	H	null	His->Arg	19.042198	H(5) N	AA substitution	false
+1255	H	null	Cresylphosphate	170.01328	H(7) C(7) O(3) P	Chemical derivative	false
+176	H	BHT	BHT	218.16707	H(22) C(15) O	Other	true
+912	H	null	HNE-BAHAH	511.3192	H(45) C(25) N(5) O(4) S	Chemical derivative	false
+34	H	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1113	H	null	His->Ala	-66.0218	H(-2) C(-3) N(-2)	AA substitution	false
+1256	H	null	CresylSaligeninPhosphate	276.05515	H(13) C(14) O(4) P	Chemical derivative	false
+1116	H	null	His->Phe	10.009502	H(2) C(3) N(-2)	AA substitution	false
+254	H	Delta:H(2)C(2)	Delta:H(2)C(2)	26.01565	H(2) C(2)	Other	true
+340	H	Bromo	Bromo	77.91051	H(-1) Br	Post-translational	true
+390	H	Heme	Heme	616.1773	H(32) C(34) N(4) O(4) Fe	Post-translational	true
+1122	H	null	His->Thr	-36.011234	C(-2) N(-2) O	AA substitution	false
+34	I	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1126	I	null	Xle->Cys	-10.07488	H(-6) C(-3) S	AA substitution	false
+695	I	Label:13C(6)15N(1)	Label:13C(6)15N(1)	7.017164	C(-6) 13C(6) N(-1) 15N	Isotopic label	true
+604	I	null	Xle->Pro	-16.0313	H(-4) C(-1)	AA substitution	false
+608	I	null	Xle->Met	17.95642	H(-2) C(-1) S	AA substitution	false
+605	I	null	Xle->Val	-14.01565	H(-2) C(-1)	AA substitution	false
+607	I	null	Xle->Gln	14.974514	H(-3) C(-1) N O	AA substitution	false
+601	I	null	Xle->Ser	-26.052036	H(-6) C(-3) O	AA substitution	false
+590	I	null	Xle->Lys	15.010899	H N	AA substitution	false
+1129	I	null	Xle->Gly	-56.0626	H(-8) C(-4)	AA substitution	false
+188	I	Label:13C(6)	Label:13C(6)	6.020129	C(-6) 13C(6)	Isotopic label	true
+588	I	null	Xle->Thr	-12.036386	H(-4) C(-2) O	AA substitution	false
+606	I	null	Xle->His	23.974848	H(-4) N(2)	AA substitution	false
+1128	I	null	Xle->Glu	15.958529	H(-4) C(-1) O(2)	AA substitution	false
+602	I	null	Xle->Phe	33.98435	H(-2) C(3)	AA substitution	false
+994	I	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1127	I	null	Xle->Asp	1.942879	H(-6) C(-2) O(2)	AA substitution	false
+1125	I	null	Xle->Ala	-42.04695	H(-6) C(-3)	AA substitution	false
+589	I	null	Xle->Asn	0.958863	H(-5) C(-2) N O	AA substitution	false
+609	I	null	Xle->Arg	43.017048	H N(3)	AA substitution	false
+603	I	null	Xle->Trp	72.99525	H(-1) C(5) N	AA substitution	false
+1130	I	null	Xle->Tyr	49.979263	H(-2) C(3) O	AA substitution	false
+39	K	Methylthio	Methylthio	45.98772	H(2) C S	Artefact	false
+364	K	ICPL:13C(6)	ICPL:13C(6)	111.041595	H(3) 13C(6) N O	Isotopic label	false
+89	K	Iminobiotin	Iminobiotin	225.09358	H(15) C(10) N(3) O S	Chemical derivative	true
+318	K	Delta:H(2)C(5)	Delta:H(2)C(5)	62.01565	H(2) C(5)	Chemical derivative	true
+537	K	null	CLIP_TRAQ_4	244.10146	H(15) C(9) 13C N(2) O(5)	Isotopic label	false
+94	K	IMID	IMID	68.037445	H(4) C(3) N(2)	Isotopic label	true
+1345	K	null	PS_Hapten	120.021126	H(4) C(7) O(2)	Chemical derivative	false
+1787	K	null	Label:13C(2)15N(2)	4.00078	C(-2) 13C(2) N(-2) 15N(2)	Isotopic label	false
+967	K	null	thioacylPA	159.0354	H(9) C(6) N O(2) S	Chemical derivative	false
+835	K	null	Label:13C(6)+Acetyl	48.030693	H(2) C(-4) 13C(6) O	Isotopic label	false
+525	K	null	CLIP_TRAQ_2	141.09831	H(12) C(6) 13C N(2) O	Isotopic label	false
+1141	K	null	Lys->Tyr	34.968365	H(-3) C(3) N(-1) O	AA substitution	false
+405	K	Phosphoadenosine	Phosphoadenosine	329.05252	H(12) C(10) N(5) O(6) P	Post-translational	true
+34	K	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+329	K	Methyl:2H(3)13C(1)	Methyl:2H(3)13C(1)	18.037834	H(-1) 2H(3) 13C	Isotopic label	true
+1022	K	null	Xlink:DST	132.00587	H(4) C(4) O(5)	Chemical derivative	false
+316	K	DimethylpyrroleAdduct	DimethylpyrroleAdduct	78.04695	H(6) C(6)	Chemical derivative	true
+1010	K	null	DEDGFLYMVYASQETFG	1970.8245	H(122) C(89) N(18) O(31) S	Post-translational	false
+464	K	SPITC:13C(6)	SPITC:13C(6)	220.99121	H(5) C 13C(6) N O(3) S(2)	Chemical derivative	true
+253	K	Crotonaldehyde	Crotonaldehyde	70.04186	H(6) C(4) O	Other	true
+979	K	null	PEITC	163.04556	H(9) C(9) N S	Chemical derivative	false
+889	K	null	mTRAQ:13C(3)15N(1)	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+1399	K	null	Dap-DSP	328.05515	H(16) C(13) N(2) O(4) S(2)	Chemical derivative	false
+1270	K	null	HCysThiolactone	117.02483	H(7) C(4) N O S	Post-translational	false
+1380	K	null	methylsulfonylethyl	106.00885	H(6) C(3) O(2) S	Chemical derivative	false
+743	K	null	4-ONE+Delta:H(-2)O(-1)	136.08882	H(12) C(9) O	Chemical derivative	false
+1254	K	null	Saligenin	106.04186	H(6) C(7) O	Chemical derivative	false
+721	K	null	4-ONE	154.09938	H(14) C(9) O(2)	Chemical derivative	false
+92	K	NHS-LC-Biotin	NHS-LC-Biotin	339.16165	H(25) C(16) N(3) O(3) S	Chemical derivative	false
+352	K	Lys->Allysine	Lys->Allysine	-1.031634	H(-3) N(-1) O	Post-translational	true
+864	K	null	Label:13C(6)15N(2)+GG	122.05713	H(6) C(-2) 13C(6) 15N(2) O(2)	Isotopic label	false
+270	K	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+948	K	null	LG-anhyropyrrole	298.19327	H(26) C(20) O(2)	Post-translational	false
+1291	K	null	Dimethyl:2H(6)	34.068962	H(-2) 2H(6) C(2)	Isotopic label	false
+1789	K	null	Xlink:DSS-NH2	155.09464	H(13) C(8) N O(2)	Chemical derivative	false
+365	K	ICPL	ICPL	105.02146	H(3) C(6) N O	Isotopic label	false
+45	K	Myristoyl	Myristoyl	210.19836	H(26) C(14) O	Post-translational	true
+767	K	null	Menadione-HQ	172.05243	H(8) C(11) O(2)	Chemical derivative	false
+751	K	null	TNBS	210.98654	H C(6) N(3) O(6)	Chemical derivative	false
+834	K	null	Label:2H(4)+Acetyl	46.03567	H(-2) 2H(4) C(2) O	Isotopic label	false
+1394	K	null	DiART6plex116/119	217.16878	H(18) 2H(2) C(9) 13C(2) N 15N O(2)	Isotopic label	false
+37	K	Trimethyl	Trimethyl	42.04695	H(6) C(3)	Post-translational	true
+425	K	Dioxidation	Dioxidation	31.989828	O(2)	Post-translational	true
+314	K	Nmethylmaleimide	Nmethylmaleimide	111.03203	H(5) C(5) N O(2)	Chemical derivative	true
+1264	K	null	pupylation	243.08553	H(13) C(9) N(3) O(5)	Post-translational	false
+1344	K	null	Phosphogluconoylation	258.01407	H(11) C(6) O(9) P	Post-translational	false
+1841	K	null	Biotin:Thermo-21328	389.09015	H(23) C(15) N(3) O(3) S(3)	Chemical derivative	false
+112	K	null	OxLysBiotinRed	354.17258	H(26) C(16) N(4) O(3) S	Chemical derivative	false
+523	K	Sulfo-NHS-LC-LC-Biotin	Sulfo-NHS-LC-LC-Biotin	452.24573	H(36) C(22) N(4) O(4) S	Chemical derivative	false
+1256	K	null	CresylSaligeninPhosphate	276.05515	H(13) C(14) O(4) P	Chemical derivative	false
+64	K	Succinyl	Succinyl	100.016045	H(4) C(4) O(3)	Isotopic label	true
+1321	K	null	DiLeu4plex115	145.12	H(15) C(7) 13C 15N 18O	Isotopic label	false
+280	K	Ethyl	Ethyl	28.0313	H(4) C(2)	Multiple	true
+866	K	null	ICPL:13C(6)2H(4)	115.0667	H(-1) 2H(4) 13C(6) N O	Isotopic label	false
+836	K	null	Label:13C(6)15N(2)+Acetyl	50.024765	H(2) C(-4) 13C(6) N(-2) 15N(2) O	Isotopic label	false
+254	K	Delta:H(2)C(2)	Delta:H(2)C(2)	26.01565	H(2) C(2)	Other	true
+1134	K	null	Lys->Phe	18.973452	H(-3) C(3) N(-1)	AA substitution	false
+1131	K	null	Lys->Ala	-57.05785	H(-7) C(-3) N(-1)	AA substitution	false
+1392	K	null	DiART6plex	217.16293	H(20) C(7) 13C(4) N 15N O(2)	Isotopic label	false
+58	K	Propionyl	Propionyl	56.026215	H(4) C(3) O	Isotopic label	true
+121	K	GG	GG	114.04293	H(6) C(4) N(2) O(2)	Other	true
+1020	K	null	Xlink:DSS	156.07864	H(12) C(8) O(3)	Chemical derivative	false
+536	K	null	CLIP_TRAQ_3	271.14874	H(20) C(11) 13C N(3) O(4)	Isotopic label	false
+422	K	PyruvicAcidIminyl	PyruvicAcidIminyl	70.00548	H(2) C(3) O(2)	Post-translational	true
+947	K	null	LG-pyrrole	316.20386	H(28) C(20) O(3)	Post-translational	false
+1323	K	null	DiLeu4plex117	145.12831	H(13) 2H(2) C(7) 13C 15N O	Isotopic label	false
+726	K	null	Ethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+278	K	Ethanolyl	Ethanolyl	44.026215	H(4) C(2) O	Chemical derivative	true
+1302	K	null	mTRAQ:13C(6)15N(2)	148.10916	H(12) C 13C(6) 15N(2) O	Isotopic label	false
+1137	K	null	Lys->Pro	-31.042198	H(-5) C(-1) N(-1)	AA substitution	false
+445	K	Hydroxytrimethyl	Hydroxytrimethyl	59.04969	H(7) C(3) O	Post-translational	true
+66	K	Succinyl:13C(4)	Succinyl:13C(4)	104.029465	H(4) 13C(4) O(3)	Isotopic label	true
+972	K	null	maleimide5	1293.4719	H(79) C(49) N(7) O(33)	Post-translational	false
+535	K	LRGG	LRGG	383.2281	H(29) C(16) N(7) O(4)	Chemical derivative	true
+207	K	Delta:H(2)C(3)	Delta:H(2)C(3)	38.01565	H(2) C(3)	Other	true
+1305	K	null	Propyl	42.04695	H(6) C(3)	Isotopic label	false
+986	K	null	Label:13C(6)+Dimethyl	34.05143	H(4) C(-4) 13C(6)	Isotopic label	false
+1406	K	null	EDEDTIDVFQQQTGG	1662.7009	H(102) C(69) N(18) O(30)	Chemical derivative	false
+886	K	null	HydroxymethylOP	108.021126	H(4) C(6) O(2)	Other	false
+1395	K	null	DiART6plex117	217.16246	H(18) 2H(2) C(10) 13C 15N(2) O(2)	Isotopic label	false
+1041	K	null	Deoxyhypusine	71.0735	H(9) C(4) N	Post-translational	false
+697	K	null	NIC	105.02146	H(3) C(6) N O	Isotopic label	false
+727	K	null	O-pinacolylmethylphosphonate	162.08096	H(15) C(7) O(2) P	Chemical derivative	false
+435	K	Methylpyrroline	Methylpyrroline	109.052765	H(7) C(6) N O	Post-translational	true
+1263	K	null	Gly	57.021465	H(3) C(2) N O	Other	false
+741	K	null	ExacTagAmine	1046.3479	H(52) C(25) 13C(12) N(8) 15N(6) O(19) S	Isotopic label	false
+888	K	null	mTRAQ	140.09496	H(12) C(7) N(2) O	Isotopic label	false
+1027	K	null	Xlink:DMP-de	140.09496	H(12) C(7) N(2) O	Chemical derivative	false
+725	K	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+298	K	Methyl:2H(3)	Methyl:2H(3)	17.03448	H(-1) 2H(3) C	Isotopic label	true
+1368	K	null	Methyl:2H(3)+Acetyl:2H(3)	62.063873	H(-2) 2H(6) C(3) O	Isotopic label	false
+324	K	Xlink:DTBP[87]	Xlink:DTBPc	87.01427	H(5) C(3) N S	Chemical derivative	false
+126	K	Xlink:DTSSP[88]	Thioacyl	87.99828	H(4) C(3) O S	Other	true
+41	K	Hex	Hex	162.05283	Hex	Other glycosylation	true
+598	K	null	Lys->Met	2.945522	H(-3) C(-1) N(-1) S	AA substitution	false
+768	K	null	Methyl+Acetyl:2H(3)	59.045044	H 2H(3) C(3) O	Isotopic label	false
+532	K	iTRAQ4plex114	iTRAQ4plex114	144.10591	H(12) C(5) 13C(2) N(2) 18O	Isotopic label	false
+4	K	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+1341	K	null	iodoTMT	324.21616	H(28) C(16) N(4) O(3)	Chemical derivative	false
+738	K	null	TMT2plex	225.15584	H(20) C(11) 13C N(2) O(2)	Isotopic label	false
+5	K	Carbamyl	Carbamyl	43.005814	H C N O	Multiple	false
+595	K	null	Lys->Asn	-14.052036	H(-6) C(-2) O	AA substitution	false
+971	K	null	maleimide3	969.3662	H(59) C(37) N(7) O(23)	Post-translational	false
+25	K	Pyridylacetyl	Pyridylacetyl	119.03712	H(5) C(7) N O	Chemical derivative	true
+393	K	Glucosylgalactosyl	Glucosylgalactosyl	340.10056	O Hex(2)	Other glycosylation	true
+696	K	Label:2H(9)13C(6)15N(2)	Label:2H(9)13C(6)15N(2)	17.07069	H(-9) 2H(9) C(-6) 13C(6) N(-2) 15N(2)	Isotopic label	false
+1023	K	null	Xlink:DTSSP	191.99149	H(8) C(6) O(3) S(2)	Chemical derivative	false
+600	K	null	Lys->Xle	-15.010899	H(-1) N(-1)	AA substitution	false
+325	K	FP-Biotin	FP-Biotin	572.3161	H(49) C(27) N(4) O(5) P S	Chemical derivative	false
+1042	K	null	Acetyldeoxyhypusine	97.08915	H(11) C(6) N	Post-translational	false
+205	K	Delta:H(6)C(6)O(1)	Delta:H(6)C(6)O(1)	94.04186	H(6) C(6) O	Other	true
+1286	K	null	IMEHex(2)NeuAc(1)	688.1997	H(3) C(2) N S Hex(2) NeuAc	Other glycosylation	false
+884	K	null	Biotin:Thermo-21325	695.3101	H(45) C(34) N(7) O(7) S	Chemical derivative	false
+944	K	null	Label:15N(2)2H(9)	11.050561	H(-9) 2H(9) N(-2) 15N(2)	Isotopic label	false
+63	K	GIST-Quat:2H(9)	GIST-Quat:2H(9)	136.1562	H(4) 2H(9) C(7) N O	Isotopic label	true
+24	K	Propionamide	Propionamide	71.03712	H(5) C(3) N O	Chemical derivative	true
+518	K	Diethyl	Diethyl	56.0626	H(8) C(4)	Chemical derivative	false
+206	K	Delta:H(4)C(3)O(1)	Delta:H(4)C(3)O(1)	56.026215	H(4) C(3) O	Other	true
+1389	K	null	HN3_mustard	131.09464	H(13) C(6) N O(2)	Post-translational	false
+1391	K	null	NHS-fluorescein	471.1318	H(21) C(27) N O(7)	Chemical derivative	false
+59	K	Propionyl:13C(3)	Propionyl:13C(3)	59.036278	H(4) 13C(3) O	Isotopic label	true
+299	K	Carboxy	Carboxy	43.98983	C O(2)	Post-translational	false
+1387	K	null	3-phosphoglyceryl	167.98238	H(5) C(3) O(6) P	Post-translational	false
+176	K	BHT	BHT	218.16707	H(22) C(15) O	Other	true
+1388	K	null	HN2_mustard	101.08406	H(11) C(5) N O	Post-translational	false
+1292	K	null	GGQ	242.1015	H(14) C(9) N(4) O(4)	Other	false
+194	K	AccQTag	AccQTag	170.04802	H(6) C(10) N(2) O	Chemical derivative	true
+1414	K	null	Trimethyl:13C(3)2H(9)	54.113506	H(-3) 2H(9) 13C(3)	Isotopic label	false
+1423	K	null	Biotin:Thermo-21330	473.21957	H(35) C(21) N(3) O(7) S	Chemical derivative	false
+61	K	GIST-Quat:2H(3)	GIST-Quat:2H(3)	130.11855	H(10) 2H(3) C(7) N O	Isotopic label	true
+362	K	Diisopropylphosphate	Diisopropylphosphate	164.06023	H(13) C(6) O(3) P	Chemical derivative	false
+519	K	BisANS	BisANS	594.0919	H(22) C(32) N(2) O(6) S(2)	Chemical derivative	false
+1290	K	null	Dicarbamidomethyl	114.04293	H(6) C(4) N(2) O(2)	Artefact	false
+1255	K	null	Cresylphosphate	170.01328	H(7) C(7) O(3) P	Chemical derivative	false
+273	K	null	Xlink:SSD	253.09502	H(15) C(12) N O(5)	Chemical derivative	true
+903	K	null	Lys->CamCys	31.935684	H(-4) C(-1) O S	Pre-translational	false
+597	K	null	Lys->Gln	-0.036386	H(-4) C(-1) O	AA substitution	false
+1312	K	null	Delta:H(6)C(3)O(1)	58.041866	H(6) C(3) O	Chemical derivative	false
+978	K	null	BITC	149.02992	H(7) C(8) N S	Chemical derivative	false
+261	K	SPITC	SPITC	214.97108	H(5) C(7) N O(3) S(2)	Chemical derivative	true
+720	K	null	HNE-Delta:H(2)O	138.10446	H(14) C(9) O	Chemical derivative	false
+91	K	ESP:2H(10)	ESP:2H(10)	348.24042	H(16) 2H(10) C(16) N(4) O(2) S	Isotopic label	true
+1043	K	null	Acetylhypusine	113.08406	H(11) C(6) N O	Post-translational	false
+1021	K	null	Xlink:EGS244	244.0583	H(12) C(10) O(7)	Chemical derivative	false
+912	K	null	HNE-BAHAH	511.3192	H(45) C(25) N(5) O(4) S	Chemical derivative	false
+284	K	Methyl:2H(2)	Methyl:2H(2)	16.028204	2H(2) C	Isotopic label	true
+1136	K	null	Lys->His	8.963949	H(-5) N	AA substitution	false
+1310	K	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+319	K	Delta:H(2)C(3)O(1)	Delta:H(2)C(3)O(1)	54.010567	H(2) C(3) O	Chemical derivative	true
+35	K	Oxidation	Oxidation	15.994915	O	Post-translational	false
+1133	K	null	Lys->Asp	-13.06802	H(-7) C(-2) N(-1) O(2)	AA substitution	false
+1	K	Acetyl	Acetyl	42.010567	H(2) C(2) O	Multiple	true
+1372	K	null	Acetyl:13C(2)	44.017273	H(2) 13C(2) O	Isotopic label	false
+1139	K	null	Lys->Val	-29.026548	H(-3) C(-1) N(-1)	AA substitution	false
+276	K	AEBS	AEBS	183.0354	H(9) C(8) N O(2) S	Artefact	true
+208	K	Delta:H(4)C(6)	Delta:H(4)C(6)	76.0313	H(4) C(6)	Other	true
+433	K	Didehydroretinylidene	Didehydroretinylidene	264.1878	H(24) C(20)	Post-translational	true
+737	K	null	TMT6plex	229.16293	H(20) C(8) 13C(4) N 15N O(2)	Isotopic label	false
+1363	K	null	Crotonyl	68.026215	H(4) C(4) O	Post-translational	false
+520	K	Piperidine	Piperidine	68.0626	H(8) C(5)	Chemical derivative	false
+271	K	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+730	K	null	iTRAQ8plex	304.20535	H(24) C(7) 13C(7) N(3) 15N O(3)	Isotopic label	false
+293	K	CAMthiopropanoyl	CAMthiopropanoyl	145.01974	H(7) C(5) N O(2) S	Chemical derivative	true
+256	K	Delta:H(4)C(3)	Delta:H(4)C(3)	40.0313	H(4) C(3)	Other	true
+1324	K	null	DiLeu4plex118	145.14047	H(11) 2H(4) C(8) N O	Isotopic label	false
+122	K	Formyl	Formyl	27.994915	C O	Artefact	true
+1031	K	null	Biotin:Thermo-88310	196.12119	H(16) C(10) N(2) O(2)	Chemical derivative	false
+209	K	Delta:H(8)C(6)O(2)	Delta:H(8)C(6)O(2)	112.05243	H(8) C(6) O(2)	Other	true
+1799	K	null	NQIGG	469.2285	H(31) C(19) N(7) O(7)	Post-translational	false
+933	K	null	VIEVYQEQTGG	1203.5771	H(81) C(53) N(13) O(19)	Other	false
+946	K	null	LG-anhydrolactam	314.1882	H(26) C(20) O(3)	Post-translational	false
+90	K	ESP	ESP	338.17764	H(26) C(16) N(4) O(2) S	Isotopic label	true
+330	K	Dimethyl:2H(6)13C(2)	Dimethyl:2H(6)13C(2)	36.07567	H(-2) 2H(6) 13C(2)	Isotopic label	true
+313	K	Lys-loss	Lys-loss	-128.09496	H(-12) C(-6) N(-2) O(-1)	Post-translational	true
+504	K	null	LG-Hlactam-K	348.19366	H(28) C(20) O(5)	Post-translational	false
+1342	K	null	iodoTMT6plex	329.2266	H(28) C(12) 13C(4) N(3) 15N O(3)	Chemical derivative	false
+1306	K	null	Propyl:2H(6)	48.08461	2H(6) C(3)	Isotopic label	false
+512	K	Hex(2)	Hex(2)	324.10565	Hex(2)	Other glycosylation	false
+731	K	null	iTRAQ8plex:13C(6)15N(2)	304.19904	H(24) C(8) 13C(6) N(2) 15N(2) O(3)	Isotopic label	false
+1396	K	null	DiART6plex118	217.1751	H(18) 2H(2) C(8) 13C(3) N(2) O(2)	Isotopic label	false
+1028	K	null	Xlink:EGS115	115.02694	H(5) C(4) N O(3)	Chemical derivative	false
+47	K	Palmitoyl	Palmitoyl	238.22966	H(30) C(16) O	Post-translational	true
+6	K	Carboxymethyl	Carboxymethyl	58.005478	H(2) C(2) O(2)	Artefact	true
+113	K	null	OxLysBiotin	352.15692	H(24) C(16) N(4) O(3) S	Chemical derivative	false
+320	K	Nethylmaleimide+water	Nethylmaleimide+water	143.05824	H(9) C(6) N O(3)	Chemical derivative	true
+56	K	Acetyl:2H(3)	Acetyl:2H(3)	45.029396	H(-1) 2H(3) C(2) O	Isotopic label	true
+60	K	GIST-Quat	GIST-Quat	127.09972	H(13) C(7) N O	Isotopic label	true
+255	K	Delta:H(4)C(2)	Delta:H(4)C(2)	28.0313	H(4) C(2)	Other	true
+36	K	Dimethyl	Dimethyl	28.0313	H(4) C(2)	Multiple	true
+1398	K	null	Iodoacetanilide:13C(6)	139.07289	H(7) C(2) 13C(6) N O	Artefact	false
+498	K	BHTOH	BHTOH	234.16199	H(22) C(15) O(2)	Other	false
+861	K	null	ZGB	758.38086	H(53) B C(37) N(6) O(6) F(2) S	Other	false
+1405	K	null	EEEDVIEVYQEQTGG	1705.7319	H(107) C(72) N(17) O(31)	Chemical derivative	false
+1140	K	null	Lys->Trp	57.98435	H(-2) C(5)	AA substitution	false
+1293	K	null	QTGG	343.14917	H(21) C(13) N(5) O(6)	Other	false
+853	K	null	Label:2H(4)+GG	118.06803	H(2) 2H(4) C(4) N(2) O(2)	Post-translational	false
+932	K	null	VFQQQTGG	845.40314	H(55) C(37) N(11) O(12)	Other	false
+3	K	Biotin	Biotin	226.07759	H(14) C(10) N(2) O(2) S	Post-translational	true
+510	K	Dimethyl:2H(4)13C(2)	Dimethyl:2H(4)13C(2)	34.063118	2H(4) 13C(2)	Isotopic label	true
+594	K	null	Lys->Thr	-27.047285	H(-5) C(-2) N(-1) O	AA substitution	false
+62	K	GIST-Quat:2H(6)	GIST-Quat:2H(6)	133.13737	H(7) 2H(6) C(7) N O	Isotopic label	true
+53	K	HNE	HNE	156.11504	H(16) C(9) O(2)	Post-translational	true
+29	K	SMA	SMA	127.06333	H(9) C(6) N O(2)	Chemical derivative	true
+139	K	Dansyl	Dansyl	233.05106	H(11) C(12) N O(2) S	Chemical derivative	true
+413	K	Phosphoguanosine	Phosphoguanosine	345.04742	H(12) C(10) N(5) O(7) P	Post-translational	true
+960	K	null	SUMO2135	2135.9204	H(137) C(90) N(21) O(37) S	Other	false
+1829	K	null	LRGG+dimethyl	411.2594	H(33) C(18) N(7) O(4)	Post-translational	false
+1397	K	null	Iodoacetanilide	133.05276	H(7) C(8) N O	Artefact	false
+457	K	NDA	NDA	175.0422	H(5) C(13) N	Chemical derivative	false
+961	K	null	SUMO3549	3549.5366	H(224) C(150) N(38) O(60) S	Other	false
+503	K	null	LG-lactam-K	332.19876	H(28) C(20) O(4)	Post-translational	false
+476	K	TMAB	TMAB	128.10754	H(14) C(7) N O	Isotopic label	false
+1825	K	null	RNPXL	324.03586	H(13) C(9) N(2) O(9) P	Other	false
+46	K	PyridoxalPhosphate	PyridoxalPhosphate	229.014	H(8) C(8) N O(5) P	Post-translational	true
+513	K	C8-QAT	C8-QAT	227.22491	H(29) C(14) N O	Chemical derivative	false
+42	K	Lipoyl	Lipoyl	188.03296	H(12) C(8) O S(2)	Post-translational	true
+846	K	null	EQIGG	484.22815	H(32) C(20) N(6) O(8)	Other	false
+876	K	null	QEQTGG	600.25037	H(36) C(23) N(8) O(11)	Other	false
+213	K	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	Other glycosylation	true
+995	K	null	Label:15N(2)	1.99407	N(-2) 15N(2)	Isotopic label	false
+923	K	null	Label:13C(4)15N(2)+GG	120.050415	H(6) 13C(4) 15N(2) O(2)	Isotopic label	false
+456	K	null	Xlink:DMP	122.0844	H(10) C(7) N(2)	Chemical derivative	false
+478	K	FTC	FTC	421.07324	H(15) C(21) N(3) O(5) S	Chemical derivative	true
+52	K	Guanidinyl	Guanidinyl	42.021797	H(2) C N(2)	Chemical derivative	true
+1014	K	null	glycidamide	87.03203	H(5) C(3) N O(2)	Chemical derivative	false
+302	K	Menadione	Menadione	170.03677	H(6) C(11) O(2)	Chemical derivative	false
+739	K	null	TMT	224.15248	H(20) C(12) N(2) O(2)	Chemical derivative	false
+906	K	null	Lys->MetOx	18.940435	H(-3) C(-1) N(-1) O S	Pre-translational	false
+136	K	Benzoyl	Benzoyl	104.026215	H(4) C(7) O	Isotopic label	true
+1371	K	null	Trimethyl:2H(9)	51.10344	H(-3) 2H(9) C(3)	Isotopic label	false
+401	K	Didehydro	Didehydro	-2.01565	H(-2)	Artefact	true
+455	K	Xlink:DMP[154]	Xlink:DMP-s	154.11061	H(14) C(8) N(2) O	Chemical derivative	false
+907	K	null	Galactosyl	178.04774	O Hex	Other glycosylation	false
+454	K	HexN	HexN	161.0688	HexN	Synth. pep. protect. gp.	true
+1314	K	null	biotinAcrolein298	298.14633	H(22) C(13) N(4) O(2) S	Chemical derivative	false
+214	K	iTRAQ4plex	iTRAQ4plex	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+1331	K	null	DNCB_hapten	166.00145	H(2) C(6) N(2) O(4)	Chemical derivative	false
+687	K	ICPL:2H(4)	ICPL:2H(4)	109.04657	H(-1) 2H(4) C(6) N O	Isotopic label	false
+1828	K	null	LRGG+methyl	397.24374	H(31) C(17) N(7) O(4)	Post-translational	false
+188	K	Label:13C(6)	Label:13C(6)	6.020129	C(-6) 13C(6)	Isotopic label	true
+533	K	iTRAQ4plex115	iTRAQ4plex115	144.0996	H(12) C(6) 13C N 15N 18O	Isotopic label	false
+799	K	null	Label:13C(6)+GG	120.06306	H(6) C(-2) 13C(6) N(2) O(2)	Isotopic label	false
+773	K	null	maleimide	97.01638	H(3) C(4) N O(2)	Chemical derivative	false
+1381	K	null	ethylsulfonylethyl	120.0245	H(8) C(4) O(2) S	Chemical derivative	false
+1800	K	null	Carboxyethylpyrrole	122.03678	H(6) C(7) O(2)	Other	false
+1322	K	null	DiLeu4plex	145.13216	H(13) 2H(2) C(8) N 18O	Isotopic label	false
+353	K	null	Lysbiotinhydrazide	241.0885	H(15) C(10) N(3) O(2) S	Chemical derivative	false
+21	K	Phospho	Phospho	79.96633	H O(3) P	Other	true
+477	K	TMAB:2H(9)	TMAB:2H(9)	137.16403	H(5) 2H(9) C(7) N O	Isotopic label	false
+65	K	Succinyl:2H(4)	Succinyl:2H(4)	104.04115	2H(4) C(4) O(3)	Isotopic label	true
+1289	K	null	Butyryl	70.04186	H(6) C(4) O	Post-translational	false
+1839	K	null	betaFNA	454.2104	H(30) C(25) N(2) O(6)	Chemical derivative	false
+141	K	Amidine	Amidine	41.02655	H(3) C(2) N	Chemical derivative	true
+599	K	null	Lys->Arg	28.006147	N(2)	AA substitution	false
+1132	K	null	Lys->Cys	-25.08578	H(-7) C(-3) N(-1) S	AA substitution	false
+95	K	IMID:2H(4)	IMID:2H(4)	72.06255	2H(4) C(3) N(2)	Isotopic label	true
+825	K	null	Xlink:DFDNB	203.99826	H(2) C(6) N(2) O(4) F(2)	Chemical derivative	false
+1138	K	null	Lys->Ser	-41.062935	H(-7) C(-3) N(-1) O	AA substitution	false
+1135	K	null	Lys->Gly	-71.0735	H(-9) C(-4) N(-1)	AA substitution	false
+698	K	null	dNIC	109.04812	H 2H(3) C(6) N O	Isotopic label	false
+1393	K	null	DiART6plex115	217.15662	H(20) C(8) 13C(3) 15N(2) O(2)	Isotopic label	false
+490	K	Hep	Hep	192.06339	Hep	Other glycosylation	true
+596	K	null	Lys->Glu	0.94763	H(-5) C(-1) N(-1) O(2)	AA substitution	false
+380	K	Retinylidene	Retinylidene	266.20346	H(26) C(20)	Post-translational	true
+987	K	null	Label:13C(6)15N(2)+Dimethyl	36.045498	H(4) C(-4) 13C(6) N(-2) 15N(2)	Isotopic label	false
+378	K	Carboxyethyl	Carboxyethyl	72.021126	H(4) C(3) O(2)	Post-translational	true
+379	K	Hypusine	Hypusine	87.06841	H(9) C(4) N O	Post-translational	true
+1349	K	null	benzylguanidine	132.06874	H(8) C(8) N(2)	Chemical derivative	false
+381	K	Lys->AminoadipicAcid	Lys->AminoadipicAcid	14.96328	H(-3) N(-1) O(2)	Post-translational	true
+877	K	null	QQQTGG	599.26636	H(37) C(23) N(9) O(10)	Other	false
+259	K	Label:13C(6)15N(2)	Label:13C(6)15N(2)	8.014199	C(-6) 13C(6) N(-2) 15N(2)	Isotopic label	true
+199	K	Dimethyl:2H(4)	Dimethyl:2H(4)	32.056408	2H(4) C(2)	Isotopic label	true
+481	K	Label:2H(4)	Label:2H(4)	4.025107	H(-4) 2H(4)	Isotopic label	false
+335	K	HNE+Delta:H(2)	HNE+Delta:H(2)	158.13068	H(18) C(9) O(2)	Chemical derivative	true
+684	K	null	BDMAPP	253.01022	H(12) C(11) N O Br	Chemical derivative	false
+1383	K	null	PyridoxalPhosphateH2	231.02966	H(10) C(8) N O(5) P	Chemical derivative	false
+1313	K	null	Delta:H(8)C(6)O(1)	96.05752	H(8) C(6) O	Chemical derivative	false
+1330	K	null	bisANS-sulfonates	437.20178	H(25) C(32) N(2)	Chemical derivative	false
+53	L	HNE	HNE	156.11504	H(16) C(9) O(2)	Post-translational	true
+607	L	null	Xle->Gln	14.974514	H(-3) C(-1) N O	AA substitution	false
+589	L	null	Xle->Asn	0.958863	H(-5) C(-2) N O	AA substitution	false
+590	L	null	Xle->Lys	15.010899	H N	AA substitution	false
+1127	L	null	Xle->Asp	1.942879	H(-6) C(-2) O(2)	AA substitution	false
+188	L	Label:13C(6)	Label:13C(6)	6.020129	C(-6) 13C(6)	Isotopic label	true
+994	L	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1130	L	null	Xle->Tyr	49.979263	H(-2) C(3) O	AA substitution	false
+262	L	Label:2H(3)	Label:2H(3)	3.01883	H(-3) 2H(3)	Isotopic label	true
+601	L	null	Xle->Ser	-26.052036	H(-6) C(-3) O	AA substitution	false
+588	L	null	Xle->Thr	-12.036386	H(-4) C(-2) O	AA substitution	false
+604	L	null	Xle->Pro	-16.0313	H(-4) C(-1)	AA substitution	false
+750	L	null	trifluoro	53.971733	H(-3) F(3)	Non-standard residue	false
+1128	L	null	Xle->Glu	15.958529	H(-4) C(-1) O(2)	AA substitution	false
+1125	L	null	Xle->Ala	-42.04695	H(-6) C(-3)	AA substitution	false
+609	L	null	Xle->Arg	43.017048	H N(3)	AA substitution	false
+603	L	null	Xle->Trp	72.99525	H(-1) C(5) N	AA substitution	false
+606	L	null	Xle->His	23.974848	H(-4) N(2)	AA substitution	false
+605	L	null	Xle->Val	-14.01565	H(-2) C(-1)	AA substitution	false
+608	L	null	Xle->Met	17.95642	H(-2) C(-1) S	AA substitution	false
+34	L	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1299	L	null	Label:2H(10)	10.062767	H(-10) 2H(10)	Isotopic label	false
+602	L	null	Xle->Phe	33.98435	H(-2) C(3)	AA substitution	false
+1126	L	null	Xle->Cys	-10.07488	H(-6) C(-3) S	AA substitution	false
+905	L	null	Leu->MetOx	33.951336	H(-2) C(-1) O S	Pre-translational	false
+1129	L	null	Xle->Gly	-56.0626	H(-8) C(-4)	AA substitution	false
+695	L	Label:13C(6)15N(1)	Label:13C(6)15N(1)	7.017164	C(-6) 13C(6) N(-1) 15N	Isotopic label	true
+162	M	Delta:S(-1)Se(1)	Delta:S(-1)Se(1)	47.94445	S(-1) Se	Non-standard residue	true
+5	M	Carbamyl	Carbamyl	43.005814	H C N O	Artefact	false
+1142	M	null	Met->Ala	-60.003372	H(-4) C(-2) S(-1)	AA substitution	false
+1266	M	null	Label:13C(4)	4.013419	C(-4) 13C(4)	Isotopic label	false
+1281	M	null	BMP-piperidinol	263.131	H(17) C(18) N O	Chemical derivative	false
+615	M	null	Met->Val	-31.97207	S(-1)	AA substitution	false
+1144	M	null	Met->Asp	-16.013542	H(-4) C(-1) O(2) S(-1)	AA substitution	false
+1147	M	null	Met->Gly	-74.01902	H(-6) C(-3) S(-1)	AA substitution	false
+262	M	Label:2H(3)	Label:2H(3)	3.01883	H(-3) 2H(3)	Isotopic label	true
+614	M	null	Met->Xle	-17.95642	H(2) C S(-1)	AA substitution	false
+1148	M	null	Met->His	6.018427	H(-2) C N(2) S(-1)	AA substitution	false
+765	M	null	Met-loss	-131.04048	H(-9) C(-5) N(-1) O(-1) S(-1)	Co-translational	false
+425	M	Dioxidation	Dioxidation	31.989828	O(2)	Post-translational	true
+1145	M	null	Met->Glu	-1.997892	H(-2) O(2) S(-1)	AA substitution	false
+526	M	Dethiomethyl	Dethiomethyl	-48.003372	H(-4) C(-1) S(-1)	Artefact	true
+611	M	null	Met->Arg	25.060625	H(3) C N(3) S(-1)	AA substitution	false
+1250	M	null	AHA-SS_CAM	252.09709	H(12) C(9) N(6) O(3)	Multiple	false
+1317	M	null	EHD-diphenylpentanone	266.13068	H(18) C(18) O(2)	Chemical derivative	false
+994	M	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1249	M	null	AHA-SS	195.07562	H(9) C(7) N(5) O(2)	Multiple	false
+1151	M	null	Met->Gln	-2.981907	H(-1) N O S(-1)	AA substitution	false
+1154	M	null	Met->Tyr	32.022842	C(4) O S(-1)	AA substitution	false
+268	M	Label:13C(5)15N(1)	Label:13C(5)15N(1)	6.013809	C(-5) 13C(5) N(-1) 15N	Isotopic label	true
+862	M	null	Label:13C(1)2H(3)	4.022185	H(-3) 2H(3) C(-1) 13C	Isotopic label	false
+1146	M	null	Met->Phe	16.02793	C(4) S(-1)	AA substitution	false
+896	M	null	Met->Aha	-4.986324	H(-3) C(-1) N(3) S(-1)	Non-standard residue	false
+1150	M	null	Met->Pro	-33.98772	H(-2) S(-1)	AA substitution	false
+10	M	Met->Hse	Met->Hse	-29.992805	H(-2) C(-1) O S(-1)	Chemical derivative	true
+1370	M	null	Label:2H(3)+Oxidation	19.013744	H(-3) 2H(3) O	Isotopic label	false
+1000	M	null	AHA-Alkyne	107.07734	H(5) C(4) N(5) O S(-1)	Chemical derivative	false
+1149	M	null	Met->Asn	-16.997557	H(-3) C(-1) N O S(-1)	AA substitution	false
+766	M	null	Met-loss+Acetyl	-89.02992	H(-7) C(-3) N(-1) S(-1)	Co-translational	false
+1153	M	null	Met->Trp	55.03883	H C(6) N S(-1)	AA substitution	false
+35	M	Oxidation	Oxidation	15.994915	O	Artefact	false
+1384	M	null	Homocysteic_acid	33.969093	H(-2) C(-1) O(3)	Artefact	false
+899	M	null	Met->Hpg	-21.98772	H(-2) C S(-1)	Non-standard residue	false
+1152	M	null	Met->Ser	-44.008457	H(-4) C(-2) O S(-1)	AA substitution	false
+610	M	null	Met->Thr	-29.992805	H(-2) C(-1) O S(-1)	AA substitution	false
+1001	M	null	AHA-Alkyne-KDDDD	695.2801	H(37) C(26) N(11) O(14) S(-1)	Chemical derivative	false
+11	M	Met->Hsl	Met->Hsl	-48.003372	H(-4) C(-1) S(-1)	Chemical derivative	false
+299	M	Carboxy	Carboxy	43.98983	C O(2)	Post-translational	false
+885	M	null	Label:13C(1)2H(3)+Oxidation	20.0171	H(-3) 2H(3) C(-1) 13C O	Multiple	false
+895	M	null	Biotin-PEG-PRA	578.3176	H(42) C(26) N(8) O(7)	Chemical derivative	false
+613	M	null	Met->Lys	-2.945522	H(3) C N S(-1)	AA substitution	false
+1143	M	null	Met->Cys	-28.0313	H(-4) C(-2)	AA substitution	false
+1267	M	null	Label:13C(4)+Oxidation	20.008333	C(-4) 13C(4) O	Isotopic label	false
+1840	N	null	dHex(1)Hex(7)HexNAc(4)	2092.745	dHex Hex(7) HexNAc(4)	N-linked glycosylation	false
+616	N	null	Asn->Ser	-27.010899	H(-1) C(-1) N(-1)	AA substitution	false
+1524	N	null	Hex(4)HexNAc(3)NeuAc(2)	1839.6403	Hex(4) HexNAc(3) NeuAc(2)	N-linked glycosylation	false
+1464	N	null	Hex(3)HexNAc(4)Sulf(1)	1378.4327	O(3) S Hex(3) HexNAc(4)	N-linked glycosylation	false
+1160	N	null	Asn->Met	16.997557	H(3) C N(-1) O(-1) S	AA substitution	false
+35	N	Oxidation	Oxidation	15.994915	O	Post-translational	false
+307	N	dHex(1)Hex(4)HexNAc(4)	dHex(1)Hex(4)HexNAc(4)	1606.5867	dHex Hex(4) HexNAc(4)	N-linked glycosylation	true
+619	N	null	Asn->Tyr	49.0204	H(3) C(5) N(-1)	AA substitution	false
+1489	N	null	Hex(4)HexNAc(4)Pent(1)	1592.571	Hex(4) HexNAc(4) Pent(1)	N-linked glycosylation	false
+1533	N	null	dHex(3)Hex(3)HexNAc(4)Pent(1)	1868.6919	dHex(3) Hex(3) HexNAc(4) Pent(1)	N-linked glycosylation	false
+1780	N	null	Hex(5)HexNAc(5)	1825.661	Hex(5) HexNAc(5)	N-linked glycosylation	false
+1455	N	null	Hex(3)HexNAc(2)NeuAc(1)	1183.4126	Hex(3) HexNAc(2) NeuAc(1)	N-linked glycosylation	false
+213	N	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	N-linked glycosylation	true
+1771	N	null	dHex(2)Hex(3)HexNAc(3)	1387.5125	dHex(2) Hex(3) HexNAc(3)	N-linked glycosylation	false
+1549	N	null	Hex(7)HexNAc(4)	1946.6873	Hex(7) HexNAc(4)	N-linked glycosylation	false
+1551	N	null	Hex(4)HexNAc(5)NeuAc(1)	1954.7036	Hex(4) HexNAc(5) NeuAc(1)	N-linked glycosylation	false
+1157	N	null	Asn->Glu	14.999666	H C N(-1) O	AA substitution	false
+1506	N	null	dHex(1)Hex(4)HexNAc(3)NeuGc(1)	1710.5977	dHex(1) Hex(4) HexNAc(3) NeuGc(1)	N-linked glycosylation	false
+1482	N	null	Hex(5)HexNAc(3)Pent(1)	1551.5444	Hex(5) HexNAc(3) Pent(1)	N-linked glycosylation	false
+995	N	null	Label:15N(2)	1.99407	N(-2) 15N(2)	Isotopic label	false
+155	N	Hex(1)HexNAc(2)dHex(1)Pent(1)	Hex(1)HexNAc(2)dHex(1)Pent(1)	846.3117	Pent dHex Hex HexNAc(2)	N-linked glycosylation	true
+1762	N	null	dHex(1)Hex(2)HexNAc(3)	1079.4017	dHex(1) Hex(2) HexNAc(3)	N-linked glycosylation	false
+1540	N	null	Hex(3)HexNAc(7)	1907.7141	Hex(3) HexNAc(7)	N-linked glycosylation	false
+1163	N	null	Asn->Arg	42.058186	H(6) C(2) N(2) O(-1)	AA substitution	false
+1517	N	null	Hex(3)HexNAc(6)Sulf(1)	1784.5916	O(3) S Hex(3) HexNAc(6)	N-linked glycosylation	false
+1498	N	null	dHex(2)Hex(4)HexNAc(3)Pent(1)	1681.6075	dHex(2) Hex(4) HexNAc(3) Pent(1)	N-linked glycosylation	false
+1778	N	null	dHex(2)Hex(4)HexNAc(4)	1752.6447	dHex(2) Hex(4) HexNAc(4)	N-linked glycosylation	false
+309	N	Hex(3)HexNAc(4)	Hex(3)HexNAc(4)	1298.476	Hex(3) HexNAc(4)	N-linked glycosylation	true
+1462	N	null	dHex(1)Hex(5)HexNAc(2)	1362.4807	dHex(1) Hex(5) HexNAc(2)	N-linked glycosylation	false
+1471	N	null	dHex(1)Hex(4)HexNAc(3)Sulf(1)	1483.4641	O(3) S dHex Hex(4) HexNAc(3)	N-linked glycosylation	false
+1510	N	null	dHex(1)Hex(3)HexNAc(4)NeuAc(1)	1735.6293	dHex(1) Hex(3) HexNAc(4) NeuAc(1)	N-linked glycosylation	false
+1782	N	null	dHex(1)Hex(4)HexNAc(4)NeuAc(1)	1897.6821	dHex(1) Hex(4) HexNAc(4) NeuAc(1)	N-linked glycosylation	false
+1450	N	null	Hex(2)HexNAc(2)NeuAc(1)	1021.3598	Hex(2) HexNAc(2) NeuAc(1)	N-linked glycosylation	false
+1556	N	null	dHex(1)Hex(4)HexNAc(4)NeuAc(1)Sulf(1)	1977.6389	O(3) S dHex Hex(4) HexNAc(4) NeuAc	N-linked glycosylation	false
+1560	N	null	Hex(5)HexNAc(4)NeuAc(1)Sulf(1)	1993.6338	O(3) S Hex(5) HexNAc(4) NeuAc	N-linked glycosylation	false
+1535	N	null	dHex(2)Hex(4)HexNAc(4)Pent(1)	1884.6869	dHex(2) Hex(4) HexNAc(4) Pent(1)	N-linked glycosylation	false
+1785	N	null	dHex(2)Hex(4)HexNAc(5)	1955.724	dHex(2) Hex(4) HexNAc(5)	N-linked glycosylation	false
+1501	N	null	dHex(1)Hex(4)HexNAc(3)NeuAc(1)	1694.6028	dHex(1) Hex(4) HexNAc(3) NeuAc(1)	N-linked glycosylation	false
+1457	N	null	Hex(3)HexNAc(3)Pent(1)	1227.4388	Hex(3) HexNAc(3) Pent(1)	N-linked glycosylation	false
+1522	N	null	Hex(6)HexNAc(4)Me(3)	1826.6814	Hex(6) HexNAc(4) Me(3)	N-linked glycosylation	false
+1773	N	null	Hex(4)HexNAc(3)NeuAc(1)	1548.5448	Hex(4) HexNAc(3) NeuAc(1)	N-linked glycosylation	false
+1547	N	null	dHex(1)Hex(6)HexNAc(4)	1930.6924	dHex(1) Hex(6) HexNAc(4)	N-linked glycosylation	false
+1484	N	null	dHex(1)Hex(5)HexNAc(3)	1565.5602	dHex(1) Hex(5) HexNAc(3)	N-linked glycosylation	false
+1831	N	null	Tris	104.07115	H(10) C(4) N O(2)	Artefact	false
+23	N	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Post-translational	false
+1769	N	null	Hex(4)HexNAc(3)	1257.4495	Hex(4) HexNAc(3)	N-linked glycosylation	false
+1558	N	null	Hex(3)HexNAc(7)Sulf(1)	1987.6709	O(3) S Hex(3) HexNAc(7)	N-linked glycosylation	false
+1760	N	null	dHex(2)Hex(2)HexNAc(2)	1022.3802	dHex(2) Hex(2) HexNAc(2)	N-linked glycosylation	false
+137	N	Hex(5)HexNAc(2)	Hex(5)HexNAc(2)	1216.4229	Hex(5) HexNAc(2)	N-linked glycosylation	true
+153	N	Hex(2)HexNAc(2)	Hex(2)HexNAc(2)	730.2644	Hex(2) HexNAc(2)	N-linked glycosylation	true
+1496	N	null	Hex(4)HexNAc(5)	1663.6082	Hex(4) HexNAc(5)	N-linked glycosylation	false
+1469	N	null	Hex(3)HexNAc(4)Pent(1)	1430.5182	Hex(3) HexNAc(4) Pent(1)	N-linked glycosylation	false
+1473	N	null	Hex(8)HexNAc(1)	1499.502	Hex(8) HexNAc(1)	N-linked glycosylation	false
+1508	N	null	dHex(1)Hex(3)HexNAc(5)Sulf(1)	1727.5701	O(3) S dHex Hex(3) HexNAc(5)	N-linked glycosylation	false
+149	N	Hex(1)HexNAc(1)NeuAc(1)	Hex(1)HexNAc(1)NeuAc(1)	656.2276	Hex HexNAc NeuAc	N-linked glycosylation	true
+150	N	HexNAc(2)dHex(2)	HexNAc(2)dHex(2)	698.27454	dHex(2) HexNAc(2)	N-linked glycosylation	true
+1485	N	null	dHex(1)Hex(3)HexNAc(4)Pent(1)	1576.5762	dHex(1) Hex(3) HexNAc(4) Pent(1)	N-linked glycosylation	false
+1775	N	null	dHex(1)Hex(3)HexNAc(5)	1647.6133	dHex(1) Hex(3) HexNAc(5)	N-linked glycosylation	false
+1459	N	null	dHex(1)Hex(4)HexNAc(2)Pent(1)	1332.4702	dHex(1) Hex(4) HexNAc(2) Pent(1)	N-linked glycosylation	false
+1503	N	null	Hex(5)HexNAc(4)Sulf(1)	1702.5385	O(3) S Hex(5) HexNAc(4)	N-linked glycosylation	false
+1410	N	null	dHex(1)Hex(5)HexNAc(4)NeuAc(1)	2059.7349	dHex Hex(5) HexNAc(4) NeuAc	N-linked glycosylation	false
+1512	N	null	dHex(1)Hex(4)HexNAc(4)Pent(1)	1738.6289	dHex(1) Hex(4) HexNAc(4) Pent(1)	N-linked glycosylation	false
+1766	N	null	dHex(1)Hex(4)HexNAc(2)	1200.428	dHex(1) Hex(4) HexNAc(2)	N-linked glycosylation	false
+1409	N	null	Hex(5)HexNAc(4)NeuAc(1)	1913.677	Hex(5) HexNAc(4) NeuAc	N-linked glycosylation	false
+1460	N	null	Hex(7)HexNAc(1)	1337.4491	Hex(7) HexNAc(1)	N-linked glycosylation	false
+1476	N	null	dHex(1)Hex(3)HexNAc(4)Sulf(1)	1524.4907	O(3) S dHex Hex(3) HexNAc(4)	N-linked glycosylation	false
+1520	N	null	dHex(1)Hex(5)HexA(1)HexNAc(3)Sulf(1)	1821.5491	O(3) S dHex Hex(5) HexA HexNAc(3)	N-linked glycosylation	false
+1493	N	null	dHex(1)Hex(5)HexNAc(3)Sulf(1)	1645.517	O(3) S dHex Hex(5) HexNAc(3)	N-linked glycosylation	false
+1562	N	null	dHex(2)Hex(3)HexNAc(6)	1996.7505	dHex(2) Hex(3) HexNAc(6)	N-linked glycosylation	false
+142	N	HexNAc(1)dHex(1)	HexNAc(1)dHex(1)	349.13727	dHex HexNAc	N-linked glycosylation	true
+148	N	Hex(1)HexNAc(2)	Hex(1)HexNAc(2)	568.21155	Hex HexNAc(2)	N-linked glycosylation	true
+1467	N	null	dHex(1)Hex(4)HexNAc(3)	1403.5073	dHex(1) Hex(4) HexNAc(3)	N-linked glycosylation	false
+1518	N	null	dHex(1)Hex(6)HexNAc(3)Sulf(1)	1807.5698	O(3) S dHex Hex(6) HexNAc(3)	N-linked glycosylation	false
+385	N	Ammonia-loss	Ammonia-loss	-17.026548	H(-3) N(-1)	Chemical derivative	false
+1555	N	null	dHex(1)Hex(5)HexNAc(5)	1971.7189	dHex(1) Hex(5) HexNAc(5)	N-linked glycosylation	false
+1536	N	null	dHex(1)Hex(4)HexNAc(5)Sulf(1)	1889.6229	O(3) S dHex Hex(4) HexNAc(5)	N-linked glycosylation	false
+1452	N	null	Hex(4)HexNAc(2)	1054.37	Hex(4) HexNAc(2)	N-linked glycosylation	false
+1529	N	null	dHex(1)Hex(5)HexNAc(3)NeuAc(1)	1856.6555	dHex(1) Hex(5) HexNAc(3) NeuAc(1)	N-linked glycosylation	false
+620	N	null	Asn->His	23.015984	H C(2) N O(-1)	AA substitution	false
+1544	N	null	dHex(1)Hex(5)HexNAc(4)Me(2)Pent(1)	1928.7131	dHex(1) Hex(5) HexNAc(4) Me(2) Pent(1)	N-linked glycosylation	false
+617	N	null	Asn->Thr	-12.995249	H N(-1)	AA substitution	false
+1505	N	null	dHex(1)Hex(3)HexNAc(4)Pent(2)	1708.6184	dHex(1) Hex(3) HexNAc(4) Pent(2)	N-linked glycosylation	false
+1531	N	null	Hex(9)HexNAc(2)	1864.6342	Hex(9) HexNAc(2)	N-linked glycosylation	false
+1487	N	null	Hex(6)HexNAc(3)	1581.555	Hex(6) HexNAc(3)	N-linked glycosylation	false
+1158	N	null	Asn->Phe	33.025486	H(3) C(5) N(-1) O(-1)	AA substitution	false
+1538	N	null	dHex(1)Hex(5)HexNAc(4)Pent(1)	1900.6818	dHex(1) Hex(5) HexNAc(4) Pent(1)	N-linked glycosylation	false
+366	N	Deamidated:18O(1)	Deamidated:18O(1)	2.988261	H(-1) N(-1) 18O	Isotopic label	true
+305	N	dHex(1)Hex(3)HexNAc(4)	dHex(1)Hex(3)HexNAc(4)	1444.5338	dHex Hex(3) HexNAc(4)	N-linked glycosylation	true
+1514	N	null	Hex(7)HexNAc(3)	1743.6079	Hex(7) HexNAc(3)	N-linked glycosylation	false
+311	N	Hex(5)HexNAc(4)	Hex(5)HexNAc(4)	1622.5817	Hex(5) HexNAc(4)	N-linked glycosylation	true
+1478	N	null	dHex(1)Hex(4)HexNAc(3)Pent(1)	1535.5496	dHex(1) Hex(4) HexNAc(3) Pent(1)	N-linked glycosylation	false
+1777	N	null	Hex(4)HexNAc(4)NeuAc(1)	1751.6241	Hex(4) HexNAc(4) NeuAc(1)	N-linked glycosylation	false
+144	N	Hex(3)	Hex(3)	486.15848	Hex(3)	N-linked glycosylation	true
+414	N	Hydroxymethyl	Hydroxymethyl	30.010565	H(2) C O	Post-translational	true
+161	N	Hex(3)HexNAc(2)Phos(1)	Hex(3)HexNAc(2)Phos(1)	972.28357	H O(3) P Hex(3) HexNAc(2)	N-linked glycosylation	true
+146	N	Hex(1)HexNAc(1)dHex(1)	Hex(1)HexNAc(1)dHex(1)	511.1901	dHex Hex HexNAc	N-linked glycosylation	true
+1161	N	null	Asn->Pro	-16.990164	H C N(-1) O(-1)	AA substitution	false
+1164	N	null	Asn->Val	-14.974514	H(3) C N(-1) O(-1)	AA substitution	false
+1491	N	null	Hex(4)HexNAc(4)Me(2)Pent(1)	1620.6023	Hex(4) HexNAc(4) Me(2) Pent(1)	N-linked glycosylation	false
+1465	N	null	Hex(6)HexNAc(2)	1378.4757	Hex(6) HexNAc(2)	N-linked glycosylation	false
+1553	N	null	dHex(1)Hex(7)HexNAc(3)Sulf(1)	1969.6226	O(3) S dHex Hex(7) HexNAc(3)	N-linked glycosylation	false
+295	N	dHex	dHex	146.0579	dHex	N-linked glycosylation	true
+1764	N	null	dHex(1)Hex(3)HexNAc(2)Sulf(1)	1118.3319	O(3) S dHex Hex(3) HexNAc(2)	N-linked glycosylation	false
+1155	N	null	Asn->Ala	-43.005814	H(-1) C(-1) N(-1) O(-1)	AA substitution	false
+1454	N	null	dHex(1)Hex(3)HexNAc(2)Pent(1)	1170.4174	dHex(1) Hex(3) HexNAc(2) Pent(1)	N-linked glycosylation	false
+157	N	Hex(2)HexNAc(2)Pent(1)	Hex(2)HexNAc(2)Pent(1)	862.30664	Pent Hex(2) HexNAc(2)	N-linked glycosylation	true
+1480	N	null	Hex(7)HexNAc(2)	1540.5286	Hex(7) HexNAc(2)	N-linked glycosylation	false
+1542	N	null	dHex(2)Hex(4)HexNAc(3)NeuAc(1)Sulf(1)	1920.6174	O(3) S dHex(2) Hex(4) HexNAc(3) NeuAc	N-linked glycosylation	false
+1527	N	null	dHex(1)Hex(5)HexNAc(4)Sulf(1)	1848.5963	O(3) S dHex Hex(5) HexNAc(4)	N-linked glycosylation	false
+1550	N	null	dHex(1)Hex(5)HexNAc(3)NeuGc(1)Sulf(1)	1952.6073	O(3) S dHex Hex(5) HexNAc(3) NeuGc	N-linked glycosylation	false
+1490	N	null	Hex(7)HexNAc(2)Phos(1)	1620.4949	H O(3) P Hex(7) HexNAc(2)	N-linked glycosylation	false
+1507	N	null	dHex(2)Hex(3)HexNAc(4)Pent(1)	1722.634	dHex(2) Hex(3) HexNAc(4) Pent(1)	N-linked glycosylation	false
+793	N	null	Hex(1)HexNAc(1)	365.1322	Hex HexNAc	N-linked glycosylation	false
+1303	N	null	NeuAc	291.09543	NeuAc	N-linked glycosylation	false
+154	N	Hex(3)HexNAc(1)Pent(1)	Hex(3)HexNAc(1)Pent(1)	821.2801	Pent Hex(3) HexNAc	N-linked glycosylation	true
+1557	N	null	dHex(3)Hex(4)HexNAc(4)Sulf(1)	1978.6593	O(3) S dHex(3) Hex(4) HexNAc(4)	N-linked glycosylation	false
+39	N	Methylthio	Methylthio	45.98772	H(2) C S	Post-translational	false
+1763	N	null	Hex(3)HexNAc(3)	1095.3966	Hex(3) HexNAc(3)	N-linked glycosylation	false
+1413	N	null	PhosphoHex(2)	404.072	H O(3) P Hex(2)	N-linked glycosylation	false
+1516	N	null	Hex(5)HexNAc(4)Me(2)Pent(1)	1782.6552	Hex(5) HexNAc(4) Me(2) Pent(1)	N-linked glycosylation	false
+1541	N	null	dHex(2)Hex(5)HexNAc(4)	1914.6974	dHex(2) Hex(5) HexNAc(4)	N-linked glycosylation	false
+1481	N	null	dHex(2)Hex(4)HexNAc(3)	1549.5652	dHex(2) Hex(4) HexNAc(3)	N-linked glycosylation	false
+1472	N	null	dHex(1)Hex(5)HexNAc(2)Pent(1)	1494.5231	dHex(1) Hex(5) HexNAc(2) Pent(1)	N-linked glycosylation	false
+1779	N	null	Hex(6)HexNAc(4)	1784.6344	Hex(6) HexNAc(4)	N-linked glycosylation	false
+1497	N	null	dHex(3)Hex(3)HexNAc(3)Pent(1)	1665.6125	dHex(3) Hex(3) HexNAc(3) Pent(1)	N-linked glycosylation	false
+324	N	Xlink:DTBP[87]	Xlink:DTBPc	87.01427	H(5) C(3) N S	Chemical derivative	false
+1525	N	null	dHex(1)Hex(3)HexNAc(4)Pent(3)	1840.6606	dHex(1) Hex(3) HexNAc(4) Pent(3)	N-linked glycosylation	false
+1463	N	null	dHex(1)Hex(3)HexNAc(3)Pent(1)	1373.4967	dHex(1) Hex(3) HexNAc(3) Pent(1)	N-linked glycosylation	false
+7	N	Deamidated	Deamidated	0.984016	H(-1) N(-1) O	Artefact	false
+825	N	null	Xlink:DFDNB	203.99826	H(2) C(6) N(2) O(4) F(2)	Chemical derivative	false
+1532	N	null	Hex(4)HexNAc(6)	1866.6875	Hex(4) HexNAc(6)	N-linked glycosylation	false
+308	N	dHex(1)Hex(5)HexNAc(4)	dHex(1)Hex(5)HexNAc(4)	1768.6395	dHex Hex(5) HexNAc(4)	N-linked glycosylation	true
+1781	N	null	dHex(1)Hex(3)HexNAc(6)	1850.6926	dHex(1) Hex(3) HexNAc(6)	N-linked glycosylation	false
+1456	N	null	Hex(4)HexNAc(2)Pent(1)	1186.4124	Hex(4) HexNAc(2) Pent(1)	N-linked glycosylation	false
+454	N	HexN	HexN	161.0688	HexN	N-linked glycosylation	true
+1479	N	null	Hex(4)HexNAc(4)Sulf(1)	1540.4856	O(3) S Hex(4) HexNAc(4)	N-linked glycosylation	false
+1548	N	null	dHex(1)Hex(5)HexNAc(3)NeuAc(1)Sulf(1)	1936.6124	O(3) S dHex Hex(5) HexNAc(3) NeuAc	N-linked glycosylation	false
+1770	N	null	dHex(2)Hex(4)HexNAc(2)	1346.4858	dHex(2) Hex(4) HexNAc(2)	N-linked glycosylation	false
+1483	N	null	Hex(4)HexNAc(3)NeuGc(1)	1564.5398	Hex(4) HexNAc(3) NeuGc(1)	N-linked glycosylation	false
+1768	N	null	dHex(1)Hex(3)HexNAc(3)	1241.4545	dHex(1) Hex(3) HexNAc(3)	N-linked glycosylation	false
+36	N	Dimethyl	Dimethyl	28.0313	H(4) C(2)	Post-translational	true
+1559	N	null	Hex(6)HexNAc(5)	1987.7137	Hex(6) HexNAc(5)	N-linked glycosylation	false
+159	N	Hex(3)HexNAc(2)	Hex(3)HexNAc(2)	892.3172	Hex(3) HexNAc(2)	N-linked glycosylation	true
+1761	N	null	dHex(1)Hex(3)HexNAc(2)	1038.3751	dHex(1) Hex(3) HexNAc(2)	N-linked glycosylation	false
+152	N	Hex(1)HexNAc(2)dHex(1)	Hex(1)HexNAc(2)dHex(1)	714.2695	dHex Hex HexNAc(2)	N-linked glycosylation	true
+34	N	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1495	N	null	Hex(6)HexNAc(3)Phos(1)	1661.5214	H O(3) P Hex(6) HexNAc(3)	N-linked glycosylation	false
+618	N	null	Asn->Lys	14.052036	H(6) C(2) O(-1)	AA substitution	false
+1474	N	null	dHex(1)Hex(3)HexNAc(3)Pent(2)	1505.5391	dHex(1) Hex(3) HexNAc(3) Pent(2)	N-linked glycosylation	false
+1509	N	null	dHex(1)Hex(6)HexNAc(3)	1727.6129	dHex(1) Hex(6) HexNAc(3)	N-linked glycosylation	false
+1165	N	null	Asn->Trp	72.036385	H(4) C(7) O(-1)	AA substitution	false
+1162	N	null	Asn->Gln	14.01565	H(2) C	AA substitution	false
+1546	N	null	dHex(1)Hex(3)HexNAc(6)Sulf(1)	1930.6494	O(3) S dHex Hex(3) HexNAc(6)	N-linked glycosylation	false
+1458	N	null	Hex(5)HexNAc(2)Phos(1)	1296.3892	H O(3) P Hex(5) HexNAc(2)	N-linked glycosylation	false
+1511	N	null	dHex(3)Hex(3)HexNAc(4)	1736.6497	dHex(3) Hex(3) HexNAc(4)	N-linked glycosylation	false
+1783	N	null	dHex(3)Hex(4)HexNAc(4)	1898.7025	dHex(3) Hex(4) HexNAc(4)	N-linked glycosylation	false
+1534	N	null	dHex(1)Hex(5)HexNAc(3)NeuGc(1)	1872.6505	dHex(1) Hex(5) HexNAc(3) NeuGc(1)	N-linked glycosylation	false
+621	N	null	Asn->Asp	0.984016	H(-1) N(-1) O	AA substitution	false
+1411	N	null	dHex(1)Hex(5)HexNAc(4)NeuAc(2)	2350.8303	dHex Hex(5) HexNAc(4) NeuAc(2)	N-linked glycosylation	false
+1784	N	null	dHex(1)Hex(3)HexNAc(5)NeuAc(1)	1938.7086	dHex(1) Hex(3) HexNAc(5) NeuAc(1)	N-linked glycosylation	false
+1500	N	null	dHex(1)Hex(7)HexNAc(2)	1686.5864	dHex(1) Hex(7) HexNAc(2)	N-linked glycosylation	false
+1772	N	null	Hex(3)HexNAc(5)	1501.5553	Hex(3) HexNAc(5)	N-linked glycosylation	false
+1461	N	null	Hex(4)HexNAc(2)NeuAc(1)	1345.4655	Hex(4) HexNAc(2) NeuAc(1)	N-linked glycosylation	false
+1523	N	null	dHex(2)Hex(4)HexNAc(4)Sulf(1)	1832.6014	O(3) S dHex(2) Hex(4) HexNAc(4)	N-linked glycosylation	false
+490	N	Hep	Hep	192.06339	Hep	N-linked glycosylation	true
+1408	N	null	Hex(5)HexNAc(4)NeuAc(2)	2204.7725	Hex(5) HexNAc(4) NeuAc(2)	N-linked glycosylation	false
+1561	N	null	Hex(3)HexNAc(6)NeuAc(1)	1995.7301	Hex(3) HexNAc(6) NeuAc(1)	N-linked glycosylation	false
+1468	N	null	Hex(5)HexNAc(3)	1419.5022	Hex(5) HexNAc(3)	N-linked glycosylation	false
+1519	N	null	dHex(1)Hex(4)HexNAc(5)	1809.666	dHex(1) Hex(4) HexNAc(5)	N-linked glycosylation	false
+1554	N	null	dHex(1)Hex(7)HexNAc(3)Phos(1)	1969.6321	H O(3) P dHex Hex(7) HexNAc(3)	N-linked glycosylation	false
+1156	N	null	Asn->Cys	-11.033743	H(-1) C(-1) N(-1) O(-1) S	AA substitution	false
+1528	N	null	dHex(2)Hex(3)HexNAc(4)Pent(2)	1854.6763	dHex(2) Hex(3) HexNAc(4) Pent(2)	N-linked glycosylation	false
+1159	N	null	Asn->Gly	-57.021465	H(-3) C(-2) N(-1) O(-1)	AA substitution	false
+1545	N	null	Hex(5)HexNAc(4)NeuGc(1)	1929.672	Hex(5) HexNAc(4) NeuGc(1)	N-linked glycosylation	false
+1486	N	null	Hex(3)HexNAc(5)Sulf(1)	1581.5122	O(3) S Hex(3) HexNAc(5)	N-linked glycosylation	false
+1470	N	null	Hex(6)HexNAc(2)Phos(1)	1458.442	H O(3) P Hex(6) HexNAc(2)	N-linked glycosylation	false
+528	N	Methyl+Deamidated	Methyl+Deamidated	14.999666	H C N(-1) O	Chemical derivative	true
+934	N	null	AMTzHexNAc2	502.20233	H(30) C(19) N(6) O(10)	Chemical derivative	false
+1451	N	null	Hex(3)HexNAc(2)Pent(1)	1024.3595	Hex(3) HexNAc(2) Pent(1)	N-linked glycosylation	false
+1502	N	null	Hex(7)HexNAc(2)Phos(2)	1700.4612	H(2) O(6) P(2) Hex(7) HexNAc(2)	N-linked glycosylation	false
+1767	N	null	dHex(2)Hex(2)HexNAc(3)	1225.4596	dHex(2) Hex(2) HexNAc(3)	N-linked glycosylation	false
+910	N	null	Bacillosamine	228.11101	H(6) C(4) N(2) dHex	N-linked glycosylation	false
+158	N	Hex(2)HexNAc(2)dHex(1)	Hex(2)HexNAc(2)dHex(1)	876.3223	dHex Hex(2) HexNAc(2)	N-linked glycosylation	true
+41	N	Hex	Hex	162.05283	Hex	N-linked glycosylation	true
+1537	N	null	dHex(1)Hex(7)HexNAc(3)	1889.6658	dHex(1) Hex(7) HexNAc(3)	N-linked glycosylation	false
+151	N	Hex(1)HexNAc(2)Pent(1)	Hex(1)HexNAc(2)Pent(1)	700.25385	Pent Hex HexNAc(2)	N-linked glycosylation	true
+1475	N	null	dHex(2)Hex(3)HexNAc(3)Pent(1)	1519.5547	dHex(2) Hex(3) HexNAc(3) Pent(1)	N-linked glycosylation	false
+1494	N	null	dHex(2)Hex(3)HexNAc(3)Pent(2)	1651.5969	dHex(2) Hex(3) HexNAc(3) Pent(2)	N-linked glycosylation	false
+1521	N	null	Hex(7)HexNAc(3)Phos(1)	1823.5742	H O(3) P Hex(7) HexNAc(3)	N-linked glycosylation	false
+1513	N	null	Hex(4)HexNAc(5)Sulf(1)	1743.565	O(3) S Hex(4) HexNAc(5)	N-linked glycosylation	false
+143	N	HexNAc(2)	HexNAc(2)	406.15875	HexNAc(2)	N-linked glycosylation	true
+1774	N	null	dHex(2)Hex(3)HexNAc(4)	1590.5918	dHex(2) Hex(3) HexNAc(4)	N-linked glycosylation	false
+147	N	HexNAc(2)dHex(1)	HexNAc(2)dHex(1)	552.2167	dHex HexNAc(2)	N-linked glycosylation	true
+170	N	Delta:H(1)N(-1)18O(1)	Delta:H(1)N(-1)18O(1)	2.988261	H(-1) N(-1) 18O	Isotopic label	true
+1526	N	null	dHex(2)Hex(5)HexNAc(3)Pent(1)	1843.6603	dHex(2) Hex(5) HexNAc(3) Pent(1)	N-linked glycosylation	false
+1466	N	null	Hex(4)HexNAc(3)Pent(1)	1389.4917	Hex(4) HexNAc(3) Pent(1)	N-linked glycosylation	false
+1552	N	null	Hex(6)HexNAc(4)Me(3)Pent(1)	1958.7236	Hex(6) HexNAc(4) Me(3) Pent(1)	N-linked glycosylation	false
+156	N	Hex(1)HexNAc(2)dHex(2)	Hex(1)HexNAc(2)dHex(2)	860.3274	dHex(2) Hex HexNAc(2)	N-linked glycosylation	true
+622	N	null	Asn->Xle	-0.958863	H(5) C(2) N(-1) O(-1)	AA substitution	false
+1453	N	null	dHex(1)Hex(4)HexNAc(1)Pent(1)	1129.3909	dHex(1) Hex(4) HexNAc(1) Pent(1)	N-linked glycosylation	false
+1449	N	null	dHex(1)Hex(2)HexNAc(2)Pent(1)	1008.36456	dHex(1) Hex(2) HexNAc(2) Pent(1)	N-linked glycosylation	false
+1543	N	null	dHex(1)Hex(5)HexNAc(4)Sulf(2)	1928.5531	O(6) S(2) dHex Hex(5) HexNAc(4)	N-linked glycosylation	false
+1499	N	null	dHex(1)Hex(4)HexNAc(4)Sulf(1)	1686.5435	O(3) S dHex Hex(4) HexNAc(4)	N-linked glycosylation	false
+931	N	null	Ethyl+Deamidated	29.015316	H(3) C(2) N(-1) O	Chemical derivative	false
+1530	N	null	Hex(3)HexNAc(6)Sulf(2)	1864.5483	O(6) S(2) Hex(3) HexNAc(6)	N-linked glycosylation	false
+1776	N	null	Hex(3)HexNAc(6)	1704.6348	Hex(3) HexNAc(6)	N-linked glycosylation	false
+1504	N	null	Hex(8)HexNAc(2)	1702.5813	Hex(8) HexNAc(2)	N-linked glycosylation	false
+1488	N	null	Hex(3)HexNAc(4)NeuAc(1)	1589.5714	Hex(3) HexNAc(4) NeuAc(1)	N-linked glycosylation	false
+1539	N	null	dHex(1)Hex(5)HexA(1)HexNAc(3)Sulf(2)	1901.5059	O(6) S(2) dHex Hex(5) HexA HexNAc(3)	N-linked glycosylation	false
+43	N	HexNAc	HexNAc	203.07938	HexNAc	N-linked glycosylation	true
+1515	N	null	dHex(1)Hex(4)HexNAc(3)NeuAc(1)Sulf(1)	1774.5596	O(3) S dHex Hex(4) HexNAc(3) NeuAc	N-linked glycosylation	false
+1765	N	null	dHex(2)Hex(3)HexNAc(2)	1184.433	dHex(2) Hex(3) HexNAc(2)	N-linked glycosylation	false
+1304	N	null	NeuGc	307.09033	NeuGc	N-linked glycosylation	false
+1492	N	null	dHex(1)Hex(3)HexNAc(3)Pent(3)	1637.5813	dHex(1) Hex(3) HexNAc(3) Pent(3)	N-linked glycosylation	false
+310	N	Hex(4)HexNAc(4)	Hex(4)HexNAc(4)	1460.5288	Hex(4) HexNAc(4)	N-linked glycosylation	true
+1477	N	null	dHex(1)Hex(6)HexNAc(2)	1524.5336	dHex(1) Hex(6) HexNAc(2)	N-linked glycosylation	false
+145	N	HexNAc(1)dHex(2)	HexNAc(1)dHex(2)	495.1952	dHex(2) HexNAc	N-linked glycosylation	true
+160	N	Hex(1)HexNAc(1)NeuAc(2)	Hex(1)HexNAc(1)NeuAc(2)	947.32306	Hex HexNAc NeuAc(2)	N-linked glycosylation	true
+994	P	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1175	P	null	Pro->Trp	89.02655	H(3) C(6) N	AA substitution	false
+1166	P	null	Pro->Cys	5.956421	H(-2) C(-2) S	AA substitution	false
+114	P	null	OxProBiotinRed	371.1991	H(29) C(16) N(5) O(3) S	Chemical derivative	false
+115	P	null	OxProBiotin	369.18347	H(27) C(16) N(5) O(3) S	Chemical derivative	false
+478	P	FTC	FTC	421.07324	H(15) C(21) N(3) O(5) S	Chemical derivative	true
+625	P	null	Pro->His	40.00615	C N(2)	AA substitution	false
+369	P	Pro->Pyrrolidone	Pro->Pyrrolidone	-27.994915	C(-1) O(-1)	Chemical derivative	false
+624	P	null	Pro->Ala	-26.01565	H(-2) C(-2)	AA substitution	false
+1168	P	null	Pro->Glu	31.989828	O(2)	AA substitution	false
+270	P	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+1169	P	null	Pro->Phe	50.01565	H(2) C(4)	AA substitution	false
+360	P	Pro->Pyrrolidinone	Pro->Pyrrolidinone	-30.010565	H(-2) C(-1) O(-1)	Chemical derivative	true
+529	P	Delta:H(5)C(2)	Delta:H(5)C(2)	29.039125	H(5) C(2)	Post-translational	true
+1172	P	null	Pro->Met	33.98772	H(2) S	AA substitution	false
+627	P	null	Pro->Thr	3.994915	C(-1) O	AA substitution	false
+626	P	null	Pro->Gln	31.005814	H N O	AA substitution	false
+772	P	Label:13C(5)	Label:13C(5)	5.016774	C(-5) 13C(5)	Isotopic label	true
+623	P	null	Pro->Ser	-10.020735	H(-2) C(-2) O	AA substitution	false
+359	P	Pro->pyro-Glu	Pro->pyro-Glu	13.979265	H(-2) O	Chemical derivative	true
+35	P	Oxidation	Oxidation	15.994915	O	Post-translational	false
+268	P	Label:13C(5)15N(1)	Label:13C(5)15N(1)	6.013809	C(-5) 13C(5) N(-1) 15N	Isotopic label	true
+36	P	Dimethyl	Dimethyl	28.0313	H(4) C(2)	Post-translational	true
+1403	P	null	Label:2H(6)15N(1)	7.034695	H(-6) 2H(6) N(-1) 15N	Isotopic label	false
+408	P	Glycosyl	Glycosyl	148.03717	H(-2) C(-1) Hex	Other glycosylation	true
+1171	P	null	Pro->Lys	31.042198	H(5) C N	AA substitution	false
+1174	P	null	Pro->Val	2.01565	H(2)	AA substitution	false
+628	P	null	Pro->Arg	59.048347	H(5) C N(3)	AA substitution	false
+1173	P	null	Pro->Asn	16.990164	H(-1) C(-1) N O	AA substitution	false
+1176	P	null	Pro->Tyr	66.01057	H(2) C(4) O	AA substitution	false
+357	P	null	probiotinhydrazide	258.11505	H(18) C(10) N(4) O(2) S	Chemical derivative	false
+1170	P	null	Pro->Gly	-40.0313	H(-4) C(-3)	AA substitution	false
+629	P	null	Pro->Xle	16.0313	H(4) C	AA substitution	false
+425	P	Dioxidation	Dioxidation	31.989828	O(2)	Post-translational	true
+1167	P	null	Pro->Asp	17.974178	H(-2) C(-1) O(2)	AA substitution	false
+635	Q	null	Gln->Xle	-14.974514	H(3) C N(-1) O(-1)	AA substitution	false
+1177	Q	null	Gln->Ala	-57.021465	H(-3) C(-2) N(-1) O(-1)	AA substitution	false
+632	Q	null	Gln->Glu	0.984016	H(-1) N(-1) O	AA substitution	false
+801	Q	null	Pentylamine	85.08915	H(11) C(5) N	Chemical derivative	false
+1824	Q	null	GEE	86.03678	H(6) C(4) O(2)	Chemical derivative	false
+28	Q	Gln->pyro-Glu	Gln->pyro-Glu	-17.026548	H(-3) N(-1)	Artefact	true
+1179	Q	null	Gln->Asp	-13.031634	H(-3) C(-1) N(-1) O	AA substitution	false
+1180	Q	null	Gln->Phe	19.009836	H C(4) N(-1) O(-1)	AA substitution	false
+1183	Q	null	Gln->Asn	-14.01565	H(-2) C(-1)	AA substitution	false
+23	Q	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Post-translational	false
+995	Q	null	Label:15N(2)	1.99407	N(-2) 15N(2)	Isotopic label	false
+366	Q	Deamidated:18O(1)	Deamidated:18O(1)	2.988261	H(-1) N(-1) 18O	Isotopic label	true
+7	Q	Deamidated	Deamidated	0.984016	H(-1) N(-1) O	Artefact	false
+1186	Q	null	Gln->Val	-28.990164	H N(-1) O(-1)	AA substitution	false
+1420	Q	null	spermine	185.1892	H(23) C(10) N(3)	Chemical derivative	false
+634	Q	null	Gln->Arg	28.042534	H(4) C N(2) O(-1)	AA substitution	false
+1188	Q	null	Gln->Tyr	35.00475	H C(4) N(-1)	AA substitution	false
+324	Q	Xlink:DTBP[87]	Xlink:DTBPc	87.01427	H(5) C(3) N S	Chemical derivative	false
+631	Q	null	Gln->Lys	0.036386	H(4) C O(-1)	AA substitution	false
+1185	Q	null	Gln->Thr	-27.010899	H(-1) C(-1) N(-1)	AA substitution	false
+1182	Q	null	Gln->Met	2.981907	H N(-1) O(-1) S	AA substitution	false
+1187	Q	null	Gln->Trp	58.020737	H(2) C(6) O(-1)	AA substitution	false
+800	Q	null	Biotin:Thermo-21345	311.16675	H(25) C(15) N(3) O(2) S	Chemical derivative	false
+931	Q	null	Ethyl+Deamidated	29.015316	H(3) C(2) N(-1) O	Chemical derivative	false
+633	Q	null	Gln->His	9.000334	H(-1) C N O(-1)	AA substitution	false
+1421	Q	null	spermidine	128.13135	H(16) C(7) N(2)	Chemical derivative	false
+1184	Q	null	Gln->Ser	-41.02655	H(-3) C(-2) N(-1)	AA substitution	false
+1041	Q	null	Deoxyhypusine	71.0735	H(9) C(4) N	Chemical derivative	false
+528	Q	Methyl+Deamidated	Methyl+Deamidated	14.999666	H C N(-1) O	Post-translational	true
+490	Q	Hep	Hep	192.06339	Hep	Other glycosylation	true
+825	Q	null	Xlink:DFDNB	203.99826	H(2) C(6) N(2) O(4) F(2)	Chemical derivative	false
+1181	Q	null	Gln->Gly	-71.03712	H(-5) C(-3) N(-1) O(-1)	AA substitution	false
+34	Q	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+630	Q	null	Gln->Pro	-31.005814	H(-1) N(-1) O(-1)	AA substitution	false
+1178	Q	null	Gln->Cys	-25.049393	H(-3) C(-2) N(-1) O(-1) S	AA substitution	false
+1287	R	null	Arg-loss	-156.1011	H(-12) C(-6) N(-4) O(-1)	Other	false
+36	R	Dimethyl	Dimethyl	28.0313	H(4) C(2)	Post-translational	true
+981	R	null	glucosone	160.03717	H(8) C(6) O(5)	Other	false
+505	R	null	LG-lactam-R	290.17697	H(26) C(19) N(-2) O(4)	Post-translational	false
+1291	R	null	Dimethyl:2H(6)	34.068962	H(-2) 2H(6) C(2)	Isotopic label	false
+642	R	null	Arg->Gln	-28.042534	H(-4) C(-1) N(-2) O	AA substitution	false
+1194	R	null	Arg->Tyr	6.962218	H(-3) C(3) N(-3) O	AA substitution	false
+1191	R	null	Arg->Glu	-27.058517	H(-5) C(-1) N(-3) O(2)	AA substitution	false
+21	R	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+1255	R	null	Cresylphosphate	170.01328	H(7) C(7) O(3) P	Chemical derivative	false
+645	R	null	Arg->Xle	-43.017048	H(-1) N(-3)	AA substitution	false
+267	R	Label:13C(6)15N(4)	Label:13C(6)15N(4)	10.008269	C(-6) 13C(6) N(-4) 15N(4)	Isotopic label	true
+830	R	null	Dihydroxyimidazolidine	72.021126	H(4) C(3) O(2)	Multiple	false
+644	R	null	Arg->Cys	-53.091927	H(-7) C(-3) N(-3) S	AA substitution	false
+298	R	Methyl:2H(3)	Methyl:2H(3)	17.03448	H(-1) 2H(3) C	Isotopic label	true
+478	R	FTC	FTC	421.07324	H(15) C(21) N(3) O(5) S	Chemical derivative	true
+329	R	Methyl:2H(3)13C(1)	Methyl:2H(3)13C(1)	18.037834	H(-1) 2H(3) 13C	Isotopic label	true
+343	R	null	Argbiotinhydrazide	199.0667	H(13) C(9) N O(2) S	Chemical derivative	false
+186	R	HPG	HPG	132.02113	H(4) C(8) O(2)	Chemical derivative	true
+638	R	null	Arg->Thr	-55.053432	H(-5) C(-2) N(-3) O	AA substitution	false
+1256	R	null	CresylSaligeninPhosphate	276.05515	H(13) C(14) O(4) P	Chemical derivative	false
+641	R	null	Arg->His	-19.042198	H(-5) N(-1)	AA substitution	false
+1189	R	null	Arg->Ala	-85.063995	H(-7) C(-3) N(-3)	AA substitution	false
+1195	R	null	Arg->Phe	-9.032697	H(-3) C(3) N(-3)	AA substitution	false
+425	R	Dioxidation	Dioxidation	31.989828	O(2)	Post-translational	true
+490	R	Hep	Hep	192.06339	Hep	N-linked glycosylation	true
+860	R	null	G-H1	39.994915	C(2) O	Other	false
+636	R	null	Arg->Ser	-69.069084	H(-7) C(-3) N(-3) O	AA substitution	false
+640	R	null	Arg->Lys	-28.006147	N(-2)	AA substitution	false
+37	R	Trimethyl	Trimethyl	42.04695	H(6) C(3)	Chemical derivative	true
+1300	R	null	Label:2H(4)13C(1)	5.028462	H(-4) 2H(4) C(-1) 13C	Isotopic label	false
+116	R	null	OxArgBiotin	310.1351	H(22) C(15) N(2) O(3) S	Chemical derivative	false
+1192	R	null	Arg->Asn	-42.058186	H(-6) C(-2) N(-2) O	AA substitution	false
+35	R	Oxidation	Oxidation	15.994915	O	Post-translational	false
+512	R	Hex(2)	Hex(2)	324.10565	Hex(2)	N-linked glycosylation	false
+278	R	Ethanolyl	Ethanolyl	44.026215	H(4) C(2) O	Chemical derivative	true
+646	R	null	Arg->Gly	-99.07964	H(-9) C(-4) N(-3)	AA substitution	false
+837	R	null	Arg->Npo	80.98508	H(-1) C(3) N O(2)	Chemical derivative	false
+506	R	null	LG-Hlactam-R	306.17188	H(26) C(19) N(-2) O(5)	Post-translational	false
+848	R	null	Arg2PG	266.05792	H(10) C(16) O(4)	Chemical derivative	false
+643	R	null	Arg->Met	-25.060625	H(-3) C(-1) N(-3) S	AA substitution	false
+1290	R	null	Dicarbamidomethyl	114.04293	H(6) C(4) N(2) O(2)	Artefact	false
+859	R	null	MG-H1	54.010567	H(2) C(3) O	Other	false
+187	R	2HPG	2HPG	282.05283	H(10) C(16) O(5)	Chemical derivative	true
+5	R	Carbamyl	Carbamyl	43.005814	H C N O	Artefact	false
+117	R	null	OxArgBiotinRed	312.15076	H(24) C(15) N(2) O(3) S	Chemical derivative	false
+213	R	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	N-linked glycosylation	true
+639	R	null	Arg->Pro	-59.048347	H(-5) C(-1) N(-3)	AA substitution	false
+1007	R	null	Label:13C(6)15N(4)+Dimethyl:2H(6)13C(2)	46.08394	H(-2) 2H(6) C(-6) 13C(8) N(-4) 15N(4)	Isotopic label	false
+324	R	Xlink:DTBP[87]	Xlink:DTBPc	87.01427	H(5) C(3) N S	Chemical derivative	false
+271	R	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+510	R	Dimethyl:2H(4)13C(2)	Dimethyl:2H(4)13C(2)	34.063118	2H(4) 13C(2)	Isotopic label	true
+1414	R	null	Trimethyl:13C(3)2H(9)	54.113506	H(-3) 2H(9) 13C(3)	Isotopic label	false
+41	R	Hex	Hex	162.05283	Hex	N-linked glycosylation	true
+825	R	null	Xlink:DFDNB	203.99826	H(2) C(6) N(2) O(4) F(2)	Chemical derivative	false
+897	R	null	Label:15N(4)	3.98814	N(-4) 15N(4)	Isotopic label	false
+344	R	Arg->GluSA	Arg->GluSA	-43.053432	H(-5) C(-1) N(-3) O	Chemical derivative	true
+1006	R	null	Label:13C(6)15N(4)+Methyl:2H(3)13C(1)	28.046104	H(-1) 2H(3) C(-6) 13C(7) N(-4) 15N(4)	Isotopic label	false
+1402	R	null	Label:2H(7)15N(4)	11.032077	H(-7) 2H(7) N(-4) 15N(4)	Isotopic label	false
+199	R	Dimethyl:2H(4)	Dimethyl:2H(4)	32.056408	2H(4) C(2)	Isotopic label	true
+1193	R	null	Arg->Val	-57.032696	H(-3) C(-1) N(-3)	AA substitution	false
+1190	R	null	Arg->Asp	-41.07417	H(-7) C(-2) N(-3) O(2)	AA substitution	false
+330	R	Dimethyl:2H(6)13C(2)	Dimethyl:2H(6)13C(2)	36.07567	H(-2) 2H(6) 13C(2)	Isotopic label	true
+949	R	null	3-deoxyglucosone	144.04225	H(8) C(6) O(4)	Multiple	false
+1004	R	null	Label:13C(6)15N(4)+Methyl	24.023918	H(2) C(-5) 13C(6) N(-4) 15N(4)	Isotopic label	false
+372	R	Arg->Orn	Arg->Orn	-42.021797	H(-2) C(-1) N(-2)	Artefact	true
+34	R	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+7	R	Deamidated	Deamidated	0.984016	H(-1) N(-1) O	Post-translational	false
+637	R	null	Arg->Trp	29.978203	H(-2) C(5) N(-2)	AA substitution	false
+188	R	Label:13C(6)	Label:13C(6)	6.020129	C(-6) 13C(6)	Isotopic label	true
+1371	R	null	Trimethyl:2H(9)	51.10344	H(-3) 2H(9) C(3)	Isotopic label	false
+1825	R	null	RNPXL	324.03586	H(13) C(9) N(2) O(9) P	Other	false
+1356	R	null	phosphoRibosyl	212.00859	H(9) C(5) O(7) P	Post-translational	false
+270	R	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+319	R	Delta:H(2)C(3)O(1)	Delta:H(2)C(3)O(1)	54.010567	H(2) C(3) O	Chemical derivative	true
+1005	R	null	Label:13C(6)15N(4)+Dimethyl	38.03957	H(4) C(-4) 13C(6) N(-4) 15N(4)	Isotopic label	false
+1310	R	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+1602	S	null	Hex(1)HexNAc(2)NeuGc(1)	875.3019	Hex(1) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1746	S	null	dHex(2)Hex(3)HexNAc(5)	1793.6711	dHex(2) Hex(3) HexNAc(5)	O-linked glycosylation	false
+1737	S	null	dHex(1)Hex(4)HexA(1)HexNAc(3)Sulf(1)	1659.4962	O(3) S dHex Hex(4) HexA HexNAc(3)	O-linked glycosylation	false
+1686	S	null	dHex(1)Hex(3)HexNAc(2)NeuGc(1)	1345.4655	dHex(1) Hex(3) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+385	S	Ammonia-loss	Ammonia-loss	-17.026548	H(-3) N(-1)	Post-translational	false
+1609	S	null	dHex(1)Hex(2)HexA(1)HexNAc(1)Sulf(1)	929.2318	O(3) S dHex Hex(2) HexA HexNAc	O-linked glycosylation	false
+1730	S	null	dHex(4)Hex(1)HexNAc(3)Kdn(1)	1605.5914	dHex(4) Hex HexNAc(3) Kdn	O-linked glycosylation	false
+1439	S	null	Hex(1)HexA(1)HexNAc(1)	541.1643	Hex HexA HexNAc	O-linked glycosylation	false
+1661	S	null	dHex(1)Hex(1)HexNAc(3)NeuGc(1)	1224.4392	dHex(1) Hex(1) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1652	S	null	dHex(1)HexNAc(5)	1161.4547	dHex(1) HexNAc(5)	O-linked glycosylation	false
+1627	S	null	Hex(5)HexNAc(1)	1013.3435	Hex(5) HexNAc(1)	O-linked glycosylation	false
+1712	S	null	Hex(3)HexNAc(2)NeuAc(2)	1474.508	Hex(3) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1592	S	null	HexNAc(1)NeuGc(2)	817.26	HexNAc(1) NeuGc(2)	O-linked glycosylation	false
+1668	S	null	dHex(2)Hex(3)HexNAc(2)Sulf(1)	1264.3899	O(3) S dHex(2) Hex(3) HexNAc(2)	O-linked glycosylation	false
+727	S	null	O-pinacolylmethylphosphonate	162.08096	H(15) C(7) O(2) P	Chemical derivative	false
+1780	S	null	Hex(5)HexNAc(5)	1825.661	Hex(5) HexNAc(5)	O-linked glycosylation	false
+1771	S	null	dHex(2)Hex(3)HexNAc(3)	1387.5125	dHex(2) Hex(3) HexNAc(3)	O-linked glycosylation	false
+152	S	Hex(1)HexNAc(2)dHex(1)	Hex(1)HexNAc(2)dHex(1)	714.2695	dHex Hex HexNAc(2)	O-linked glycosylation	true
+1721	S	null	dHex(2)Hex(2)HexNAc(3)NeuGc(1)	1532.5499	dHex(2) Hex(2) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1583	S	null	HexNAc(2)NeuAc(1)Sulf(1)	777.211	O(3) S HexNAc(2) NeuAc	O-linked glycosylation	false
+1202	S	null	Ser->Val	12.036386	H(4) C(2) O(-1)	AA substitution	false
+1618	S	null	dHex(1)Hex(1)HexNAc(2)Kdn(1)	964.3383	dHex Hex HexNAc(2) Kdn	O-linked glycosylation	false
+1703	S	null	dHex(4)HexNAc(3)Kdn(1)	1443.5386	dHex(4) HexNAc(3) Kdn	O-linked glycosylation	false
+1719	S	null	dHex(4)Hex(2)HexNAc(3)	1517.5754	dHex(4) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1764	S	null	dHex(1)Hex(3)HexNAc(2)Sulf(1)	1118.3319	O(3) S dHex Hex(3) HexNAc(2)	O-linked glycosylation	false
+747	S	null	Malonyl	86.0004	H(2) C(3) O(3)	Chemical derivative	false
+725	S	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+1430	S	null	Hex(1)HexNAc(1)Sulf(1)	445.08902	O(3) S Hex HexNAc	O-linked glycosylation	false
+143	S	HexNAc(2)	HexNAc(2)	406.15875	HexNAc(2)	O-linked glycosylation	true
+1256	S	null	CresylSaligeninPhosphate	276.05515	H(13) C(14) O(4) P	Chemical derivative	false
+41	S	Hex	Hex	162.05283	Hex	O-linked glycosylation	true
+200	S	Ethanedithiol	Ethanedithiol	75.98053	H(4) C(2) O(-1) S(2)	Chemical derivative	true
+1599	S	null	Hex(4)HexNAc(1)	851.29065	Hex(4) HexNAc(1)	O-linked glycosylation	false
+1645	S	null	dHex(1)Hex(1)HexNAc(4)	1120.4282	dHex(1) Hex(1) HexNAc(4)	O-linked glycosylation	false
+1611	S	null	Hex(1)HexNAc(2)NeuAc(1)Sulf(1)	939.2638	O(3) S Hex HexNAc(2) NeuAc	O-linked glycosylation	false
+1377	S	null	dHex(1)Hex(4)	794.2692	dHex Hex(4)	O-linked glycosylation	false
+1565	S	null	HexNAc(3)Sulf(1)	689.19495	O(3) S HexNAc(3)	O-linked glycosylation	false
+1695	S	null	dHex(2)Hex(2)HexNAc(2)NeuAc(1)Sulf(1)	1393.4325	O(3) S dHex(2) Hex(2) HexNAc(2) NeuAc	O-linked glycosylation	false
+159	S	Hex(3)HexNAc(2)	Hex(3)HexNAc(2)	892.3172	Hex(3) HexNAc(2)	O-linked glycosylation	true
+1753	S	null	Hex(10)Phos(3)	1860.4272	H(3) O(9) P(3) Hex(10)	O-linked glycosylation	false
+1634	S	null	dHex(1)Hex(2)HexA(1)HexNAc(2)	1052.3544	dHex(1) Hex(2) HexA(1) HexNAc(2)	O-linked glycosylation	false
+1304	S	null	NeuGc	307.09033	NeuGc	O-linked glycosylation	false
+889	S	null	mTRAQ:13C(3)15N(1)	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+1446	S	null	dHex(1)Hex(2)HexA(1)	646.1956	dHex Hex(2) HexA	O-linked glycosylation	false
+1412	S	null	s-GlcNAc	283.0362	O(3) S HexNAc	O-linked glycosylation	false
+1684	S	null	dHex(2)Hex(2)HexNAc(2)NeuGc(1)	1329.4706	dHex(2) Hex(2) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1723	S	null	Hex(8)Phos(3)	1536.3215	H(3) O(9) P(3) Hex(8)	O-linked glycosylation	false
+1600	S	null	Hex(1)HexNAc(2)NeuAc(1)	859.307	Hex(1) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+258	S	Label:18O(1)	Label:18O(1)	2.004246	O(-1) 18O	Isotopic label	true
+337	S	Methylamine	Methylamine	13.031634	H(3) C N O(-1)	Artefact	true
+1625	S	null	dHex(1)Hex(3)HexA(1)HexNAc(1)	1011.3278	dHex(1) Hex(3) HexA(1) HexNAc(1)	O-linked glycosylation	false
+264	S	PET	PET	121.035	H(7) C(7) N O(-1) S	Chemical derivative	true
+1769	S	null	Hex(4)HexNAc(3)	1257.4495	Hex(4) HexNAc(3)	O-linked glycosylation	false
+1437	S	null	Hex(1)HexNAc(1)dHex(1)Me(2)	539.2214	Me(2) dHex Hex HexNAc	O-linked glycosylation	false
+1663	S	null	dHex(2)Hex(3)HexA(1)HexNAc(1)Sulf(1)	1237.3425	O(3) S dHex(2) Hex(3) HexA HexNAc	O-linked glycosylation	false
+1590	S	null	Hex(5)	810.2641	Hex(5)	O-linked glycosylation	false
+763	S	null	DTT_ST:2H(6)	142.03932	H(2) 2H(6) C(4) O S(2)	Isotopic label	false
+1714	S	null	dHex(1)Hex(2)HexNAc(2)NeuGc(2)	1490.5029	dHex(1) Hex(2) HexNAc(2) NeuGc(2)	O-linked glycosylation	false
+849	S	null	cGMP	343.0318	H(10) C(10) N(5) O(7) P	Post-translational	false
+1263	S	null	Gly	57.021465	H(3) C(2) N O	Other	false
+1735	S	null	dHex(2)Hex(2)HexNAc(5)	1631.6183	dHex(2) Hex(2) HexNAc(5)	O-linked glycosylation	false
+1773	S	null	Hex(4)HexNAc(3)NeuAc(1)	1548.5448	Hex(4) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+735	S	null	DTT_ST	136.00166	H(8) C(4) O S(2)	Chemical derivative	false
+1748	S	null	dHex(2)Hex(4)HexA(1)HexNAc(3)Sulf(1)	1805.5541	O(3) S dHex(2) Hex(4) HexA HexNAc(3)	O-linked glycosylation	false
+1441	S	null	Hex(3)Phos(1)	566.1248	H O(3) P Hex(3)	O-linked glycosylation	false
+333	S	Can-FP-biotin	Can-FP-biotin	447.19568	H(34) C(19) N(3) O(5) P S	Chemical derivative	false
+1675	S	null	dHex(1)Hex(1)HexNAc(2)NeuAc(2)	1296.4603	dHex(1) Hex(1) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+729	S	null	O-Isopropylmethylphosphonate	120.03402	H(9) C(4) O(2) P	Chemical derivative	false
+1585	S	null	Hex(2)HexA(1)HexNAc(1)Sulf(1)	783.17395	O(3) S Hex(2) HexA HexNAc	O-linked glycosylation	false
+1650	S	null	dHex(2)Hex(1)HexNAc(2)NeuAc(1)	1151.4229	dHex(2) Hex(1) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+327	S	Delta:H(4)C(2)O(-1)S(1)	Delta:H(4)C(2)O(-1)S(1)	44.008457	H(4) C(2) O(-1) S	Chemical derivative	true
+1597	S	null	dHex(1)Hex(2)HexA(1)HexNAc(1)	849.275	dHex(1) Hex(2) HexA(1) HexNAc(1)	O-linked glycosylation	false
+1785	S	null	dHex(2)Hex(4)HexNAc(5)	1955.724	dHex(2) Hex(4) HexNAc(5)	O-linked glycosylation	false
+325	S	FP-Biotin	FP-Biotin	572.3161	H(49) C(27) N(4) O(5) P S	Chemical derivative	false
+401	S	Didehydro	Didehydro	-2.01565	H(-2)	Post-translational	true
+1659	S	null	Hex(6)Phos(3)	1212.216	H(3) O(9) P(3) Hex(6)	O-linked glycosylation	false
+1697	S	null	dHex(4)Hex(1)HexNAc(2)Kdn(1)	1402.5121	dHex(4) Hex HexNAc(2) Kdn	O-linked glycosylation	false
+1750	S	null	dHex(1)Hex(3)HexNAc(3)NeuAc(2)	1823.6454	dHex(1) Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1762	S	null	dHex(1)Hex(2)HexNAc(3)	1079.4017	dHex(1) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1198	S	null	Ser->His	50.026882	H(2) C(3) N(2) O(-1)	AA substitution	false
+43	S	HexNAc	HexNAc	203.07938	HexNAc	O-linked glycosylation	true
+1647	S	null	Hex(2)HexNAc(1)NeuGc(2)	1141.3657	Hex(2) HexNAc(1) NeuGc(2)	O-linked glycosylation	false
+1648	S	null	dHex(2)Hex(4)HexNAc(1)	1143.4065	dHex(2) Hex(4) HexNAc(1)	O-linked glycosylation	false
+1375	S	null	dHex(1)Hex(2)	470.16354	dHex Hex(2)	O-linked glycosylation	false
+1563	S	null	Hex(1)HexNAc(1)NeuGc(1)	672.22253	Hex(1) HexNAc(1) NeuGc(1)	O-linked glycosylation	false
+1425	S	null	Pentose	132.04225	Pent	O-linked glycosylation	false
+1448	S	null	Hex(4)	648.2113	Hex(4)	O-linked glycosylation	false
+1636	S	null	Hex(1)HexNAc(3)NeuAc(1)	1062.3864	Hex(1) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1701	S	null	dHex(2)Hex(2)HexNAc(4)	1428.539	dHex(2) Hex(2) HexNAc(4)	O-linked glycosylation	false
+1682	S	null	dHex(2)Hex(2)HexNAc(2)NeuAc(1)	1313.4756	dHex(2) Hex(2) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1725	S	null	Hex(2)HexNAc(3)NeuGc(2)	1547.5244	Hex(2) HexNAc(3) NeuGc(2)	O-linked glycosylation	false
+1742	S	null	Hex(9)Phos(3)	1698.3744	H(3) O(9) P(3) Hex(9)	O-linked glycosylation	false
+148	S	Hex(1)HexNAc(2)	Hex(1)HexNAc(2)	568.21155	Hex HexNAc(2)	O-linked glycosylation	true
+1698	S	null	dHex(3)Hex(2)HexNAc(2)Kdn(1)	1418.507	dHex(3) Hex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1716	S	null	dHex(1)Hex(3)HexA(1)HexNAc(3)Sulf(1)	1497.4434	O(3) S dHex Hex(3) HexA HexNAc(3)	O-linked glycosylation	false
+1751	S	null	dHex(3)Hex(3)HexNAc(3)NeuAc(1)	1824.6658	dHex(3) Hex(3) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1579	S	null	dHex(1)Hex(2)HexNAc(1)Sulf(1)	753.19977	O(3) S dHex Hex(2) HexNAc	O-linked glycosylation	false
+1665	S	null	Hex(2)HexNAc(3)NeuGc(1)	1240.4341	Hex(2) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+647	S	null	Ser->Phe	60.036385	H(4) C(6) O(-1)	AA substitution	false
+1623	S	null	Hex(2)HexA(1)NeuAc(1)Pent(1)Sulf(1)	1003.23224	O(3) S Pent Hex(2) HexA NeuAc	O-linked glycosylation	false
+888	S	null	mTRAQ	140.09496	H(12) C(7) N(2) O	Isotopic label	false
+490	S	Hep	Hep	192.06339	Hep	O-linked glycosylation	true
+311	S	Hex(5)HexNAc(4)	Hex(5)HexNAc(4)	1622.5817	Hex(5) HexNAc(4)	O-linked glycosylation	true
+1596	S	null	dHex(1)Hex(3)HexNAc(1)	835.2958	dHex(1) Hex(3) HexNAc(1)	O-linked glycosylation	false
+362	S	Diisopropylphosphate	Diisopropylphosphate	164.06023	H(13) C(6) O(3) P	Chemical derivative	false
+1689	S	null	dHex(3)Hex(2)HexNAc(3)	1371.5175	dHex(3) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1443	S	null	Hex(2)HexNAc(1)Sulf(1)	607.14185	O(3) S Hex(2) HexNAc	O-linked glycosylation	false
+1733	S	null	dHex(3)Hex(2)HexNAc(3)Kdn(1)	1621.5863	dHex(3) Hex(2) HexNAc(3) Kdn	O-linked glycosylation	false
+1606	S	null	dHex(2)Hex(1)HexNAc(1)Kdn(1)	907.3169	dHex(2) Hex HexNAc Kdn	O-linked glycosylation	false
+1673	S	null	dHex(1)Hex(1)HexNAc(3)NeuAc(1)Sulf(1)	1288.4011	O(3) S dHex Hex HexNAc(3) NeuAc	O-linked glycosylation	false
+1775	S	null	dHex(1)Hex(3)HexNAc(5)	1647.6133	dHex(1) Hex(3) HexNAc(5)	O-linked glycosylation	false
+898	S	null	pyrophospho	159.93266	H(2) O(6) P(2)	Post-translational	false
+1426	S	null	Hex(1)Pent(1)	294.0951	Pent Hex	O-linked glycosylation	false
+1639	S	null	dHex(1)Hex(1)HexNAc(2)NeuAc(1)Sulf(1)	1085.3217	O(3) S dHex Hex HexNAc(2) NeuAc	O-linked glycosylation	false
+1656	S	null	dHex(2)Hex(2)HexNAc(2)Sulf(2)	1182.2938	O(6) S(2) dHex(2) Hex(2) HexNAc(2)	O-linked glycosylation	false
+1700	S	null	Hex(2)HexNAc(4)NeuAc(1)	1427.5186	Hex(2) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+309	S	Hex(3)HexNAc(4)	Hex(3)HexNAc(4)	1298.476	Hex(3) HexNAc(4)	O-linked glycosylation	true
+1641	S	null	dHex(1)Hex(1)HexA(1)HexNAc(3)	1093.381	dHex(1) Hex(1) HexA(1) HexNAc(3)	O-linked glycosylation	false
+1434	S	null	HexNAc(1)NeuAc(1)	494.17477	HexNAc NeuAc	O-linked glycosylation	false
+1768	S	null	dHex(1)Hex(3)HexNAc(3)	1241.4545	dHex(1) Hex(3) HexNAc(3)	O-linked glycosylation	false
+1783	S	null	dHex(3)Hex(4)HexNAc(4)	1898.7025	dHex(3) Hex(4) HexNAc(4)	O-linked glycosylation	false
+652	S	null	Ser->Pro	10.020735	H(2) C(2) O(-1)	AA substitution	false
+118	S	EDT-iodoacetyl-PEO-biotin	EDT-iodoacetyl-PEO-biotin	490.17422	H(34) C(20) N(4) O(4) S(3)	Chemical derivative	true
+454	S	HexN	HexN	161.0688	HexN	O-linked glycosylation	true
+655	S	null	Ser->Arg	69.069084	H(7) C(3) N(3) O(-1)	AA substitution	false
+1197	S	null	Ser->Glu	42.010567	H(2) C(2) O	AA substitution	false
+1630	S	null	Hex(1)HexNAc(1)NeuAc(2)Ac(2)	1031.3441	Ac(2) Hex HexNAc NeuAc(2)	O-linked glycosylation	false
+472	S	AEC-MAEC	AEC-MAEC	59.019356	H(5) C(2) N O(-1) S	Chemical derivative	false
+363	S	Isopropylphospho	Isopropylphospho	122.01328	H(7) C(3) O(3) P	Chemical derivative	false
+1572	S	null	Hex(2)HexA(1)Pent(1)Sulf(1)	712.1368	O(3) S Pent Hex(2) HexA	O-linked glycosylation	false
+1749	S	null	Hex(2)HexNAc(3)NeuAc(3)	1806.63	Hex(2) HexNAc(3) NeuAc(3)	O-linked glycosylation	false
+738	S	null	TMT2plex	225.15584	H(20) C(11) 13C N(2) O(2)	Isotopic label	false
+1200	S	null	Ser->Met	44.008457	H(4) C(2) O(-1) S	AA substitution	false
+1757	S	null	Hex(4)HexNAc(4)NeuGc(1)Sulf(2)	1927.5327	O(6) S(2) Hex(4) HexNAc(4) NeuGc	O-linked glycosylation	false
+428	S	PhosphoHexNAc	PhosphoHexNAc	283.04572	H O(3) P HexNAc	O-linked glycosylation	true
+1615	S	null	dHex(1)Hex(2)HexNAc(2)Sulf(1)	956.2791	O(3) S dHex Hex(2) HexNAc(2)	O-linked glycosylation	false
+1691	S	null	dHex(1)Hex(4)HexA(1)HexNAc(2)	1376.4601	dHex(1) Hex(4) HexA(1) HexNAc(2)	O-linked glycosylation	false
+1707	S	null	dHex(1)Hex(2)HexNAc(3)NeuAc(1)Sulf(1)	1450.4539	O(3) S dHex Hex(2) HexNAc(3) NeuAc	O-linked glycosylation	false
+1588	S	null	dHex(1)Hex(1)HexNAc(1)NeuAc(1)	802.2855	dHex(1) Hex(1) HexNAc(1) NeuAc(1)	O-linked glycosylation	false
+146	S	Hex(1)HexNAc(1)dHex(1)	Hex(1)HexNAc(1)dHex(1)	511.1901	dHex Hex HexNAc	O-linked glycosylation	true
+1621	S	null	dHex(2)Hex(2)HexA(1)HexNAc(1)	995.33295	dHex(2) Hex(2) HexA(1) HexNAc(1)	O-linked glycosylation	false
+1577	S	null	Hex(1)HexNAc(1)NeuAc(1)Sulf(1)	736.18445	O(3) S Hex HexNAc NeuAc	O-linked glycosylation	false
+1770	S	null	dHex(2)Hex(4)HexNAc(2)	1346.4858	dHex(2) Hex(4) HexNAc(2)	O-linked glycosylation	false
+1718	S	null	dHex(2)Hex(2)HexNAc(3)NeuAc(1)	1516.555	dHex(2) Hex(2) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1744	S	null	Hex(2)HexNAc(1)NeuGc(4)	1755.5464	Hex(2) HexNAc(1) NeuGc(4)	O-linked glycosylation	false
+1419	S	null	15N-oxobutanoic	-18.023584	H(-3) 15N(-1)	Post-translational	false
+1594	S	null	dHex(2)Hex(2)HexNAc(1)	819.30084	dHex(2) Hex(2) HexNAc(1)	O-linked glycosylation	false
+975	S	null	Chlorpyrifos	153.01392	H(10) C(4) O(2) P S	Chemical derivative	false
+1604	S	null	Hex(5)Phos(1)	890.23047	H O(3) P Hex(5)	O-linked glycosylation	false
+1680	S	null	dHex(2)HexNAc(5)	1307.5127	dHex(2) HexNAc(5)	O-linked glycosylation	false
+1628	S	null	HexNAc(5)	1015.39685	HexNAc(5)	O-linked glycosylation	false
+1255	S	null	Cresylphosphate	170.01328	H(7) C(7) O(3) P	Chemical derivative	false
+1727	S	null	dHex(1)Hex(2)HexNAc(4)NeuAc(1)	1573.5764	dHex(1) Hex(2) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+1777	S	null	Hex(4)HexNAc(4)NeuAc(1)	1751.6241	Hex(4) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+1568	S	null	HexNAc(2)NeuAc(1)	697.25415	HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1445	S	null	dHex(2)Hex(2)	616.22144	dHex(2) Hex(2)	O-linked glycosylation	false
+1671	S	null	dHex(1)Hex(2)HexNAc(4)	1282.4811	dHex(1) Hex(2) HexNAc(4)	O-linked glycosylation	false
+1428	S	null	Hex(1)Pent(2)	426.13733	Pent(2) Hex	O-linked glycosylation	false
+1654	S	null	dHex(3)Hex(2)HexNAc(2)	1168.4381	dHex(3) Hex(2) HexNAc(2)	O-linked glycosylation	false
+1617	S	null	Hex(1)HexNAc(1)NeuAc(1)NeuGc(1)	963.31793	Hex(1) HexNAc(1) NeuAc(1) NeuGc(1)	O-linked glycosylation	false
+1581	S	null	dHex(1)Hex(1)HexNAc(1)Kdn(1)	761.259	dHex Hex HexNAc Kdn	O-linked glycosylation	false
+1678	S	null	Hex(2)HexNAc(3)NeuAc(1)Sulf(1)	1304.396	O(3) S Hex(2) HexNAc(3) NeuAc	O-linked glycosylation	false
+1432	S	null	Hex(1)NeuGc(1)	469.14316	Hex NeuGc	O-linked glycosylation	false
+1766	S	null	dHex(1)Hex(4)HexNAc(2)	1200.428	dHex(1) Hex(4) HexNAc(2)	O-linked glycosylation	false
+1781	S	null	dHex(1)Hex(3)HexNAc(6)	1850.6926	dHex(1) Hex(3) HexNAc(6)	O-linked glycosylation	false
+1643	S	null	dHex(2)Hex(2)HexNAc(2)Sulf(1)	1102.337	O(3) S dHex(2) Hex(2) HexNAc(2)	O-linked glycosylation	false
+1570	S	null	HexNAc(1)Kdn(2)	703.2171	HexNAc Kdn(2)	O-linked glycosylation	false
+1693	S	null	dHex(1)Hex(3)HexA(2)HexNAc(2)	1390.4393	dHex(1) Hex(3) HexA(2) HexNAc(2)	O-linked glycosylation	false
+1379	S	null	dHex(1)Hex(6)	1118.3749	dHex Hex(6)	O-linked glycosylation	false
+1632	S	null	Hex(5)Phos(3)	1050.1631	H(3) O(9) P(3) Hex(5)	O-linked glycosylation	false
+1667	S	null	dHex(3)Hex(1)HexNAc(2)Kdn(1)	1256.4542	dHex(3) Hex HexNAc(2) Kdn	O-linked glycosylation	false
+1755	S	null	Hex(1)HexNAc(1)NeuGc(5)	1900.5839	Hex(1) HexNAc(1) NeuGc(5)	O-linked glycosylation	false
+1720	S	null	Hex(2)HexNAc(3)NeuAc(1)NeuGc(1)	1531.5295	Hex(2) HexNAc(3) NeuAc(1) NeuGc(1)	O-linked glycosylation	false
+977	S	null	Carbofuran	58.02929	H(4) C(2) N O	Chemical derivative	false
+1705	S	null	Hex(2)HexNAc(1)NeuGc(3)	1448.456	Hex(2) HexNAc(1) NeuGc(3)	O-linked glycosylation	false
+295	S	dHex	dHex	146.0579	dHex	O-linked glycosylation	true
+307	S	dHex(1)Hex(4)HexNAc(4)	dHex(1)Hex(4)HexNAc(4)	1606.5867	dHex Hex(4) HexNAc(4)	O-linked glycosylation	true
+4	S	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+1575	S	null	Hex(4)Phos(1)	728.1776	H O(3) P Hex(4)	O-linked glycosylation	false
+1763	S	null	Hex(3)HexNAc(3)	1095.3966	Hex(3) HexNAc(3)	O-linked glycosylation	false
+737	S	null	TMT6plex	229.16293	H(20) C(8) 13C(4) N 15N O(2)	Isotopic label	false
+213	S	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	O-linked glycosylation	true
+178	S	DAET	DAET	87.05065	H(9) C(4) N O(-1) S	Chemical derivative	true
+144	S	Hex(3)	Hex(3)	486.15848	Hex(3)	O-linked glycosylation	true
+1431	S	null	Hex(1)NeuAc(1)	453.14825	Hex NeuAc	O-linked glycosylation	false
+726	S	null	Ethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+23	S	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Post-translational	false
+1644	S	null	dHex(2)Hex(1)HexNAc(2)Kdn(1)	1110.3962	dHex(2) Hex HexNAc(2) Kdn	O-linked glycosylation	false
+447	S	Deoxy	Deoxy	-15.994915	O(-1)	Chemical derivative	true
+1566	S	null	Hex(3)HexNAc(1)	689.23785	Hex(3) HexNAc(1)	O-linked glycosylation	false
+1754	S	null	dHex(1)Hex(2)HexNAc(4)NeuAc(2)	1864.6719	dHex(1) Hex(2) HexNAc(4) NeuAc(2)	O-linked glycosylation	false
+1378	S	null	dHex(1)Hex(5)	956.322	dHex Hex(5)	O-linked glycosylation	false
+1694	S	null	Hex(2)HexNAc(2)NeuAc(2)Sulf(1)	1392.412	O(3) S Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+928	S	null	MercaptoEthanol	60.003372	H(4) C(2) S	Chemical derivative	false
+1610	S	null	Hex(2)HexNAc(3)	933.34375	Hex(2) HexNAc(3)	O-linked glycosylation	false
+1729	S	null	Hex(1)HexNAc(1)NeuGc(4)	1593.4935	Hex(1) HexNAc(1) NeuGc(4)	O-linked glycosylation	false
+1635	S	null	dHex(2)Hex(3)HexNAc(1)Sulf(1)	1061.3104	O(3) S dHex(2) Hex(3) HexNAc	O-linked glycosylation	false
+122	S	Formyl	Formyl	27.994915	C O	Artefact	true
+1779	S	null	Hex(6)HexNAc(4)	1784.6344	Hex(6) HexNAc(4)	O-linked glycosylation	false
+1303	S	null	NeuAc	291.09543	NeuAc	O-linked glycosylation	false
+1447	S	null	Hex(1)HexNAc(2)Sulf(1)	648.1684	O(3) S Hex HexNAc(2)	O-linked glycosylation	false
+395	S	PhosphoribosyldephosphoCoA	PhosphoribosyldephosphoCoA	881.1469	H(42) C(26) N(7) O(19) P(3) S	Post-translational	true
+926	S	null	ethylamino	27.047285	H(5) C(2) N O(-1)	Chemical derivative	false
+1722	S	null	dHex(3)Hex(3)HexNAc(3)	1533.5703	dHex(3) Hex(3) HexNAc(3)	O-linked glycosylation	false
+260	S	Thiophospho	Thiophospho	95.94349	H O(2) P S	Other	true
+1738	S	null	Hex(3)HexNAc(3)NeuAc(2)	1677.5874	Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1745	S	null	Hex(3)HexNAc(3)NeuAc(2)Sulf(1)	1757.5442	O(3) S Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1626	S	null	Hex(2)HexNAc(3)Sulf(1)	1013.3006	O(3) S Hex(2) HexNAc(3)	O-linked glycosylation	false
+1438	S	null	Hex(2)HexNAc(1)	527.185	Hex(2) HexNAc	O-linked glycosylation	false
+1660	S	null	dHex(1)Hex(3)HexA(1)HexNAc(2)	1214.4072	dHex(1) Hex(3) HexA(1) HexNAc(2)	O-linked glycosylation	false
+1669	S	null	dHex(2)Hex(2)HexNAc(2)Kdn(1)	1272.4491	dHex(2) Hex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1591	S	null	HexNAc(4)	812.3175	HexNAc(4)	O-linked glycosylation	false
+1772	S	null	Hex(3)HexNAc(5)	1501.5553	Hex(3) HexNAc(5)	O-linked glycosylation	false
+1584	S	null	dHex(2)Hex(3)	778.2743	dHex(2) Hex(3)	O-linked glycosylation	false
+1676	S	null	dHex(3)HexNAc(3)Kdn(1)	1297.4807	dHex(3) HexNAc(3) Kdn	O-linked glycosylation	false
+1619	S	null	Hex(1)HexNAc(1)NeuGc(2)	979.31287	Hex(1) HexNAc(1) NeuGc(2)	O-linked glycosylation	false
+730	S	null	iTRAQ8plex	304.20535	H(24) C(7) 13C(7) N(3) 15N O(3)	Isotopic label	false
+305	S	dHex(1)Hex(3)HexNAc(4)	dHex(1)Hex(3)HexNAc(4)	1444.5338	dHex Hex(3) HexNAc(4)	O-linked glycosylation	true
+1653	S	null	dHex(2)Hex(1)HexNAc(2)NeuGc(1)	1167.4177	dHex(2) Hex(1) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1658	S	null	dHex(1)Hex(1)HexNAc(3)NeuAc(1)	1208.4442	dHex(1) Hex(1) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+332	S	Thiophos-S-S-biotin	Thiophos-S-S-biotin	525.1429	H(34) C(19) N(4) O(5) P S(3)	Chemical derivative	true
+656	S	null	Ser->Xle	26.052036	H(6) C(3) O(-1)	AA substitution	false
+653	S	null	Ser->Tyr	76.0313	H(4) C(6)	AA substitution	false
+994	S	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1302	S	null	mTRAQ:13C(6)15N(2)	148.10916	H(12) C 13C(6) 15N(2) O	Isotopic label	false
+649	S	null	Ser->Trp	99.04729	H(5) C(8) N O(-1)	AA substitution	false
+1573	S	null	HexNAc(2)NeuGc(1)	713.2491	HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+142	S	HexNAc(1)dHex(1)	HexNAc(1)dHex(1)	349.13727	dHex HexNAc	O-linked glycosylation	true
+276	S	AEBS	AEBS	183.0354	H(9) C(8) N O(2) S	Artefact	true
+1786	S	null	Hex(1)HexNAc(1)NeuAc(1)Ac(1)	698.23816	Ac Hex HexNAc NeuAc	O-linked glycosylation	false
+1649	S	null	Hex(1)HexNAc(2)NeuAc(2)	1150.4023	Hex(1) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1711	S	null	Hex(3)HexNAc(3)NeuAc(1)Sulf(1)	1466.4489	O(3) S Hex(3) HexNAc(3) NeuAc	O-linked glycosylation	false
+5	S	Carbamyl	Carbamyl	43.005814	H C N O	Chemical derivative	false
+1598	S	null	Hex(1)HexNAc(3)Sulf(1)	851.24774	O(3) S Hex HexNAc(3)	O-linked glycosylation	false
+1646	S	null	Hex(2)HexNAc(4)	1136.4231	Hex(2) HexNAc(4)	O-linked glycosylation	false
+1608	S	null	dHex(1)Hex(1)HexNAc(3)	917.3489	dHex(1) Hex(1) HexNAc(3)	O-linked glycosylation	false
+1	S	Acetyl	Acetyl	42.010567	H(2) C(2) O	Post-translational	true
+1564	S	null	dHex(1)Hex(2)HexNAc(1)	673.2429	dHex(1) Hex(2) HexNAc(1)	O-linked glycosylation	false
+1612	S	null	dHex(2)Hex(4)	940.3271	dHex(2) Hex(4)	O-linked glycosylation	false
+1687	S	null	Hex(1)HexNAc(3)NeuAc(2)	1353.4818	Hex(1) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+650	S	null	Ser->Thr	14.01565	H(2) C	AA substitution	false
+1752	S	null	Hex(2)HexNAc(3)NeuGc(3)	1854.6147	Hex(2) HexNAc(3) NeuGc(3)	O-linked glycosylation	false
+1761	S	null	dHex(1)Hex(3)HexNAc(2)	1038.3751	dHex(1) Hex(3) HexNAc(2)	O-linked glycosylation	false
+403	S	Ser->LacticAcid	Ser->LacticAcid	-15.010899	H(-1) N(-1)	Post-translational	true
+1696	S	null	Hex(3)HexNAc(3)NeuGc(1)	1402.4869	Hex(3) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1376	S	null	dHex(1)Hex(3)	632.2164	dHex Hex(3)	O-linked glycosylation	false
+1740	S	null	dHex(4)Hex(3)HexNAc(3)	1679.6282	dHex(4) Hex(3) HexNAc(3)	O-linked glycosylation	false
+1702	S	null	dHex(2)Hex(3)HexA(1)HexNAc(2)Sulf(1)	1440.4219	O(3) S dHex(2) Hex(3) HexA HexNAc(2)	O-linked glycosylation	false
+54	S	Glucuronyl	Glucuronyl	176.03209	HexA	O-linked glycosylation	true
+1637	S	null	dHex(2)Hex(1)HexNAc(3)	1063.4067	dHex(2) Hex(1) HexNAc(3)	O-linked glycosylation	false
+426	S	Octanoyl	Octanoyl	126.10446	H(14) C(8) O	Post-translational	true
+1662	S	null	Hex(1)HexNAc(2)NeuAc(2)Sulf(1)	1230.3593	O(3) S Hex HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1413	S	null	PhosphoHex(2)	404.072	H O(3) P Hex(2)	O-linked glycosylation	false
+1724	S	null	dHex(1)Hex(2)HexNAc(2)NeuAc(2)Sulf(1)	1538.47	O(3) S dHex Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1759	S	null	Hex(4)HexNAc(4)NeuAc(1)Sulf(3)	1991.4946	O(9) S(3) Hex(4) HexNAc(4) NeuAc	O-linked glycosylation	false
+149	S	Hex(1)HexNAc(1)NeuAc(1)	Hex(1)HexNAc(1)NeuAc(1)	656.2276	Hex HexNAc NeuAc	O-linked glycosylation	true
+1624	S	null	dHex(1)Hex(1)HexNAc(2)NeuAc(1)	1005.36487	dHex(1) Hex(1) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1747	S	null	dHex(1)Hex(2)HexNAc(2)NeuGc(3)	1797.5933	dHex(1) Hex(2) HexNAc(2) NeuGc(3)	O-linked glycosylation	false
+1436	S	null	Hex(1)HexNAc(1)dHex(1)Me(1)	525.20575	Me dHex Hex HexNAc	O-linked glycosylation	false
+1685	S	null	Hex(2)HexNAc(5)	1339.5026	Hex(2) HexNAc(5)	O-linked glycosylation	false
+1709	S	null	dHex(3)Hex(1)HexNAc(3)Kdn(1)	1459.5336	dHex(3) Hex HexNAc(3) Kdn	O-linked glycosylation	false
+1713	S	null	Hex(3)HexNAc(3)NeuGc(1)Sulf(1)	1482.4437	O(3) S Hex(3) HexNAc(3) NeuGc	O-linked glycosylation	false
+419	S	Glycerophospho	Glycerophospho	154.00311	H(7) C(3) O(5) P	Post-translational	true
+1586	S	null	dHex(2)Hex(2)HexA(1)	792.25354	dHex(2) Hex(2) HexA(1)	O-linked glycosylation	false
+1774	S	null	dHex(2)Hex(3)HexNAc(4)	1590.5918	dHex(2) Hex(3) HexNAc(4)	O-linked glycosylation	false
+851	S	null	cGMP+RMP-loss	150.04158	H(4) C(5) N(5) O	Post-translational	false
+1736	S	null	dHex(2)Hex(3)HexA(1)HexNAc(3)Sulf(1)	1643.5013	O(3) S dHex(2) Hex(3) HexA HexNAc(3)	O-linked glycosylation	false
+1310	S	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+153	S	Hex(2)HexNAc(2)	Hex(2)HexNAc(2)	730.2644	Hex(2) HexNAc(2)	O-linked glycosylation	true
+1440	S	null	Hex(2)HexNAc(1)Me(1)	541.2007	Me Hex(2) HexNAc	O-linked glycosylation	false
+728	S	null	Methylphosphonate	77.98707	H(3) C O(2) P	Chemical derivative	false
+1674	S	null	dHex(1)Hex(3)HexA(1)HexNAc(2)Sulf(1)	1294.364	O(3) S dHex Hex(3) HexA HexNAc(2)	O-linked glycosylation	false
+1651	S	null	dHex(1)Hex(2)HexNAc(3)Sulf(1)	1159.3585	O(3) S dHex Hex(2) HexNAc(3)	O-linked glycosylation	false
+1330	S	null	bisANS-sulfonates	437.20178	H(25) C(32) N(2)	Chemical derivative	false
+1580	S	null	dHex(1)HexNAc(3)	755.296	dHex(1) HexNAc(3)	O-linked glycosylation	false
+1784	S	null	dHex(1)Hex(3)HexNAc(5)NeuAc(1)	1938.7086	dHex(1) Hex(3) HexNAc(5) NeuAc(1)	O-linked glycosylation	false
+21	S	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+1767	S	null	dHex(2)Hex(2)HexNAc(3)	1225.4596	dHex(2) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1640	S	null	dHex(1)Hex(3)HexA(1)HexNAc(1)Sulf(1)	1091.2847	O(3) S dHex Hex(3) HexA HexNAc	O-linked glycosylation	false
+1435	S	null	HexNAc(1)NeuGc(1)	510.1697	HexNAc NeuGc	O-linked glycosylation	false
+156	S	Hex(1)HexNAc(2)dHex(2)	Hex(1)HexNAc(2)dHex(2)	860.3274	dHex(2) Hex HexNAc(2)	O-linked glycosylation	true
+1587	S	null	dHex(1)Hex(1)HexNAc(2)Sulf(1)	794.2263	O(3) S dHex Hex HexNAc(2)	O-linked glycosylation	false
+1708	S	null	dHex(1)Hex(2)HexNAc(2)NeuAc(2)	1458.5132	dHex(1) Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1631	S	null	Hex(2)HexNAc(2)NeuGc(1)	1037.3547	Hex(2) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+121	S	GG	GG	114.04293	H(6) C(4) N(2) O(2)	Other	true
+934	S	null	AMTzHexNAc2	502.20233	H(30) C(19) N(6) O(10)	Chemical derivative	false
+959	S	null	Phosphopropargyl	116.99796	H(4) C(3) N O(2) P	Multiple	false
+1571	S	null	Hex(3)HexNAc(1)Me(1)	703.2535	Hex(3) HexNAc(1) Me(1)	O-linked glycosylation	false
+1364	S	null	O-Et-N-diMePhospho	135.04492	H(10) C(4) N O(2) P	Chemical derivative	false
+1614	S	null	dHex(2)HexNAc(2)Kdn(1)	948.34344	dHex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1690	S	null	Hex(7)Phos(3)	1374.2688	H(3) O(9) P(3) Hex(7)	O-linked glycosylation	false
+93	S	EDT-maleimide-PEO-biotin	EDT-maleimide-PEO-biotin	601.20624	H(39) C(25) N(5) O(6) S(3)	Chemical derivative	false
+429	S	PhosphoHex	PhosphoHex	242.01915	H O(3) P Hex	O-linked glycosylation	true
+1758	S	null	dHex(2)Hex(3)HexNAc(3)NeuAc(2)	1969.7032	dHex(2) Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+792	S	null	AEC-MAEC:2H(4)	63.04446	H 2H(4) C(2) N O(-1) S	Isotopic label	false
+1699	S	null	dHex(3)Hex(2)HexA(1)HexNAc(2)Sulf(1)	1424.427	O(3) S dHex(3) Hex(2) HexA HexNAc(2)	O-linked glycosylation	false
+1622	S	null	dHex(1)Hex(1)HexNAc(3)Sulf(1)	997.30566	O(3) S dHex Hex HexNAc(3)	O-linked glycosylation	false
+1683	S	null	dHex(1)Hex(3)HexNAc(3)Sulf(1)	1321.4113	O(3) S dHex Hex(3) HexNAc(3)	O-linked glycosylation	false
+431	S	Palmitoleyl	Palmitoleyl	236.21402	H(28) C(16) O	Post-translational	true
+1843	S	null	PhosphoCytidine	305.0413	H(12) C(9) N(3) O(7) P	Post-translational	false
+449	S	Decanoyl	Decanoyl	154.13576	H(18) C(10) O	Post-translational	true
+1715	S	null	dHex(2)Hex(3)HexNAc(2)NeuGc(1)	1491.5233	dHex(2) Hex(3) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1365	S	null	N-dimethylphosphate	107.01362	H(6) C(2) N O(2) P	Chemical derivative	false
+1595	S	null	Hex(2)HexNAc(1)NeuGc(1)	834.2753	Hex(2) HexNAc(1) NeuGc(1)	O-linked glycosylation	false
+1664	S	null	Hex(1)HexNAc(1)NeuAc(3)	1238.4185	Hex(1) HexNAc(1) NeuAc(3)	O-linked glycosylation	false
+1672	S	null	Hex(1)HexNAc(1)NeuGc(3)	1286.4032	Hex(1) HexNAc(1) NeuGc(3)	O-linked glycosylation	false
+1607	S	null	dHex(1)Hex(3)HexNAc(1)Sulf(1)	915.25256	O(3) S dHex Hex(3) HexNAc	O-linked glycosylation	false
+1038	S	null	TAMRA-FP	659.31244	H(46) C(37) N(3) O(6) P	Chemical derivative	false
+1355	S	null	azole	-20.026215	H(-4) O(-1)	Post-translational	false
+1688	S	null	dHex(1)Hex(2)HexNAc(3)NeuAc(1)	1370.4971	dHex(1) Hex(2) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+271	S	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+1760	S	null	dHex(2)Hex(2)HexNAc(2)	1022.3802	dHex(2) Hex(2) HexNAc(2)	O-linked glycosylation	false
+739	S	null	TMT	224.15248	H(20) C(12) N(2) O(2)	Isotopic label	false
+214	S	iTRAQ4plex	iTRAQ4plex	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+1726	S	null	dHex(4)Hex(2)HexNAc(2)Kdn(1)	1564.565	dHex(4) Hex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1741	S	null	dHex(2)Hex(3)HexNAc(3)NeuGc(1)	1694.6028	dHex(2) Hex(3) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1442	S	null	Hex(1)NeuAc(1)Pent(1)	585.1905	Pent Hex NeuAc	O-linked glycosylation	false
+1776	S	null	Hex(3)HexNAc(6)	1704.6348	Hex(3) HexNAc(6)	O-linked glycosylation	false
+1427	S	null	Hex(1)HexA(1)	338.0849	Hex HexA	O-linked glycosylation	false
+1657	S	null	dHex(1)Hex(2)HexNAc(2)NeuGc(1)	1183.4126	dHex(1) Hex(2) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1638	S	null	Hex(1)HexNAc(3)NeuGc(1)	1078.3812	Hex(1) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1433	S	null	HexNAc(3)	609.2381	HexNAc(3)	O-linked glycosylation	false
+1642	S	null	Hex(2)HexNAc(2)NeuAc(1)Sulf(1)	1101.3167	O(3) S Hex(2) HexNAc(2) NeuAc	O-linked glycosylation	false
+1679	S	null	dHex(2)Hex(2)HexNAc(3)Sulf(1)	1305.4164	O(3) S dHex(2) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1765	S	null	dHex(2)Hex(3)HexNAc(2)	1184.433	dHex(2) Hex(3) HexNAc(2)	O-linked glycosylation	false
+1616	S	null	dHex(1)HexNAc(4)	958.3754	dHex(1) HexNAc(4)	O-linked glycosylation	false
+1582	S	null	Hex(1)HexNAc(3)	771.29095	Hex(1) HexNAc(3)	O-linked glycosylation	false
+1199	S	null	Ser->Lys	41.062935	H(7) C(3) N O(-1)	AA substitution	false
+1739	S	null	dHex(2)Hex(3)HexNAc(3)NeuAc(1)	1678.6078	dHex(2) Hex(3) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1196	S	null	Ser->Asp	27.994915	C O	AA substitution	false
+1782	S	null	dHex(1)Hex(4)HexNAc(4)NeuAc(1)	1897.6821	dHex(1) Hex(4) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+270	S	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+442	S	FMN	FMN	438.09406	H(19) C(17) N(4) O(8) P	Post-translational	true
+58	S	Propionyl	Propionyl	56.026215	H(4) C(3) O	Chemical derivative	true
+160	S	Hex(1)HexNAc(1)NeuAc(2)	Hex(1)HexNAc(1)NeuAc(2)	947.32306	Hex HexNAc NeuAc(2)	O-linked glycosylation	true
+774	S	null	Biotin-phenacyl	626.2635	H(38) C(29) N(8) O(6) S	Chemical derivative	false
+1692	S	null	Hex(3)HexNAc(3)NeuAc(1)	1386.4921	Hex(3) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+724	S	null	O-Methylphosphate	93.98198	H(3) C O(3) P	Chemical derivative	false
+1756	S	null	Hex(4)HexNAc(4)NeuAc(1)Sulf(2)	1911.5378	O(6) S(2) Hex(4) HexNAc(4) NeuAc	O-linked glycosylation	false
+158	S	Hex(2)HexNAc(2)dHex(1)	Hex(2)HexNAc(2)dHex(1)	876.3223	dHex Hex(2) HexNAc(2)	O-linked glycosylation	true
+1706	S	null	dHex(4)Hex(1)HexNAc(1)Kdn(2)	1449.5016	dHex(4) Hex HexNAc Kdn(2)	O-linked glycosylation	false
+914	S	null	Methylmalonylation	100.016045	H(4) C(4) O(3)	Chemical derivative	false
+478	S	FTC	FTC	421.07324	H(15) C(21) N(3) O(5) S	Chemical derivative	true
+1633	S	null	Hex(6)Phos(1)	1052.2833	H O(3) P Hex(6)	O-linked glycosylation	false
+1589	S	null	Hex(2)HexNAc(2)Sulf(1)	810.2212	O(3) S Hex(2) HexNAc(2)	O-linked glycosylation	false
+1037	S	null	Biotin:Thermo-88317	443.2913	H(42) C(22) N(3) O(4) P	Chemical derivative	false
+1429	S	null	Hex(1)HexNAc(1)Phos(1)	445.09854	H O(3) P Hex HexNAc	O-linked glycosylation	false
+1367	S	null	dHex(1)Hex(1)	308.11072	dHex Hex	O-linked glycosylation	false
+793	S	null	Hex(1)HexNAc(1)	365.1322	Hex HexNAc	O-linked glycosylation	false
+1620	S	null	Hex(1)HexNAc(1)NeuAc(2)Ac(1)	989.3336	Ac Hex HexNAc NeuAc(2)	O-linked glycosylation	false
+34	S	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1743	S	null	dHex(2)HexNAc(7)	1713.6714	dHex(2) HexNAc(7)	O-linked glycosylation	false
+310	S	Hex(4)HexNAc(4)	Hex(4)HexNAc(4)	1460.5288	Hex(4) HexNAc(4)	O-linked glycosylation	true
+1201	S	null	Ser->Gln	41.02655	H(3) C(2) N	AA substitution	false
+1593	S	null	dHex(1)Hex(1)HexNAc(1)NeuGc(1)	818.28046	dHex(1) Hex(1) HexNAc(1) NeuGc(1)	O-linked glycosylation	false
+1666	S	null	dHex(1)Hex(2)HexNAc(2)NeuAc(1)Sulf(1)	1247.3745	O(3) S dHex Hex(2) HexNAc(2) NeuAc	O-linked glycosylation	false
+1717	S	null	Hex(2)HexNAc(3)NeuAc(2)	1515.5345	Hex(2) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1578	S	null	Hex(1)HexA(1)HexNAc(2)	744.24365	Hex(1) HexA(1) HexNAc(2)	O-linked glycosylation	false
+1629	S	null	dHex(1)Hex(1)HexNAc(2)NeuGc(1)	1021.3598	dHex(1) Hex(1) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1681	S	null	Hex(2)HexNAc(2)NeuAc(2)	1312.4552	Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1567	S	null	Hex(1)HexNAc(1)Kdn(1)Sulf(1)	695.1579	O(3) S Hex HexNAc Kdn	O-linked glycosylation	false
+651	S	null	Ser->Asn	27.010899	H C N	AA substitution	false
+654	S	null	Ser->Cys	15.977156	O(-1) S	AA substitution	false
+49	S	Phosphopantetheine	Phosphopantetheine	340.0858	H(21) C(11) N(2) O(6) P S	Post-translational	true
+1728	S	null	dHex(3)Hex(2)HexNAc(4)	1574.5969	dHex(3) Hex(2) HexNAc(4)	O-linked glycosylation	false
+1732	S	null	Hex(4)HexNAc(4)Sulf(2)	1620.4424	O(6) S(2) Hex(4) HexNAc(4)	O-linked glycosylation	false
+657	S	null	Ser->Gly	-30.010565	H(-2) C(-1) O(-1)	AA substitution	false
+1655	S	null	Hex(3)HexNAc(3)Sulf(1)	1175.3534	O(3) S Hex(3) HexNAc(3)	O-linked glycosylation	false
+1778	S	null	dHex(2)Hex(4)HexNAc(4)	1752.6447	dHex(2) Hex(4) HexNAc(4)	O-linked glycosylation	false
+47	S	Palmitoyl	Palmitoyl	238.22966	H(30) C(16) O	Post-translational	true
+56	S	Acetyl:2H(3)	Acetyl:2H(3)	45.029396	H(-1) 2H(3) C(2) O	Isotopic label	true
+723	S	null	O-Dimethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+648	S	null	Ser->Ala	-15.994915	O(-1)	AA substitution	false
+1444	S	null	Hex(2)NeuAc(1)	615.20105	Hex(2) NeuAc	O-linked glycosylation	false
+1670	S	null	dHex(2)Hex(2)HexA(1)HexNAc(2)Sulf(1)	1278.3691	O(3) S dHex(2) Hex(2) HexA HexNAc(2)	O-linked glycosylation	false
+40	S	Sulfo	Sulfo	79.95682	O(3) S	Post-translational	true
+258	C-term	Label:18O(1)	Label:18O(1)	2.004246	O(-1) 18O	Isotopic label	true
+973	C-term	null	Puromycin	453.21246	H(27) C(22) N(7) O(4)	Co-translational	false
+956	C-term	null	Cation:Mg[II]	21.969393	H(-2) Mg	Artefact	false
+958	C-term	null	Propargylamine	37.031635	H(3) C(3) N O(-1)	Chemical derivative	false
+450	C-term	Glu	Glu	129.04259	H(7) C(5) N O(3)	Chemical derivative	false
+989	C-term	null	Ammonium	17.026548	H(3) N	Artefact	false
+954	C-term	null	Cation:Zn[II]	61.913494	H(-2) Zn	Artefact	false
+951	C-term	null	Cation:Ca[II]	37.94694	H(-2) Ca	Artefact	false
+34	C-term	Methyl	Methyl	14.01565	H(2) C	Multiple	true
+140	C-term	a-type-ion	a-type-ion	-46.005478	H(-2) C(-1) O(-2)	Other	false
+2	C-term	Amidated	Amidated	-0.984016	H N O(-1)	Artefact	true
+811	C-term	null	Biotin:Thermo-21360	487.24646	H(37) C(21) N(5) O(6) S	Chemical derivative	false
+193	C-term	Label:18O(2)	Label:18O(2)	4.008491	O(-2) 18O(2)	Isotopic label	true
+531	C-term	Cation:Cu[I]	Cation:Cu[I]	61.921776	H(-1) Cu	Artefact	true
+298	C-term	Methyl:2H(3)	Methyl:2H(3)	17.03448	H(-1) 2H(3) C	Isotopic label	true
+280	C-term	Ethyl	Ethyl	28.0313	H(4) C(2)	Chemical derivative	true
+448	C-term	Microcin	Microcin	831.197	H(37) C(36) N(3) O(20)	Post-translational	true
+952	C-term	null	Cation:Fe[II]	53.91929	H(-2) Fe	Artefact	false
+1836	C-term	null	Triton	188.1565	H(20) C(14)	Other	false
+285	C-term	SulfanilicAcid	SulfanilicAcid	155.0041	H(5) C(6) N O(2) S	Isotopic label	true
+2	C-term	Amidated	Amidated	-0.984016	H N O(-1)	Post-translational	true
+451	C-term	GluGlu	GluGlu	258.08517	H(14) C(10) N(2) O(6)	Post-translational	false
+394	C-term	GPIanchor	GPIanchor	123.00853	H(6) C(2) N O(3) P	Post-translational	false
+955	C-term	null	Cation:Ag	105.89727	H(-1) Ag	Artefact	false
+453	C-term	GluGluGluGlu	GluGluGluGlu	516.17035	H(28) C(20) N(4) O(12)	Post-translational	false
+286	C-term	SulfanilicAcid:13C(6)	SulfanilicAcid:13C(6)	161.02423	H(5) 13C(6) N O(2) S	Chemical derivative	true
+452	C-term	GluGluGlu	GluGluGlu	387.12778	H(21) C(15) N(3) O(9)	Post-translational	false
+1305	C-term	null	Propyl	42.04695	H(6) C(3)	Chemical derivative	false
+530	C-term	Cation:K	Cation:K	37.955883	H(-1) K	Artefact	true
+953	C-term	null	Cation:Ni[II]	55.919697	H(-2) Ni	Artefact	false
+1015	C-term	null	Ahx2+Hsl	309.20523	H(27) C(16) N(3) O(3)	Non-standard residue	false
+432	C-term	Cholesterol	Cholesterol	368.3443	H(44) C(27)	Post-translational	true
+950	C-term	null	Cation:Li	6.008178	H(-1) Li	Artefact	false
+30	C-term	Cation:Na	Cation:Na	21.981943	H(-1) Na	Artefact	true
+289	C-term	Biotin-PEO-Amine	Biotin-PEO-Amine	356.1882	H(28) C(16) N(4) O(3) S	Chemical derivative	false
+734	C-term	null	Ethanolamine	43.0422	H(5) C(2) N	Chemical derivative	false
+437	C-term	MicrocinC7	MicrocinC7	386.11038	H(19) C(13) N(6) O(6) P	Post-translational	true
+1835	C-term	null	Tween80	263.2375	H(31) C(18) O	Other	false
+490	T	Hep	Hep	192.06339	Hep	O-linked glycosylation	true
+1612	T	null	dHex(2)Hex(4)	940.3271	dHex(2) Hex(4)	O-linked glycosylation	false
+1756	T	null	Hex(4)HexNAc(4)NeuAc(1)Sulf(2)	1911.5378	O(6) S(2) Hex(4) HexNAc(4) NeuAc	O-linked glycosylation	false
+1740	T	null	dHex(4)Hex(3)HexNAc(3)	1679.6282	dHex(4) Hex(3) HexNAc(3)	O-linked glycosylation	false
+56	T	Acetyl:2H(3)	Acetyl:2H(3)	45.029396	H(-1) 2H(3) C(2) O	Isotopic label	true
+1687	T	null	Hex(1)HexNAc(3)NeuAc(2)	1353.4818	Hex(1) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+994	T	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1696	T	null	Hex(3)HexNAc(3)NeuGc(1)	1402.4869	Hex(3) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+738	T	null	TMT2plex	225.15584	H(20) C(11) 13C N(2) O(2)	Isotopic label	false
+337	T	Methylamine	Methylamine	13.031634	H(3) C N O(-1)	Artefact	true
+724	T	null	O-Methylphosphate	93.98198	H(3) C O(3) P	Chemical derivative	false
+1568	T	null	HexNAc(2)NeuAc(1)	697.25415	HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1619	T	null	Hex(1)HexNAc(1)NeuGc(2)	979.31287	Hex(1) HexNAc(1) NeuGc(2)	O-linked glycosylation	false
+1671	T	null	dHex(1)Hex(2)HexNAc(4)	1282.4811	dHex(1) Hex(2) HexNAc(4)	O-linked glycosylation	false
+1637	T	null	dHex(2)Hex(1)HexNAc(3)	1063.4067	dHex(2) Hex(1) HexNAc(3)	O-linked glycosylation	false
+1662	T	null	Hex(1)HexNAc(2)NeuAc(2)Sulf(1)	1230.3593	O(3) S Hex HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1722	T	null	dHex(3)Hex(3)HexNAc(3)	1533.5703	dHex(3) Hex(3) HexNAc(3)	O-linked glycosylation	false
+926	T	null	ethylamino	27.047285	H(5) C(2) N O(-1)	Chemical derivative	false
+1678	T	null	Hex(2)HexNAc(3)NeuAc(1)Sulf(1)	1304.396	O(3) S Hex(2) HexNAc(3) NeuAc	O-linked glycosylation	false
+431	T	Palmitoleyl	Palmitoleyl	236.21402	H(28) C(16) O	Pre-translational	true
+1747	T	null	dHex(1)Hex(2)HexNAc(2)NeuGc(3)	1797.5933	dHex(1) Hex(2) HexNAc(2) NeuGc(3)	O-linked glycosylation	false
+1781	T	null	dHex(1)Hex(3)HexNAc(6)	1850.6926	dHex(1) Hex(3) HexNAc(6)	O-linked glycosylation	false
+401	T	Didehydro	Didehydro	-2.01565	H(-2)	Chemical derivative	true
+1593	T	null	dHex(1)Hex(1)HexNAc(1)NeuGc(1)	818.28046	dHex(1) Hex(1) HexNAc(1) NeuGc(1)	O-linked glycosylation	false
+1628	T	null	HexNAc(5)	1015.39685	HexNAc(5)	O-linked glycosylation	false
+1208	T	null	Thr->His	36.011234	C(2) N(2) O(-1)	AA substitution	false
+1713	T	null	Hex(3)HexNAc(3)NeuGc(1)Sulf(1)	1482.4437	O(3) S Hex(3) HexNAc(3) NeuGc	O-linked glycosylation	false
+1774	T	null	dHex(2)Hex(3)HexNAc(4)	1590.5918	dHex(2) Hex(3) HexNAc(4)	O-linked glycosylation	false
+149	T	Hex(1)HexNAc(1)NeuAc(1)	Hex(1)HexNAc(1)NeuAc(1)	656.2276	Hex HexNAc NeuAc	O-linked glycosylation	true
+156	T	Hex(1)HexNAc(2)dHex(2)	Hex(1)HexNAc(2)dHex(2)	860.3274	dHex(2) Hex HexNAc(2)	O-linked glycosylation	true
+1570	T	null	HexNAc(1)Kdn(2)	703.2171	HexNAc Kdn(2)	O-linked glycosylation	false
+1729	T	null	Hex(1)HexNAc(1)NeuGc(4)	1593.4935	Hex(1) HexNAc(1) NeuGc(4)	O-linked glycosylation	false
+1655	T	null	Hex(3)HexNAc(3)Sulf(1)	1175.3534	O(3) S Hex(3) HexNAc(3)	O-linked glycosylation	false
+1440	T	null	Hex(2)HexNAc(1)Me(1)	541.2007	Me Hex(2) HexNAc	O-linked glycosylation	false
+1706	T	null	dHex(4)Hex(1)HexNAc(1)Kdn(2)	1449.5016	dHex(4) Hex HexNAc Kdn(2)	O-linked glycosylation	false
+429	T	PhosphoHex	PhosphoHex	242.01915	H O(3) P Hex	O-linked glycosylation	true
+1586	T	null	dHex(2)Hex(2)HexA(1)	792.25354	dHex(2) Hex(2) HexA(1)	O-linked glycosylation	false
+1433	T	null	HexNAc(3)	609.2381	HexNAc(3)	O-linked glycosylation	false
+1621	T	null	dHex(2)Hex(2)HexA(1)HexNAc(1)	995.33295	dHex(2) Hex(2) HexA(1) HexNAc(1)	O-linked glycosylation	false
+1763	T	null	Hex(3)HexNAc(3)	1095.3966	Hex(3) HexNAc(3)	O-linked glycosylation	false
+178	T	DAET	DAET	87.05065	H(9) C(4) N O(-1) S	Chemical derivative	true
+1575	T	null	Hex(4)Phos(1)	728.1776	H O(3) P Hex(4)	O-linked glycosylation	false
+23	T	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Post-translational	false
+1205	T	null	Thr->Glu	27.994915	C O	AA substitution	false
+310	T	Hex(4)HexNAc(4)	Hex(4)HexNAc(4)	1460.5288	Hex(4) HexNAc(4)	O-linked glycosylation	true
+1644	T	null	dHex(2)Hex(1)HexNAc(2)Kdn(1)	1110.3962	dHex(2) Hex HexNAc(2) Kdn	O-linked glycosylation	false
+1673	T	null	dHex(1)Hex(1)HexNAc(3)NeuAc(1)Sulf(1)	1288.4011	O(3) S dHex Hex HexNAc(3) NeuAc	O-linked glycosylation	false
+160	T	Hex(1)HexNAc(1)NeuAc(2)	Hex(1)HexNAc(1)NeuAc(2)	947.32306	Hex HexNAc NeuAc(2)	O-linked glycosylation	true
+447	T	Deoxy	Deoxy	-15.994915	O(-1)	Chemical derivative	true
+934	T	null	AMTzHexNAc2	502.20233	H(30) C(19) N(6) O(10)	Chemical derivative	false
+928	T	null	MercaptoEthanol	60.003372	H(4) C(2) S	Chemical derivative	false
+1610	T	null	Hex(2)HexNAc(3)	933.34375	Hex(2) HexNAc(3)	O-linked glycosylation	false
+1694	T	null	Hex(2)HexNAc(2)NeuAc(2)Sulf(1)	1392.412	O(3) S Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1733	T	null	dHex(3)Hex(2)HexNAc(3)Kdn(1)	1621.5863	dHex(3) Hex(2) HexNAc(3) Kdn	O-linked glycosylation	false
+737	T	null	TMT6plex	229.16293	H(20) C(8) 13C(4) N 15N O(2)	Isotopic label	false
+1447	T	null	Hex(1)HexNAc(2)Sulf(1)	648.1684	O(3) S Hex HexNAc(2)	O-linked glycosylation	false
+1635	T	null	dHex(2)Hex(3)HexNAc(1)Sulf(1)	1061.3104	O(3) S dHex(2) Hex(3) HexNAc	O-linked glycosylation	false
+449	T	Decanoyl	Decanoyl	154.13576	H(18) C(10) O	Post-translational	true
+1758	T	null	dHex(2)Hex(3)HexNAc(3)NeuAc(2)	1969.7032	dHex(2) Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1779	T	null	Hex(6)HexNAc(4)	1784.6344	Hex(6) HexNAc(4)	O-linked glycosylation	false
+305	T	dHex(1)Hex(3)HexNAc(4)	dHex(1)Hex(3)HexNAc(4)	1444.5338	dHex Hex(3) HexNAc(4)	O-linked glycosylation	true
+1413	T	null	PhosphoHex(2)	404.072	H O(3) P Hex(2)	O-linked glycosylation	false
+1724	T	null	dHex(1)Hex(2)HexNAc(2)NeuAc(2)Sulf(1)	1538.47	O(3) S dHex Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1685	T	null	Hex(2)HexNAc(5)	1339.5026	Hex(2) HexNAc(5)	O-linked glycosylation	false
+1745	T	null	Hex(3)HexNAc(3)NeuAc(2)Sulf(1)	1757.5442	O(3) S Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+142	T	HexNAc(1)dHex(1)	HexNAc(1)dHex(1)	349.13727	dHex HexNAc	O-linked glycosylation	true
+34	T	Methyl	Methyl	14.01565	H(2) C	Post-translational	true
+1783	T	null	dHex(3)Hex(4)HexNAc(4)	1898.7025	dHex(3) Hex(4) HexNAc(4)	O-linked glycosylation	false
+1595	T	null	Hex(2)HexNAc(1)NeuGc(1)	834.2753	Hex(2) HexNAc(1) NeuGc(1)	O-linked glycosylation	false
+1660	T	null	dHex(1)Hex(3)HexA(1)HexNAc(2)	1214.4072	dHex(1) Hex(3) HexA(1) HexNAc(2)	O-linked glycosylation	false
+665	T	null	Thr->Arg	55.053432	H(5) C(2) N(3) O(-1)	AA substitution	false
+1669	T	null	dHex(2)Hex(2)HexNAc(2)Kdn(1)	1272.4491	dHex(2) Hex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1608	T	null	dHex(1)Hex(1)HexNAc(3)	917.3489	dHex(1) Hex(1) HexNAc(3)	O-linked glycosylation	false
+1212	T	null	Thr->Tyr	62.01565	H(2) C(5)	AA substitution	false
+1572	T	null	Hex(2)HexA(1)Pent(1)Sulf(1)	712.1368	O(3) S Pent Hex(2) HexA	O-linked glycosylation	false
+1708	T	null	dHex(1)Hex(2)HexNAc(2)NeuAc(2)	1458.5132	dHex(1) Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1760	T	null	dHex(2)Hex(2)HexNAc(2)	1022.3802	dHex(2) Hex(2) HexNAc(2)	O-linked glycosylation	false
+662	T	null	Thr->Pro	-3.994915	C O(-1)	AA substitution	false
+1584	T	null	dHex(2)Hex(3)	778.2743	dHex(2) Hex(3)	O-linked glycosylation	false
+1772	T	null	Hex(3)HexNAc(5)	1501.5553	Hex(3) HexNAc(5)	O-linked glycosylation	false
+1302	T	null	mTRAQ:13C(6)15N(2)	148.10916	H(12) C 13C(6) 15N(2) O	Isotopic label	false
+1657	T	null	dHex(1)Hex(2)HexNAc(2)NeuGc(1)	1183.4126	dHex(1) Hex(2) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+40	T	Sulfo	Sulfo	79.95682	O(3) S	Post-translational	true
+332	T	Thiophos-S-S-biotin	Thiophos-S-S-biotin	525.1429	H(34) C(19) N(4) O(5) P S(3)	Chemical derivative	true
+659	T	null	Thr->Ala	-30.010565	H(-2) C(-1) O(-1)	AA substitution	false
+1658	T	null	dHex(1)Hex(1)HexNAc(3)NeuAc(1)	1208.4442	dHex(1) Hex(1) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1573	T	null	HexNAc(2)NeuGc(1)	713.2491	HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1711	T	null	Hex(3)HexNAc(3)NeuAc(1)Sulf(1)	1466.4489	O(3) S Hex(3) HexNAc(3) NeuAc	O-linked glycosylation	false
+454	T	HexN	HexN	161.0688	HexN	O-linked glycosylation	true
+726	T	null	Ethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+1435	T	null	HexNAc(1)NeuGc(1)	510.1697	HexNAc NeuGc	O-linked glycosylation	false
+1623	T	null	Hex(2)HexA(1)NeuAc(1)Pent(1)Sulf(1)	1003.23224	O(3) S Pent Hex(2) HexA NeuAc	O-linked glycosylation	false
+426	T	Octanoyl	Octanoyl	126.10446	H(14) C(8) O	Post-translational	true
+1646	T	null	Hex(2)HexNAc(4)	1136.4231	Hex(2) HexNAc(4)	O-linked glycosylation	false
+1590	T	null	Hex(5)	810.2641	Hex(5)	O-linked glycosylation	false
+271	T	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+664	T	null	Thr->Xle	12.036386	H(4) C(2) O(-1)	AA substitution	false
+1564	T	null	dHex(1)Hex(2)HexNAc(1)	673.2429	dHex(1) Hex(2) HexNAc(1)	O-linked glycosylation	false
+307	T	dHex(1)Hex(4)HexNAc(4)	dHex(1)Hex(4)HexNAc(4)	1606.5867	dHex Hex(4) HexNAc(4)	O-linked glycosylation	true
+1428	T	null	Hex(1)Pent(2)	426.13733	Pent(2) Hex	O-linked glycosylation	false
+1777	T	null	Hex(4)HexNAc(4)NeuAc(1)	1751.6241	Hex(4) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+661	T	null	Thr->Lys	27.047285	H(5) C(2) N O(-1)	AA substitution	false
+1650	T	null	dHex(2)Hex(1)HexNAc(2)NeuAc(1)	1151.4229	dHex(2) Hex(1) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1445	T	null	dHex(2)Hex(2)	616.22144	dHex(2) Hex(2)	O-linked glycosylation	false
+1581	T	null	dHex(1)Hex(1)HexNAc(1)Kdn(1)	761.259	dHex Hex HexNAc Kdn	O-linked glycosylation	false
+144	T	Hex(3)	Hex(3)	486.15848	Hex(3)	O-linked glycosylation	true
+1718	T	null	dHex(2)Hex(2)HexNAc(3)NeuAc(1)	1516.555	dHex(2) Hex(2) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1768	T	null	dHex(1)Hex(3)HexNAc(3)	1241.4545	dHex(1) Hex(3) HexNAc(3)	O-linked glycosylation	false
+1624	T	null	dHex(1)Hex(1)HexNAc(2)NeuAc(1)	1005.36487	dHex(1) Hex(1) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1641	T	null	dHex(1)Hex(1)HexA(1)HexNAc(3)	1093.381	dHex(1) Hex(1) HexA(1) HexNAc(3)	O-linked glycosylation	false
+1597	T	null	dHex(1)Hex(2)HexA(1)HexNAc(1)	849.275	dHex(1) Hex(2) HexA(1) HexNAc(1)	O-linked glycosylation	false
+730	T	null	iTRAQ8plex	304.20535	H(24) C(7) 13C(7) N(3) 15N O(3)	Isotopic label	false
+1632	T	null	Hex(5)Phos(3)	1050.1631	H(3) O(9) P(3) Hex(5)	O-linked glycosylation	false
+1648	T	null	dHex(2)Hex(4)HexNAc(1)	1143.4065	dHex(2) Hex(4) HexNAc(1)	O-linked glycosylation	false
+1693	T	null	dHex(1)Hex(3)HexA(2)HexNAc(2)	1390.4393	dHex(1) Hex(3) HexA(2) HexNAc(2)	O-linked glycosylation	false
+1606	T	null	dHex(2)Hex(1)HexNAc(1)Kdn(1)	907.3169	dHex(2) Hex HexNAc Kdn	O-linked glycosylation	false
+1674	T	null	dHex(1)Hex(3)HexA(1)HexNAc(2)Sulf(1)	1294.364	O(3) S dHex Hex(3) HexA HexNAc(2)	O-linked glycosylation	false
+1736	T	null	dHex(2)Hex(3)HexA(1)HexNAc(3)Sulf(1)	1643.5013	O(3) S dHex(2) Hex(3) HexA HexNAc(3)	O-linked glycosylation	false
+121	T	GG	GG	114.04293	H(6) C(4) N(2) O(2)	Other	true
+152	T	Hex(1)HexNAc(2)dHex(1)	Hex(1)HexNAc(2)dHex(1)	714.2695	dHex Hex HexNAc(2)	O-linked glycosylation	true
+658	T	null	Thr->Ser	-14.01565	H(-2) C(-1)	AA substitution	false
+1375	T	null	dHex(1)Hex(2)	470.16354	dHex Hex(2)	O-linked glycosylation	false
+1720	T	null	Hex(2)HexNAc(3)NeuAc(1)NeuGc(1)	1531.5295	Hex(2) HexNAc(3) NeuAc(1) NeuGc(1)	O-linked glycosylation	false
+1701	T	null	dHex(2)Hex(2)HexNAc(4)	1428.539	dHex(2) Hex(2) HexNAc(4)	O-linked glycosylation	false
+1617	T	null	Hex(1)HexNAc(1)NeuAc(1)NeuGc(1)	963.31793	Hex(1) HexNAc(1) NeuAc(1) NeuGc(1)	O-linked glycosylation	false
+1682	T	null	dHex(2)Hex(2)HexNAc(2)NeuAc(1)	1313.4756	dHex(2) Hex(2) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1698	T	null	dHex(3)Hex(2)HexNAc(2)Kdn(1)	1418.507	dHex(3) Hex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1725	T	null	Hex(2)HexNAc(3)NeuGc(2)	1547.5244	Hex(2) HexNAc(3) NeuGc(2)	O-linked glycosylation	false
+1770	T	null	dHex(2)Hex(4)HexNAc(2)	1346.4858	dHex(2) Hex(4) HexNAc(2)	O-linked glycosylation	false
+1744	T	null	Hex(2)HexNAc(1)NeuGc(4)	1755.5464	Hex(2) HexNAc(1) NeuGc(4)	O-linked glycosylation	false
+1751	T	null	dHex(3)Hex(3)HexNAc(3)NeuAc(1)	1824.6658	dHex(3) Hex(3) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1263	T	null	Gly	57.021465	H(3) C(2) N O	Other	false
+1667	T	null	dHex(3)Hex(1)HexNAc(2)Kdn(1)	1256.4542	dHex(3) Hex HexNAc(2) Kdn	O-linked glycosylation	false
+93	T	EDT-maleimide-PEO-biotin	EDT-maleimide-PEO-biotin	601.20624	H(39) C(25) N(5) O(6) S(3)	Chemical derivative	false
+1579	T	null	dHex(1)Hex(2)HexNAc(1)Sulf(1)	753.19977	O(3) S dHex Hex(2) HexNAc	O-linked glycosylation	false
+21	T	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+1786	T	null	Hex(1)HexNAc(1)NeuAc(1)Ac(1)	698.23816	Ac Hex HexNAc NeuAc	O-linked glycosylation	false
+1437	T	null	Hex(1)HexNAc(1)dHex(1)Me(2)	539.2214	Me(2) dHex Hex HexNAc	O-linked glycosylation	false
+1775	T	null	dHex(1)Hex(3)HexNAc(5)	1647.6133	dHex(1) Hex(3) HexNAc(5)	O-linked glycosylation	false
+1592	T	null	HexNAc(1)NeuGc(2)	817.26	HexNAc(1) NeuGc(2)	O-linked glycosylation	false
+1566	T	null	Hex(3)HexNAc(1)	689.23785	Hex(3) HexNAc(1)	O-linked glycosylation	false
+1204	T	null	Thr->Asp	13.979265	H(-2) O	AA substitution	false
+1749	T	null	Hex(2)HexNAc(3)NeuAc(3)	1806.63	Hex(2) HexNAc(3) NeuAc(3)	O-linked glycosylation	false
+1689	T	null	dHex(3)Hex(2)HexNAc(3)	1371.5175	dHex(3) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1426	T	null	Hex(1)Pent(1)	294.0951	Pent Hex	O-linked glycosylation	false
+295	T	dHex	dHex	146.0579	dHex	O-linked glycosylation	true
+1303	T	null	NeuAc	291.09543	NeuAc	O-linked glycosylation	false
+1443	T	null	Hex(2)HexNAc(1)Sulf(1)	607.14185	O(3) S Hex(2) HexNAc	O-linked glycosylation	false
+888	T	null	mTRAQ	140.09496	H(12) C(7) N(2) O	Isotopic label	false
+1652	T	null	dHex(1)HexNAc(5)	1161.4547	dHex(1) HexNAc(5)	O-linked glycosylation	false
+959	T	null	Phosphopropargyl	116.99796	H(4) C(3) N O(2) P	Multiple	false
+1703	T	null	dHex(4)HexNAc(3)Kdn(1)	1443.5386	dHex(4) HexNAc(3) Kdn	O-linked glycosylation	false
+146	T	Hex(1)HexNAc(1)dHex(1)	Hex(1)HexNAc(1)dHex(1)	511.1901	dHex Hex HexNAc	O-linked glycosylation	true
+1766	T	null	dHex(1)Hex(4)HexNAc(2)	1200.428	dHex(1) Hex(4) HexNAc(2)	O-linked glycosylation	false
+1207	T	null	Thr->Gly	-44.026215	H(-4) C(-2) O(-1)	AA substitution	false
+1716	T	null	dHex(1)Hex(3)HexA(1)HexNAc(3)Sulf(1)	1497.4434	O(3) S dHex Hex(3) HexA HexNAc(3)	O-linked glycosylation	false
+1430	T	null	Hex(1)HexNAc(1)Sulf(1)	445.08902	O(3) S Hex HexNAc	O-linked glycosylation	false
+1599	T	null	Hex(4)HexNAc(1)	851.29065	Hex(4) HexNAc(1)	O-linked glycosylation	false
+1626	T	null	Hex(2)HexNAc(3)Sulf(1)	1013.3006	O(3) S Hex(2) HexNAc(3)	O-linked glycosylation	false
+122	T	Formyl	Formyl	27.994915	C O	Artefact	true
+1643	T	null	dHex(2)Hex(2)HexNAc(2)Sulf(1)	1102.337	O(3) S dHex(2) Hex(2) HexNAc(2)	O-linked glycosylation	false
+1753	T	null	Hex(10)Phos(3)	1860.4272	H(3) O(9) P(3) Hex(10)	O-linked glycosylation	false
+1727	T	null	dHex(1)Hex(2)HexNAc(4)NeuAc(1)	1573.5764	dHex(1) Hex(2) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+1676	T	null	dHex(3)HexNAc(3)Kdn(1)	1297.4807	dHex(3) HexNAc(3) Kdn	O-linked glycosylation	false
+1615	T	null	dHex(1)Hex(2)HexNAc(2)Sulf(1)	956.2791	O(3) S dHex Hex(2) HexNAc(2)	O-linked glycosylation	false
+1691	T	null	dHex(1)Hex(4)HexA(1)HexNAc(2)	1376.4601	dHex(1) Hex(4) HexA(1) HexNAc(2)	O-linked glycosylation	false
+1377	T	null	dHex(1)Hex(4)	794.2692	dHex Hex(4)	O-linked glycosylation	false
+1630	T	null	Hex(1)HexNAc(1)NeuAc(2)Ac(2)	1031.3441	Ac(2) Hex HexNAc NeuAc(2)	O-linked glycosylation	false
+1639	T	null	dHex(1)Hex(1)HexNAc(2)NeuAc(1)Sulf(1)	1085.3217	O(3) S dHex Hex HexNAc(2) NeuAc	O-linked glycosylation	false
+1588	T	null	dHex(1)Hex(1)HexNAc(1)NeuAc(1)	802.2855	dHex(1) Hex(1) HexNAc(1) NeuAc(1)	O-linked glycosylation	false
+1577	T	null	Hex(1)HexNAc(1)NeuAc(1)Sulf(1)	736.18445	O(3) S Hex HexNAc NeuAc	O-linked glycosylation	false
+309	T	Hex(3)HexNAc(4)	Hex(3)HexNAc(4)	1298.476	Hex(3) HexNAc(4)	O-linked glycosylation	true
+1738	T	null	Hex(3)HexNAc(3)NeuAc(2)	1677.5874	Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1742	T	null	Hex(9)Phos(3)	1698.3744	H(3) O(9) P(3) Hex(9)	O-linked glycosylation	false
+159	T	Hex(3)HexNAc(2)	Hex(3)HexNAc(2)	892.3172	Hex(3) HexNAc(2)	O-linked glycosylation	true
+1604	T	null	Hex(5)Phos(1)	890.23047	H O(3) P Hex(5)	O-linked glycosylation	false
+1680	T	null	dHex(2)HexNAc(5)	1307.5127	dHex(2) HexNAc(5)	O-linked glycosylation	false
+1665	T	null	Hex(2)HexNAc(3)NeuGc(1)	1240.4341	Hex(2) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1843	T	null	PhosphoCytidine	305.0413	H(12) C(9) N(3) O(7) P	Post-translational	false
+1439	T	null	Hex(1)HexA(1)HexNAc(1)	541.1643	Hex HexA HexNAc	O-linked glycosylation	false
+1714	T	null	dHex(1)Hex(2)HexNAc(2)NeuGc(2)	1490.5029	dHex(1) Hex(2) HexNAc(2) NeuGc(2)	O-linked glycosylation	false
+333	T	Can-FP-biotin	Can-FP-biotin	447.19568	H(34) C(19) N(3) O(5) P S	Chemical derivative	false
+1441	T	null	Hex(3)Phos(1)	566.1248	H O(3) P Hex(3)	O-linked glycosylation	false
+735	T	null	DTT_ST	136.00166	H(8) C(4) O S(2)	Chemical derivative	false
+1705	T	null	Hex(2)HexNAc(1)NeuGc(3)	1448.456	Hex(2) HexNAc(1) NeuGc(3)	O-linked glycosylation	false
+1773	T	null	Hex(4)HexNAc(3)NeuAc(1)	1548.5448	Hex(4) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1654	T	null	dHex(3)Hex(2)HexNAc(2)	1168.4381	dHex(3) Hex(2) HexNAc(2)	O-linked glycosylation	false
+1585	T	null	Hex(2)HexA(1)HexNAc(1)Sulf(1)	783.17395	O(3) S Hex(2) HexA HexNAc	O-linked glycosylation	false
+1764	T	null	dHex(1)Hex(3)HexNAc(2)Sulf(1)	1118.3319	O(3) S dHex Hex(3) HexNAc(2)	O-linked glycosylation	false
+725	T	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+1620	T	null	Hex(1)HexNAc(1)NeuAc(2)Ac(1)	989.3336	Ac Hex HexNAc NeuAc(2)	O-linked glycosylation	false
+258	T	Label:18O(1)	Label:18O(1)	2.004246	O(-1) 18O	Isotopic label	true
+1739	T	null	dHex(2)Hex(3)HexNAc(3)NeuAc(1)	1678.6078	dHex(2) Hex(3) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+148	T	Hex(1)HexNAc(2)	Hex(1)HexNAc(2)	568.21155	Hex HexNAc(2)	O-linked glycosylation	true
+1645	T	null	dHex(1)Hex(1)HexNAc(4)	1120.4282	dHex(1) Hex(1) HexNAc(4)	O-linked glycosylation	false
+264	T	PET	PET	121.035	H(7) C(7) N O(-1) S	Chemical derivative	true
+311	T	Hex(5)HexNAc(4)	Hex(5)HexNAc(4)	1622.5817	Hex(5) HexNAc(4)	O-linked glycosylation	true
+1432	T	null	Hex(1)NeuGc(1)	469.14316	Hex NeuGc	O-linked glycosylation	false
+200	T	Ethanedithiol	Ethanedithiol	75.98053	H(4) C(2) O(-1) S(2)	Chemical derivative	true
+1210	T	null	Thr->Val	-1.979265	H(2) C O(-1)	AA substitution	false
+43	T	HexNAc	HexNAc	203.07938	HexNAc	O-linked glycosylation	true
+1379	T	null	dHex(1)Hex(6)	1118.3749	dHex Hex(6)	O-linked glycosylation	false
+1755	T	null	Hex(1)HexNAc(1)NeuGc(5)	1900.5839	Hex(1) HexNAc(1) NeuGc(5)	O-linked glycosylation	false
+1567	T	null	Hex(1)HexNAc(1)Kdn(1)Sulf(1)	695.1579	O(3) S Hex HexNAc Kdn	O-linked glycosylation	false
+1732	T	null	Hex(4)HexNAc(4)Sulf(2)	1620.4424	O(6) S(2) Hex(4) HexNAc(4)	O-linked glycosylation	false
+442	T	FMN	FMN	438.09406	H(19) C(17) N(4) O(8) P	Post-translational	true
+1670	T	null	dHex(2)Hex(2)HexA(1)HexNAc(2)Sulf(1)	1278.3691	O(3) S dHex(2) Hex(2) HexA HexNAc(2)	O-linked glycosylation	false
+723	T	null	O-Dimethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+1425	T	null	Pentose	132.04225	Pent	O-linked glycosylation	false
+1448	T	null	Hex(4)	648.2113	Hex(4)	O-linked glycosylation	false
+1636	T	null	Hex(1)HexNAc(3)NeuAc(1)	1062.3864	Hex(1) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1679	T	null	dHex(2)Hex(2)HexNAc(3)Sulf(1)	1305.4164	O(3) S dHex(2) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1663	T	null	dHex(2)Hex(3)HexA(1)HexNAc(1)Sulf(1)	1237.3425	O(3) S dHex(2) Hex(3) HexA HexNAc	O-linked glycosylation	false
+1	T	Acetyl	Acetyl	42.010567	H(2) C(2) O	Post-translational	true
+1602	T	null	Hex(1)HexNAc(2)NeuGc(1)	875.3019	Hex(1) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1782	T	null	dHex(1)Hex(4)HexNAc(4)NeuAc(1)	1897.6821	dHex(1) Hex(4) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+1330	T	null	bisANS-sulfonates	437.20178	H(25) C(32) N(2)	Chemical derivative	false
+1594	T	null	dHex(2)Hex(2)HexNAc(1)	819.30084	dHex(2) Hex(2) HexNAc(1)	O-linked glycosylation	false
+1686	T	null	dHex(1)Hex(3)HexNAc(2)NeuGc(1)	1345.4655	dHex(1) Hex(3) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1748	T	null	dHex(2)Hex(4)HexA(1)HexNAc(3)Sulf(1)	1805.5541	O(3) S dHex(2) Hex(4) HexA HexNAc(3)	O-linked glycosylation	false
+1629	T	null	dHex(1)Hex(1)HexNAc(2)NeuGc(1)	1021.3598	dHex(1) Hex(1) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1571	T	null	Hex(3)HexNAc(1)Me(1)	703.2535	Hex(3) HexNAc(1) Me(1)	O-linked glycosylation	false
+1668	T	null	dHex(2)Hex(3)HexNAc(2)Sulf(1)	1264.3899	O(3) S dHex(2) Hex(3) HexNAc(2)	O-linked glycosylation	false
+260	T	Thiophospho	Thiophospho	95.94349	H O(2) P S	Other	true
+727	T	null	O-pinacolylmethylphosphonate	162.08096	H(15) C(7) O(2) P	Chemical derivative	false
+428	T	PhosphoHexNAc	PhosphoHexNAc	283.04572	H O(3) P HexNAc	O-linked glycosylation	true
+1700	T	null	Hex(2)HexNAc(4)NeuAc(1)	1427.5186	Hex(2) HexNAc(4) NeuAc(1)	O-linked glycosylation	false
+1656	T	null	dHex(2)Hex(2)HexNAc(2)Sulf(2)	1182.2938	O(6) S(2) dHex(2) Hex(2) HexNAc(2)	O-linked glycosylation	false
+1707	T	null	dHex(1)Hex(2)HexNAc(3)NeuAc(1)Sulf(1)	1450.4539	O(3) S dHex Hex(2) HexNAc(3) NeuAc	O-linked glycosylation	false
+1771	T	null	dHex(2)Hex(3)HexNAc(3)	1387.5125	dHex(2) Hex(3) HexNAc(3)	O-linked glycosylation	false
+1583	T	null	HexNAc(2)NeuAc(1)Sulf(1)	777.211	O(3) S HexNAc(2) NeuAc	O-linked glycosylation	false
+1721	T	null	dHex(2)Hex(2)HexNAc(3)NeuGc(1)	1532.5499	dHex(2) Hex(2) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+54	T	Glucuronyl	Glucuronyl	176.03209	HexA	O-linked glycosylation	true
+1434	T	null	HexNAc(1)NeuAc(1)	494.17477	HexNAc NeuAc	O-linked glycosylation	false
+1618	T	null	dHex(1)Hex(1)HexNAc(2)Kdn(1)	964.3383	dHex Hex HexNAc(2) Kdn	O-linked glycosylation	false
+325	T	FP-Biotin	FP-Biotin	572.3161	H(49) C(27) N(4) O(5) P S	Chemical derivative	false
+1622	T	null	dHex(1)Hex(1)HexNAc(3)Sulf(1)	997.30566	O(3) S dHex Hex HexNAc(3)	O-linked glycosylation	false
+1659	T	null	Hex(6)Phos(3)	1212.216	H(3) O(9) P(3) Hex(6)	O-linked glycosylation	false
+4	T	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+1697	T	null	dHex(4)Hex(1)HexNAc(2)Kdn(1)	1402.5121	dHex(4) Hex HexNAc(2) Kdn	O-linked glycosylation	false
+1750	T	null	dHex(1)Hex(3)HexNAc(3)NeuAc(2)	1823.6454	dHex(1) Hex(3) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1762	T	null	dHex(1)Hex(2)HexNAc(3)	1079.4017	dHex(1) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1712	T	null	Hex(3)HexNAc(2)NeuAc(2)	1474.508	Hex(3) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1609	T	null	dHex(1)Hex(2)HexA(1)HexNAc(1)Sulf(1)	929.2318	O(3) S dHex Hex(2) HexA HexNAc	O-linked glycosylation	false
+1647	T	null	Hex(2)HexNAc(1)NeuGc(2)	1141.3657	Hex(2) HexNAc(1) NeuGc(2)	O-linked glycosylation	false
+1611	T	null	Hex(1)HexNAc(2)NeuAc(1)Sulf(1)	939.2638	O(3) S Hex HexNAc(2) NeuAc	O-linked glycosylation	false
+1672	T	null	Hex(1)HexNAc(1)NeuGc(3)	1286.4032	Hex(1) HexNAc(1) NeuGc(3)	O-linked glycosylation	false
+1695	T	null	dHex(2)Hex(2)HexNAc(2)NeuAc(1)Sulf(1)	1393.4325	O(3) S dHex(2) Hex(2) HexNAc(2) NeuAc	O-linked glycosylation	false
+1757	T	null	Hex(4)HexNAc(4)NeuGc(1)Sulf(2)	1927.5327	O(6) S(2) Hex(4) HexNAc(4) NeuGc	O-linked glycosylation	false
+1310	T	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+1203	T	null	Thr->Cys	1.961506	H(-2) C(-1) O(-1) S	AA substitution	false
+1446	T	null	dHex(1)Hex(2)HexA(1)	646.1956	dHex Hex(2) HexA	O-linked glycosylation	false
+1634	T	null	dHex(1)Hex(2)HexA(1)HexNAc(2)	1052.3544	dHex(1) Hex(2) HexA(1) HexNAc(2)	O-linked glycosylation	false
+1684	T	null	dHex(2)Hex(2)HexNAc(2)NeuGc(1)	1329.4706	dHex(2) Hex(2) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1723	T	null	Hex(8)Phos(3)	1536.3215	H(3) O(9) P(3) Hex(8)	O-linked glycosylation	false
+1412	T	null	s-GlcNAc	283.0362	O(3) S HexNAc	O-linked glycosylation	false
+1746	T	null	dHex(2)Hex(3)HexNAc(5)	1793.6711	dHex(2) Hex(3) HexNAc(5)	O-linked glycosylation	false
+1600	T	null	Hex(1)HexNAc(2)NeuAc(1)	859.307	Hex(1) HexNAc(2) NeuAc(1)	O-linked glycosylation	false
+1719	T	null	dHex(4)Hex(2)HexNAc(3)	1517.5754	dHex(4) Hex(2) HexNAc(3)	O-linked glycosylation	false
+47	T	Palmitoyl	Palmitoyl	238.22966	H(30) C(16) O	Post-translational	true
+143	T	HexNAc(2)	HexNAc(2)	406.15875	HexNAc(2)	O-linked glycosylation	true
+1596	T	null	dHex(1)Hex(3)HexNAc(1)	835.2958	dHex(1) Hex(3) HexNAc(1)	O-linked glycosylation	false
+1661	T	null	dHex(1)Hex(1)HexNAc(3)NeuGc(1)	1224.4392	dHex(1) Hex(1) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1769	T	null	Hex(4)HexNAc(3)	1257.4495	Hex(4) HexNAc(3)	O-linked glycosylation	false
+1784	T	null	dHex(1)Hex(3)HexNAc(5)NeuAc(1)	1938.7086	dHex(1) Hex(3) HexNAc(5) NeuAc(1)	O-linked glycosylation	false
+1607	T	null	dHex(1)Hex(3)HexNAc(1)Sulf(1)	915.25256	O(3) S dHex Hex(3) HexNAc	O-linked glycosylation	false
+1709	T	null	dHex(3)Hex(1)HexNAc(3)Kdn(1)	1459.5336	dHex(3) Hex HexNAc(3) Kdn	O-linked glycosylation	false
+1649	T	null	Hex(1)HexNAc(2)NeuAc(2)	1150.4023	Hex(1) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+472	T	AEC-MAEC	AEC-MAEC	59.019356	H(5) C(2) N O(-1) S	Chemical derivative	false
+1692	T	null	Hex(3)HexNAc(3)NeuAc(1)	1386.4921	Hex(3) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1752	T	null	Hex(2)HexNAc(3)NeuGc(3)	1854.6147	Hex(2) HexNAc(3) NeuGc(3)	O-linked glycosylation	false
+1761	T	null	dHex(1)Hex(3)HexNAc(2)	1038.3751	dHex(1) Hex(3) HexNAc(2)	O-linked glycosylation	false
+1735	T	null	dHex(2)Hex(2)HexNAc(5)	1631.6183	dHex(2) Hex(2) HexNAc(5)	O-linked glycosylation	false
+1209	T	null	Thr->Gln	27.010899	H C N	AA substitution	false
+153	T	Hex(2)HexNAc(2)	Hex(2)HexNAc(2)	730.2644	Hex(2) HexNAc(2)	O-linked glycosylation	true
+1675	T	null	dHex(1)Hex(1)HexNAc(2)NeuAc(2)	1296.4603	dHex(1) Hex(1) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+1376	T	null	dHex(1)Hex(3)	632.2164	dHex Hex(3)	O-linked glycosylation	false
+729	T	null	O-Isopropylmethylphosphonate	120.03402	H(9) C(4) O(2) P	Chemical derivative	false
+1616	T	null	dHex(1)HexNAc(4)	958.3754	dHex(1) HexNAc(4)	O-linked glycosylation	false
+1206	T	null	Thr->Phe	46.020737	H(2) C(5) O(-1)	AA substitution	false
+1633	T	null	Hex(6)Phos(1)	1052.2833	H O(3) P Hex(6)	O-linked glycosylation	false
+1702	T	null	dHex(2)Hex(3)HexA(1)HexNAc(2)Sulf(1)	1440.4219	O(3) S dHex(2) Hex(3) HexA HexNAc(2)	O-linked glycosylation	false
+1589	T	null	Hex(2)HexNAc(2)Sulf(1)	810.2212	O(3) S Hex(2) HexNAc(2)	O-linked glycosylation	false
+1683	T	null	dHex(1)Hex(3)HexNAc(3)Sulf(1)	1321.4113	O(3) S dHex Hex(3) HexNAc(3)	O-linked glycosylation	false
+1785	T	null	dHex(2)Hex(4)HexNAc(5)	1955.724	dHex(2) Hex(4) HexNAc(5)	O-linked glycosylation	false
+1255	T	null	Cresylphosphate	170.01328	H(7) C(7) O(3) P	Chemical derivative	false
+763	T	null	DTT_ST:2H(6)	142.03932	H(2) 2H(6) C(4) O S(2)	Isotopic label	false
+1367	T	null	dHex(1)Hex(1)	308.11072	dHex Hex	O-linked glycosylation	false
+1699	T	null	dHex(3)Hex(2)HexA(1)HexNAc(2)Sulf(1)	1424.427	O(3) S dHex(3) Hex(2) HexA HexNAc(2)	O-linked glycosylation	false
+1726	T	null	dHex(4)Hex(2)HexNAc(2)Kdn(1)	1564.565	dHex(4) Hex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+213	T	ADP-Ribosyl	ADP-Ribosyl	541.0611	H(13) C(10) N(5) O(9) P(2) Pent	O-linked glycosylation	true
+1419	T	null	15N-oxobutanoic	-18.023584	H(-3) 15N(-1)	Post-translational	false
+1743	T	null	dHex(2)HexNAc(7)	1713.6714	dHex(2) HexNAc(7)	O-linked glycosylation	false
+1666	T	null	dHex(1)Hex(2)HexNAc(2)NeuAc(1)Sulf(1)	1247.3745	O(3) S dHex Hex(2) HexNAc(2) NeuAc	O-linked glycosylation	false
+1436	T	null	Hex(1)HexNAc(1)dHex(1)Me(1)	525.20575	Me dHex Hex HexNAc	O-linked glycosylation	false
+1444	T	null	Hex(2)NeuAc(1)	615.20105	Hex(2) NeuAc	O-linked glycosylation	false
+214	T	iTRAQ4plex	iTRAQ4plex	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+728	T	null	Methylphosphonate	77.98707	H(3) C O(2) P	Chemical derivative	false
+1778	T	null	dHex(2)Hex(4)HexNAc(4)	1752.6447	dHex(2) Hex(4) HexNAc(4)	O-linked glycosylation	false
+1563	T	null	Hex(1)HexNAc(1)NeuGc(1)	672.22253	Hex(1) HexNAc(1) NeuGc(1)	O-linked glycosylation	false
+1256	T	null	CresylSaligeninPhosphate	276.05515	H(13) C(14) O(4) P	Chemical derivative	false
+793	T	null	Hex(1)HexNAc(1)	365.1322	Hex HexNAc	O-linked glycosylation	false
+1759	T	null	Hex(4)HexNAc(4)NeuAc(1)Sulf(3)	1991.4946	O(9) S(3) Hex(4) HexNAc(4) NeuAc	O-linked glycosylation	false
+1429	T	null	Hex(1)HexNAc(1)Phos(1)	445.09854	H O(3) P Hex HexNAc	O-linked glycosylation	false
+1651	T	null	dHex(1)Hex(2)HexNAc(3)Sulf(1)	1159.3585	O(3) S dHex Hex(2) HexNAc(3)	O-linked glycosylation	false
+405	T	Phosphoadenosine	Phosphoadenosine	329.05252	H(12) C(10) N(5) O(6) P	Post-translational	true
+1582	T	null	Hex(1)HexNAc(3)	771.29095	Hex(1) HexNAc(3)	O-linked glycosylation	false
+58	T	Propionyl	Propionyl	56.026215	H(4) C(3) O	Isotopic label	true
+361	T	null	Thrbiotinhydrazide	240.10448	H(16) C(10) N(4) O S	Chemical derivative	false
+1211	T	null	Thr->Trp	85.03163	H(3) C(7) N O(-1)	AA substitution	false
+739	T	null	TMT	224.15248	H(20) C(12) N(2) O(2)	Isotopic label	false
+898	T	null	pyrophospho	159.93266	H(2) O(6) P(2)	Post-translational	false
+1625	T	null	dHex(1)Hex(3)HexA(1)HexNAc(1)	1011.3278	dHex(1) Hex(3) HexA(1) HexNAc(1)	O-linked glycosylation	false
+1717	T	null	Hex(2)HexNAc(3)NeuAc(2)	1515.5345	Hex(2) HexNAc(3) NeuAc(2)	O-linked glycosylation	false
+1767	T	null	dHex(2)Hex(2)HexNAc(3)	1225.4596	dHex(2) Hex(2) HexNAc(3)	O-linked glycosylation	false
+1640	T	null	dHex(1)Hex(3)HexA(1)HexNAc(1)Sulf(1)	1091.2847	O(3) S dHex Hex(3) HexA HexNAc	O-linked glycosylation	false
+889	T	null	mTRAQ:13C(3)15N(1)	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+1598	T	null	Hex(1)HexNAc(3)Sulf(1)	851.24774	O(3) S Hex HexNAc(3)	O-linked glycosylation	false
+1587	T	null	dHex(1)Hex(1)HexNAc(2)Sulf(1)	794.2263	O(3) S dHex Hex HexNAc(2)	O-linked glycosylation	false
+1754	T	null	dHex(1)Hex(2)HexNAc(4)NeuAc(2)	1864.6719	dHex(1) Hex(2) HexNAc(4) NeuAc(2)	O-linked glycosylation	false
+1378	T	null	dHex(1)Hex(5)	956.322	dHex Hex(5)	O-linked glycosylation	false
+1631	T	null	Hex(2)HexNAc(2)NeuGc(1)	1037.3547	Hex(2) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1780	T	null	Hex(5)HexNAc(5)	1825.661	Hex(5) HexNAc(5)	O-linked glycosylation	false
+363	T	Isopropylphospho	Isopropylphospho	122.01328	H(7) C(3) O(3) P	Chemical derivative	false
+792	T	null	AEC-MAEC:2H(4)	63.04446	H 2H(4) C(2) N O(-1) S	Isotopic label	false
+1728	T	null	dHex(3)Hex(2)HexNAc(4)	1574.5969	dHex(3) Hex(2) HexNAc(4)	O-linked glycosylation	false
+1737	T	null	dHex(1)Hex(4)HexA(1)HexNAc(3)Sulf(1)	1659.4962	O(3) S dHex Hex(4) HexA HexNAc(3)	O-linked glycosylation	false
+1614	T	null	dHex(2)HexNAc(2)Kdn(1)	948.34344	dHex(2) HexNAc(2) Kdn	O-linked glycosylation	false
+1690	T	null	Hex(7)Phos(3)	1374.2688	H(3) O(9) P(3) Hex(7)	O-linked glycosylation	false
+1638	T	null	Hex(1)HexNAc(3)NeuGc(1)	1078.3812	Hex(1) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+663	T	null	Thr->Met	29.992805	H(2) C O(-1) S	AA substitution	false
+660	T	null	Thr->Asn	12.995249	H(-1) N	AA substitution	false
+1681	T	null	Hex(2)HexNAc(2)NeuAc(2)	1312.4552	Hex(2) HexNAc(2) NeuAc(2)	O-linked glycosylation	false
+362	T	Diisopropylphosphate	Diisopropylphosphate	164.06023	H(13) C(6) O(3) P	Chemical derivative	false
+1664	T	null	Hex(1)HexNAc(1)NeuAc(3)	1238.4185	Hex(1) HexNAc(1) NeuAc(3)	O-linked glycosylation	false
+1578	T	null	Hex(1)HexA(1)HexNAc(2)	744.24365	Hex(1) HexA(1) HexNAc(2)	O-linked glycosylation	false
+41	T	Hex	Hex	162.05283	Hex	O-linked glycosylation	true
+118	T	EDT-iodoacetyl-PEO-biotin	EDT-iodoacetyl-PEO-biotin	490.17422	H(34) C(20) N(4) O(4) S(3)	Chemical derivative	true
+1438	T	null	Hex(2)HexNAc(1)	527.185	Hex(2) HexNAc	O-linked glycosylation	false
+1591	T	null	HexNAc(4)	812.3175	HexNAc(4)	O-linked glycosylation	false
+1776	T	null	Hex(3)HexNAc(6)	1704.6348	Hex(3) HexNAc(6)	O-linked glycosylation	false
+1565	T	null	HexNAc(3)Sulf(1)	689.19495	O(3) S HexNAc(3)	O-linked glycosylation	false
+1715	T	null	dHex(2)Hex(3)HexNAc(2)NeuGc(1)	1491.5233	dHex(2) Hex(3) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+158	T	Hex(2)HexNAc(2)dHex(1)	Hex(2)HexNAc(2)dHex(1)	876.3223	dHex Hex(2) HexNAc(2)	O-linked glycosylation	true
+1688	T	null	dHex(1)Hex(2)HexNAc(3)NeuAc(1)	1370.4971	dHex(1) Hex(2) HexNAc(3) NeuAc(1)	O-linked glycosylation	false
+1741	T	null	dHex(2)Hex(3)HexNAc(3)NeuGc(1)	1694.6028	dHex(2) Hex(3) HexNAc(3) NeuGc(1)	O-linked glycosylation	false
+1304	T	null	NeuGc	307.09033	NeuGc	O-linked glycosylation	false
+385	T	Ammonia-loss	Ammonia-loss	-17.026548	H(-3) N(-1)	Post-translational	false
+1442	T	null	Hex(1)NeuAc(1)Pent(1)	585.1905	Pent Hex NeuAc	O-linked glycosylation	false
+1427	T	null	Hex(1)HexA(1)	338.0849	Hex HexA	O-linked glycosylation	false
+1653	T	null	dHex(2)Hex(1)HexNAc(2)NeuGc(1)	1167.4177	dHex(2) Hex(1) HexNAc(2) NeuGc(1)	O-linked glycosylation	false
+1642	T	null	Hex(2)HexNAc(2)NeuAc(1)Sulf(1)	1101.3167	O(3) S Hex(2) HexNAc(2) NeuAc	O-linked glycosylation	false
+1580	T	null	dHex(1)HexNAc(3)	755.296	dHex(1) HexNAc(3)	O-linked glycosylation	false
+1765	T	null	dHex(2)Hex(3)HexNAc(2)	1184.433	dHex(2) Hex(3) HexNAc(2)	O-linked glycosylation	false
+1730	T	null	dHex(4)Hex(1)HexNAc(3)Kdn(1)	1605.5914	dHex(4) Hex HexNAc(3) Kdn	O-linked glycosylation	false
+5	T	Carbamyl	Carbamyl	43.005814	H C N O	Chemical derivative	false
+975	T	null	Chlorpyrifos	153.01392	H(10) C(4) O(2) P S	Chemical derivative	false
+1431	T	null	Hex(1)NeuAc(1)	453.14825	Hex NeuAc	O-linked glycosylation	false
+1627	T	null	Hex(5)HexNAc(1)	1013.3435	Hex(5) HexNAc(1)	O-linked glycosylation	false
+424	U	MolybdopterinGD	MolybdopterinGD	1572.9857	H(47) C(40) N(20) O(26) P(4) S(4) Mo	Post-translational	true
+35	U	Oxidation	Oxidation	15.994915	O	Multiple	false
+4	U	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Chemical derivative	true
+6	U	Carboxymethyl	Carboxymethyl	58.005478	H(2) C(2) O(2)	Chemical derivative	true
+425	U	Dioxidation	Dioxidation	31.989828	O(2)	Multiple	true
+671	V	null	Val->Xle	14.01565	H(2) C	AA substitution	false
+1218	V	null	Val->Gln	28.990164	H(-1) N O	AA substitution	false
+422	V	PyruvicAcidIminyl	PyruvicAcidIminyl	70.00548	H(2) C(3) O(2)	Post-translational	true
+667	V	null	Val->Ala	-28.0313	H(-4) C(-2)	AA substitution	false
+268	V	Label:13C(5)15N(1)	Label:13C(5)15N(1)	6.013809	C(-5) 13C(5) N(-1) 15N	Isotopic label	true
+666	V	null	Val->Phe	48.0	C(4)	AA substitution	false
+1223	V	null	Val->Tyr	63.994915	C(4) O	AA substitution	false
+1219	V	null	Val->Arg	57.032696	H(3) C N(3)	AA substitution	false
+1217	V	null	Val->Pro	-2.01565	H(-2)	AA substitution	false
+668	V	null	Val->Glu	29.974178	H(-2) O(2)	AA substitution	false
+1214	V	null	Val->His	37.990498	H(-2) C N(2)	AA substitution	false
+1222	V	null	Val->Trp	87.0109	H C(6) N	AA substitution	false
+669	V	null	Val->Met	31.97207	S	AA substitution	false
+994	V	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+1216	V	null	Val->Asn	14.974514	H(-3) C(-1) N O	AA substitution	false
+670	V	null	Val->Asp	15.958529	H(-4) C(-1) O(2)	AA substitution	false
+1213	V	null	Val->Cys	3.940771	H(-4) C(-2) S	AA substitution	false
+1220	V	null	Val->Ser	-12.036386	H(-4) C(-2) O	AA substitution	false
+672	V	null	Val->Gly	-42.04695	H(-6) C(-3)	AA substitution	false
+1221	V	null	Val->Thr	1.979265	H(-2) C(-1) O	AA substitution	false
+1215	V	null	Val->Lys	29.026548	H(3) C N	AA substitution	false
+1225	W	null	Trp->Asp	-71.05237	H(-5) C(-7) N(-1) O(2)	AA substitution	false
+995	W	null	Label:15N(2)	1.99407	N(-2) 15N(2)	Isotopic label	false
+172	W	NBS	NBS	152.98845	H(3) C(6) N O(2) S	Chemical derivative	false
+127	W	Fluoro	Fluoro	17.990578	H(-1) F	Non-standard residue	true
+1228	W	null	Trp->His	-49.0204	H(-3) C(-5) N	AA substitution	false
+674	W	null	Trp->Cys	-83.07013	H(-5) C(-8) N(-1) S	AA substitution	false
+292	W	IodoU-AMP	IodoU-AMP	322.0202	H(11) C(9) N(2) O(9) P	Chemical derivative	true
+425	W	Dioxidation	Dioxidation	31.989828	O(2)	Chemical derivative	true
+1227	W	null	Trp->Phe	-39.0109	H(-1) C(-2) N(-1)	AA substitution	false
+1231	W	null	Trp->Asn	-72.036385	H(-4) C(-7) O	AA substitution	false
+1224	W	null	Trp->Ala	-115.0422	H(-5) C(-8) N(-1)	AA substitution	false
+1234	W	null	Trp->Thr	-85.03163	H(-3) C(-7) N(-1) O	AA substitution	false
+673	W	null	Trp->Ser	-99.04729	H(-5) C(-8) N(-1) O	AA substitution	false
+676	W	null	Trp->Gly	-129.05785	H(-7) C(-9) N(-1)	AA substitution	false
+350	W	Trp->Hydroxykynurenin	Trp->Hydroxykynurenin	19.989828	C(-1) O(2)	Chemical derivative	true
+171	W	NBS:13C(6)	NBS:13C(6)	159.00858	H(3) 13C(6) N O(2) S	Chemical derivative	false
+392	W	Quinone	Quinone	29.974178	H(-2) O(2)	Post-translational	true
+684	W	null	BDMAPP	253.01022	H(12) C(11) N O Br	Artefact	false
+1233	W	null	Trp->Gln	-58.020737	H(-2) C(-6) O	AA substitution	false
+675	W	null	Trp->Arg	-29.978203	H(2) C(-5) N(2)	AA substitution	false
+6	W	Carboxymethyl	Carboxymethyl	58.005478	H(2) C(2) O(2)	Chemical derivative	true
+340	W	Bromo	Bromo	77.91051	H(-1) Br	Post-translational	true
+1310	W	null	Propiophenone	132.05751	H(8) C(9) O	Chemical derivative	false
+299	W	Carboxy	Carboxy	43.98983	C O(2)	Chemical derivative	false
+454	W	HexN	HexN	161.0688	HexN	Other glycosylation	true
+288	W	Trp->Oxolactone	Trp->Oxolactone	13.979265	H(-2) O	Chemical derivative	true
+1230	W	null	Trp->Met	-55.03883	H(-1) C(-6) N(-1) S	AA substitution	false
+677	W	null	Trp->Xle	-72.99525	H C(-5) N(-1)	AA substitution	false
+1236	W	null	Trp->Tyr	-23.015984	H(-1) C(-2) N(-1) O	AA substitution	false
+41	W	Hex	Hex	162.05283	Hex	Other glycosylation	true
+421	W	Sulfide	Sulfide	31.97207	S	Chemical derivative	true
+941	W	null	DNPS	198.98135	H(3) C(6) N(2) O(4) S	Chemical derivative	false
+35	W	Oxidation	Oxidation	15.994915	O	Artefact	false
+1235	W	null	Trp->Val	-87.0109	H(-1) C(-6) N(-1)	AA substitution	false
+351	W	Trp->Kynurenin	Trp->Kynurenin	3.994915	C(-1) O	Chemical derivative	true
+345	W	Trioxidation	Trioxidation	47.984745	O(3)	Chemical derivative	true
+1226	W	null	Trp->Glu	-57.03672	H(-3) C(-6) N(-1) O(2)	AA substitution	false
+354	W	Nitro	Nitro	44.985077	H(-1) N O(2)	Chemical derivative	true
+1232	W	null	Trp->Pro	-89.02655	H(-3) C(-6) N(-1)	AA substitution	false
+1229	W	null	Trp->Lys	-57.98435	H(2) C(-5)	AA substitution	false
+725	Y	null	Diethylphosphate	136.02893	H(9) C(4) O(3) P	Chemical derivative	false
+405	Y	Phosphoadenosine	Phosphoadenosine	329.05252	H(12) C(10) N(5) O(6) P	Post-translational	true
+536	Y	null	CLIP_TRAQ_3	271.14874	H(20) C(11) 13C N(3) O(4)	Isotopic label	false
+678	Y	null	Tyr->Phe	-15.994915	O(-1)	AA substitution	false
+888	Y	null	mTRAQ	140.09496	H(12) C(7) N(2) O	Isotopic label	false
+1331	Y	null	DNCB_hapten	166.00145	H(2) C(6) N(2) O(4)	Chemical derivative	false
+1237	Y	null	Tyr->Ala	-92.026215	H(-4) C(-6) O(-1)	AA substitution	false
+401	Y	Didehydro	Didehydro	-2.01565	H(-2)	Post-translational	true
+4	Y	Carbamidomethyl	Carbamidomethyl	57.021465	H(3) C(2) N O	Artefact	true
+260	Y	Thiophospho	Thiophospho	95.94349	H O(2) P S	Other	true
+936	Y	null	Chlorination	33.96103	H(-1) Cl	Artefact	false
+345	Y	Trioxidation	Trioxidation	47.984745	O(3)	Chemical derivative	true
+937	Y	null	dichlorination	67.92206	H(-2) Cl(2)	Artefact	false
+1394	Y	null	DiART6plex116/119	217.16878	H(18) 2H(2) C(9) 13C(2) N 15N O(2)	Isotopic label	false
+533	Y	iTRAQ4plex115	iTRAQ4plex115	144.0996	H(12) C(6) 13C N 15N 18O	Isotopic label	false
+1322	Y	null	DiLeu4plex	145.13216	H(13) 2H(2) C(8) N 18O	Isotopic label	false
+340	Y	Bromo	Bromo	77.91051	H(-1) Br	Artefact	true
+681	Y	null	Tyr->His	-26.004417	H(-2) C(-3) N(2) O(-1)	AA substitution	false
+40	Y	Sulfo	Sulfo	79.95682	O(3) S	Post-translational	true
+1323	Y	null	DiLeu4plex117	145.12831	H(13) 2H(2) C(7) 13C 15N O	Isotopic label	false
+532	Y	iTRAQ4plex114	iTRAQ4plex114	144.10591	H(12) C(5) 13C(2) N(2) 18O	Isotopic label	false
+1395	Y	null	DiART6plex117	217.16246	H(18) 2H(2) C(10) 13C 15N(2) O(2)	Isotopic label	false
+184	Y	Label:13C(9)	Label:13C(9)	9.030193	C(-9) 13C(9)	Isotopic label	true
+50	Y	FAD	FAD	783.1415	H(31) C(27) N(9) O(15) P(2)	Post-translational	true
+724	Y	null	O-Methylphosphate	93.98198	H(3) C O(3) P	Chemical derivative	false
+1242	Y	null	Tyr->Pro	-66.01057	H(-2) C(-4) O(-1)	AA substitution	false
+1248	Y	null	Tyr->Xle	-49.979263	H(2) C(-3) O(-1)	AA substitution	false
+5	Y	Carbamyl	Carbamyl	43.005814	H C N O	Chemical derivative	false
+214	Y	iTRAQ4plex	iTRAQ4plex	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+1245	Y	null	Tyr->Thr	-62.01565	H(-2) C(-5)	AA substitution	false
+325	Y	FP-Biotin	FP-Biotin	572.3161	H(49) C(27) N(4) O(5) P S	Chemical derivative	false
+1017	Y	null	DMPO	111.06841	H(9) C(6) N O	Post-translational	false
+185	Y	Label:13C(9)+Phospho	Label:13C(9)+Phospho	88.99652	H C(-9) 13C(9) O(3) P	Isotopic label	true
+728	Y	null	Methylphosphonate	77.98707	H(3) C O(2) P	Chemical derivative	false
+1238	Y	null	Tyr->Glu	-34.020737	H(-2) C(-4) O	AA substitution	false
+398	Y	Thyroxine	Thyroxine	595.6128	C(6) O I(4)	Post-translational	true
+130	Y	Diiodo	Diiodo	251.79329	H(-2) I(2)	Chemical derivative	true
+342	Y	Amino	Amino	15.010899	H N	Chemical derivative	true
+1032	Y	null	2-nitrobenzyl	135.03203	H(5) C(7) N O(2)	Chemical derivative	false
+727	Y	null	O-pinacolylmethylphosphonate	162.08096	H(15) C(7) O(2) P	Chemical derivative	false
+35	Y	Oxidation	Oxidation	15.994915	O	Post-translational	false
+400	Y	Tyr->Dha	Tyr->Dha	-94.04186	H(-6) C(-6) O(-1)	Post-translational	true
+679	Y	null	Tyr->Ser	-76.0313	H(-4) C(-6)	AA substitution	false
+997	Y	null	sulfo+amino	94.96771	H N O(3) S	Chemical derivative	false
+525	Y	null	CLIP_TRAQ_2	141.09831	H(12) C(6) 13C N(2) O	Isotopic label	false
+1279	Y	null	Difuran	132.02113	H(4) C(8) O(2)	Chemical derivative	false
+131	Y	Triiodo	Triiodo	377.68994	H(-3) I(3)	Chemical derivative	true
+684	Y	null	BDMAPP	253.01022	H(12) C(11) N O Br	Artefact	false
+332	Y	Thiophos-S-S-biotin	Thiophos-S-S-biotin	525.1429	H(34) C(19) N(4) O(5) P S(3)	Chemical derivative	true
+726	Y	null	Ethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+959	Y	null	Phosphopropargyl	116.99796	H(4) C(3) N O(2) P	Multiple	false
+994	Y	null	Label:15N(1)	0.997035	N(-1) 15N	Isotopic label	false
+392	Y	Quinone	Quinone	29.974178	H(-2) O(2)	Post-translational	true
+271	Y	Cytopiloyne+water	Cytopiloyne+water	380.14713	H(24) C(19) O(8)	Chemical derivative	true
+23	Y	Dehydrated	Dehydrated	-18.010565	H(-2) O(-1)	Post-translational	false
+534	Y	Dibromo	Dibromo	155.82101	H(-2) Br(2)	Chemical derivative	true
+1801	Y	null	Fluorescein-tyramine	493.11615	H(19) C(29) N O(7)	Chemical derivative	false
+21	Y	Phospho	Phospho	79.96633	H O(3) P	Post-translational	true
+333	Y	Can-FP-biotin	Can-FP-biotin	447.19568	H(34) C(19) N(3) O(5) P S	Chemical derivative	false
+1278	Y	null	Furan	66.01057	H(2) C(4) O	Chemical derivative	false
+56	Y	Acetyl:2H(3)	Acetyl:2H(3)	45.029396	H(-1) 2H(3) C(2) O	Isotopic label	true
+276	Y	AEBS	AEBS	183.0354	H(9) C(8) N O(2) S	Artefact	true
+1247	Y	null	Tyr->Trp	23.015984	H C(2) N O(-1)	AA substitution	false
+1324	Y	null	DiLeu4plex118	145.14047	H(11) 2H(4) C(8) N O	Isotopic label	false
+1396	Y	null	DiART6plex118	217.1751	H(18) 2H(2) C(8) 13C(3) N(2) O(2)	Isotopic label	false
+1244	Y	null	Tyr->Arg	-6.962218	H(3) C(-3) N(3) O(-1)	AA substitution	false
+397	Y	Triiodothyronine	Triiodothyronine	469.71616	H C(6) O I(3)	Post-translational	true
+1830	Y	null	Biotin-tyramide	361.14603	H(23) C(18) N(3) O(3) S	Chemical derivative	false
+1241	Y	null	Tyr->Met	-32.022842	C(-4) O(-1) S	AA substitution	false
+1393	Y	null	DiART6plex115	217.15662	H(20) C(8) 13C(3) 15N(2) O(2)	Isotopic label	false
+1	Y	Acetyl	Acetyl	42.010567	H(2) C(2) O	Chemical derivative	true
+1321	Y	null	DiLeu4plex115	145.12	H(15) C(7) 13C 15N 18O	Isotopic label	false
+362	Y	Diisopropylphosphate	Diisopropylphosphate	164.06023	H(13) C(6) O(3) P	Chemical derivative	false
+682	Y	null	Tyr->Asp	-48.036385	H(-4) C(-5) O	AA substitution	false
+212	Y	NEIAA:2H(5)	NEIAA:2H(5)	90.084145	H(2) 2H(5) C(4) N O	Isotopic label	true
+729	Y	null	O-Isopropylmethylphosphonate	120.03402	H(9) C(4) O(2) P	Chemical derivative	false
+731	Y	null	iTRAQ8plex:13C(6)15N(2)	304.19904	H(24) C(8) 13C(6) N(2) 15N(2) O(3)	Isotopic label	false
+1239	Y	null	Tyr->Gly	-106.04186	H(-6) C(-7) O(-1)	AA substitution	false
+417	Y	PhosphoUridine	PhosphoUridine	306.0253	H(11) C(9) N(2) O(8) P	Post-translational	true
+258	Y	Label:18O(1)	Label:18O(1)	2.004246	O(-1) 18O	Isotopic label	true
+270	Y	Cytopiloyne	Cytopiloyne	362.13657	H(22) C(19) O(7)	Chemical derivative	true
+292	Y	IodoU-AMP	IodoU-AMP	322.0202	H(11) C(9) N(2) O(9) P	Chemical derivative	true
+730	Y	null	iTRAQ8plex	304.20535	H(24) C(7) 13C(7) N(3) 15N O(3)	Isotopic label	false
+41	Y	Hex	Hex	162.05283	Hex	O-linked glycosylation	true
+889	Y	null	mTRAQ:13C(3)15N(1)	144.10207	H(12) C(4) 13C(3) N 15N O	Isotopic label	false
+127	Y	Fluoro	Fluoro	17.990578	H(-1) F	Non-standard residue	true
+129	Y	Iodo	Iodo	125.896645	H(-1) I	Chemical derivative	true
+1038	Y	null	TAMRA-FP	659.31244	H(46) C(37) N(3) O(6) P	Chemical derivative	false
+1392	Y	null	DiART6plex	217.16293	H(20) C(7) 13C(4) N 15N O(2)	Isotopic label	false
+1302	Y	null	mTRAQ:13C(6)15N(2)	148.10916	H(12) C 13C(6) 15N(2) O	Isotopic label	false
+1037	Y	null	Biotin:Thermo-88317	443.2913	H(42) C(22) N(3) O(4) P	Chemical derivative	false
+723	Y	null	O-Dimethylphosphate	107.99763	H(5) C(2) O(3) P	Chemical derivative	false
+211	Y	NEIAA	NEIAA	85.052765	H(7) C(4) N O	Isotopic label	true
+1255	Y	null	Cresylphosphate	170.01328	H(7) C(7) O(3) P	Chemical derivative	false
+425	Y	Dioxidation	Dioxidation	31.989828	O(2)	Post-translational	true
+1243	Y	null	Tyr->Gln	-35.00475	H(-1) C(-4) N	AA substitution	false
+975	Y	null	Chlorpyrifos	153.01392	H(10) C(4) O(2) P S	Chemical derivative	false
+354	Y	Nitro	Nitro	44.985077	H(-1) N O(2)	Chemical derivative	true
+1246	Y	null	Tyr->Val	-63.994915	C(-4) O(-1)	AA substitution	false
+1240	Y	null	Tyr->Lys	-34.968365	H(3) C(-3) N O(-1)	AA substitution	false
+363	Y	Isopropylphospho	Isopropylphospho	122.01328	H(7) C(3) O(3) P	Chemical derivative	false
+481	Y	Label:2H(4)	Label:2H(4)	4.025107	H(-4) 2H(4)	Isotopic label	false
+537	Y	null	CLIP_TRAQ_4	244.10146	H(15) C(9) 13C N(2) O(5)	Isotopic label	false
+680	Y	null	Tyr->Asn	-49.0204	H(-3) C(-5) N	AA substitution	false
+683	Y	null	Tyr->Cys	-60.054146	H(-4) C(-6) O(-1) S	AA substitution	false
+1256	Y	null	CresylSaligeninPhosphate	276.05515	H(13) C(14) O(4) P	Chemical derivative	false
+1843	Y	null	PhosphoCytidine	305.0413	H(12) C(9) N(3) O(7) P	Post-translational	false
