@@ -1,5 +1,6 @@
 package proteomics;
 
+import ProteomicsLibrary.Score;
 import proteomics.Index.BuildIndex;
 import proteomics.PTM.InferPTM;
 import ProteomicsLibrary.Binomial;
@@ -138,7 +139,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                 double score = massToolObj.buildVectorAndCalXCorr(peptide.getIonMatrix(), precursorCharge, expProcessedPL);
                 if (score > 0) {
                     peptide.setScore(score);
-                    peptide.setMatchedPeakNum(InferPTM.getMatchedPeakNum(plMap, localMaxMs2Charge, peptide.getIonMatrix(), ms2Tolerance));
+                    peptide.setMatchedPeakNum(Score.getMatchedIonNum(plMap, localMaxMs2Charge, peptide.getIonMatrix(), ms2Tolerance));
                     if (peptideSet.size() < 5) {
                         peptideSet.add(peptide);
                     } else if (peptide.getScore() > peptideSet.last().getScore()) {
