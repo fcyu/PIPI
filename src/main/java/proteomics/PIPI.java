@@ -19,8 +19,10 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.*;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,6 +35,8 @@ public class PIPI {
     public static final int[] debugScanNumArray = new int[]{};
 
     public static void main(String[] args) {
+        long startTime = System.nanoTime();
+
         // Process inputs
         if (args.length != 2) {
             help();
@@ -84,6 +88,10 @@ public class PIPI {
                 }
             }
         }
+
+        double totalHour = (double) (System.nanoTime() - startTime) * 1e-9 / 3600;
+        logger.info("Running time: {} hours.", totalHour);
+        logger.info("Done!");
     }
 
     private PIPI(String parameterPath, String spectraPath, String dbName) throws Exception {
@@ -273,8 +281,6 @@ public class PIPI {
         logger.info("Saving results...");
         writeFinalResult(percolatorResultMap, spectraPath + "." + labelling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
         new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.getMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
-
-        logger.info("Done.");
     }
 
     private static void help() {
