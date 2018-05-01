@@ -1,11 +1,11 @@
-# 1.4.3
+# 1.4.4
 # First line is the parameter file version. Don't change it.
 thread_num = 0 # Thread number. Set to 0 to using all the CPU resources in the computer.
 percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file.
 
 # Database
 db = test.fasta # Protein database.
-database_type = UniProt # Different types have different fasta header patterns. Available values: UniProt, SwissProt, TAIR, ITAG, Others
+database_type = UniProt # Different types have different fasta header patterns. Available values: UniProt, SwissProt, TAIR, ITAG, RefSeq, Others
 missed_cleavage = 2 # Maximum number of allowed missed cleavage.
 min_peptide_length = 7
 max_peptide_length = 50
@@ -26,7 +26,7 @@ min_ptm_mass = -250 # Min allowed PTM mass.
 max_ptm_mass = 250 # Max allowed PTM mass.
 
 # Isotopic labelling strategy
-15N = 1 # 1: 15N. 0: 14N.
+15N = 0 # 1: 15N. 0: 14N.
 
 # Considered modifications in generating tags.
 # Specify additional mass and amino acid. DO NOT change the last character.
