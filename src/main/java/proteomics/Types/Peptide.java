@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Peptide implements Comparable<Peptide> {
 
-    private final String ptmFreeSeq;
+    private final String ptmFreePeptide;
     private final boolean isDecoy;
     private final String normalizedPeptideString;
     private final MassTool massToolObj;
@@ -37,16 +37,16 @@ public class Peptide implements Comparable<Peptide> {
     private double qValue = -1;
     private String aScore = "-";
 
-    public Peptide(String ptmFreeSeq, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, int globalRank) {
-        this.ptmFreeSeq = ptmFreeSeq;
+    public Peptide(String ptmFreePeptide, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, int globalRank) {
+        this.ptmFreePeptide = ptmFreePeptide;
         this.isDecoy = isDecoy;
-        this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreeSeq);
+        this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreePeptide);
         this.normalizedCrossCorrelationCoefficient = normalizedCrossCorrelationCoefficient;
         this.massToolObj = massToolObj;
         this.maxMs2Charge = maxMs2Charge;
         this.globalRank = globalRank;
 
-        hashCode = ptmFreeSeq.hashCode();
+        hashCode = ptmFreePeptide.hashCode();
     }
 
     public int getGlobalRank() {
@@ -101,7 +101,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public Peptide clone() {
-        Peptide other = new Peptide(ptmFreeSeq, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
+        Peptide other = new Peptide(ptmFreePeptide, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
         if (varPTMMap != null) {
             other.setVarPTM(varPTMMap.clone());
             other.setScore(score);
@@ -120,7 +120,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public int length() {
-        return ptmFreeSeq.length();
+        return ptmFreePeptide.length();
     }
 
     public void setVarPTM(PositionDeltaMassMap ptmMap) {
@@ -133,13 +133,13 @@ public class Peptide implements Comparable<Peptide> {
             varPtmContainingSeq = null;
             ptmContainingSeq = null;
 
-            String toString = ptmFreeSeq + "." + ptmMap.toString();
+            String toString = ptmFreePeptide + "." + ptmMap.toString();
             hashCode = toString.hashCode();
         }
     }
 
     public String toString() {
-        return ptmFreeSeq + "." + varPTMMap.toString();
+        return ptmFreePeptide + "." + varPTMMap.toString();
     }
 
     public boolean hasVarPTM() {
@@ -154,8 +154,8 @@ public class Peptide implements Comparable<Peptide> {
         }
     }
 
-    public String getPTMFreeSeq() {
-        return ptmFreeSeq;
+    public String getPTMFreePeptide() {
+        return ptmFreePeptide;
     }
 
     public PositionDeltaMassMap getVarPTMs() {
@@ -165,38 +165,38 @@ public class Peptide implements Comparable<Peptide> {
     public String getVarPtmContainingSeq() {
         if (varPtmContainingSeq == null) {
             if (varPTMMap != null) {
-                StringBuilder sb = new StringBuilder(ptmFreeSeq.length() * 5);
+                StringBuilder sb = new StringBuilder(ptmFreePeptide.length() * 5);
                 int tempIdx = varPTMMap.firstKey().y;
                 if (tempIdx > 1) {
-                    sb.append(ptmFreeSeq.substring(0, tempIdx - 1));
+                    sb.append(ptmFreePeptide.substring(0, tempIdx - 1));
                 }
                 int i = tempIdx - 1;
                 tempIdx = varPTMMap.lastKey().y;
-                while (i < ptmFreeSeq.length()) {
+                while (i < ptmFreePeptide.length()) {
                     boolean hasMod = false;
                     if (tempIdx > i) {
                         for (Coordinate co : varPTMMap.keySet()) {
                             if (co.y - 1 == i) {
-                                sb.append(String.format(Locale.US, "%c(%.3f)", ptmFreeSeq.charAt(i), varPTMMap.get(co)));
+                                sb.append(String.format(Locale.US, "%c(%.3f)", ptmFreePeptide.charAt(i), varPTMMap.get(co)));
                                 hasMod = true;
                                 ++i;
                                 break;
                             }
                         }
                         if (!hasMod) {
-                            sb.append(ptmFreeSeq.charAt(i));
+                            sb.append(ptmFreePeptide.charAt(i));
                             ++i;
                         }
                     } else {
                         break;
                     }
                 }
-                if (tempIdx < ptmFreeSeq.length()) {
-                    sb.append(ptmFreeSeq.substring(tempIdx));
+                if (tempIdx < ptmFreePeptide.length()) {
+                    sb.append(ptmFreePeptide.substring(tempIdx));
                 }
                 varPtmContainingSeq = sb.toString();
             } else {
-                varPtmContainingSeq = ptmFreeSeq;
+                varPtmContainingSeq = ptmFreePeptide;
             }
         }
 

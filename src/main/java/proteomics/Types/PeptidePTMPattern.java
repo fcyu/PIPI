@@ -5,12 +5,12 @@ import java.util.TreeSet;
 
 public class PeptidePTMPattern {
 
-    public final String ptmFreeSequence;
+    public final String ptmFreePeptide;
 
     private TreeSet<Peptide> peptideTreeSet = new TreeSet<>(Comparator.reverseOrder());
 
-    public PeptidePTMPattern(String ptmFreeSequence) {
-        this.ptmFreeSequence = ptmFreeSequence;
+    public PeptidePTMPattern(String ptmFreePeptide) {
+        this.ptmFreePeptide = ptmFreePeptide;
     }
 
     public void update(Peptide peptide) {

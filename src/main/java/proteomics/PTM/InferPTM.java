@@ -97,14 +97,14 @@ public class InferPTM {
         }
     }
 
-    public PeptidePTMPattern tryPTM(SparseVector expProcessedPL, TreeMap<Double, Double> plMap, double precursorMass, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, char leftFlank, char rightFlank, int globalRank, int precursorCharge, int localMaxMS2Charge, double localMS1ToleranceL, double localMS1ToleranceR) {
-        double ptmFreeMass = massTool.calResidueMass(ptmFreeSequence) + massTool.H2O;
+    public PeptidePTMPattern tryPTM(SparseVector expProcessedPL, TreeMap<Double, Double> plMap, double precursorMass, String ptmFreePeptide, boolean isDecoy, double normalizedCrossCorr, char leftFlank, char rightFlank, int globalRank, int precursorCharge, int localMaxMS2Charge, double localMS1ToleranceL, double localMS1ToleranceR) {
+        double ptmFreeMass = massTool.calResidueMass(ptmFreePeptide) + massTool.H2O;
         double deltaMass = precursorMass - ptmFreeMass;
         double leftMassBound = deltaMass + localMS1ToleranceL;
         double rightMassBound = deltaMass + localMS1ToleranceR;
-        Set<Integer> fixModIdxes = getFixModIdxes(ptmFreeSequence, fixModMap);
+        Set<Integer> fixModIdxes = getFixModIdxes(ptmFreePeptide, fixModMap);
 
-        PeptidePTMPattern peptidePTMPattern = new PeptidePTMPattern(ptmFreeSequence);
+        PeptidePTMPattern peptidePTMPattern = new PeptidePTMPattern(ptmFreePeptide);
 
         // try different PTM combinations
         Set<String> checkedPtmPattern1 = new HashSet<>();
@@ -113,28 +113,28 @@ public class InferPTM {
         Set<String> checkedPtmPattern4 = new HashSet<>();
         Set<String> checkedPtmPattern5 = new HashSet<>();
 
-        Map<Integer, Set<VarModParam>> idxVarModMap = getIdxVarModMap(ptmFreeSequence, fixModIdxes, leftFlank, rightFlank);
+        Map<Integer, Set<VarModParam>> idxVarModMap = getIdxVarModMap(ptmFreePeptide, fixModIdxes, leftFlank, rightFlank);
 
-        try1PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreeSequence, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern1, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
+        try1PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreePeptide, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern1, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
 
         if (idxVarModMap.size() > 1) {
             // Try 2 PTMs
-            try2PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreeSequence, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern2, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
+            try2PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreePeptide, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern2, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
         }
 
         if (idxVarModMap.size() > 2) {
             // Try 3 PTMs
-            try3PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreeSequence, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern3, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
+            try3PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreePeptide, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern3, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
         }
 
         if (idxVarModMap.size() > 3) {
             // Try 4 PTMs
-            try4PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreeSequence, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern4, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
+            try4PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreePeptide, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern4, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
         }
 
         if (idxVarModMap.size() > 4) {
             // Try 5 PTMs
-            try5PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreeSequence, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern5, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
+            try5PTMs(idxVarModMap, leftMassBound, rightMassBound, ptmFreePeptide, isDecoy, normalizedCrossCorr, globalRank, checkedPtmPattern5, peptidePTMPattern, expProcessedPL, plMap, precursorCharge, localMaxMS2Charge);
         }
 
         return peptidePTMPattern;
@@ -249,9 +249,9 @@ public class InferPTM {
         return aasMap;
     }
 
-    private Set<Integer> getFixModIdxes(String ptmFreeSequence, Map<Character, Double> fixModMap) {
-        Set<Integer> outputSet = new HashSet<>(ptmFreeSequence.length(), 1);
-        char[] tempArray = ptmFreeSequence.toCharArray();
+    private Set<Integer> getFixModIdxes(String ptmFreePeptide, Map<Character, Double> fixModMap) {
+        Set<Integer> outputSet = new HashSet<>(ptmFreePeptide.length(), 1);
+        char[] tempArray = ptmFreePeptide.toCharArray();
         for (int i = 0; i < tempArray.length; ++i) {
             if (Math.abs(fixModMap.get(tempArray[i])) > 0.1) {
                 outputSet.add(i);
@@ -260,17 +260,17 @@ public class InferPTM {
         return outputSet;
     }
 
-    private Map<Integer, Set<VarModParam>> getIdxVarModMap(String ptmFreeSequence, Set<Integer> fixModIdxes, char leftFlank, char rightFlank) {
-        Map<Integer, Set<VarModParam>> idxVarModMap = new HashMap<>(ptmFreeSequence.length() + 1, 1);
-        for (int i = 0; i < ptmFreeSequence.length(); ++i) {
+    private Map<Integer, Set<VarModParam>> getIdxVarModMap(String ptmFreePeptide, Set<Integer> fixModIdxes, char leftFlank, char rightFlank) {
+        Map<Integer, Set<VarModParam>> idxVarModMap = new HashMap<>(ptmFreePeptide.length() + 1, 1);
+        for (int i = 0; i < ptmFreePeptide.length(); ++i) {
             if (!fixModIdxes.contains(i)) {
-                char aa = ptmFreeSequence.charAt(i);
+                char aa = ptmFreePeptide.charAt(i);
                 if (aa == 'n') {
                     if (finalPtmMap.containsKey('n')) {
                         Set<VarModParam> tempSet = new HashSet<>();
                         for (VarModParam modEntry : finalPtmMap.get('n')) {
                             if (!modEntry.onlyProteinTerminalIfnc || leftFlank == '-') {
-                                if ((leftFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (leftFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreeSequence.charAt(1)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in N-term and the mass of a modified amino acid cannot be 0 or negative.
+                                if ((leftFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (leftFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreePeptide.charAt(1)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in N-term and the mass of a modified amino acid cannot be 0 or negative.
                                     tempSet.add(modEntry);
                                 }
                             }
@@ -284,13 +284,13 @@ public class InferPTM {
                         Set<VarModParam> tempSet = new HashSet<>();
                         for (VarModParam modEntry : finalPtmMap.get('c')) {
                             if (!modEntry.onlyProteinTerminalIfnc || rightFlank == '-') {
-                                if ((rightFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (rightFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreeSequence.charAt(ptmFreeSequence.length() - 2)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in C-term and the mass of a modified amino acid cannot be 0 or negative
+                                if ((rightFlank != 'K' || Math.abs(massTable.get('K') - modEntry.mass) > ms2Tolerance) && (rightFlank != 'R' || Math.abs(massTable.get('R') - modEntry.mass) > ms2Tolerance) && (massTable.get(ptmFreePeptide.charAt(ptmFreePeptide.length() - 2)) + modEntry.mass > ms2Tolerance)) {  // Fixing missed cleavages caused issue in C-term and the mass of a modified amino acid cannot be 0 or negative
                                     tempSet.add(modEntry);
                                 }
                             }
                         }
                         if (!tempSet.isEmpty()) {
-                            idxVarModMap.put(ptmFreeSequence.length() - 1, tempSet);
+                            idxVarModMap.put(ptmFreePeptide.length() - 1, tempSet);
                         }
                     }
                 } else {
@@ -311,9 +311,9 @@ public class InferPTM {
                 if (modEntry1.mass <= rightMassBound && modEntry1.mass >= leftMassBound) {
                     if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000))) {
                         checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000));
-                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreeSequence.length());
+                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreePeptide.length());
                         positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), modEntry1.mass);
-                        Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
+                        Peptide peptideObj = new Peptide(ptmFreePeptide, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                         peptideObj.setVarPTM(positionDeltaMassMap);
                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                         if (score > 0) {
@@ -327,7 +327,7 @@ public class InferPTM {
         }
     }
 
-    private void try2PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) {
+    private void try2PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreePeptide, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 1; ++i) {
@@ -337,10 +337,10 @@ public class InferPTM {
                         if (modEntry1.mass + modEntry2.mass <= rightMassBound && modEntry1.mass + modEntry2.mass >= leftMassBound) {
                             if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000))) {
                                 checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000));
-                                PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreeSequence.length());
+                                PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreePeptide.length());
                                 positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), modEntry1.mass);
                                 positionDeltaMassMap.put(new Coordinate(idxArray[j], idxArray[j] + 1), modEntry2.mass);
-                                Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
+                                Peptide peptideObj = new Peptide(ptmFreePeptide, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                 peptideObj.setVarPTM(positionDeltaMassMap);
                                 double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                 if (score > 0) {
@@ -356,7 +356,7 @@ public class InferPTM {
         }
     }
 
-    private void try3PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) {
+    private void try3PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreePeptide, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) {
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 2; ++i) {
@@ -372,11 +372,11 @@ public class InferPTM {
                                                 if (modEntry1.mass + modEntry2.mass + modEntry3.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass >= leftMassBound) {
                                                     if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000))) {
                                                         checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000));
-                                                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreeSequence.length());
+                                                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreePeptide.length());
                                                         positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), modEntry1.mass);
                                                         positionDeltaMassMap.put(new Coordinate(idxArray[j], idxArray[j] + 1), modEntry2.mass);
                                                         positionDeltaMassMap.put(new Coordinate(idxArray[k], idxArray[k] + 1), modEntry3.mass);
-                                                        Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
+                                                        Peptide peptideObj = new Peptide(ptmFreePeptide, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                                         peptideObj.setVarPTM(positionDeltaMassMap);
                                                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                                         if (score > 0) {
@@ -398,7 +398,7 @@ public class InferPTM {
         }
     }
 
-    private void try4PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) { // only allow one low priority PTM
+    private void try4PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreePeptide, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) { // only allow one low priority PTM
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 3; ++i) {
@@ -418,12 +418,12 @@ public class InferPTM {
                                                                 if (modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass >= leftMassBound) {
                                                                     if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000))) {
                                                                         checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000));
-                                                                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreeSequence.length());
+                                                                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreePeptide.length());
                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), modEntry1.mass);
                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[j], idxArray[j] + 1), modEntry2.mass);
                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[k], idxArray[k] + 1), modEntry3.mass);
                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[l], idxArray[l] + 1), modEntry4.mass);
-                                                                        Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
+                                                                        Peptide peptideObj = new Peptide(ptmFreePeptide, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                                                         peptideObj.setVarPTM(positionDeltaMassMap);
                                                                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                                                         if (score > 0) {
@@ -449,7 +449,7 @@ public class InferPTM {
         }
     }
 
-    private void try5PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreeSequence, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) { // only allow one low priority PTM
+    private void try5PTMs(Map<Integer, Set<VarModParam>> idxVarModMap, double leftMassBound, double rightMassBound, String ptmFreePeptide, boolean isDecoy, double normalizedCrossCorr, int globalRank, Set<String> checkedPtmPattern, PeptidePTMPattern peptidePTMPattern, SparseVector expProcessedPL, TreeMap<Double, Double> plMap, int precursorCharge, int localMaxMS2Charge) { // only allow one low priority PTM
         Integer[] idxArray = idxVarModMap.keySet().toArray(new Integer[0]);
         Arrays.sort(idxArray);
         for (int i = 0; i < idxArray.length - 4; ++i) {
@@ -473,13 +473,13 @@ public class InferPTM {
                                                                                 if (modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass + modEntry5.mass <= rightMassBound && modEntry1.mass + modEntry2.mass + modEntry3.mass + modEntry4.mass + modEntry5.mass >= leftMassBound) {
                                                                                     if (!checkedPtmPattern.contains(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000) + "-" + idxArray[m] + "-" + Math.round(modEntry5.mass * 1000))) {
                                                                                         checkedPtmPattern.add(idxArray[i] + "-" + Math.round(modEntry1.mass * 1000) + "-" + idxArray[j] + "-" + Math.round(modEntry2.mass * 1000) + "-" + idxArray[k] + "-" + Math.round(modEntry3.mass * 1000) + "-" + idxArray[l] + "-" + Math.round(modEntry4.mass * 1000) + "-" + idxArray[m] + "-" + Math.round(modEntry5.mass * 1000));
-                                                                                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreeSequence.length());
+                                                                                        PositionDeltaMassMap positionDeltaMassMap = new PositionDeltaMassMap(ptmFreePeptide.length());
                                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[i], idxArray[i] + 1), modEntry1.mass);
                                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[j], idxArray[j] + 1), modEntry2.mass);
                                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[k], idxArray[k] + 1), modEntry3.mass);
                                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[l], idxArray[l] + 1), modEntry4.mass);
                                                                                         positionDeltaMassMap.put(new Coordinate(idxArray[m], idxArray[m] + 1), modEntry5.mass);
-                                                                                        Peptide peptideObj = new Peptide(ptmFreeSequence, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
+                                                                                        Peptide peptideObj = new Peptide(ptmFreePeptide, isDecoy, massTool, localMaxMS2Charge, normalizedCrossCorr, globalRank);
                                                                                         peptideObj.setVarPTM(positionDeltaMassMap);
                                                                                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                                                                         if (score > 0) {

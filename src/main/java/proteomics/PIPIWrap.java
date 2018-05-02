@@ -116,8 +116,8 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
             TreeSet<Peptide> peptideSet = new TreeSet<>(Collections.reverseOrder());
             Map<String, TreeSet<Peptide>> modSequences = new TreeMap<>();
             for (Peptide peptide : searchObj.getPTMOnlyResult()) {
-                Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreeSeq());
-                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreeSeq(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), precursorCharge, localMaxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
+                Peptide0 peptide0 = peptide0Map.get(peptide.getPTMFreePeptide());
+                PeptidePTMPattern peptidePTMPattern = inferPTM.tryPTM(expProcessedPL, plMap, precursorMass, peptide.getPTMFreePeptide(), peptide.isDecoy(), peptide.getNormalizedCrossCorr(), peptide0.leftFlank, peptide0.rightFlank, peptide.getGlobalRank(), precursorCharge, localMaxMs2Charge, localMS1ToleranceL, localMS1ToleranceR);
                 if (!peptidePTMPattern.getPeptideTreeSet().isEmpty()) {
                     for (Peptide tempPeptide : peptidePTMPattern.getPeptideTreeSet()) {
                         if (tempPeptide.getScore() > 0) {
@@ -130,7 +130,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                         }
                     }
                     // record scores with different PTM patterns for calculating PTM delta score.
-                    modSequences.put(peptidePTMPattern.ptmFreeSequence, peptidePTMPattern.getPeptideTreeSet());
+                    modSequences.put(peptidePTMPattern.ptmFreePeptide, peptidePTMPattern.getPeptideTreeSet());
                 }
             }
 
@@ -154,7 +154,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                 Peptide topPeptide = peptideArray[0];
                 TreeSet<Peptide> ptmPatterns = null;
                 if (topPeptide.hasVarPTM()) {
-                    ptmPatterns = modSequences.get(topPeptide.getPTMFreeSeq());
+                    ptmPatterns = modSequences.get(topPeptide.getPTMFreePeptide());
                 }
                 new CalSubscores(topPeptide, ms2Tolerance, plMap, precursorCharge, ptmPatterns, binomial);
 
