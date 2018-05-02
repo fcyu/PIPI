@@ -1,5 +1,6 @@
 package proteomics.PTM;
 
+import ProteomicsLibrary.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ProteomicsLibrary.MassTool;
@@ -11,7 +12,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static ProteomicsLibrary.Score.getMatchedIonNum;
 
 public class InferPTM {
 
@@ -318,7 +318,7 @@ public class InferPTM {
                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                         if (score > 0) {
                             peptideObj.setScore(score);
-                            peptideObj.setMatchedPeakNum(getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
+                            peptideObj.setMatchedPeakNum(Score.getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                             peptidePTMPattern.update(peptideObj);
                         }
                     }
@@ -345,7 +345,7 @@ public class InferPTM {
                                 double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                 if (score > 0) {
                                     peptideObj.setScore(score);
-                                    peptideObj.setMatchedPeakNum(getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
+                                    peptideObj.setMatchedPeakNum(Score.getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                     peptidePTMPattern.update(peptideObj);
                                 }
                             }
@@ -381,7 +381,7 @@ public class InferPTM {
                                                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                                         if (score > 0) {
                                                             peptideObj.setScore(score);
-                                                            peptideObj.setMatchedPeakNum(getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
+                                                            peptideObj.setMatchedPeakNum(Score.getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                                             peptidePTMPattern.update(peptideObj);
                                                         }
                                                     }
@@ -428,7 +428,7 @@ public class InferPTM {
                                                                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                                                         if (score > 0) {
                                                                             peptideObj.setScore(score);
-                                                                            peptideObj.setMatchedPeakNum(getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
+                                                                            peptideObj.setMatchedPeakNum(Score.getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                                                             peptidePTMPattern.update(peptideObj);
                                                                         }
                                                                     }
@@ -484,7 +484,7 @@ public class InferPTM {
                                                                                         double score = massTool.buildVectorAndCalXCorr(peptideObj.getIonMatrix(), precursorCharge, expProcessedPL);
                                                                                         if (score > 0) {
                                                                                             peptideObj.setScore(score);
-                                                                                            peptideObj.setMatchedPeakNum(getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
+                                                                                            peptideObj.setMatchedPeakNum(Score.getMatchedIonNum(plMap, localMaxMS2Charge, peptideObj.getIonMatrix(), ms2Tolerance));
                                                                                             peptidePTMPattern.update(peptideObj);
                                                                                         }
                                                                                     }
