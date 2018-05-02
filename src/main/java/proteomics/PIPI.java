@@ -19,10 +19,8 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.*;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.Date;
 import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
