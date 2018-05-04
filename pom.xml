@@ -137,7 +137,7 @@
                         <option>-overloadaggressively</option>
                         <option>-repackageclasses</option>
                         <option>-allowaccessmodification</option>
-                        <option>-ignorewarnings</option>
+                        <option>-dontwarn ch.qos.logback.**,com.sun.**,afu.org.checkerframework.checker.**,com.google.common.**,org.bytedeco.javacpp.**,org.checkerframework.checker.**,org.slf4j.**</option>
                         <option>-dontnote **</option>
                         <option>-adaptresourcefilenames **.xml,**.fasta,**.tsv,**.def,**.xsd</option>
                     </options>
