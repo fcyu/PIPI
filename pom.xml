@@ -130,7 +130,7 @@
                     </libs>
                     <options>
                         <option>-keep class !proteomics.**,!ProteomicsLibrary.** { *;}</option>
-                        <option>-keepclasseswithmembers public class * { public static void main(java.lang.String[]); }</option>
+                        <option>-keepclasseswithmembers public class proteomics.PIPI { public static void main(java.lang.String[]); }</option>
                         <option>-keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod</option>
                         <option>-keepclasseswithmembernames,includedescriptorclasses class * { native &lt;methods&gt;; } </option>
                         <option>-optimizationpasses 3</option>
