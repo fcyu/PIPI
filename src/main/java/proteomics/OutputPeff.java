@@ -187,17 +187,17 @@ public class OutputPeff {
     private String eliminateKnownMods(String peptide, Multimap<Character, Double> siteVarFixModMap) { // caution: we assume that the delta mass precision is .001
         String outputPeptide = peptide;
         for (char site : siteVarFixModMap.keySet()) {
-            for (double deltaMass : siteVarFixModMap.get(site)) {
-                outputPeptide = outputPeptide.replaceAll(String.format(Locale.US, "%c\\(%.3f\\)", site, deltaMass), String.valueOf(site));
+            for (double ptmDeltaMass : siteVarFixModMap.get(site)) {
+                outputPeptide = outputPeptide.replaceAll(String.format(Locale.US, "%c\\(%.3f\\)", site, ptmDeltaMass), String.valueOf(site));
             }
         }
         return outputPeptide;
     }
 
-    public static String getModString(char site, double deltaMass, Multimap<Character, ModEntry> siteModMap) {
+    public static String getModString(char site, double ptmDeltaMass, Multimap<Character, ModEntry> siteModMap) {
         if (siteModMap.containsKey(site)) {
             for (ModEntry modEntry : siteModMap.get(site)) {
-                if (Math.abs(modEntry.mass - deltaMass) < 0.01) {
+                if (Math.abs(modEntry.mass - ptmDeltaMass) < 0.01) {
                     return String.format(Locale.US, "%s|%s", modEntry.id, modEntry.name); // we randomly report one mod since there is no way to distinguish mods with the same mass.
                 }
             }
@@ -207,8 +207,8 @@ public class OutputPeff {
         return null;
     }
 
-    public static Character getAAS(char site, double deltaMass, Map<Character, Double> massTable) {
-        double newMass = massTable.get(site) + deltaMass;
+    public static Character getAAS(char site, double ptmDeltaMass, Map<Character, Double> massTable) {
+        double newMass = massTable.get(site) + ptmDeltaMass;
         for (char newAA : massTable.keySet()) {
             if (newAA >= 'A' && newAA <= 'Z' && Math.abs(massTable.get(newAA) - newMass) < 0.01) { // there are n, c, #, and $ in massTable.
                 return newAA; // caution: we don't distinguish I and L

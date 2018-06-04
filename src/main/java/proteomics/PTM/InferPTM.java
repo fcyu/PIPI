@@ -197,9 +197,9 @@ public class InferPTM {
                         site = 'c';
                     }
                     if (site != 'n' && site != 'c') { // We don't consider peptide terminal modifications
-                        double deltaMass =  Double.valueOf(parts[4].trim());
-                        if (deltaMass >= minPtmMass && deltaMass <= maxPtmMass) { // only record the PTM within the delta mass range
-                            siteModMap.put(site, new ModEntry("UNIMOD:" + parts[0].trim(), parts[2].trim().contentEquals("null") ? parts[3].trim() : parts[2].trim(), deltaMass)); // if there is no PSI-MS name, use the internal name in the Unimod
+                        double ptmDeltaMass =  Double.valueOf(parts[4].trim());
+                        if (ptmDeltaMass >= minPtmMass && ptmDeltaMass <= maxPtmMass) { // only record the PTM within the delta mass range
+                            siteModMap.put(site, new ModEntry("UNIMOD:" + parts[0].trim(), parts[2].trim().contentEquals("null") ? parts[3].trim() : parts[2].trim(), ptmDeltaMass)); // if there is no PSI-MS name, use the internal name in the Unimod
                         }
                     }
                 }
@@ -317,9 +317,9 @@ public class InferPTM {
             for (int j = 0; j < aaArray.length; ++j) {
                 if (i != j) {
                     if (!(aaArray[i] == 'I' && aaArray[j] == 'L') && !(aaArray[i] == 'L' && aaArray[j] == 'I')) { // "I" and "L" have the same mass. don't consider such a AA substitution.
-                        double deltaMass = massTable.get(aaArray[j]) - massTable.get(aaArray[i]);
-                        if (deltaMass >= minPtmMass && deltaMass <= maxPtmMass) {
-                            VarModParam temp = new VarModParam(deltaMass, aaArray[i], 0, true);
+                        double ptmDeltaMass = massTable.get(aaArray[j]) - massTable.get(aaArray[i]);
+                        if (ptmDeltaMass >= minPtmMass && ptmDeltaMass <= maxPtmMass) {
+                            VarModParam temp = new VarModParam(ptmDeltaMass, aaArray[i], 0, true);
                             if (aasMap.containsKey(aaArray[i])) {
                                 aasMap.get(aaArray[i]).add(temp); // all AAs have the same priority
                             } else {
@@ -328,7 +328,7 @@ public class InferPTM {
                                 aasMap.put(aaArray[i], tempSet);
                             }
 
-                            siteModMap.put(aaArray[i], new ModEntry("AAS", aaArray[i] + "->" + aaArray[j], deltaMass)); // add the amino acid substitution to the map.
+                            siteModMap.put(aaArray[i], new ModEntry("AAS", aaArray[i] + "->" + aaArray[j], ptmDeltaMass)); // add the amino acid substitution to the map.
                         }
                     }
                 }
