@@ -12,7 +12,7 @@ public class Peptide implements Comparable<Peptide> {
     private final String ptmFreePeptide;
     private final boolean isDecoy;
     private final String normalizedPeptideString;
-    private final MassTool massToolObj;
+    private final MassTool massTool;
     private final int maxMs2Charge;
     private final int globalRank;
     private final double normalizedCrossCorrelationCoefficient;
@@ -37,12 +37,12 @@ public class Peptide implements Comparable<Peptide> {
     private double qValue = -1;
     private String aScore = "-";
 
-    public Peptide(String ptmFreePeptide, boolean isDecoy, MassTool massToolObj, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, int globalRank) {
+    public Peptide(String ptmFreePeptide, boolean isDecoy, MassTool massTool, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, int globalRank) {
         this.ptmFreePeptide = ptmFreePeptide;
         this.isDecoy = isDecoy;
         this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreePeptide);
         this.normalizedCrossCorrelationCoefficient = normalizedCrossCorrelationCoefficient;
-        this.massToolObj = massToolObj;
+        this.massTool = massTool;
         this.maxMs2Charge = maxMs2Charge;
         this.globalRank = globalRank;
 
@@ -56,8 +56,8 @@ public class Peptide implements Comparable<Peptide> {
     public double[][] getIonMatrix() {
         if (ionMatrix == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
-            ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            theoMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
+            ionMatrix = massTool.buildIonArray(varPtmContainingSeq, maxMs2Charge);
+            theoMass = massTool.calResidueMass(varPtmContainingSeq) + massTool.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return ionMatrix;
@@ -74,8 +74,8 @@ public class Peptide implements Comparable<Peptide> {
     public double getTheoMass() {
         if (theoMass < 0) {
             varPtmContainingSeq = getVarPtmContainingSeq();
-            ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            theoMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
+            ionMatrix = massTool.buildIonArray(varPtmContainingSeq, maxMs2Charge);
+            theoMass = massTool.calResidueMass(varPtmContainingSeq) + massTool.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return theoMass;
@@ -84,8 +84,8 @@ public class Peptide implements Comparable<Peptide> {
     public double[] getChargeOneBIonArray() {
         if (chargeOneBIonArray == null) {
             varPtmContainingSeq = getVarPtmContainingSeq();
-            ionMatrix = massToolObj.buildIonArray(varPtmContainingSeq, maxMs2Charge);
-            theoMass = massToolObj.calResidueMass(varPtmContainingSeq) + massToolObj.H2O;
+            ionMatrix = massTool.buildIonArray(varPtmContainingSeq, maxMs2Charge);
+            theoMass = massTool.calResidueMass(varPtmContainingSeq) + massTool.H2O;
             chargeOneBIonArray = ionMatrix[0];
         }
         return chargeOneBIonArray;
@@ -101,7 +101,7 @@ public class Peptide implements Comparable<Peptide> {
     }
 
     public Peptide clone() {
-        Peptide other = new Peptide(ptmFreePeptide, isDecoy, massToolObj, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
+        Peptide other = new Peptide(ptmFreePeptide, isDecoy, massTool, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
         if (varPTMMap != null) {
             other.setVarPTM(varPTMMap.clone());
             other.setScore(score);

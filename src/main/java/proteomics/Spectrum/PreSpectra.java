@@ -25,8 +25,8 @@ public class PreSpectra {
 
     private int usefulSpectraNum = 0;
 
-    public PreSpectra(JMzReader spectraParser, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, MassTool massToolObj, String ext, Set<Integer> msLevelSet, String sqlPath) throws Exception {
-        isotopeDistribution = new IsotopeDistribution(massToolObj.getElementTable(), 0, massToolObj.getLabelling());
+    public PreSpectra(JMzReader spectraParser, double ms1Tolerance, int ms1ToleranceUnit, MassTool massTool, String ext, Set<Integer> msLevelSet, String sqlPath) throws Exception {
+        isotopeDistribution = new IsotopeDistribution(massTool.getElementTable(), 0, massTool.getLabelling());
 
         // prepare SQL database
         Connection sqlConnection = DriverManager.getConnection(sqlPath);

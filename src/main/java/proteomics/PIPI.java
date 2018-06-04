@@ -125,11 +125,11 @@ public class PIPI {
         }
 
         logger.info("Indexing protein database...");
-        BuildIndex buildIndexObj = new BuildIndex(parameterMap, labelling, true, true);
-        MassTool massToolObj = buildIndexObj.returnMassToolObj();
 
         double minPtmMass = Double.valueOf(parameterMap.get("min_ptm_mass"));
         double maxPtmMass = Double.valueOf(parameterMap.get("max_ptm_mass"));
+        BuildIndex buildIndex = new BuildIndex(parameterMap, labelling, true, true);
+        MassTool massTool = buildIndex.returnMassTool();
 
         logger.info("Reading spectra...");
         File spectraFile = new File(spectraPath);
@@ -150,7 +150,7 @@ public class PIPI {
         String sqlPath = "jdbc:sqlite:" + dbName;
         Class.forName("org.sqlite.JDBC").newInstance();
 
-        PreSpectra preSpectraObj = new PreSpectra(spectraParser, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, massToolObj, ext, msLevelSet, sqlPath);
+        PreSpectra preSpectra = new PreSpectra(spectraParser, ms1Tolerance, ms1ToleranceUnit, massTool, ext, msLevelSet, sqlPath);
 
         logger.info("Start searching...");
         int threadNum = Integer.valueOf(parameterMap.get("thread_num"));
@@ -163,8 +163,8 @@ public class PIPI {
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
 
         InferPTM inferPTM = new InferPTM(massToolObj, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
-        PrepareSpectrum preSpectrumObj = new PrepareSpectrum(massToolObj);
-        ArrayList<Future<PIPIWrap.Entry>> taskList = new ArrayList<>(preSpectraObj.getUsefulSpectraNum() + 10);
+        PrepareSpectrum preSpectrum = new PrepareSpectrum(massTool);
+        ArrayList<Future<PIPIWrap.Entry>> taskList = new ArrayList<>(preSpectra.getUsefulSpectraNum() + 10);
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanId, precursorCharge, precursorMass FROM spectraTable");
@@ -174,7 +174,7 @@ public class PIPI {
             String scanId = sqlResultSet.getString("scanId");
             int precursorCharge = sqlResultSet.getInt("precursorCharge");
             double precursorMass = sqlResultSet.getDouble("precursorMass");
-            taskList.add(threadPool.submit(new PIPIWrap(buildIndexObj, massToolObj, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, ms2Tolerance, minPtmMass, maxPtmMass, Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrumObj, sqlPath, binomial)));
+            taskList.add(threadPool.submit(new PIPIWrap(buildIndex, massTool, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, ms2Tolerance, inferPTM.getMinPtmMass(), inferPTM.getMaxPtmMass(), Math.min(precursorCharge > 1 ? precursorCharge - 1 : 1, 3), spectraParser, minClear, maxClear, lock, scanId, precursorCharge, precursorMass, inferPTM, preSpectrum, sqlPath, binomial)));
         }
         sqlResultSet.close();
         sqlStatement.close();
@@ -264,7 +264,7 @@ public class PIPI {
         String percolatorInputFileName = spectraPath + "." + labelling + ".input.temp";
         String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
         String percolatorProteinOutputFileName = spectraPath + "." + labelling + ".protein.tsv";
-        writePercolator(percolatorInputFileName, buildIndexObj.getPeptide0Map(), sqlPath);
+        writePercolator(percolatorInputFileName, buildIndex.getPeptide0Map(), sqlPath);
         Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName, parameterMap.get("db") + ".TD.fasta");
 
         if (percolatorResultMap.isEmpty()) {
@@ -277,8 +277,8 @@ public class PIPI {
         }
 
         logger.info("Saving results...");
-        writeFinalResult(percolatorResultMap, spectraPath + "." + labelling + ".pipi.csv", buildIndexObj.getPeptide0Map(), sqlPath);
-        new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massToolObj.getMassTable(), percolatorResultMap, buildIndexObj.getPeptide0Map(), buildIndexObj.returnFixModMap(), sqlPath);
+        writeFinalResult(percolatorResultMap, spectraPath + "." + labelling + ".pipi.csv", buildIndex.getPeptide0Map(), sqlPath);
+        new WritePepXml(spectraPath + "." + labelling + ".pipi.pep.xml", spectraPath, parameterMap, massTool.getMassTable(), percolatorResultMap, buildIndex.getPeptide0Map(), buildIndex.returnFixModMap(), sqlPath);
     }
 
     private static void help() {

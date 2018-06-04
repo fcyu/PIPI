@@ -15,7 +15,7 @@ public class Search {
     private List<Peptide> ptmFreeResult = new LinkedList<>();
 
 
-    public Search(BuildIndex buildIndexObj, double precursorMass, SparseVector scanCode, MassTool massToolObj, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, double minPtmMass, double maxPtmMass, int localMaxMs2Charge) {
+    public Search(BuildIndex buildIndex, double precursorMass, SparseVector scanCode, MassTool massTool, double ms1Tolerance, double leftInverseMs1Tolerance, double rightInverseMs1Tolerance, int ms1ToleranceUnit, double minPtmMass, double maxPtmMass, int localMaxMs2Charge) {
         PriorityQueue<ResultEntry> ptmFreeQueue = new PriorityQueue<>(rankNum * 2);
         PriorityQueue<ResultEntry> ptmOnlyQueue = new PriorityQueue<>(rankNum * 2);
         double scanNormSquare = scanCode.norm2square();
@@ -25,15 +25,15 @@ public class Search {
             leftTol = precursorMass - (precursorMass * leftInverseMs1Tolerance);
             rightTol = (precursorMass * rightInverseMs1Tolerance) - precursorMass;
         }
-        double leftMass = Math.max(precursorMass + minPtmMass, buildIndexObj.getMinPeptideMass());
-        double rightMass = Math.min(precursorMass + maxPtmMass, buildIndexObj.getMaxPeptideMass());
+        double leftMass = Math.max(precursorMass + minPtmMass, buildIndex.getMinPeptideMass());
+        double rightMass = Math.min(precursorMass + maxPtmMass, buildIndex.getMaxPeptideMass());
 
         if (leftMass >= rightMass) {
             return;
         }
 
-        Map<String, Peptide0> peptide0Map = buildIndexObj.getPeptide0Map();
-        TreeMap<Double, Set<String>> massPeptideMap = buildIndexObj.getMassPeptideMap();
+        Map<String, Peptide0> peptide0Map = buildIndex.getPeptide0Map();
+        TreeMap<Double, Set<String>> massPeptideMap = buildIndex.getMassPeptideMap();
 
         NavigableMap<Double, Set<String>> subMassPeptideMap = massPeptideMap.subMap(leftMass, true, rightMass, true);
 
@@ -102,17 +102,17 @@ public class Search {
         }
 
         if (!(ptmFreeQueue.isEmpty() && ptmOnlyQueue.isEmpty())) {
-            ptmFreeResult = convertResult(ptmFreeQueue, massToolObj, localMaxMs2Charge);
-            ptmOnlyResult = convertResult(ptmOnlyQueue, massToolObj, localMaxMs2Charge);
+            ptmFreeResult = convertResult(ptmFreeQueue, massTool, localMaxMs2Charge);
+            ptmOnlyResult = convertResult(ptmOnlyQueue, massTool, localMaxMs2Charge);
         }
     }
 
-    private List<Peptide> convertResult(PriorityQueue<ResultEntry> inputQueue, MassTool massToolObj, int localMaxMs2Charge) {
+    private List<Peptide> convertResult(PriorityQueue<ResultEntry> inputQueue, MassTool massTool, int localMaxMs2Charge) {
         List<Peptide> peptideList = new LinkedList<>();
         int globalRank = inputQueue.size();
         while (!inputQueue.isEmpty()) {
             ResultEntry temp = inputQueue.poll();
-            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massToolObj, localMaxMs2Charge, temp.score, globalRank));
+            peptideList.add(new Peptide(temp.peptide, temp.isDecoy(), massTool, localMaxMs2Charge, temp.score, globalRank));
             --globalRank;
         }
 

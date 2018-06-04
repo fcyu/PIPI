@@ -17,11 +17,11 @@ public class BuildIndex {
 
     private static final Logger logger = LoggerFactory.getLogger(BuildIndex.class);
 
-    private final MassTool massToolObj;
+    private final MassTool massTool;
     private Map<Character, Double> fixModMap = new HashMap<>(25, 1);
     private double minPeptideMass = 9999;
     private double maxPeptideMass = 0;
-    private InferenceSegment inference3SegmentObj;
+    private InferenceSegment inference3Segment;
     private TreeMap<Double, Set<String>> massPeptideMap = new TreeMap<>();
     private Map<String, Peptide0> peptide0Map;
     private final String labelling;
@@ -70,10 +70,10 @@ public class BuildIndex {
         proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
 
         // define a new MassTool object
-        massToolObj = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
+        massTool = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
 
         // build database
-        inference3SegmentObj = new InferenceSegment(massToolObj, ms2Tolerance, parameterMap, fixModMap);
+        inference3Segment = new InferenceSegment(massTool, parameterMap, fixModMap);
 
         Set<String> forCheckDuplicate = new HashSet<>(500000);
         Multimap<String, String> peptideProteinMap = HashMultimap.create();
@@ -81,7 +81,7 @@ public class BuildIndex {
         Map<String, String> targetDecoyProteinSequenceMap = new HashMap<>();
         for (String proId : proteinPeptideMap.keySet()) {
             String proSeq = proteinPeptideMap.get(proId);
-            Set<String> peptideSet = massToolObj.buildPeptideSet(proSeq);
+            Set<String> peptideSet = massTool.buildPeptideSet(proSeq);
 
             for (String peptide : peptideSet) {
                 if (MassTool.containsNonAAAndNC(peptide)) {
@@ -93,7 +93,7 @@ public class BuildIndex {
                         // Add the sequence to the check set for duplicate check
                         forCheckDuplicate.add(peptide.replace('L', 'I'));
 
-                        double mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
+                        double mass = massTool.calResidueMass(peptide) + massTool.H2O;
                         // recode min and max peptide mass
                         if (mass < minPeptideMass) {
                             minPeptideMass = mass;
@@ -123,7 +123,7 @@ public class BuildIndex {
             if (needDecoy) {
                 // decoy sequence
                 String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1);
-                peptideSet = massToolObj.buildPeptideSet(decoyProSeq);
+                peptideSet = massTool.buildPeptideSet(decoyProSeq);
 
                 for (String peptide : peptideSet) {
                     if (MassTool.containsNonAAAndNC(peptide)) {
@@ -135,7 +135,7 @@ public class BuildIndex {
                             // Add the sequence to the check set for duplicate check
                             forCheckDuplicate.add(peptide.replace('L', 'I'));
 
-                            double mass = massToolObj.calResidueMass(peptide) + massToolObj.H2O;
+                            double mass = massTool.calResidueMass(peptide) + massTool.H2O;
                             // recode min and max peptide mass
                             if (mass < minPeptideMass) {
                                 minPeptideMass = mass;
@@ -169,7 +169,7 @@ public class BuildIndex {
         for (String peptide : peptideMassMap.keySet()) {
             SparseBooleanVector code = null;
             if (needCoding) {
-                code = inference3SegmentObj.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
+                code = inference3Segment.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
             }
 
             Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), parameterMap.get("cleavage_from_c_term").contentEquals("1"));
@@ -192,8 +192,8 @@ public class BuildIndex {
         return dbTool;
     }
 
-    public MassTool returnMassToolObj() {
-        return massToolObj;
+    public MassTool returnMassTool() {
+        return massTool;
     }
 
     public double getMinPeptideMass() {
@@ -208,8 +208,8 @@ public class BuildIndex {
         return fixModMap;
     }
 
-    public InferenceSegment getInference3SegmentObj() {
-        return inference3SegmentObj;
+    public InferenceSegment getInference3Segment() {
+        return inference3Segment;
     }
 
     public TreeMap<Double, Set<String>> getMassPeptideMap() {

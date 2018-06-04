@@ -44,13 +44,13 @@ public class OutputPeff {
     public OutputPeff(String parameterPath, String pipiDirPath, String outputPath) throws Exception {
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
-        BuildIndex buildIndexObj = new BuildIndex(parameterMap, "N14", false, false);
-        MassTool massToolObj = buildIndexObj.returnMassToolObj();
-        Map<Character, Double> massTable = massToolObj.getMassTable();
-        Map<String, Peptide0> peptideProtein0Map = buildIndexObj.getPeptide0Map();
-        DbTool dbTool = buildIndexObj.getDbTool();
+        BuildIndex buildIndex = new BuildIndex(parameterMap, "N14", false, false);
+        MassTool massTool = buildIndex.returnMassTool();
+        Map<Character, Double> massTable = massTool.getMassTable();
+        Map<String, Peptide0> peptideProtein0Map = buildIndex.getPeptide0Map();
+        DbTool dbTool = buildIndex.getDbTool();
         Map<String, String> proteinSequenceMap = dbTool.getProteinSequenceMap();
-        Map<Character, Double> fixModMap = buildIndexObj.returnFixModMap();
+        Map<Character, Double> fixModMap = buildIndex.returnFixModMap();
 
         // recode all variable and fix modification so that these won't be included in the PEFF.
         Multimap<Character, Double> siteVarFixModMap = HashMultimap.create();
