@@ -7,10 +7,12 @@ import com.google.common.collect.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import proteomics.Index.BuildIndex;
+import proteomics.PTM.InferPTM;
 import proteomics.Parameter.Parameter;
 import ProteomicsLibrary.*;
 import ProteomicsLibrary.Types.AA;
 import ProteomicsLibrary.Utilities;
+import proteomics.Types.ModEntry;
 import proteomics.Types.Peptide0;
 
 import java.io.*;
@@ -18,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 
@@ -105,7 +106,7 @@ public class OutputPeff {
 
         if (!peptideSet.isEmpty()) {
             // generate protein location mod table and protein location AAS table
-            Multimap<Character, ModEntry> siteModMap = readModFile();
+            Multimap<Character, ModEntry> siteModMap = InferPTM.readUnimodAndGenerateAAS(-1000, 1000);
             Table<String, Integer, Set<String>> proteinLocationModTable = HashBasedTable.create();
             Table<String, Integer, Set<Character>> proteinLocationAASTable = HashBasedTable.create();
             for (String peptide : peptideSet) {
@@ -193,33 +194,6 @@ public class OutputPeff {
         return outputPeptide;
     }
 
-    public static Multimap<Character, ModEntry> readModFile() throws IOException {
-        Multimap<Character, ModEntry> siteModMap = HashMultimap.create();
-        InputStream inputStream = OutputPeff.class.getClassLoader().getResourceAsStream("unimod.xml.tsv"); // PTMs from Unimod except for AA substitutions, isotopic labellings
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        String line;
-        while ((line = reader.readLine()) != null) {
-            line = line.trim();
-            if (!line.isEmpty() && !line.startsWith("accession")) {
-                String[] parts = line.split("\t");
-                if (!parts[2].trim().contentEquals("null") && !parts[6].contentEquals("Isotopic label") && !parts[6].contentEquals("AA substitution")) { // We don't consider those without PSI-MS names, isotopic label, and amino acid substitution..
-                    char site = parts[1].charAt(0);
-                    if (parts[1].trim().contentEquals("N-term")) {
-                        site = 'n';
-                    } else if (parts[1].trim().contentEquals("C-term")) {
-                        site = 'c';
-                    }
-                    if (site != 'n' && site != 'c') { // We don't consider peptide terminal modifications
-                        siteModMap.put(site, new ModEntry("UNIMOD:" + parts[0].trim(), parts[2].trim(), Double.valueOf(parts[4].trim())));
-                    }
-                }
-            }
-        }
-        reader.close();
-
-        return siteModMap;
-    }
-
     public static String getModString(char site, double deltaMass, Multimap<Character, ModEntry> siteModMap) {
         if (siteModMap.containsKey(site)) {
             for (ModEntry modEntry : siteModMap.get(site)) {
@@ -241,19 +215,5 @@ public class OutputPeff {
             }
         }
         return null;
-    }
-
-
-    public static class ModEntry {
-
-        final String id;
-        final String name;
-        final double mass;
-
-        ModEntry(String id, String name, double mass) {
-            this.id = id;
-            this.name = name;
-            this.mass = mass;
-        }
     }
 }

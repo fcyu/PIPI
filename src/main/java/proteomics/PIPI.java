@@ -125,11 +125,9 @@ public class PIPI {
         }
 
         logger.info("Indexing protein database...");
-
-        double minPtmMass = Double.valueOf(parameterMap.get("min_ptm_mass"));
-        double maxPtmMass = Double.valueOf(parameterMap.get("max_ptm_mass"));
         BuildIndex buildIndex = new BuildIndex(parameterMap, labelling, true, true);
         MassTool massTool = buildIndex.returnMassTool();
+        InferPTM inferPTM = buildIndex.getInferPTM();
 
         logger.info("Reading spectra...");
         File spectraFile = new File(spectraPath);
@@ -161,8 +159,6 @@ public class PIPI {
             threadNum = 1;
         }
         ExecutorService threadPool = Executors.newFixedThreadPool(threadNum);
-
-        InferPTM inferPTM = new InferPTM(massToolObj, buildIndexObj.returnFixModMap(), buildIndexObj.getInference3SegmentObj().getVarModParamSet(), minPtmMass, maxPtmMass, ms2Tolerance);
         PrepareSpectrum preSpectrum = new PrepareSpectrum(massTool);
         ArrayList<Future<PIPIWrap.Entry>> taskList = new ArrayList<>(preSpectra.getUsefulSpectraNum() + 10);
         Connection sqlConnection = DriverManager.getConnection(sqlPath);

@@ -1,10 +1,13 @@
 package proteomics.PTM;
 
 import ProteomicsLibrary.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.*;
+import proteomics.OutputPeff;
 import proteomics.Types.*;
 
 import java.io.*;
@@ -23,25 +26,62 @@ public class InferPTM {
     private final Map<String, Double> elementTable;
     private final Map<Character, Double> massTable;
     private final Map<Character, Double> fixModMap;
+    private Set<VarModParam> varModParamSet = new HashSet<>();
     private final double minPtmMass;
     private final double maxPtmMass;
     private final double ms2Tolerance;
+    private final Multimap<Character, ModEntry> siteModMap;
 
     private Map<Character, Set<VarModParam>> finalPtmMap = new HashMap<>();
 
-    public InferPTM(MassTool massTool, Map<Character, Double> fixModMap, Set<VarModParam> varModParamSet, double minPtmMass, double maxPtmMass, double ms2Tolerance) throws IOException{
+    public InferPTM(MassTool massTool, Map<Character, Double> fixModMap, Map<String, String> parameterMap) throws IOException{
         this.massTool = massTool;
         elementTable = massTool.getElementTable();
         massTable = massTool.getMassTable();
         this.fixModMap = fixModMap;
-        this.minPtmMass = minPtmMass;
-        this.maxPtmMass = maxPtmMass;
-        this.ms2Tolerance = ms2Tolerance;
+        this.minPtmMass = Double.valueOf(parameterMap.get("min_ptm_mass"));
+        this.maxPtmMass = Double.valueOf(parameterMap.get("max_ptm_mass"));
+        this.ms2Tolerance = Double.valueOf(parameterMap.get("ms2_tolerance"));
 
-        Map<Character, Double> massTable = massTool.getMassTable();
+        // Generate a varModParamSet from the parameterMap
+        for (String k : parameterMap.keySet()) {
+            if (k.startsWith("mod")) {
+                String v = parameterMap.get(k);
+                if (!v.startsWith("0.0")) {
+                    String[] temp = v.split("@");
+                    if (Math.abs(fixModMap.get(temp[1].charAt(0))) < 0.1) {
+                        // fix modification and var modification cannot be coexist
+                        varModParamSet.add(new VarModParam(Double.valueOf(temp[0]), temp[1].charAt(0), 1, false)); // var mods from the parameter file have the highest priority, those PTM can exist in peptide terminal.
+                    }
+                }
+            } else if (k.contentEquals("Nterm")) {
+                if (Math.abs(fixModMap.get('n')) < 0.1) {
+                    // fix modification and var modification cannot be coexist
+                    if (!parameterMap.get(k).startsWith("0.0")) {
+                        String[] tempArray = parameterMap.get(k).split(",");
+                        for (int i = 0; i < tempArray.length; ++i) {
+                            varModParamSet.add(new VarModParam(Double.valueOf(tempArray[i].trim()), 'n', 1, false)); // var mods from the parameter file have the highest priority
+                        }
+                    }
+                }
+            } else if (k.contentEquals("Cterm")) {
+                if (Math.abs(fixModMap.get('c')) < 0.1) {
+                    // fix modification and var modification cannot be coexist
+                    if (!parameterMap.get(k).startsWith("0.0")) {
+                        String[] tempArray = parameterMap.get(k).split(",");
+                        for (int i = 0; i < tempArray.length; ++i) {
+                            varModParamSet.add(new VarModParam(Double.valueOf(tempArray[i].trim()), 'c', 1, false)); // var mods from the parameter file have the highest priority
+                        }
+                    }
+                }
+            }
+        }
+
+        // Generate a site mod map including all PTMs in Unimod and amino acid substitutions.
+        siteModMap = readUnimodAndGenerateAAS(minPtmMass, maxPtmMass);
 
         // Building an amino acid substitution matrix.
-        Map<Character, Set<VarModParam>> aasMap = buildAASMap(massTable);
+        Map<Character, Set<VarModParam>> aasMap = buildAASMap(siteModMap);
 
         // Reading Mod table...
         Map<Character, Set<VarModParam>> ptmMap = readModFile();
@@ -140,6 +180,52 @@ public class InferPTM {
         return peptidePTMPattern;
     }
 
+    public static Multimap<Character, ModEntry> readUnimodAndGenerateAAS(double minPtmMass, double maxPtmMass) throws IOException {
+        Multimap<Character, ModEntry> siteModMap = HashMultimap.create();
+        InputStream inputStream = OutputPeff.class.getClassLoader().getResourceAsStream("unimod.xml.tsv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            line = line.trim();
+            if (!line.isEmpty() && !line.startsWith("accession")) {
+                String[] parts = line.split("\t");
+                if (!parts[6].contentEquals("Isotopic label") && !parts[6].contentEquals("AA substitution")) { // We don't consider isotopic label and amino acid substitution..
+                    char site = parts[1].charAt(0);
+                    if (parts[1].trim().contentEquals("N-term")) {
+                        site = 'n';
+                    } else if (parts[1].trim().contentEquals("C-term")) {
+                        site = 'c';
+                    }
+                    if (site != 'n' && site != 'c') { // We don't consider peptide terminal modifications
+                        double deltaMass =  Double.valueOf(parts[4].trim());
+                        if (deltaMass >= minPtmMass && deltaMass <= maxPtmMass) { // only record the PTM within the delta mass range
+                            siteModMap.put(site, new ModEntry("UNIMOD:" + parts[0].trim(), parts[2].trim().contentEquals("null") ? parts[3].trim() : parts[2].trim(), deltaMass)); // if there is no PSI-MS name, use the internal name in the Unimod
+                        }
+                    }
+                }
+            }
+        }
+        reader.close();
+
+        return siteModMap;
+    }
+
+    public Multimap<Character, ModEntry> getSiteModMap() {
+        return siteModMap;
+    }
+
+    public Set<VarModParam> getVarModParamSet() {
+        return varModParamSet;
+    }
+
+    public double getMinPtmMass() {
+        return minPtmMass;
+    }
+
+    public double getMaxPtmMass() {
+        return maxPtmMass;
+    }
+
     private Map<Character, Set<VarModParam>> readModFile() throws IOException {
         Map<Character, Set<VarModParam>> siteModMap = new HashMap<>();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("modTable.tsv"); // PTMs from Unimod except for AA substitutions, isotopic labellings
@@ -202,7 +288,7 @@ public class InferPTM {
         return mass;
     }
 
-    private Map<Character, Set<VarModParam>> buildAASMap(Map<Character, Double> massTable) {
+    private Map<Character, Set<VarModParam>> buildAASMap(Multimap<Character, ModEntry> siteModMap) {
         int[][] pam1Matrix = new int[][]{
                 {9867 , 2    , 9    , 10   , 3    , 8    , 17   , 21   , 2    , 6    , 4    , 2    , 6    , 2    , 22   , 35   , 32   , 0    , 2    , 18},
                 {1    , 9913 , 1    , 0    , 1    , 10   , 0    , 0    , 10   , 3    , 1    , 19   , 4    , 1    , 4    , 6    , 1    , 8    , 0    , 1},
@@ -241,6 +327,8 @@ public class InferPTM {
                                 tempSet.add(temp);
                                 aasMap.put(aaArray[i], tempSet);
                             }
+
+                            siteModMap.put(aaArray[i], new ModEntry("AAS", aaArray[i] + "->" + aaArray[j], deltaMass)); // add the amino acid substitution to the map.
                         }
                     }
                 }

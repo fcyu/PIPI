@@ -24,14 +24,13 @@ public class InferenceSegment {
     private Map<Double, String> modifiedAAMap = new HashMap<>(35, 1);
     private final Double[] deltaMassArray;
     private Map<String, Double> modifiedAAMassMap = new HashMap<>(35, 1);
-    private Set<VarModParam> varModParamSet = new HashSet<>();
     private double[] nTermPossibleMod = null;
     private double[] cTermPossibleMod = null;
     private MassTool massTool;
 
-    public InferenceSegment(MassTool massTool, double ms2Tolerance, Map<String, String> parameterMap, Map<Character, Double> fixModMap) throws Exception {
+    public InferenceSegment(MassTool massTool, Map<String, String> parameterMap, Map<Character, Double> fixModMap) throws Exception {
         this.massTool = massTool;
-        this.ms2Tolerance = ms2Tolerance;
+        this.ms2Tolerance = Double.valueOf(parameterMap.get("ms2_tolerance"));
         Map<Character, Double> massTable = massTool.getMassTable();
 
         char[] standardAaArray = new char[]{'G', 'A', 'S', 'P', 'V', 'T', 'C', 'I', 'L', 'N', 'D', 'Q', 'K', 'E', 'M', 'H', 'F', 'R', 'Y', 'W', 'U', 'O'};
@@ -91,7 +90,6 @@ public class InferenceSegment {
                             modifiedAAMap.put(tempMass, temp[1]);
                             modifiedAAMassMap.put(temp[1], Double.valueOf(temp[0]));
                         }
-                        varModParamSet.add(new VarModParam(Double.valueOf(temp[0]), temp[1].charAt(0), 1, false)); // var mods from the parameter file have the highest priority, those PTM can exist in peptide terminal.
                     }
                 }
             } else if (k.contentEquals("Nterm")) {
@@ -102,7 +100,6 @@ public class InferenceSegment {
                         nTermPossibleMod = new double[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             nTermPossibleMod[i] = Double.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Double.valueOf(tempArray[i].trim()), 'n', 1, false)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
@@ -114,7 +111,6 @@ public class InferenceSegment {
                         cTermPossibleMod = new double[tempArray.length];
                         for (int i = 0; i < tempArray.length; ++i) {
                             cTermPossibleMod[i] = Double.valueOf(tempArray[i].trim());
-                            varModParamSet.add(new VarModParam(Double.valueOf(tempArray[i].trim()), 'c', 1, false)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
@@ -153,10 +149,6 @@ public class InferenceSegment {
 
     public Map<String, Double> getModifiedAAMassMap() {
         return modifiedAAMassMap;
-    }
-
-    public Set<VarModParam> getVarModParamSet() {
-        return varModParamSet;
     }
 
     public double[] getNTermPossibleMod() {

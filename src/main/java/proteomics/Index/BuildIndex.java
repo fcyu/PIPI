@@ -8,6 +8,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import proteomics.PTM.InferPTM;
 import proteomics.Segment.InferenceSegment;
 import ProteomicsLibrary.*;
 import ProteomicsLibrary.Types.*;
@@ -26,6 +27,7 @@ public class BuildIndex {
     private Map<String, Peptide0> peptide0Map;
     private final String labelling;
     private final DbTool dbTool; // this one doesn't contain contaminant proteins.
+    private InferPTM inferPTM;
 
     public BuildIndex(Map<String, String> parameterMap, String labelling, boolean needCoding, boolean needDecoy) throws Exception {
         // initialize parameters
@@ -71,6 +73,8 @@ public class BuildIndex {
 
         // define a new MassTool object
         massTool = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
+
+        inferPTM = new InferPTM(massTool, fixModMap, parameterMap);
 
         // build database
         inference3Segment = new InferenceSegment(massTool, parameterMap, fixModMap);
@@ -210,6 +214,10 @@ public class BuildIndex {
 
     public InferenceSegment getInference3Segment() {
         return inference3Segment;
+    }
+
+    public InferPTM getInferPTM() {
+        return inferPTM;
     }
 
     public TreeMap<Double, Set<String>> getMassPeptideMap() {
