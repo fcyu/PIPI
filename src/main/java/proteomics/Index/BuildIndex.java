@@ -6,8 +6,6 @@ import java.util.*;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.PTM.InferPTM;
 import proteomics.Segment.InferenceSegment;
 import ProteomicsLibrary.*;
@@ -15,8 +13,6 @@ import ProteomicsLibrary.Types.*;
 import proteomics.Types.Peptide0;
 
 public class BuildIndex {
-
-    private static final Logger logger = LoggerFactory.getLogger(BuildIndex.class);
 
     private final MassTool massTool;
     private Map<Character, Double> fixModMap = new HashMap<>(25, 1);

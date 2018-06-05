@@ -1,7 +1,5 @@
 package proteomics.Parameter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import proteomics.PIPI;
 
 import java.io.*;
@@ -10,7 +8,6 @@ import java.util.regex.*;
 
 public class Parameter {
 
-    private static final Logger logger = LoggerFactory.getLogger(Parameter.class);
     private static final Pattern commentLinePattern = Pattern.compile("^#.*");
     private static final Pattern linePattern = Pattern.compile("([^#]+)=([^#]+)#*.*");
     private static final Pattern enzymePattern = Pattern.compile("(.+)\\s+([01])\\s+([A-Z]+)\\s+([A-Z\\-]+)");

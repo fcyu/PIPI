@@ -1,8 +1,6 @@
 package proteomics.Segment;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.*;
 import proteomics.Types.*;
@@ -13,7 +11,6 @@ import java.util.regex.Pattern;
 
 public class InferenceSegment {
 
-    private static final Logger logger = LoggerFactory.getLogger(InferenceSegment.class);
     private static final int minTagNum = 200;
     private static final int regionNum = 10;
     private static final int topNumInEachRegion = 20;
@@ -145,18 +142,6 @@ public class InferenceSegment {
             tempSet.add(aaVectorTemplate.get(new Segment(normalizedPeptide.substring(i, i + 3))));
         }
         return new SparseBooleanVector(tempSet);
-    }
-
-    public Map<String, Double> getModifiedAAMassMap() {
-        return modifiedAAMassMap;
-    }
-
-    public double[] getNTermPossibleMod() {
-        return nTermPossibleMod;
-    }
-
-    public double[] getCTermPossibleMod() {
-        return cTermPossibleMod;
     }
 
     public static String normalizeSequence(String seq) {

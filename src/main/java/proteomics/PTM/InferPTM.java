@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 
 public class InferPTM {
 
-    private static final Logger logger = LoggerFactory.getLogger(InferPTM.class);
     private static final Pattern pattern = Pattern.compile("([0-9A-Za-z]+)(\\(([0-9\\-]+)\\))?");
     private static final double ptmMassTolerance = 0.1;
 
@@ -34,7 +33,7 @@ public class InferPTM {
 
     private Map<Character, Set<VarModParam>> finalPtmMap = new HashMap<>();
 
-    public InferPTM(MassTool massTool, Map<Character, Double> fixModMap, Map<String, String> parameterMap) throws IOException{
+    public InferPTM(MassTool massTool, Map<Character, Double> fixModMap, Map<String, String> parameterMap) throws Exception{
         this.massTool = massTool;
         elementTable = massTool.getElementTable();
         massTable = massTool.getMassTable();
@@ -226,7 +225,7 @@ public class InferPTM {
         return maxPtmMass;
     }
 
-    private Map<Character, Set<VarModParam>> readModFile() throws IOException {
+    private Map<Character, Set<VarModParam>> readModFile() throws Exception {
         Map<Character, Set<VarModParam>> siteModMap = new HashMap<>();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("modTable.tsv"); // PTMs from Unimod except for AA substitutions, isotopic labellings
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -269,7 +268,7 @@ public class InferPTM {
         return siteModMap;
     }
 
-    private double calculateMassFromComposition(String composition) {
+    private double calculateMassFromComposition(String composition) throws Exception {
         String[] parts = composition.split(" ");
         double mass = 0;
         for (String part : parts) {
@@ -282,7 +281,7 @@ public class InferPTM {
                 }
                 mass += num * elementTable.get(element);
             } else {
-                logger.error("The composition {} cannot be recognized.", part);
+                throw new Exception(String.format(Locale.US, "The composition %s cannot be recognized.", part));
             }
         }
         return mass;

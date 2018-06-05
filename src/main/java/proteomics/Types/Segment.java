@@ -1,11 +1,6 @@
 package proteomics.Types;
 
-/***
- * A class of Segment.
- * It contains a string without direction property, which means that segment == segment.reverse
- * In initialization, it compare the segmentString and its reversed string lexicographically.
- * The smaller one is kept.
- */
+
 public class Segment implements Comparable<Segment> {
 
     private final String segmentString;
