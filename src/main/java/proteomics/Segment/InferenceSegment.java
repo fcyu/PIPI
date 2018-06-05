@@ -47,11 +47,7 @@ public class InferenceSegment {
         for (char aa1 : aaArray) {
             for (char aa2 : aaArray) {
                 for (char aa3 : aaArray) {
-                    String segmentString = String.valueOf(aa1) + String.valueOf(aa2) + String.valueOf(aa3);
-                    Segment segment = new Segment(segmentString);
-                    if (!aaVectorTemplate.containsKey(segment)) {
-                        aaVectorTemplate.put(segment, 0);
-                    }
+                    aaVectorTemplate.put(new Segment(String.format(Locale.US, "%c%c%c", aa1, aa2, aa3)), 0);
                 }
             }
         }
