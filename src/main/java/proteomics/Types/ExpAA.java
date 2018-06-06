@@ -62,12 +62,18 @@ public class ExpAA implements Comparable<ExpAA> {
     }
 
     public int compareTo(ExpAA other) {
-        if (headLocation > other.getHeadLocation()) {
+        if (headLocation > other.headLocation) {
             return 1;
-        } else if (headLocation < other.getHeadLocation()) {
+        } else if (headLocation < other.headLocation) {
             return -1;
         } else {
-            return 0;
+            if (tailLocation > other.tailLocation) {
+                return 1;
+            } else if (tailLocation < other.tailLocation) {
+                return -1;
+            } else {
+                return 0;
+            }
         }
     }
 
