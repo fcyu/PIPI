@@ -5,7 +5,6 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
 
     private final ExpAA[] threeExpAa;
     private int hashCode;
-    private final String aaString;
     private final double totalIntensity;
     private final String ptmFreeAAString;
     private int regionIdx;
@@ -15,13 +14,7 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
         String toString = threeExpAa[0].toString() + "-" + threeExpAa[1].toString() + "-" + threeExpAa[2].toString();
         hashCode = toString.hashCode();
 
-        StringBuilder sb = new StringBuilder(6);
-        for (ExpAA aa : threeExpAa) {
-            sb.append(aa.getAA());
-        }
-        aaString = sb.toString();
-
-        sb = new StringBuilder(5);
+        StringBuilder sb = new StringBuilder(5);
         for (ExpAA aa : threeExpAa) {
             sb.append(aa.getPtmFreeAA());
         }
@@ -70,10 +63,6 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
 
     public ExpAA[] getExpAAs() {
         return threeExpAa;
-    }
-
-    public String getAAString() {
-        return aaString;
     }
 
     public String getPtmFreeAAString() {

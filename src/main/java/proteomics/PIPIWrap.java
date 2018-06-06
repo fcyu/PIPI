@@ -186,7 +186,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
                         ptmPatternsIterator.next();
                         while (ptmPatternsIterator.hasNext()) {
                             Peptide temp = ptmPatternsIterator.next();
-                            tempList.add(String.format(Locale.US, "%s-%.4f", temp.getPtmContainingSeq(buildIndex.returnFixModMap()), temp.getScore()));
+                            tempList.add(String.format(Locale.US, "%s-%.4f", temp.getPtmContainingSeq(buildIndex.returnFixModMap()), temp.getScore())); // Using 4 decimal here because it is write the the result file for checking. It is not used in scoring or other purpose.
                         }
                         otherPtmPatterns = String.join(";", tempList);
                     }
@@ -230,7 +230,7 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
         public final double ionFrac;
         public final double matchedHighestIntensityFrac;
         public final double explainedAaFrac;
-        public final String otherPtmPatterns;
+        public final String otherPtmPatterns; // It has 4 decimal because it is write the the result file for checking. It is not used in scoring or other purpose.
         public final String aScore;
 
         public Entry(int scanNum, String scanId, int precursorCharge, double precursorMass, String mgfTitle, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient, String labelling, String peptide, double theoMass, int isDecoy, int globalRank, double normalizedCorrelationCoefficient, double score, double deltaLCn, double deltaCn, int matchedPeakNum, double ionFrac, double matchedHighestIntensityFrac, double explainedAaFrac, String otherPtmPatterns, String aScore) {
