@@ -77,15 +77,17 @@ U = 0 # Selenocysteine
 n = 0 # nterm mod
 c = 0 # cterm mod
 
-# Enzyme digestion specificities
+# Enzyme digestion specificities. Only support one enzyme at a time.
 # enzyme name  	 is cut from C-term 	 cleavage site 	 protection site
 Trypsin        	 1                  	 KR            	 P
+# Trypsin/P      1                  	 KR            	 -
 # TrypsinR     	 1                  	 R             	 P
-# LysC         	 1                  	 K             	 -
+# LysC         	 1                  	 K             	 P
+# ArgC         	 1                  	 R             	 P
 # Chymotrypsin 	 1                  	 FYW           	 P
-# GluC         	 1                  	 DE            	 -
+# GluC         	 1                  	 DE            	 P
 # LysN         	 0                  	 K             	 -
-# AspN         	 0                  	 DE            	 -
+# AspN         	 0                  	 D            	 -
 
 # Do not change the following
 output_percolator_input = 1
