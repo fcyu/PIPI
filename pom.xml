@@ -124,7 +124,7 @@
                     <outjar>${project.build.finalName}-publish.jar</outjar>
                     <outputDirectory>${project.build.directory}</outputDirectory>
                     <proguardInclude>${basedir}/proguard.conf</proguardInclude>
-                    <proguardVersion>6.0</proguardVersion>
+                    <proguardVersion>6.0.3</proguardVersion>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
                         <lib>${java.home}/lib/jce.jar</lib>
