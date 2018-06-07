@@ -127,6 +127,7 @@
                     <proguardVersion>6.0</proguardVersion>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.home}/lib/jce.jar</lib>
                     </libs>
                     <options>
                         <option>-keep class !proteomics.**,!ProteomicsLibrary.** { *;}</option>
