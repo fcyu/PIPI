@@ -7,7 +7,6 @@ public class ExpAA implements Comparable<ExpAA> {
     private final double tailLocation;
     private final double headIntensity;
     private final double tailIntensity;
-    private final double totalHalfIntensity;
     private final double mod;
     private final double nTermMod;
     private final double cTermMod;
@@ -21,7 +20,6 @@ public class ExpAA implements Comparable<ExpAA> {
         this.tailLocation = tailLocation;
         this.headIntensity = headIntensity;
         this.tailIntensity = tailIntensity;
-        this.totalHalfIntensity = (headIntensity + tailIntensity) * 0.5;
         this.mod = mod;
         this.nTermMod = nTermMod;
         this.cTermMod = cTermMod;
@@ -112,9 +110,5 @@ public class ExpAA implements Comparable<ExpAA> {
 
     public double getTailIntensity() {
         return tailIntensity;
-    }
-
-    public double getTotalHalfIntensity() {
-        return totalHalfIntensity;
     }
 }
