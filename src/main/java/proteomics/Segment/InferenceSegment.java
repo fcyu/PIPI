@@ -149,10 +149,10 @@ public class InferenceSegment {
         Double[] intensityArray = plMap.values().toArray(new Double[0]);
         Set<ThreeExpAA> tempSet = new HashSet<>();
         List<ThreeExpAA> outputList = new LinkedList<>();
-        for (int i = 0; i < mzArray.length; ++i) {
+        for (int i = 0; i < mzArray.length - 3; ++i) {
             double mz1 = mzArray[i];
             double intensity1 = intensityArray[i];
-            for (int j = i + 1; j < mzArray.length; ++j) {
+            for (int j = i + 1; j < mzArray.length - 2; ++j) {
                 double mz2 = mzArray[j];
                 double intensity2 = intensityArray[j];
                 String aa1 = inferAA(mz1, mz2, Math.abs(mz1 - MassTool.PROTON) <= ms2Tolerance, false);
@@ -178,7 +178,7 @@ public class InferenceSegment {
                     }
                     ExpAA expAa1 = new ExpAA(aa1, ptmFreeAA, mz1, mz2, intensity1, intensity2, -1, mod, nTermMod, 0);
                     List<List<ExpAA>> tempAasList2 = new LinkedList<>();
-                    for (int k = j + 1; k < mzArray.length; ++k) {
+                    for (int k = j + 1; k < mzArray.length - 1; ++k) {
                         double mz3 = mzArray[k];
                         double intensity3 = intensityArray[k];
                         String aa2 = inferAA(mz2, mz3, false, false);
