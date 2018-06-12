@@ -4,7 +4,6 @@ package proteomics.Types;
 public class Segment implements Comparable<Segment> {
 
     private final String segmentString;
-    private final String revertedVersion;
     private final int hashCode;
 
     public Segment(String segmentString) {
@@ -13,10 +12,8 @@ public class Segment implements Comparable<Segment> {
         int compareResult = segmentString.compareTo(temp);
         if (compareResult > 0) {
             this.segmentString = temp;
-            revertedVersion = segmentString;
         } else {
             this.segmentString = segmentString;
-            revertedVersion = temp;
         }
 
         hashCode = segmentString.hashCode();
@@ -40,10 +37,6 @@ public class Segment implements Comparable<Segment> {
 
     public int compareTo(Segment other) {
         return this.segmentString.compareTo(other.segmentString);
-    }
-
-    public String getRevertedVersion() {
-        return revertedVersion;
     }
 
     private String reverseString(String seq) {

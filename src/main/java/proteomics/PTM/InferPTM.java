@@ -211,10 +211,6 @@ public class InferPTM {
         return siteModMap;
     }
 
-    public Set<VarModParam> getVarModParamSet() {
-        return varModParamSet;
-    }
-
     public double getMinPtmMass() {
         return minPtmMass;
     }
