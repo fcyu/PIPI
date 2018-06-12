@@ -52,13 +52,7 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
     }
 
     public int compareTo(ThreeExpAA other) {
-        if (this.threeExpAa[0].getHeadLocation() > other.getExpAAs()[0].getHeadLocation()) {
-            return 1;
-        } else if (this.threeExpAa[0].getHeadLocation() < other.getExpAAs()[0].getHeadLocation()) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return Double.compare(threeExpAa[0].getHeadLocation(), other.threeExpAa[0].getHeadLocation());
     }
 
     public ExpAA[] getExpAAs() {

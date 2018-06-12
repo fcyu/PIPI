@@ -16,13 +16,7 @@ public class ResultEntry implements Comparable<ResultEntry> {
     }
 
     public int compareTo(ResultEntry other) {
-        if (score > other.score) {
-            return 1;
-        } else if (score < other.score) {
-            return -1;
-        } else {
-            return 0;
-        }
+        return Double.compare(score, other.score);
     }
 
     public boolean isDecoy() {

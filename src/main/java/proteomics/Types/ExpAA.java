@@ -65,13 +65,7 @@ public class ExpAA implements Comparable<ExpAA> {
         } else if (headLocation < other.headLocation) {
             return -1;
         } else {
-            if (tailLocation > other.tailLocation) {
-                return 1;
-            } else if (tailLocation < other.tailLocation) {
-                return -1;
-            } else {
-                return 0;
-            }
+            return Double.compare(tailIntensity, other.tailIntensity);
         }
     }
 
