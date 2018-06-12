@@ -53,6 +53,7 @@ public class PositionDeltaMassMap extends TreeMap<Coordinate, Double> {
     }
 
     public PositionDeltaMassMap clone() {
+        super.clone();
         PositionDeltaMassMap other = new PositionDeltaMassMap(peptideLength);
         other.clear();
         for (Coordinate co : this.keySet()) {

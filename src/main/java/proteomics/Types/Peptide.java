@@ -100,7 +100,8 @@ public class Peptide implements Comparable<Peptide> {
         return this.hashCode == otherPeptide.hashCode;
     }
 
-    public Peptide clone() {
+    public Peptide clone() throws CloneNotSupportedException {
+        super.clone();
         Peptide other = new Peptide(ptmFreePeptide, isDecoy, massTool, maxMs2Charge, normalizedCrossCorrelationCoefficient, globalRank);
         if (varPTMMap != null) {
             other.setVarPTM(varPTMMap.clone());

@@ -92,7 +92,8 @@ public class ExpAA implements Comparable<ExpAA> {
         return (this.aa.contentEquals(other.aa) && (this.theoLocation == other.theoLocation) && (Math.abs(this.headLocation - other.headLocation) <= tolerance));
     }
 
-    public ExpAA clone() {
+    public ExpAA clone() throws CloneNotSupportedException {
+        super.clone();
         return new ExpAA(aa, ptmFreeAA, headLocation, tailLocation, headIntensity, tailIntensity, theoLocation, mod, nTermMod, cTermMod);
     }
 

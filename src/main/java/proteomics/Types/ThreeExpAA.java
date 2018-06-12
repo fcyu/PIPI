@@ -81,7 +81,8 @@ public class ThreeExpAA implements Comparable<ThreeExpAA> {
         return threeExpAa[threeExpAa.length - 1].getTailLocation();
     }
 
-    public ThreeExpAA clone() {
+    public ThreeExpAA clone() throws CloneNotSupportedException {
+        super.clone();
         return new ThreeExpAA(threeExpAa[0].clone(), threeExpAa[1].clone(), threeExpAa[2].clone());
     }
 
