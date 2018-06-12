@@ -1,7 +1,7 @@
 package proteomics.Types;
 
 import ProteomicsLibrary.Types.Coordinate;
-import proteomics.Segment.InferenceSegment;
+import proteomics.Segment.InferSegment;
 import ProteomicsLibrary.MassTool;
 
 import java.util.Locale;
@@ -40,7 +40,7 @@ public class Peptide implements Comparable<Peptide> {
     public Peptide(String ptmFreePeptide, boolean isDecoy, MassTool massTool, int maxMs2Charge, double normalizedCrossCorrelationCoefficient, int globalRank) {
         this.ptmFreePeptide = ptmFreePeptide;
         this.isDecoy = isDecoy;
-        this.normalizedPeptideString = InferenceSegment.normalizeSequence(ptmFreePeptide);
+        this.normalizedPeptideString = InferSegment.normalizeSequence(ptmFreePeptide);
         this.normalizedCrossCorrelationCoefficient = normalizedCrossCorrelationCoefficient;
         this.massTool = massTool;
         this.maxMs2Charge = maxMs2Charge;

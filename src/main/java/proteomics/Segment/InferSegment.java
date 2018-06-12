@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class InferenceSegment {
+public class InferSegment {
 
     private static final int minTagNum = 200;
     private static final int regionNum = 10;
@@ -25,7 +25,7 @@ public class InferenceSegment {
     private double[] cTermPossibleMod = null;
     private MassTool massTool;
 
-    public InferenceSegment(MassTool massTool, Map<String, String> parameterMap, Map<Character, Double> fixModMap) throws Exception {
+    public InferSegment(MassTool massTool, Map<String, String> parameterMap, Map<Character, Double> fixModMap) throws Exception {
         this.massTool = massTool;
         this.ms2Tolerance = Double.valueOf(parameterMap.get("ms2_tolerance"));
         Map<Character, Double> massTable = massTool.getMassTable();

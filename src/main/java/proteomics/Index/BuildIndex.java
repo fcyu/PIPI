@@ -7,7 +7,7 @@ import java.util.*;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import proteomics.PTM.InferPTM;
-import proteomics.Segment.InferenceSegment;
+import proteomics.Segment.InferSegment;
 import ProteomicsLibrary.*;
 import ProteomicsLibrary.Types.*;
 import proteomics.Types.Peptide0;
@@ -18,7 +18,7 @@ public class BuildIndex {
     private Map<Character, Double> fixModMap = new HashMap<>(25, 1);
     private double minPeptideMass = 9999;
     private double maxPeptideMass = 0;
-    private InferenceSegment inference3Segment;
+    private InferSegment inferSegment;
     private TreeMap<Double, Set<String>> massPeptideMap = new TreeMap<>();
     private Map<String, Peptide0> peptide0Map;
     private final String labelling;
@@ -73,7 +73,7 @@ public class BuildIndex {
         inferPTM = new InferPTM(massTool, fixModMap, parameterMap);
 
         // build database
-        inference3Segment = new InferenceSegment(massTool, parameterMap, fixModMap);
+        inferSegment = new InferSegment(massTool, parameterMap, fixModMap);
 
         Set<String> forCheckDuplicate = new HashSet<>(500000);
         Multimap<String, String> peptideProteinMap = HashMultimap.create();
@@ -169,7 +169,7 @@ public class BuildIndex {
         for (String peptide : peptideMassMap.keySet()) {
             SparseBooleanVector code = null;
             if (needCoding) {
-                code = inference3Segment.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
+                code = inferSegment.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
             }
 
             Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), parameterMap.get("cleavage_from_c_term").contentEquals("1"));
@@ -208,8 +208,8 @@ public class BuildIndex {
         return fixModMap;
     }
 
-    public InferenceSegment getInference3Segment() {
-        return inference3Segment;
+    public InferSegment getInferSegment() {
+        return inferSegment;
     }
 
     public InferPTM getInferPTM() {

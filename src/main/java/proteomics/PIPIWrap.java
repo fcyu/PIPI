@@ -6,7 +6,7 @@ import proteomics.PTM.InferPTM;
 import ProteomicsLibrary.Binomial;
 import proteomics.Search.CalSubscores;
 import proteomics.Search.Search;
-import proteomics.Segment.InferenceSegment;
+import proteomics.Segment.InferSegment;
 import ProteomicsLibrary.PrepareSpectrum;
 import ProteomicsLibrary.MassTool;
 import ProteomicsLibrary.Types.*;
@@ -89,10 +89,10 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
         }
 
         // Coding
-        InferenceSegment inference3Segment = buildIndex.getInference3Segment();
-        List<ThreeExpAA> expAaLists = inference3Segment.inferSegmentLocationFromSpectrum(precursorMass, plMap);
+        InferSegment inferSegment = buildIndex.getInferSegment();
+        List<ThreeExpAA> expAaLists = inferSegment.inferSegmentLocationFromSpectrum(precursorMass, plMap);
         if (!expAaLists.isEmpty()) {
-            SparseVector scanCode = inference3Segment.generateSegmentIntensityVector(expAaLists);
+            SparseVector scanCode = inferSegment.generateSegmentIntensityVector(expAaLists);
 
             // Begin search.
             Search search = new Search(buildIndex, precursorMass, scanCode, massTool, ms1Tolerance, leftInverseMs1Tolerance, rightInverseMs1Tolerance, ms1ToleranceUnit, minPtmMass, maxPtmMass, localMaxMs2Charge);
