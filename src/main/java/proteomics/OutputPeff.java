@@ -42,7 +42,7 @@ public class OutputPeff {
         logger.info("Done!");
     }
 
-    public OutputPeff(String parameterPath, String pipiDirPath, String outputPath) throws Exception {
+    private OutputPeff(String parameterPath, String pipiDirPath, String outputPath) throws Exception {
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
         BuildIndex buildIndex = new BuildIndex(parameterMap, "N14", false, false);
@@ -194,7 +194,7 @@ public class OutputPeff {
         return outputPeptide;
     }
 
-    public static String getModString(char site, double ptmDeltaMass, Multimap<Character, ModEntry> siteModMap) {
+    private static String getModString(char site, double ptmDeltaMass, Multimap<Character, ModEntry> siteModMap) {
         if (siteModMap.containsKey(site)) {
             for (ModEntry modEntry : siteModMap.get(site)) {
                 if (Math.abs(modEntry.mass - ptmDeltaMass) < 0.01) {
@@ -207,7 +207,7 @@ public class OutputPeff {
         return null;
     }
 
-    public static Character getAAS(char site, double ptmDeltaMass, Map<Character, Double> massTable) {
+    private static Character getAAS(char site, double ptmDeltaMass, Map<Character, Double> massTable) {
         double newMass = massTable.get(site) + ptmDeltaMass;
         for (char newAA : massTable.keySet()) {
             if (newAA >= 'A' && newAA <= 'Z' && Math.abs(massTable.get(newAA) - newMass) < 0.01) { // there are n, c, #, and $ in massTable.

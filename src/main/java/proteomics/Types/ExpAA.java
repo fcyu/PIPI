@@ -97,19 +97,19 @@ public class ExpAA implements Comparable<ExpAA> {
         return new ExpAA(aa, ptmFreeAA, headLocation, tailLocation, headIntensity, tailIntensity, theoLocation, mod, nTermMod, cTermMod);
     }
 
-    public double getHeadLocation() {
+    double getHeadLocation() {
         return headLocation;
     }
 
-    public double getTailLocation() {
+    double getTailLocation() {
         return tailLocation;
     }
 
-    public double getHeadIntensity() {
+    double getHeadIntensity() {
         return headIntensity;
     }
 
-    public double getTailIntensity() {
+    double getTailIntensity() {
         return tailIntensity;
     }
 }

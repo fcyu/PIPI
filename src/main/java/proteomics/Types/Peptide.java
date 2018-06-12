@@ -147,7 +147,7 @@ public class Peptide implements Comparable<Peptide> {
         return varPTMMap != null;
     }
 
-    public int getVarPTMNum() {
+    private int getVarPTMNum() {
         if (hasVarPTM()) {
             return varPTMMap.size();
         } else {
@@ -163,7 +163,7 @@ public class Peptide implements Comparable<Peptide> {
         return varPTMMap;
     }
 
-    public String getVarPtmContainingSeq() {
+    private String getVarPtmContainingSeq() {
         if (varPtmContainingSeq == null) {
             if (varPTMMap != null) {
                 StringBuilder sb = new StringBuilder(ptmFreePeptide.length() * 5);
@@ -245,7 +245,7 @@ public class Peptide implements Comparable<Peptide> {
         this.aScore = aScore;
     }
 
-    public void setQValue(double qValue) {
+    private void setQValue(double qValue) {
         this.qValue = qValue;
     }
 

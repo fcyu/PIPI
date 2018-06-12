@@ -210,30 +210,30 @@ public class PIPIWrap implements Callable<PIPIWrap.Entry> {
 
     public class Entry {
 
-        public final int scanNum;
-        public final String scanId;
-        public final int precursorCharge;
-        public final double precursorMass;
-        public final String mgfTitle;
-        public final int isotopeCorrectionNum;
-        public final double ms1PearsonCorrelationCoefficient;
-        public final String labelling;
+        final int scanNum;
+        final String scanId;
+        final int precursorCharge;
+        final double precursorMass;
+        final String mgfTitle;
+        final int isotopeCorrectionNum;
+        final double ms1PearsonCorrelationCoefficient;
+        final String labelling;
         public final String peptide;
-        public final double theoMass;
-        public final int isDecoy;
-        public final int globalRank;
-        public final double normalizedCorrelationCoefficient;
+        final double theoMass;
+        final int isDecoy;
+        final int globalRank;
+        final double normalizedCorrelationCoefficient;
         public final double score;
-        public final double deltaLCn;
-        public final double deltaCn;
-        public final int matchedPeakNum;
-        public final double ionFrac;
-        public final double matchedHighestIntensityFrac;
-        public final double explainedAaFrac;
-        public final String otherPtmPatterns; // It has 4 decimal because it is write the the result file for checking. It is not used in scoring or other purpose.
-        public final String aScore;
+        final double deltaLCn;
+        final double deltaCn;
+        final int matchedPeakNum;
+        final double ionFrac;
+        final double matchedHighestIntensityFrac;
+        final double explainedAaFrac;
+        final String otherPtmPatterns; // It has 4 decimal because it is write the the result file for checking. It is not used in scoring or other purpose.
+        final String aScore;
 
-        public Entry(int scanNum, String scanId, int precursorCharge, double precursorMass, String mgfTitle, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient, String labelling, String peptide, double theoMass, int isDecoy, int globalRank, double normalizedCorrelationCoefficient, double score, double deltaLCn, double deltaCn, int matchedPeakNum, double ionFrac, double matchedHighestIntensityFrac, double explainedAaFrac, String otherPtmPatterns, String aScore) {
+        Entry(int scanNum, String scanId, int precursorCharge, double precursorMass, String mgfTitle, int isotopeCorrectionNum, double ms1PearsonCorrelationCoefficient, String labelling, String peptide, double theoMass, int isDecoy, int globalRank, double normalizedCorrelationCoefficient, double score, double deltaLCn, double deltaCn, int matchedPeakNum, double ionFrac, double matchedHighestIntensityFrac, double explainedAaFrac, String otherPtmPatterns, String aScore) {
             this.scanNum = scanNum;
             this.scanId = scanId;
             this.precursorCharge = precursorCharge;
