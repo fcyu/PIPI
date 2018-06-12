@@ -56,8 +56,8 @@ public class InferPTM {
                     // fix modification and var modification cannot be coexist
                     if (!parameterMap.get(k).startsWith("0.0")) {
                         String[] tempArray = parameterMap.get(k).split(",");
-                        for (int i = 0; i < tempArray.length; ++i) {
-                            varModParamSet.add(new VarModParam(Double.valueOf(tempArray[i].trim()), 'n', 1, false)); // var mods from the parameter file have the highest priority
+                        for (String tempString : tempArray) {
+                            varModParamSet.add(new VarModParam(Double.valueOf(tempString.trim()), 'n', 1, false)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
@@ -66,8 +66,8 @@ public class InferPTM {
                     // fix modification and var modification cannot be coexist
                     if (!parameterMap.get(k).startsWith("0.0")) {
                         String[] tempArray = parameterMap.get(k).split(",");
-                        for (int i = 0; i < tempArray.length; ++i) {
-                            varModParamSet.add(new VarModParam(Double.valueOf(tempArray[i].trim()), 'c', 1, false)); // var mods from the parameter file have the highest priority
+                        for (String tempString : tempArray) {
+                            varModParamSet.add(new VarModParam(Double.valueOf(tempString.trim()), 'c', 1, false)); // var mods from the parameter file have the highest priority
                         }
                     }
                 }
