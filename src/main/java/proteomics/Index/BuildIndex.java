@@ -155,8 +155,9 @@ public class BuildIndex {
 
         if (needDecoy) {
             // writer concatenated fasta
-            Map<String, String> proteinAnnotationMap = dbTool.getProteinAnnotateMap();
-            proteinAnnotationMap.putAll(contaminantsDb.getProteinAnnotateMap());
+            Map<String, String> proteinAnnotationMap;
+                proteinAnnotationMap = contaminantsDb.getProteinAnnotateMap();
+                proteinAnnotationMap.putAll(dbTool.getProteinAnnotateMap()); // using the target annotation to replace contaminant sequence if there is conflict.
             BufferedWriter writer = new BufferedWriter(new FileWriter(dbPath + ".TD.fasta"));
             for (String proId : targetDecoyProteinSequenceMap.keySet()) {
                 writer.write(String.format(Locale.US, ">%s %s\n", proId, proteinAnnotationMap.getOrDefault(proId, "")));
