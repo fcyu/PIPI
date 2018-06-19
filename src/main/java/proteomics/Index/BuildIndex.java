@@ -25,7 +25,7 @@ public class BuildIndex {
     private final DbTool dbTool; // this one doesn't contain contaminant proteins.
     private InferPTM inferPTM;
 
-    public BuildIndex(Map<String, String> parameterMap, String labelling, boolean needCoding, boolean needDecoy) throws Exception {
+    public BuildIndex(Map<String, String> parameterMap, String labelling, boolean needCoding, boolean addDecoy) throws Exception {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
@@ -120,7 +120,7 @@ public class BuildIndex {
 
             targetDecoyProteinSequenceMap.put(proId, proSeq);
 
-            if (needDecoy) {
+            if (addDecoy) {
                 // decoy sequence
                 String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1);
                 peptideSet = massTool.buildPeptideSet(decoyProSeq);
@@ -153,7 +153,7 @@ public class BuildIndex {
             }
         }
 
-        if (needDecoy) {
+        if (addDecoy) {
             // writer concatenated fasta
             Map<String, String> proteinAnnotationMap;
                 proteinAnnotationMap = contaminantsDb.getProteinAnnotateMap();
