@@ -45,7 +45,7 @@ public class OutputPeff {
     private OutputPeff(String parameterPath, String pipiDirPath, String outputPath) throws Exception {
         Parameter parameter = new Parameter(parameterPath);
         Map<String, String> parameterMap = parameter.returnParameterMap();
-        BuildIndex buildIndex = new BuildIndex(parameterMap, "N14", false, false);
+        BuildIndex buildIndex = new BuildIndex(parameterMap, "N14", false, false, true);
         MassTool massTool = buildIndex.returnMassTool();
         Map<Character, Double> massTable = massTool.getMassTable();
         Map<String, Peptide0> peptideProtein0Map = buildIndex.getPeptide0Map();

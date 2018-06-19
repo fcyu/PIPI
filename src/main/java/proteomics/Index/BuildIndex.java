@@ -25,7 +25,7 @@ public class BuildIndex {
     private final DbTool dbTool; // this one doesn't contain contaminant proteins.
     private InferPTM inferPTM;
 
-    public BuildIndex(Map<String, String> parameterMap, String labelling, boolean needCoding, boolean addDecoy) throws Exception {
+    public BuildIndex(Map<String, String> parameterMap, String labelling, boolean needCoding, boolean addDecoy, boolean addContaminant) throws Exception {
         // initialize parameters
         int minPeptideLength = Math.max(5, Integer.valueOf(parameterMap.get("min_peptide_length")));
         int maxPeptideLength = Integer.valueOf(parameterMap.get("max_peptide_length"));
@@ -63,9 +63,15 @@ public class BuildIndex {
 
         // read protein database
         dbTool = new DbTool(dbPath, parameterMap.get("database_type"));
-        DbTool contaminantsDb = new DbTool(null, "contaminants");
-        Map<String, String> proteinPeptideMap = contaminantsDb.getProteinSequenceMap();
-        proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
+        Map<String, String> proteinPeptideMap;
+        DbTool contaminantsDb = null;
+        if (addContaminant) {
+            contaminantsDb = new DbTool(null, "contaminants");
+            proteinPeptideMap = contaminantsDb.getProteinSequenceMap();
+            proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
+        } else {
+            proteinPeptideMap = dbTool.getProteinSequenceMap();
+        }
 
         // define a new MassTool object
         massTool = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
@@ -156,8 +162,13 @@ public class BuildIndex {
         if (addDecoy) {
             // writer concatenated fasta
             Map<String, String> proteinAnnotationMap;
+            if (addContaminant) {
                 proteinAnnotationMap = contaminantsDb.getProteinAnnotateMap();
                 proteinAnnotationMap.putAll(dbTool.getProteinAnnotateMap()); // using the target annotation to replace contaminant sequence if there is conflict.
+            } else {
+                proteinAnnotationMap = dbTool.getProteinAnnotateMap();
+            }
+
             BufferedWriter writer = new BufferedWriter(new FileWriter(dbPath + ".TD.fasta"));
             for (String proId : targetDecoyProteinSequenceMap.keySet()) {
                 writer.write(String.format(Locale.US, ">%s %s\n", proId, proteinAnnotationMap.getOrDefault(proId, "")));

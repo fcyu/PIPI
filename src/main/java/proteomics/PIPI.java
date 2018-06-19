@@ -108,8 +108,12 @@ public class PIPI {
             labelling = "N15";
         }
 
+        if (parameterMap.get("add_contaminant").contentEquals("0")) {
+            logger.warn("add_contaminant = 0. Won't search the build-in contaminant proteins.");
+        }
+
         logger.info("Indexing protein database...");
-        BuildIndex buildIndex = new BuildIndex(parameterMap, labelling, true, true);
+        BuildIndex buildIndex = new BuildIndex(parameterMap, labelling, true, true, parameterMap.get("add_contaminant").contentEquals("1"));
         MassTool massTool = buildIndex.returnMassTool();
         InferPTM inferPTM = buildIndex.getInferPTM();
 
