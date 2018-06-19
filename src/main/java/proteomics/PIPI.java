@@ -108,12 +108,16 @@ public class PIPI {
             labelling = "N15";
         }
 
+        if (parameterMap.get("add_decoy").contentEquals("0")) {
+            logger.warn("add_decoy = 0. Won't search the decoy sequences and estimate FDR.");
+        }
+
         if (parameterMap.get("add_contaminant").contentEquals("0")) {
             logger.warn("add_contaminant = 0. Won't search the build-in contaminant proteins.");
         }
 
         logger.info("Indexing protein database...");
-        BuildIndex buildIndex = new BuildIndex(parameterMap, labelling, true, true, parameterMap.get("add_contaminant").contentEquals("1"));
+        BuildIndex buildIndex = new BuildIndex(parameterMap, labelling, true, parameterMap.get("add_decoy").contentEquals("1"), parameterMap.get("add_contaminant").contentEquals("1"));
         MassTool massTool = buildIndex.returnMassTool();
         InferPTM inferPTM = buildIndex.getInferPTM();
 
@@ -244,20 +248,27 @@ public class PIPI {
             throw new Exception("There is no useful results.");
         }
 
-        logger.info("Estimating FDR...");
         String percolatorInputFileName = spectraPath + "." + labelling + ".input.temp";
-        String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
-        String percolatorProteinOutputFileName = spectraPath + "." + labelling + ".protein.tsv";
         writePercolator(percolatorInputFileName, buildIndex.getPeptide0Map(), sqlPath);
-        Map<Integer, PercolatorEntry> percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName, parameterMap.get("db") + ".TD.fasta");
+        Map<Integer, PercolatorEntry> percolatorResultMap = null;
 
-        if (percolatorResultMap.isEmpty()) {
-            throw new Exception(String.format(Locale.US, "Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in %s is correct.", parameterPath));
+        if (parameterMap.get("add_decoy").contentEquals("0")) {
+            logger.warn("add_decoy = 0. Don't estimate FDR.");
+        } else {
+            logger.info("Estimating FDR...");
+            String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
+            String percolatorProteinOutputFileName = spectraPath + "." + labelling + ".protein.tsv";
+            percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName, parameterMap.get("db") + ".TD.fasta");
+            if (percolatorResultMap.isEmpty()) {
+                throw new Exception(String.format(Locale.US, "Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in %s is correct.", parameterPath));
+            }
+            if (!outputPercolatorInput) {
+                (new File(percolatorOutputFileName)).delete();
+            }
         }
 
         if (!outputPercolatorInput) {
             (new File(percolatorInputFileName)).delete();
-            (new File(percolatorOutputFileName)).delete();
         }
 
         logger.info("Saving results...");
@@ -391,8 +402,14 @@ public class PIPI {
 
     private void writeFinalResult(Map<Integer, PercolatorEntry> percolatorResultMap, String outputPath, Map<String, Peptide0> peptide0Map, String sqlPath) throws IOException, SQLException {
         TreeMap<Double, List<String>> tempMap = new TreeMap<>();
+
         BufferedWriter writer = new BufferedWriter(new FileWriter(outputPath));
-        writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,A_score,protein_ID,score,delta_C_n,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labelling,isotope_correction,MS1_pearson_correlation_coefficient\n");
+        if (percolatorResultMap == null) {
+            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,A_score,protein_ID,score,delta_C_n,other_PTM_patterns,MGF_title,labelling,isotope_correction,MS1_pearson_correlation_coefficient\n");
+        } else {
+            writer.write("scan_num,peptide,charge,theo_mass,exp_mass,abs_ppm,A_score,protein_ID,score,delta_C_n,percolator_score,posterior_error_prob,q_value,other_PTM_patterns,MGF_title,labelling,isotope_correction,MS1_pearson_correlation_coefficient\n");
+        }
+
         Connection sqlConnection = DriverManager.getConnection(sqlPath);
         Statement sqlStatement = sqlConnection.createStatement();
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, otherPtmPatterns, aScore, deltaCn FROM spectraTable");
@@ -415,15 +432,26 @@ public class PIPI {
 
                     String aScore = sqlResultSet.getString("aScore");
 
-                    PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                    String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet), sqlResultSet.getDouble("score"), sqlResultSet.getDouble("deltaCn"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
-
-                    if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
-                        tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
+                    if (percolatorResultMap == null) {
+                        double score = sqlResultSet.getDouble("score");
+                        String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet), score, sqlResultSet.getDouble("deltaCn"), sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
+                        if (tempMap.containsKey(score)) {
+                            tempMap.get(score).add(str);
+                        } else {
+                            List<String> tempList = new LinkedList<>();
+                            tempList.add(str);
+                            tempMap.put(score, tempList);
+                        }
                     } else {
-                        List<String> tempList = new LinkedList<>();
-                        tempList.add(str);
-                        tempMap.put(percolatorResultMap.get(scanNum).percolatorScore, tempList);
+                        PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
+                        String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet), sqlResultSet.getDouble("score"), sqlResultSet.getDouble("deltaCn"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
+                        if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
+                            tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
+                        } else {
+                            List<String> tempList = new LinkedList<>();
+                            tempList.add(str);
+                            tempMap.put(percolatorResultMap.get(scanNum).percolatorScore, tempList);
+                        }
                     }
                 }
             }

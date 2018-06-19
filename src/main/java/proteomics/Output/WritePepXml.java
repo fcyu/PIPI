@@ -34,8 +34,8 @@ public class WritePepXml {
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, otherPtmPatterns, aScore FROM spectraTable");
         while (sqlResultSet.next()) {
             int scanNum = sqlResultSet.getInt("scanNum");
-            if (percolatorResultMap.containsKey(scanNum)) {
-                String peptide = sqlResultSet.getString("peptide");
+            String peptide = sqlResultSet.getString("peptide");
+            if ((percolatorResultMap == null || percolatorResultMap.containsKey(scanNum)) && !sqlResultSet.wasNull()) {
                 String ptmFreePeptide = peptide.replaceAll("[^ncA-Z]+", "");
                 Peptide0 peptide0 = peptide0Map.get(ptmFreePeptide);
                 TreeSet<String> proteinIdSet = new TreeSet<>();
@@ -44,7 +44,10 @@ public class WritePepXml {
                 }
                 double expMass = sqlResultSet.getDouble("precursorMass");
                 String aScore = sqlResultSet.getString("aScore");
-                PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
+                PercolatorEntry percolatorEntry = null;
+                if (percolatorResultMap != null) {
+                    percolatorEntry = percolatorResultMap.get(scanNum);
+                }
                 int precursorCharge = sqlResultSet.getInt("precursorCharge");
                 double theoMass = sqlResultSet.getDouble("theoMass");
 
@@ -57,7 +60,7 @@ public class WritePepXml {
                                 "\t\t\t\t\t<search_score name=\"percolator_score\" value=\"%f\"/>\r\n" +
                                 "\t\t\t\t\t<search_score name=\"percolator_error_prob\" value=\"%s\"/>\r\n" +
                                 "\t\t\t\t\t<search_score name=\"q_value\" value=\"%s\"/>\r\n" +
-                                "\t\t\t\t\t<search_score name=\"labelling\" value=\"%s\"/>\r\n", scanNum, scanNum, scanNum, expMass, precursorCharge, scanNum, ptmFreePeptide.replaceAll("[nc]+", ""), peptide0.leftFlank, peptide0.rightFlank, String.join(";", proteinIdSet), peptide0.proteins.length, sqlResultSet.getInt("matchedPeakNum"), (ptmFreePeptide.length() - 2) * 2 * Math.max(1, precursorCharge - 1), theoMass, PIPI.getMassDiff(expMass, theoMass, MassTool.C13_DIFF), sqlResultSet.getDouble("score"), aScore, percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("labelling")));
+                                "\t\t\t\t\t<search_score name=\"labelling\" value=\"%s\"/>\r\n", scanNum, scanNum, scanNum, expMass, precursorCharge, scanNum, ptmFreePeptide.replaceAll("[nc]+", ""), peptide0.leftFlank, peptide0.rightFlank, String.join(";", proteinIdSet), peptide0.proteins.length, sqlResultSet.getInt("matchedPeakNum"), (ptmFreePeptide.length() - 2) * 2 * Math.max(1, precursorCharge - 1), theoMass, PIPI.getMassDiff(expMass, theoMass, MassTool.C13_DIFF), sqlResultSet.getDouble("score"), aScore, percolatorEntry == null ? null : percolatorEntry.percolatorScore, percolatorEntry == null ? "null" : percolatorEntry.PEP, percolatorEntry == null ? "null" : percolatorEntry.qValue, sqlResultSet.getString("labelling")));
 
                 if (!aScore.contentEquals("-")) {
                     PositionDeltaMassMap ptmMap = new PositionDeltaMassMap(ptmFreePeptide.length());
