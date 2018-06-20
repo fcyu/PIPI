@@ -25,8 +25,8 @@ public class Search {
             leftTol = precursorMass - (precursorMass * leftInverseMs1Tolerance);
             rightTol = (precursorMass * rightInverseMs1Tolerance) - precursorMass;
         }
-        double leftMass = Math.max(precursorMass + minPtmMass, buildIndex.getMinPeptideMass());
-        double rightMass = Math.min(precursorMass + maxPtmMass, buildIndex.getMaxPeptideMass());
+        double leftMass = Math.max(precursorMass + minPtmMass - leftTol, buildIndex.getMinPeptideMass());
+        double rightMass = Math.min(precursorMass + maxPtmMass + rightTol, buildIndex.getMaxPeptideMass());
 
         if (leftMass >= rightMass) {
             return;
