@@ -434,7 +434,7 @@ public class PIPI {
 
                     if (percolatorResultMap == null) {
                         double score = sqlResultSet.getDouble("score");
-                        String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet), score, sqlResultSet.getDouble("deltaCn"), sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
+                        String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet).replaceAll(",", "~"), score, sqlResultSet.getDouble("deltaCn"), sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
                         if (tempMap.containsKey(score)) {
                             tempMap.get(score).add(str);
                         } else {
@@ -444,7 +444,7 @@ public class PIPI {
                         }
                     } else {
                         PercolatorEntry percolatorEntry = percolatorResultMap.get(scanNum);
-                        String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet), sqlResultSet.getDouble("score"), sqlResultSet.getDouble("deltaCn"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
+                        String str = String.format(Locale.US, "%d,%s,%d,%f,%f,%f,%s,%s,%f,%f,%f,%s,%s,%s,\"%s\",%s,%d,%f\n", scanNum, peptide, sqlResultSet.getInt("precursorCharge"), theoMass, expMass, ppm, aScore, String.join(";", proteinIdSet).replaceAll(",", "~"), sqlResultSet.getDouble("score"), sqlResultSet.getDouble("deltaCn"), percolatorEntry.percolatorScore, percolatorEntry.PEP, percolatorEntry.qValue, sqlResultSet.getString("otherPtmPatterns"), sqlResultSet.getString("mgfTitle"), sqlResultSet.getString("labelling"), sqlResultSet.getInt("isotopeCorrectionNum"), sqlResultSet.getDouble("ms1PearsonCorrelationCoefficient"));
                         if (tempMap.containsKey(percolatorResultMap.get(scanNum).percolatorScore)) {
                             tempMap.get(percolatorResultMap.get(scanNum).percolatorScore).add(str);
                         } else {
