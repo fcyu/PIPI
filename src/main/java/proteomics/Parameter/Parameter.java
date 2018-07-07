@@ -33,10 +33,17 @@ public class Parameter {
                 } else {
                     Matcher enzymeMatcher = enzymePattern.matcher(line);
                     if (enzymeMatcher.matches()) {
-                        parameterMap.put("enzyme_name", enzymeMatcher.group(1).trim());
-                        parameterMap.put("cleavage_from_c_term", enzymeMatcher.group(2).trim());
-                        parameterMap.put("cleavage_site", enzymeMatcher.group(3).trim());
-                        parameterMap.put("protection_site", enzymeMatcher.group(4).trim());
+                        if (parameterMap.containsKey("enzyme_name_1")) {
+                            parameterMap.put("enzyme_name_2", enzymeMatcher.group(1).trim());
+                            parameterMap.put("is_from_C_term_2", enzymeMatcher.group(2).trim());
+                            parameterMap.put("cleavage_site_2", enzymeMatcher.group(3).trim());
+                            parameterMap.put("protection_site_2", enzymeMatcher.group(4).trim());
+                        } else {
+                            parameterMap.put("enzyme_name_1", enzymeMatcher.group(1).trim());
+                            parameterMap.put("is_from_C_term_1", enzymeMatcher.group(2).trim());
+                            parameterMap.put("cleavage_site_1", enzymeMatcher.group(3).trim());
+                            parameterMap.put("protection_site_1", enzymeMatcher.group(4).trim());
+                        }
                     }
                 }
             }

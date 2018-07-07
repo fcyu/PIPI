@@ -114,7 +114,7 @@ public class OutputPeff {
                 for (String protein : peptideProtein0Map.get(DbTool.getPtmFreePeptide(peptide)).proteins) {
                     if (proteinSequenceMap.containsKey(protein)) {
                         String proteinSequence = proteinSequenceMap.get(protein);
-                        Set<Integer> peptideLocationSet = DbTool.findPeptideLocation(proteinSequence, peptide, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"));
+                        Set<Integer> peptideLocationSet = DbTool.findPeptideLocation(proteinSequence, peptide, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1")); // FixMe: Only consider the first enzyme if the users specify two enzymes.
                         for (int peptideLocation : peptideLocationSet) {
                             for (int i = 1; i < aaArray.length - 1; ++i) {
                                 AA aa = aaArray[i];

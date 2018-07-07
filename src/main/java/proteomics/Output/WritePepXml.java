@@ -34,7 +34,7 @@ public class WritePepXml {
         ResultSet sqlResultSet = sqlStatement.executeQuery("SELECT scanNum, precursorCharge, precursorMass, mgfTitle, isotopeCorrectionNum, ms1PearsonCorrelationCoefficient, labelling, peptide, theoMass, isDecoy, score, matchedPeakNum, otherPtmPatterns, aScore FROM spectraTable");
         while (sqlResultSet.next()) {
             int scanNum = sqlResultSet.getInt("scanNum");
-            String peptide = sqlResultSet.getString("peptide");
+                String peptide = sqlResultSet.getString("peptide");
             if ((percolatorResultMap == null || percolatorResultMap.containsKey(scanNum)) && !sqlResultSet.wasNull()) {
                 String ptmFreePeptide = peptide.replaceAll("[^ncA-Z]+", "");
                 Peptide0 peptide0 = peptide0Map.get(ptmFreePeptide);
@@ -116,7 +116,7 @@ public class WritePepXml {
                 "\t\t</sample_enzyme>\r\n" +
                 "\t\t<search_summary base_name=\"%s\" search_engine=\"PIPI\" search_engine_version=\"%s\" precursor_mass_type=\"monoisotopic\" fragment_mass_type=\"monoisotopic\" search_id=\"1\">\r\n" +
                 "\t\t\t<search_database local_path=\"%s\" type=\"AA\"/>\r\n" +
-                "\t\t\t<enzymatic_search_constraint enzyme=\"%s\" max_num_internal_cleavages=\"%s\" min_number_termini=\"2\"/>\r\n", dateFormat.format(date), outputPath, baseName, rawDataType, rawDataType, parameterMap.get("enzyme_name"), parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), parameterMap.get("cleavage_from_c_term").contentEquals("1") ? 'C' : 'N', baseName, PIPI.versionStr, parameterMap.get("db"), parameterMap.get("enzyme_name"), parameterMap.get("missed_cleavage")));
+                "\t\t\t<enzymatic_search_constraint enzyme=\"%s\" max_num_internal_cleavages=\"%s\" min_number_termini=\"2\"/>\r\n", dateFormat.format(date), outputPath, baseName, rawDataType, rawDataType, parameterMap.get("enzyme_name_1"), parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), parameterMap.get("cleavage_from_c_term_1").contentEquals("1") ? 'C' : 'N', baseName, PIPI.versionStr, parameterMap.get("db"), parameterMap.get("enzyme_name_1"), parameterMap.get("missed_cleavage"))); // FixMe: Only has the first enzyme's information if the users specified two enzymes.
         for (String k : parameterMap.keySet()) {
             if (k.startsWith("mod") && !parameterMap.get(k).trim().startsWith("0.0")) {
                 String[] parts = parameterMap.get(k).trim().split("@");

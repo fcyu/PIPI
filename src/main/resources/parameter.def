@@ -79,7 +79,7 @@ U = 0 # Selenocysteine
 n = 0 # nterm mod
 c = 0 # cterm mod
 
-# Enzyme digestion specificities. Only support one enzyme at a time.
+# Enzyme digestion specifications. Support up to two enzymes simultaneously.
 # enzyme name  	 is cut from C-term 	 cleavage site 	 protection site
 Trypsin        	 1                  	 KR            	 P
 # Trypsin/P      1                  	 KR            	 -

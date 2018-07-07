@@ -68,13 +68,13 @@ public class BuildIndex {
         if (addContaminant) {
             contaminantsDb = new DbTool(null, "contaminants");
             proteinPeptideMap = contaminantsDb.getProteinSequenceMap();
-            proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
+        proteinPeptideMap.putAll(dbTool.getProteinSequenceMap()); // using the target sequence to replace contaminant sequence if there is conflict.
         } else {
             proteinPeptideMap = dbTool.getProteinSequenceMap();
         }
 
         // define a new MassTool object
-        massTool = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1, ms2Tolerance, oneMinusBinOffset, labelling);
+        massTool = new MassTool(missedCleavage, fixModMap, parameterMap.get("cleavage_site_1").trim(), parameterMap.get("protection_site_1").trim(), parameterMap.get("is_from_C_term_1").trim().contentEquals("1"), parameterMap.getOrDefault("cleavage_site_2", null), parameterMap.getOrDefault("protection_site_2", null), parameterMap.containsKey("is_from_C_term_2") ? parameterMap.get("is_from_C_term_2").trim().contentEquals("1") : null, ms2Tolerance, oneMinusBinOffset, labelling);
 
         inferPTM = new InferPTM(massTool, fixModMap, parameterMap);
 
@@ -128,7 +128,7 @@ public class BuildIndex {
 
             if (addDecoy) {
                 // decoy sequence
-                String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), Integer.valueOf(parameterMap.get("cleavage_from_c_term")) == 1);
+                String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), Integer.valueOf(parameterMap.get("cleavage_from_c_term_1")) == 1); // FixMe: Only consider the first enzyme if the users specify two enzymes.
                 peptideSet = massTool.buildPeptideSet(decoyProSeq);
 
                 for (String peptide : peptideSet) {
@@ -184,7 +184,7 @@ public class BuildIndex {
                 code = inferSegment.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
             }
 
-            Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site"), parameterMap.get("protection_site"), parameterMap.get("cleavage_from_c_term").contentEquals("1"));
+            Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), parameterMap.get("cleavage_from_c_term_1").contentEquals("1")); // FixMe: Only consider the first enzyme if the users specify two enzymes.
             if (leftRightFlank != null) {
                 tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[0]), leftRightFlank[0], leftRightFlank[1]));
 
