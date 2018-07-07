@@ -9,8 +9,8 @@ database_type = UniProt # Different types have different fasta header patterns. 
 add_decoy = 1 # 0 = don't generate and search decoy sequences automatically; 1 = generate and search decoy sequences
 add_contaminant = 1 # 0 = don't add contaminant proteins automatically; 1 = add contaminant proteins
 missed_cleavage = 2 # Maximum number of allowed missed cleavage.
-min_peptide_length = 7
-max_peptide_length = 50
+min_peptide_length = 7 # Minimum length of a peptide chain.
+max_peptide_length = 50 # Maximum length of a peptide chain.
 
 # Spectrum
 ms_level = 2,3 # The searched MS level.
@@ -18,14 +18,14 @@ ms_level = 2,3 # The searched MS level.
 # Tolerance
 ms1_tolerance_unit = 1 # 0: Da; 1: ppm
 ms1_tolerance = 20
-ms2_tolerance = 0.01 # Unit is Da.
-mz_bin_offset = 0 # Offset in digitization the spectrum.
+ms2_tolerance = 0.01 # Unit is Da. e.g. high-resolution MS/MS: 0.01; low-resolution MS/MS: 0.5
+mz_bin_offset = 0 # Offset in digitization the spectrum. e.g. high-resolution MS/MS: 0; low-resolution MS/MS: 0.4
 min_clear_mz = 112.5 # Clear out all peaks in the specified m/z range, mainly for iTRAQ/TMT data.
 max_clear_mz = 121.5
 
 # Modification related
-min_ptm_mass = -250 # Min allowed PTM mass.
-max_ptm_mass = 250 # Max allowed PTM mass.
+min_ptm_mass = -500 # Min allowed PTM mass.
+max_ptm_mass = 500 # Max allowed PTM mass.
 
 # Isotopic labelling strategy
 15N = 0 # 1: 15N. 0: 14N.
@@ -86,7 +86,7 @@ Trypsin        	 1                  	 KR            	 P
 # TrypsinR     	 1                  	 R             	 P
 # LysC         	 1                  	 K             	 P
 # ArgC         	 1                  	 R             	 P
-# Chymotrypsin 	 1                  	 FYW           	 P
+# Chymotrypsin 	 1                  	 FYWL          	 P
 # GluC         	 1                  	 DE            	 P
 # LysN         	 0                  	 K             	 -
 # AspN         	 0                  	 D            	 -
