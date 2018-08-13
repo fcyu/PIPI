@@ -96,6 +96,15 @@ public class PIPI {
             logger.info("{} = {}", k, parameterMap.get(k));
         }
 
+        // Check if Percolator can be executed.
+        if (!(new File(percolatorPath)).exists()) {
+            throw new NullPointerException(String.format(Locale.US, "Cannot find Percolator from %s.", percolatorPath));
+        }
+
+        if (!(new File(percolatorPath)).canExecute()) {
+            throw new Exception(String.format(Locale.US, "Percolator (%s) exits but cannot be executed.", percolatorPath));
+        }
+
         String[] tempArray = parameterMap.get("ms_level").split(",");
         Set<Integer> msLevelSet = new HashSet<>(tempArray.length + 1, 1);
         for (String temp : tempArray) {
@@ -345,7 +354,7 @@ public class PIPI {
 
     private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName, String tdFastaPath) throws Exception {
         Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
-        if ((new File(percolatorPath)).exists()) {
+        if ((new File(percolatorInputFileName)).exists()) {
             Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --protein-report-fragments --protein-report-duplicates --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
             ps.waitFor();
 
@@ -393,7 +402,7 @@ public class PIPI {
             }
             reader.close();
         } else {
-            logger.error("Cannot find Percolator (from {}) for estimating Percolator Q-Value.", percolatorPath);
+            logger.error("Cannot find Percolator input file (from {}) for estimating Percolator Q-Value.", percolatorInputFileName);
             return percolatorResultMap;
         }
 
