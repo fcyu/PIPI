@@ -267,7 +267,7 @@ public class PIPI {
             logger.info("Estimating FDR...");
             String percolatorOutputFileName = spectraPath + "." + labelling + ".output.temp";
             String percolatorProteinOutputFileName = spectraPath + "." + labelling + ".protein.tsv";
-            percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName, parameterMap.get("db") + ".TD.fasta");
+            percolatorResultMap = runPercolator(percolatorPath, percolatorInputFileName, percolatorOutputFileName, percolatorProteinOutputFileName, parameterMap.get("db") + ".TD.fasta", parameterMap.get("enzyme_name_1"));
             if (percolatorResultMap.isEmpty()) {
                 throw new Exception(String.format(Locale.US, "Percolator failed to estimate FDR. Please check if Percolator is installed and the percolator_path in %s is correct.", parameterPath));
             }
@@ -352,10 +352,34 @@ public class PIPI {
         sqlConnection.close();
     }
 
-    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName, String tdFastaPath) throws Exception {
+    private static Map<Integer, PercolatorEntry> runPercolator(String percolatorPath, String percolatorInputFileName, String percolatorOutputFileName, String percolatorProteinOutputFileName, String tdFastaPath, String enzymeName) throws Exception {
         Map<Integer, PercolatorEntry> percolatorResultMap = new HashMap<>();
         if ((new File(percolatorInputFileName)).exists()) {
-            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --protein-report-fragments --protein-report-duplicates --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
+            String percolatorEnzyme;
+            switch (enzymeName) {
+                case "Trypsin": percolatorEnzyme = "trypsin";
+                break;
+                case "Trypsin/P": percolatorEnzyme = "trypsinp";
+                break;
+                case "TrypsinR": percolatorEnzyme = "trypsin";
+                break;
+                case "LysC": percolatorEnzyme = "lys-c";
+                break;
+                case "ArgC": percolatorEnzyme = "arg-c";
+                break;
+                case "Chymotrypsin": percolatorEnzyme = "chymotrypsin";
+                break;
+                case "GluC": percolatorEnzyme = "glu-c";
+                break;
+                case "LysN": percolatorEnzyme = "lys-n";
+                break;
+                case "AspN": percolatorEnzyme = "asp-n";
+                break;
+                default: percolatorEnzyme = "trypsin";
+                break;
+            }
+
+            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --protein-enzyme " + percolatorEnzyme + " --protein-report-fragments --protein-report-duplicates --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
             ps.waitFor();
 
             if (!(new File(percolatorOutputFileName).exists())) {
