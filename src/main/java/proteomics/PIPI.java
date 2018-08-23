@@ -379,7 +379,9 @@ public class PIPI {
                 break;
             }
 
-            Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --protein-enzyme " + percolatorEnzyme + " --protein-report-fragments --protein-report-duplicates --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
+            String[] commands = new String[]{percolatorPath, "--only-psms", "--verbose", "0", "--no-terminate", "--protein-decoy-pattern", "DECOY_", "--picked-protein", tdFastaPath, "--protein-enzyme", percolatorEnzyme, "--protein-report-fragments", "--protein-report-duplicates", "--results-proteins", percolatorProteinOutputFileName, "--results-psms", percolatorOutputFileName, percolatorInputFileName};
+
+            Process ps = Runtime.getRuntime().exec(commands);
             ps.waitFor();
 
             if (!(new File(percolatorOutputFileName).exists()) || ps.exitValue() != 0) {
