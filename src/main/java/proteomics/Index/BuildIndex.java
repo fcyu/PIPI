@@ -128,7 +128,7 @@ public class BuildIndex {
 
             if (addDecoy) {
                 // decoy sequence
-                String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), Integer.valueOf(parameterMap.get("cleavage_from_c_term_1")) == 1); // FixMe: Only consider the first enzyme if the users specify two enzymes.
+                String decoyProSeq = DbTool.shuffleSeq(proSeq, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), Integer.valueOf(parameterMap.get("is_from_C_term_1")) == 1); // FixMe: Only consider the first enzyme if the users specify two enzymes.
                 peptideSet = massTool.buildPeptideSet(decoyProSeq);
 
                 for (String peptide : peptideSet) {
@@ -184,7 +184,7 @@ public class BuildIndex {
                 code = inferSegment.generateSegmentBooleanVector(DbTool.getSequenceOnly(peptide));
             }
 
-            Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), parameterMap.get("cleavage_from_c_term_1").contentEquals("1")); // FixMe: Only consider the first enzyme if the users specify two enzymes.
+            Character[] leftRightFlank = DbTool.getLeftRightFlank(peptide, peptideProteinMap, targetDecoyProteinSequenceMap, parameterMap.get("cleavage_site_1"), parameterMap.get("protection_site_1"), parameterMap.get("is_from_C_term_1").contentEquals("1")); // FixMe: Only consider the first enzyme if the users specify two enzymes.
             if (leftRightFlank != null) {
                 tempMap.put(peptide, new Peptide0(code, isTarget(peptideProteinMap.get(peptide)), peptideProteinMap.get(peptide).toArray(new String[0]), leftRightFlank[0], leftRightFlank[1]));
 
