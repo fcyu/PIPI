@@ -27,7 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PIPI {
 
     private static final Logger logger = LoggerFactory.getLogger(PIPI.class);
-    public static final String versionStr = "1.4.5";
+    public static final String versionStr = "1.4.6";
     static final boolean useXcorr = true;
 
     public static final int[] debugScanNumArray = new int[]{};

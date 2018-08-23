@@ -1,4 +1,4 @@
-# 1.4.5
+# 1.4.6
 # First line is the parameter file version. Don't change it.
 thread_num = 0 # Thread number. Set to 0 to using all the CPU resources in the computer.
 percolator_path = C:\Program Files\percolator-v3-01\bin\percolator.exe # Please input absolute path of Percolator binary file.
