@@ -382,7 +382,7 @@ public class PIPI {
             Process ps = Runtime.getRuntime().exec(percolatorPath + " --only-psms --verbose 0 --no-terminate --protein-decoy-pattern DECOY_ --picked-protein " + tdFastaPath + " --protein-enzyme " + percolatorEnzyme + " --protein-report-fragments --protein-report-duplicates --results-proteins " + percolatorProteinOutputFileName + " --results-psms " +  percolatorOutputFileName + " " + percolatorInputFileName);
             ps.waitFor();
 
-            if (!(new File(percolatorOutputFileName).exists())) {
+            if (!(new File(percolatorOutputFileName).exists()) || ps.exitValue() != 0) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -391,29 +391,25 @@ public class PIPI {
                 reader.close();
                 reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
                 while ((line = reader.readLine()) != null) {
-                    logger.info("[Percolator info]: {}", line.trim());
+                    logger.info("[Percolator error]: {}", line.trim());
                 }
                 reader.close();
-                throw new NullPointerException(String.format(Locale.US, "Cannot find the Percolator result file %s.", percolatorOutputFileName));
+                throw new NullPointerException("Percolator didn't exit normally.");
             } else {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(ps.getInputStream()));
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    logger.debug("[Percolator info]: {}", line.trim());
+                    logger.info("[Percolator info]: {}", line.trim());
                 }
                 reader.close();
                 reader = new BufferedReader(new InputStreamReader(ps.getErrorStream()));
                 while ((line = reader.readLine()) != null) {
-                    logger.debug("[Percolator info]: {}", line.trim());
+                    logger.info("[Percolator info]: {}", line.trim());
                 }
                 reader.close();
             }
 
-            if (ps.exitValue() == 0) {
-                logger.info("Percolator finished normally");
-            } else {
-                throw new Exception("Percolator didn't exit normally.");
-            }
+            logger.info("Percolator finished normally");
 
             BufferedReader reader = new BufferedReader(new FileReader(percolatorOutputFileName));
             String line;
