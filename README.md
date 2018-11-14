@@ -1,6 +1,9 @@
 # PIPI
 PTM-Invariant Peptide Identification.
 
+## Executable file:
+Download `PIPI.zip` from https://github.com/fcyu/PIPI/releases/latest.
+
 ## How to use it?
 Requirement: 
 - Java 1.8.
