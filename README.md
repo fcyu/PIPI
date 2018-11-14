@@ -1,5 +1,5 @@
 # PIPI
-PTM-Invariant Peptide Identification.
+PTM-Invariant Peptide Identification. An open search tool.
 
 ## Executable file:
 Download `PIPI.zip` from https://github.com/fcyu/PIPI/releases/latest.
