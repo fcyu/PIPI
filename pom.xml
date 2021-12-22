@@ -4,7 +4,7 @@
     <groupId>hk.ust.bioinformatics</groupId>
     <artifactId>PIPI</artifactId>
     <packaging>jar</packaging>
-    <version>1.4.6</version>
+    <version>1.4.7</version>
 
     <licenses>
         <license>
