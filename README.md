@@ -1,15 +1,36 @@
 # PIPI
 PTM-Invariant Peptide Identification. An open search tool.
 
-## Executable file:
+## Executable file
 Download `PIPI.zip` from https://github.com/fcyu/PIPI/releases/latest.
 
-## How to use it?
+## How to use it
 Requirement: 
 - Java 1.8.
 - With [Percolator](https://github.com/percolator/percolator/releases) installed.
 
-Usage:
+
+## How to compile from source
+Download and install JDK 8 from https://www.oracle.com/java/technologies/downloads/#java8
+
+Download Maven from https://maven.apache.org/download.cgi
+
+Install ProteomicsLibrary library:
+```
+git clone https://github.com/fcyu/ProteomicsLibrary.git
+cd ProteomicsLibrary
+mvn install
+```
+
+Download and compile PIPI:
+```
+git clone https://github.com/fcyu/PIPI.git
+cd PIPI
+mvn package
+```
+
+
+## Usage
 ```
 java -Xmx64g -jar PIPI.jar <parameter_file> <spectra_file>
 ```
@@ -24,7 +45,7 @@ example: ```java -Xmx25g -jar PIPI.jar parameter.def data.mzXML```
 |----------|----------------------------------------|--------|-----------|----------|----------|----------|-------------------------------------------|----------|-----------|------------------|----------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|-----------|--------------------|-------------------------------------|
 | 1436     | nESEDKPEIEDVGSDEE(129.043)EE(-0.948)Kc | 3      | 2320.008  | 2320.011 | 1.361049 | 13.02612 | NP_001017963.2;NP_005339.3;XP_011535020.1 | 5.106351 | 0.000121  | 2.69477          | 7.21E-06             | 0.002299 | nESEDKPEIEDVGSDEEE(129.043)E(-0.948)Kc-4.9165;nESEDKPEIEDVGSDEE(129.043)E(-0.948)EKc-4.8888;nESEDKPEIEDVGSDE(129.043)EEE(-0.948)Kc-4.8815;nESEDKPEIEDVGSDEE(-0.948)EE(129.043)Kc-4.6991 |           | N14       | 0                  | 0.897093                            |
 
-### Explanations:
+### Explanations
 1. `scan_num`: Scan number (start from 1) of the spectrum.
 2. `peptide`: Identified peptide sequence.
 3. `charge`: Precursor charge.
