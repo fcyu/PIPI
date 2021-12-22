@@ -35,7 +35,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -46,17 +46,17 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.8</version>
         </dependency>
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.21.0.1</version>
+            <version>3.36.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>24.0-jre</version>
+            <version>31.0.1-jre</version>
         </dependency>
         <dependency>
             <groupId>hk.ust.bioinformatics</groupId>
@@ -70,7 +70,7 @@
         <repository>
             <id>pst-release</id>
             <name>EBI Nexus Repository</name>
-            <url>http://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-release</url>
+            <url>https://www.ebi.ac.uk/Tools/maven/repos/content/repositories/pst-release</url>
         </repository>
     </repositories>
 
@@ -98,49 +98,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-                <version>2.0.14</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals><goal>proguard</goal></goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <injar>${project.build.finalName}-jar-with-dependencies.jar</injar>
-                    <outjar>${project.build.finalName}-publish.jar</outjar>
-                    <outputDirectory>${project.build.directory}</outputDirectory>
-                    <proguardInclude>${basedir}/proguard.conf</proguardInclude>
-                    <proguardVersion>6.0.3</proguardVersion>
-                    <libs>
-                        <lib>${java.home}/lib/rt.jar</lib>
-                        <lib>${java.home}/lib/jce.jar</lib>
-                    </libs>
-                    <options>
-                        <option>-keep class !proteomics.**,!ProteomicsLibrary.** { *;}</option>
-                        <option>-keepclasseswithmembers public class proteomics.PIPI { public static void main(java.lang.String[]); }</option>
-                        <option>-keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod</option>
-                        <option>-keepclasseswithmembernames,includedescriptorclasses class * { native &lt;methods&gt;; } </option>
-                        <option>-optimizationpasses 3</option>
-                        <option>-overloadaggressively</option>
-                        <option>-repackageclasses</option>
-                        <option>-allowaccessmodification</option>
-                        <option>-dontwarn ch.qos.logback.**,com.sun.**,afu.org.checkerframework.checker.**,org.bytedeco.javacpp.**,org.checkerframework.checker.**,org.slf4j.**</option>
-                        <option>-dontnote **</option>
-                        <option>-adaptresourcefilenames **.xml,**.fasta,**.tsv,**.def,**.xsd</option>
-                    </options>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sf.proguard</groupId>
-                        <artifactId>proguard-base</artifactId>
-                        <version>6.0.3</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
